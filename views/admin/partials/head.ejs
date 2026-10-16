@@ -24,6 +24,7 @@
       <a class="nav-link" href="/admin/pages/<%= p.id %>"<% if (active === p.id) { %> aria-current="page"<% } %>><%- icon(p.icon, { size: 18 }) %><%= p.title %></a>
       <% } %>
       <p class="nav-label">Suivi</p>
+      <a class="nav-link" href="/admin/articles"<% if (active === 'posts') { %> aria-current="page"<% } %>><%- icon('file-text', { size: 18 }) %>Articles<span class="nav-count"<%= draftCount ? '' : ' hidden' %> title="Brouillons à relire"><%= draftCount %></span></a>
       <a class="nav-link" href="/admin/demandes"<% if (active === 'requests') { %> aria-current="page"<% } %>><%- icon('inbox', { size: 18 }) %>Demandes<span class="nav-count" data-unread-count<%= unread ? '' : ' hidden' %>><%= unread %></span></a>
       <a class="nav-link" href="/admin/compte"<% if (active === 'account') { %> aria-current="page"<% } %>><%- icon('lock', { size: 18 }) %>Compte et sauvegarde</a>
     </nav>

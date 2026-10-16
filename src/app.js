@@ -8,6 +8,8 @@ import { securityHeaders } from './security.js';
 import { viewContent, viewHelpers } from './helpers.js';
 import { publicRouter } from './routes/public.js';
 import { adminRouter } from './routes/admin.js';
+import { blogRouter } from './routes/blog.js';
+import { blogApiRouter } from './routes/blog-api.js';
 
 export async function createApp(config, { log = console } = {}) {
   const store = new Store(config.dataDir);
@@ -74,8 +76,16 @@ export async function createApp(config, { log = console } = {}) {
     next();
   });
 
+  app.use('/api/admin/posts', blogApiRouter(ctx));
   app.use('/admin', adminRouter(ctx));
+  app.use(blogRouter(ctx));
   app.use(publicRouter(ctx));
+
+  // Publication programmée des articles, vérifiée toutes les minutes.
+  const publishTimer = setInterval(() => {
+    store.publishDue().catch((err) => log.error('Publication programmée :', err.message));
+  }, 60 * 1000);
+  publishTimer.unref();
 
   app.use((req, res) => {
     res.status(404).render('pages/404', { page: { title: 'Page introuvable', noindex: true } });

@@ -24,14 +24,37 @@ function inline(text) {
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/(^|[^*\w])\*([^*\s][^*]*?)\*(?![*\w])/g, '$1<em>$2</em>');
   s = s.replace(/⟦([^⟧]+)⟧/g, '<mark class="todo">$1</mark>');
+  s = s.replace(/\[(À COMPLÉTER[^\]]*)\]/gi, '<mark class="todo">[$1]</mark>');
   return s;
 }
 
-export function renderMarkdown(source) {
+// Identifiant d'ancre ou d'adresse : minuscules, sans accents, mots séparés par des tirets.
+export function slugify(value, max = 70) {
+  const slug = String(value ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/œ/gi, 'oe')
+    .replace(/æ/gi, 'ae')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return slug.length > max ? slug.slice(0, max).replace(/-[^-]*$/, '').replace(/-+$/, '') || slug.slice(0, max) : slug;
+}
+
+const plainText = (html) => html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+
+// Ligne de tableau « | a | b | » → cellules.
+const tableCells = (line) => line.replace(/^\|/, '').replace(/\|$/, '').split('|').map((cell) => cell.trim());
+const isTableSeparator = (line) => /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?$/.test(line);
+
+// Options : headings (tableau) reçoit les titres H2 avec leur ancre, pour un sommaire.
+export function renderMarkdown(source, { headings = null } = {}) {
   const lines = String(source ?? '').replace(/\r\n?/g, '\n').split('\n');
   const out = [];
   let paragraph = [];
   let list = null;
+  let table = null;
+  const ids = new Set();
 
   const flushParagraph = () => {
     if (paragraph.length) out.push(`<p>${paragraph.map(inline).join('<br>')}</p>`);
@@ -40,6 +63,15 @@ export function renderMarkdown(source) {
   const flushList = () => {
     if (list) out.push(`<${list.type}>${list.items.map((i) => `<li>${inline(i)}</li>`).join('')}</${list.type}>`);
     list = null;
+  };
+  const flushTable = () => {
+    if (!table) return;
+    const [head, ...rows] = table;
+    const cells = (row, tag) => row.map((cell) => `<${tag}>${inline(cell)}</${tag}>`).join('');
+    out.push(
+      `<div class="table-wrap"><table><thead><tr>${cells(head, 'th')}</tr></thead><tbody>${rows.map((r) => `<tr>${cells(r, 'td')}</tr>`).join('')}</tbody></table></div>`,
+    );
+    table = null;
   };
   const pushItem = (type, value) => {
     flushParagraph();
@@ -50,17 +82,37 @@ export function renderMarkdown(source) {
     list.items.push(value);
   };
 
-  for (const line of lines) {
+  for (const [index, line] of lines.entries()) {
     const t = line.trim();
     let m;
+    if (table && t.startsWith('|')) {
+      if (!isTableSeparator(t)) table.push(tableCells(t));
+      continue;
+    }
+    flushTable();
     if (!t) {
       flushParagraph();
       flushList();
+    } else if (t.startsWith('|') && isTableSeparator((lines[index + 1] || '').trim())) {
+      flushParagraph();
+      flushList();
+      table = [tableCells(t)];
     } else if ((m = t.match(/^(#{1,4})\s+(.+)$/))) {
       flushParagraph();
       flushList();
       const level = Math.min(Math.max(m[1].length, 2), 4);
-      out.push(`<h${level}>${inline(m[2])}</h${level}>`);
+      const html = inline(m[2]);
+      if (headings && level === 2) {
+        const text = plainText(html);
+        const base = slugify(text, 60) || 'section';
+        let id = base;
+        for (let n = 2; ids.has(id); n += 1) id = `${base}-${n}`;
+        ids.add(id);
+        headings.push({ id, text });
+        out.push(`<h2 id="${id}">${html}</h2>`);
+      } else {
+        out.push(`<h${level}>${html}</h${level}>`);
+      }
     } else if ((m = t.match(/^[-*•]\s+(.+)$/))) {
       pushItem('ul', m[1]);
     } else if ((m = t.match(/^\d+[.)]\s+(.+)$/))) {
@@ -74,6 +126,7 @@ export function renderMarkdown(source) {
       paragraph.push(t);
     }
   }
+  flushTable();
   flushParagraph();
   flushList();
   return out.join('\n');

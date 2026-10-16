@@ -3,6 +3,7 @@ import { LEGAL_PAGES } from '../defaults.js';
 import { CONTACT_SECTOR_OPTIONS } from '../schema.js';
 import { cleanText, isEmail } from '../sanitize.js';
 import { createRateLimiter } from '../security.js';
+import { isPublished } from '../posts.js';
 import { faqJsonLd, organizationJsonLd, renderLegal } from '../helpers.js';
 
 const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
@@ -184,12 +185,17 @@ export function publicRouter({ config, store, auth, mailer, log }) {
       '/secteurs',
       ...c.sectors.map((s) => `/secteurs/${s.slug}`),
       '/realisations',
+      '/blog',
       '/faq',
       '/contact',
       ...LEGAL_PAGES.filter(({ key }) => c.legal[key].published).map(({ slug }) => `/${slug}`),
     ];
     const lastmod = (c.meta.updatedAt || new Date().toISOString()).slice(0, 10);
-    const urls = paths.map((p) => `  <url><loc>${baseUrl}${p}</loc><lastmod>${lastmod}</lastmod></url>`).join('\n');
+    const posts = store
+      .listPosts()
+      .filter((p) => isPublished(p))
+      .map((p) => `  <url><loc>${baseUrl}/blog/${p.slug}</loc><lastmod>${p.updatedAt.slice(0, 10)}</lastmod></url>`);
+    const urls = [...paths.map((p) => `  <url><loc>${baseUrl}${p}</loc><lastmod>${lastmod}</lastmod></url>`), ...posts].join('\n');
     res
       .type('application/xml')
       .send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);

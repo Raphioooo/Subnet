@@ -7,10 +7,28 @@ import { ICON_OPTIONS, PAGES, REQUEST_STATUSES, REQUEST_TYPES, getPage } from '.
 import { applyPageInput, cleanText, getAt, isPlainObject } from '../sanitize.js';
 import { formatDate, sectorLabel } from '../helpers.js';
 import { createRateLimiter, isSameOrigin } from '../security.js';
+import { renderMarkdown } from '../markdown.js';
+import { LIMITS, POST_CATEGORIES, POST_STATUSES, blankPost, findMarkers, readingTime, uniqueSlug, validatePost, wordCount } from '../posts.js';
 
 const MIN_PASSWORD_LENGTH = 10;
 
-function readCookie(req, name) {
+const FIELD_LABELS = {
+  title: 'Titre',
+  slug: 'Adresse',
+  metaTitle: 'Titre Google',
+  metaDescription: 'Description Google',
+  excerpt: 'Résumé',
+  content: 'Contenu',
+  coverImage: 'Image de couverture',
+  coverAlt: 'Texte alternatif',
+  category: 'Catégorie',
+  tags: 'Étiquettes',
+  faq: 'FAQ',
+  targetKeyword: 'Requête visée',
+  topicId: 'Sujet',
+};
+
+export function readCookie(req, name) {
   for (const part of (req.headers.cookie || '').split(';')) {
     const index = part.indexOf('=');
     if (index > 0 && part.slice(0, index).trim() === name) {
@@ -95,6 +113,7 @@ export function adminRouter({ config, store, auth, mailer, log }) {
       site: content.site,
       pages: PAGES,
       unread: store.unreadCount(),
+      draftCount: store.posts.filter((p) => p.status === 'draft').length,
       getAt,
       blankItem,
       iconOptions: ICON_OPTIONS,
@@ -165,6 +184,7 @@ export function adminRouter({ config, store, auth, mailer, log }) {
       checklist: setupChecklist(content, { auth, config }),
       messages: store.listMessages().slice(0, 4).map(normalizeRequest),
       totalMessages: store.messages.length,
+      drafts: store.listPosts().filter((p) => p.status === 'draft').slice(0, 5).map((p) => ({ ...p, markers: findMarkers(p).length })),
       visibleProjects: content.projects.filter((p) => p.visible).length,
       mailEnabled: mailer.enabled,
       updatedAt: content.meta.updatedAt,
@@ -196,6 +216,91 @@ export function adminRouter({ config, store, auth, mailer, log }) {
     const name = `${Date.now().toString(36)}-${crypto.randomBytes(6).toString('hex')}.${ext}`;
     await fs.writeFile(path.join(store.uploadsDir, name), req.body);
     res.json({ ok: true, url: `/uploads/${name}` });
+  });
+
+  // Articles du blog -----------------------------------------------------------
+
+  router.get('/articles', async (req, res) => {
+    await store.publishDue();
+    const status = POST_STATUSES.some((s) => s.value === req.query.statut) ? req.query.statut : '';
+    const category = POST_CATEGORIES.some((c) => c.value === req.query.categorie) ? req.query.categorie : '';
+    const sort = req.query.tri === 'ancien' ? 'ancien' : 'recent';
+    const all = store.posts.map((p) => ({ ...p, markers: findMarkers(p), words: wordCount(p.content) }));
+    const date = (p) => p.publishedAt || p.scheduledAt || p.updatedAt;
+    const posts = all
+      .filter((p) => (!status || p.status === status) && (!category || p.category === category))
+      .sort((a, b) => (sort === 'ancien' ? date(a).localeCompare(date(b)) : date(b).localeCompare(date(a))));
+    res.render('admin/posts', {
+      active: 'posts',
+      posts,
+      total: all.length,
+      counts: Object.fromEntries(POST_STATUSES.map((s) => [s.value, all.filter((p) => p.status === s.value).length])),
+      filters: { status, category, sort },
+      statuses: POST_STATUSES,
+      categories: POST_CATEGORIES,
+    });
+  });
+
+  const renderPostEditor = (res, post) => {
+    res.render('admin/post-editor', {
+      active: 'posts',
+      post,
+      markers: findMarkers(post),
+      limits: LIMITS,
+      categories: POST_CATEGORIES,
+      preview: renderMarkdown(post.content),
+    });
+  };
+
+  router.get('/articles/nouveau', (req, res) => renderPostEditor(res, { ...blankPost(), id: '' }));
+
+  router.get('/articles/:id', (req, res, next) => {
+    const post = store.getPost(req.params.id);
+    if (!post) return next();
+    renderPostEditor(res, post);
+  });
+
+  router.post('/api/articles/apercu', express.json({ limit: '400kb' }), (req, res) => {
+    const content = typeof req.body?.content === 'string' ? req.body.content : '';
+    res.json({ ok: true, html: renderMarkdown(content), words: wordCount(content), minutes: readingTime(content) });
+  });
+
+  // Enregistrer, programmer, publier ou dépublier. La publication exige toutes
+  // les règles SEO et aucun marqueur [À COMPLÉTER] restant.
+  router.post(['/api/articles', '/api/articles/:id'], express.json({ limit: '400kb' }), async (req, res) => {
+    const existing = req.params.id ? store.getPost(req.params.id) : null;
+    if (req.params.id && !existing) return res.status(404).json({ ok: false, errors: ['Article introuvable.'] });
+    const action = ['save', 'schedule', 'publish', 'unpublish'].includes(req.body?.action) ? req.body.action : 'save';
+    const current = existing?.status || 'draft';
+    const target = { save: current, schedule: 'scheduled', publish: 'published', unpublish: 'draft' }[action];
+    const strict = target !== 'draft';
+    const { values, errors } = validatePost(req.body?.post, { strict });
+    const messages = errors.map((e) => `${FIELD_LABELS[e.field.replace(/\[.*$/, '')] || 'Article'} : ${e.message}`);
+    const markers = findMarkers(values);
+    if (strict && markers.length) {
+      messages.push(`Publication impossible : ${markers.length} marqueur${markers.length > 1 ? 's' : ''} [À COMPLÉTER] à remplir.`);
+    }
+    let scheduledAt = null;
+    if (target === 'scheduled') {
+      const at = Date.parse(req.body?.scheduledAt);
+      if (Number.isNaN(at) || at <= Date.now()) messages.push('Choisissez une date de programmation dans le futur.');
+      else scheduledAt = new Date(at).toISOString();
+    }
+    if (messages.length) return res.status(400).json({ ok: false, errors: messages, markers });
+    const fields = {
+      ...values,
+      slug: uniqueSlug(values.slug || values.title, store.posts, existing?.id),
+      status: target,
+      scheduledAt: target === 'scheduled' ? scheduledAt : null,
+      publishedAt: target === 'published' ? existing?.publishedAt || new Date().toISOString() : existing?.publishedAt || null,
+    };
+    const post = existing ? await store.updatePost(existing.id, fields) : await store.addPost({ ...blankPost(), ...fields });
+    res.json({ ok: true, post: { id: post.id, slug: post.slug, status: post.status, updatedAt: post.updatedAt, scheduledAt: post.scheduledAt, publishedAt: post.publishedAt }, markers });
+  });
+
+  router.post('/articles/:id/supprimer', express.urlencoded({ extended: false, limit: '4kb' }), async (req, res) => {
+    await store.deletePost(req.params.id);
+    res.redirect(303, '/admin/articles');
   });
 
   // Demandes (formulaires de contact et de devis) -------------------------------

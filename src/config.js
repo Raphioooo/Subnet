@@ -29,6 +29,7 @@ export function loadConfig(env = process.env) {
     adminPassword: env.ADMIN_PASSWORD || '',
     sessionSecret: env.SESSION_SECRET || '',
     trustProxy: parseTrustProxy(env.TRUST_PROXY),
+    blogApiKey: env.BLOG_API_KEY || '',
     contactMinDelayMs: env.CONTACT_MIN_DELAY_MS !== undefined ? Number(env.CONTACT_MIN_DELAY_MS) : 3000,
     smtp: {
       host: env.SMTP_HOST || '',

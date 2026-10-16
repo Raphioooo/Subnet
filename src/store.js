@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { defaults, SECTOR_SLUGS } from './defaults.js';
+import { DEMO_POST } from './demo-post.js';
 
 const MESSAGE_RETENTION_MS = 3 * 365 * 24 * 60 * 60 * 1000;
 
@@ -86,9 +87,11 @@ export class Store {
     this.uploadsDir = path.join(dataDir, 'uploads');
     this.contentFile = path.join(dataDir, 'content.json');
     this.messagesFile = path.join(dataDir, 'messages.json');
+    this.postsFile = path.join(dataDir, 'posts.json');
     this.queue = Promise.resolve();
     this.content = null;
     this.messages = [];
+    this.posts = [];
   }
 
   async init() {
@@ -99,6 +102,15 @@ export class Store {
     const messages = await readJson(this.messagesFile, []);
     this.messages = Array.isArray(messages) ? messages : [];
     await this.purgeOldMessages();
+    const posts = await readJson(this.postsFile, null);
+    if (Array.isArray(posts)) {
+      this.posts = posts;
+    } else {
+      // Premier démarrage : un article de démonstration en brouillon.
+      const now = new Date().toISOString();
+      this.posts = [{ ...structuredClone(DEMO_POST), id: crypto.randomUUID(), createdAt: now, updatedAt: now }];
+      await this.#persist(this.postsFile, this.posts);
+    }
   }
 
   // Les écritures sont sérialisées pour éviter toute corruption.
@@ -175,5 +187,54 @@ export class Store {
       this.messages = kept;
       await this.#persist(this.messagesFile, this.messages);
     }
+  }
+
+  // Articles du blog ----------------------------------------------------------
+
+  listPosts() {
+    return [...this.posts].sort((a, b) => (b.publishedAt || b.updatedAt).localeCompare(a.publishedAt || a.updatedAt));
+  }
+
+  getPost(id) {
+    return this.posts.find((p) => p.id === id) || null;
+  }
+
+  getPostBySlug(slug) {
+    return this.posts.find((p) => p.slug === slug) || null;
+  }
+
+  async addPost(fields) {
+    const now = new Date().toISOString();
+    const post = { ...fields, id: crypto.randomUUID(), createdAt: now, updatedAt: now };
+    this.posts = [...this.posts, post];
+    await this.#persist(this.postsFile, this.posts);
+    return post;
+  }
+
+  async updatePost(id, patch) {
+    let updated = null;
+    this.posts = this.posts.map((p) => {
+      if (p.id !== id) return p;
+      updated = { ...p, ...patch, id, createdAt: p.createdAt, updatedAt: new Date().toISOString() };
+      return updated;
+    });
+    if (updated) await this.#persist(this.postsFile, this.posts);
+    return updated;
+  }
+
+  async deletePost(id) {
+    const before = this.posts.length;
+    this.posts = this.posts.filter((p) => p.id !== id);
+    if (this.posts.length !== before) await this.#persist(this.postsFile, this.posts);
+    return this.posts.length !== before;
+  }
+
+  // Publication programmée : les articles dont l'heure est passée sont mis en ligne.
+  async publishDue(now = Date.now()) {
+    const due = this.posts.filter((p) => p.status === 'scheduled' && p.scheduledAt && Date.parse(p.scheduledAt) <= now);
+    for (const post of due) {
+      await this.updatePost(post.id, { status: 'published', publishedAt: post.scheduledAt, scheduledAt: null });
+    }
+    return due.length;
   }
 }
