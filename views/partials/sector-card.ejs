@@ -1,6 +1,6 @@
 <a class="sector-card reveal" href="/secteurs/<%= sector.slug %>">
   <div class="sector-card__media">
-    <img src="<%= sector.image %>" alt="" loading="lazy" decoding="async" width="1600" height="1000">
+    <img src="<%= sector.image %>" alt="<%= sector.imageAlt %>" loading="lazy" decoding="async" width="1600" height="1000">
   </div>
   <div class="sector-card__body">
     <p class="sector-card__tone"><%- icon(sector.icon, { size: 16 }) %><%= sector.tone %></p>

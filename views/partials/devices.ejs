@@ -7,7 +7,7 @@
   </div>
   <% if (locals.mobile) { %>
   <div class="phone" aria-hidden="true">
-    <div class="phone__screen"><img src="<%= mobile %>" alt="" width="600" height="1300" loading="lazy" decoding="async"></div>
+    <div class="phone__screen"><img src="<%= mobile %>" alt="<%= locals.mobileAlt || '' %>" width="600" height="1300" loading="lazy" decoding="async"></div>
   </div>
   <% } %>
 </div>

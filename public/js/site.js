@@ -167,7 +167,10 @@
       link.hidden = !d.url;
       if (d.url) link.href = d.url;
       phone.hidden = !d.mobile;
-      if (d.mobile) mobile.src = d.mobile;
+      if (d.mobile) {
+        mobile.src = d.mobile;
+        mobile.alt = d.title ? `${d.title}, aperçu du site sur mobile` : '';
+      }
       dialog.showModal();
     });
     dialog.addEventListener('click', (event) => {

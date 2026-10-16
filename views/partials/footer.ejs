@@ -22,20 +22,20 @@
       </div>
       <nav class="site-footer__nav" aria-label="Plan du site">
         <div>
-          <h2>Navigation</h2>
+          <p class="site-footer__title">Navigation</p>
           <ul>
             <li><a href="/">Accueil</a></li>
             <% for (const item of nav) { %><li><a href="<%= item.href %>"><%= item.label %></a></li><% } %>
           </ul>
         </div>
         <div>
-          <h2>Secteurs</h2>
+          <p class="site-footer__title">Secteurs</p>
           <ul>
             <% for (const s of c.sectors) { %><li><a href="/secteurs/<%= s.slug %>"><%= s.name %></a></li><% } %>
           </ul>
         </div>
         <div>
-          <h2>Contact</h2>
+          <p class="site-footer__title">Contact</p>
           <ul>
             <% if (c.contact.email) { %><li><a href="mailto:<%= c.contact.email %>"><%= c.contact.email %></a></li><% } %>
             <% if (c.contact.phone) { %><li><a href="<%= telHref(c.contact.phone) %>"><%= formatPhone(c.contact.phone) %></a></li><% } %>

@@ -142,6 +142,9 @@ describe('site public', () => {
       assert.ok(html.includes(`<meta property="og:title" content="${seo.title}">`), `og:title de ${url}`);
       assert.match(html, new RegExp(`<h1[^>]*>(<svg[\\s\\S]*?</svg>)?${seo.h1}</h1>`), `H1 de ${url}`);
       assert.ok(html.includes(`<meta property="og:site_name" content="${c.site.shareName}">`));
+      // Seules les images vides de la visionneuse (remplies à l'ouverture) n'ont pas de description.
+      const emptyAlt = (html.match(/<img[^>]*>/g) || []).filter((tag) => tag.includes('alt=""') && !tag.includes('data:image/gif'));
+      assert.deepEqual(emptyAlt, [], `images sans description sur ${url}`);
     }
     const legal = await (await request('/mentions-legales')).text();
     assert.equal(legal.match(/<h1[\s>]/g)?.length, 1, 'un seul H1 sur les pages légales');

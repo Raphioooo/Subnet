@@ -26,7 +26,7 @@
             <div class="browser__screen">
               <% c.sectors.forEach((s, i) => { %>
               <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.image %>"
-                alt="Exemple de site pour <%= s.name.toLowerCase() %>" width="1600" height="1000" decoding="async"
+                alt="<%= s.imageAlt || `Exemple de site pour ${s.name.toLowerCase()}` %>" width="1600" height="1000" decoding="async"
                 <% if (i === 0) { %>fetchpriority="high"<% } else { %>loading="lazy" aria-hidden="true"<% } %>>
               <% }) %>
             </div>
@@ -34,7 +34,7 @@
           <div class="phone" aria-hidden="true">
             <div class="phone__screen">
               <% c.sectors.forEach((s, i) => { %>
-              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.mobileImage %>" alt="" width="600" height="1300" decoding="async" loading="lazy">
+              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.mobileImage %>" alt="<%= s.mobileImageAlt %>" width="600" height="1300" decoding="async" loading="lazy">
               <% }) %>
             </div>
           </div>

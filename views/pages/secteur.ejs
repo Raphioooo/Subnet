@@ -17,7 +17,7 @@
     </div>
     <div class="container container--wide">
       <div class="reveal">
-        <%- include('../partials/devices', { desktop: sector.image, mobile: sector.mobileImage, alt: `Exemple de site pour ${sector.name.toLowerCase()}`, eager: true, variant: 'hero' }) %>
+        <%- include('../partials/devices', { desktop: sector.image, mobile: sector.mobileImage, alt: sector.imageAlt || `Exemple de site pour ${sector.name.toLowerCase()}`, mobileAlt: sector.mobileImageAlt, eager: true, variant: 'hero' }) %>
       </div>
     </div>
   </section>

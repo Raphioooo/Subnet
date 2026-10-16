@@ -2612,7 +2612,7 @@ textarea {
   gap: 32px;
 }
 
-.site-footer h2 {
+.site-footer__title {
   margin-bottom: 12px;
   color: var(--text);
   font-size: 0.8125rem;
