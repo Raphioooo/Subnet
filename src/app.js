@@ -62,7 +62,7 @@ export async function createApp(config, { log = console } = {}) {
     }),
   );
   app.get('/favicon.ico', (req, res) => {
-    res.sendFile(path.join(config.root, 'public/images/favicon.ico'), { maxAge: '7d' });
+    res.sendFile(path.join(config.root, 'public/images/favicon.ico'), { maxAge: '1d' });
   });
 
   // Contenu « affichage » disponible dans toutes les vues publiques.
