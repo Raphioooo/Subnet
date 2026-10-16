@@ -127,6 +127,10 @@ describe('site public', () => {
     const res = await request(css[1]);
     assert.equal(res.status, 200);
     assert.match(res.headers.get('content-type'), /text\/css/);
+    // Icône d'onglet versionnée : un nouveau logo s'affiche sans attendre l'expiration du cache.
+    const ico = html.match(/href="(\/assets\/images\/favicon\.ico\?v=[a-f0-9]+)"/);
+    assert.ok(ico, 'lien d’icône versionné');
+    assert.equal((await request(ico[1])).status, 200);
   });
 });
 
