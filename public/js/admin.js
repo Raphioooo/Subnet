@@ -471,4 +471,260 @@
       }
     });
   }
+  // Éditeur d'articles du blog -----------------------------------------------
+  const postEditor = document.querySelector('[data-post-editor]');
+  if (postEditor) initPostEditor(postEditor);
+
+  function initPostEditor(form) {
+    const MARKER_RE = /\[\s*[ÀA]\s+COMPL[ÉE]TER\b[^\]]*\]?/giu;
+    const SUFFIX = ' | Subnet';
+    const $ = (sel) => form.querySelector(sel);
+    const field = (name) => form.elements.namedItem(name);
+    const status = $('[data-save-status]');
+    let id = form.dataset.id;
+    let dirty = false;
+    let busy = false;
+
+    const words = (text) => (text.match(/[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu) || []).length;
+
+    // Compteurs de caractères : vert, orange, rouge selon les limites.
+    function level(name, length) {
+      const el = $(`[data-counter="${name}"]`);
+      const max = Number(el.dataset.max);
+      const min = Number(el.dataset.min || 0);
+      if (min) return length >= min && length <= max ? 'ok' : length >= min - 20 && length <= max ? 'warn' : 'bad';
+      if (!length) return name === 'slug' || name === 'metaTitle' ? 'warn' : 'bad';
+      return length > max ? 'bad' : length > max * 0.9 ? 'warn' : 'ok';
+    }
+
+    function metaTitle() {
+      return field('metaTitle').value.trim() || `${field('title').value.trim()}${SUFFIX}`;
+    }
+
+    function refreshCounters() {
+      for (const el of form.querySelectorAll('[data-counter]')) {
+        const name = el.dataset.counter;
+        let length = field(name).value.trim().length;
+        let suffix = '';
+        if (name === 'metaTitle' && !length) {
+          length = metaTitle().length;
+          suffix = ' (auto)';
+        }
+        const max = el.dataset.max;
+        const min = el.dataset.min;
+        el.textContent = `${length}${min ? ` / ${min}–${max}` : ` / ${max}`}${suffix}`;
+        el.dataset.level = name === 'metaTitle' && suffix ? (length > Number(max) ? 'bad' : 'warn') : level(name, length);
+      }
+      for (const item of form.querySelectorAll('[data-faq-item]')) {
+        const n = words(item.querySelector('[data-faq-answer]').value);
+        const counter = item.querySelector('[data-words]');
+        counter.textContent = `${n} mots (40–80 conseillés)`;
+        counter.dataset.level = n >= 40 && n <= 80 ? 'ok' : n ? 'warn' : 'bad';
+      }
+      const content = field('content').value;
+      const n = words(content);
+      $('[data-content-stats]').textContent = `${n} mots · ${Math.max(1, Math.round(n / 200))} min de lecture`;
+    }
+
+    function refreshSerp() {
+      const slug = field('slug').value.trim() || '…';
+      $('[data-serp-url]').textContent = ` › blog › ${slug}`;
+      $('[data-serp-title]').textContent = metaTitle();
+      $('[data-serp-desc]').textContent = field('metaDescription').value.trim() || field('excerpt').value.trim() || 'Ajoutez une description Google (120 à 158 caractères).';
+    }
+
+    function allText() {
+      return [...form.querySelectorAll('input:not([type=hidden]):not([type=file]):not([type=datetime-local]), textarea')].map((el) => el.value).join('\n');
+    }
+
+    function refreshMarkers() {
+      const markers = allText().match(MARKER_RE) || [];
+      const card = $('[data-markers]');
+      card.classList.toggle('is-clear', !markers.length);
+      $('[data-markers-title]').textContent = markers.length
+        ? `${markers.length} marqueur${markers.length > 1 ? 's' : ''} à compléter avant publication`
+        : 'Aucun marqueur restant';
+      $('[data-markers-help]').textContent = markers.length
+        ? 'Remplacez chaque marqueur par une information réelle (exemple client, chiffre, expérience), puis publiez.'
+        : 'L’article peut être publié dès que les champs SEO sont au vert.';
+      const list = $('[data-markers-list]');
+      list.replaceChildren(...markers.map((m) => Object.assign(document.createElement('li'), { textContent: m })));
+      for (const name of ['publish', 'schedule']) $(`[data-action="${name}"]`).disabled = markers.length > 0 || busy;
+      $('[data-publish-hint]').hidden = !markers.length;
+    }
+
+    const refreshAll = () => {
+      refreshCounters();
+      refreshSerp();
+      refreshMarkers();
+      $('[data-faq-empty]').hidden = form.querySelectorAll('[data-faq-item]').length > 0;
+      $('[data-faq-add]').disabled = form.querySelectorAll('[data-faq-item]').length >= 6;
+    };
+
+    const setDirty = (value) => {
+      dirty = value;
+      status.textContent = value ? 'Modifications non enregistrées' : '';
+    };
+
+    form.addEventListener('input', () => {
+      setDirty(true);
+      refreshAll();
+    });
+    form.addEventListener('change', () => setDirty(true));
+    window.addEventListener('beforeunload', (event) => {
+      if (dirty) event.preventDefault();
+    });
+
+    // Onglets Écrire / Aperçu : rendu côté serveur, identique au site.
+    for (const tab of form.querySelectorAll('[data-md-tab]')) {
+      tab.addEventListener('click', async () => {
+        const preview = tab.dataset.mdTab === 'preview';
+        for (const t of form.querySelectorAll('[data-md-tab]')) t.setAttribute('aria-selected', String(t === tab));
+        document.getElementById('md-write').hidden = preview;
+        document.getElementById('md-preview').hidden = !preview;
+        if (!preview) return;
+        const result = await postJson('/admin/api/articles/apercu', { content: field('content').value }).catch(() => null);
+        if (result?.ok) $('[data-md-preview]').innerHTML = result.html;
+      });
+    }
+
+    // FAQ : ajout et suppression de questions.
+    const faqList = $('[data-faq-list]');
+    $('[data-faq-add]').addEventListener('click', () => {
+      const item = document.getElementById('faq-item-template').content.firstElementChild.cloneNode(true);
+      faqList.append(item);
+      item.querySelector('input').focus();
+      setDirty(true);
+      refreshAll();
+    });
+    faqList.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-faq-remove]');
+      if (!button) return;
+      button.closest('[data-faq-item]').remove();
+      setDirty(true);
+      refreshAll();
+    });
+
+    // Image de couverture.
+    const cover = $('[data-cover]');
+    const setCover = (url) => {
+      field('coverImage').value = url;
+      const img = cover.querySelector('[data-cover-img]');
+      img.hidden = !url;
+      if (url) img.src = url;
+      else img.removeAttribute('src');
+      cover.querySelector('[data-cover-remove]').hidden = !url;
+      setDirty(true);
+    };
+    cover.querySelector('[data-cover-remove]').addEventListener('click', () => setCover(''));
+    cover.querySelector('[data-cover-file]').addEventListener('change', async (event) => {
+      const file = event.target.files?.[0];
+      event.target.value = '';
+      if (!file) return;
+      try {
+        if (file.size > 12 * 1024 * 1024) throw new Error('Image trop lourde (12 Mo maximum).');
+        const response = await fetch('/admin/api/upload', { method: 'POST', headers: { 'Content-Type': file.type || 'application/octet-stream' }, body: file, credentials: 'same-origin' });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.errors?.[0] || 'L’image n’a pas pu être envoyée.');
+        setCover(data.url);
+        toast('Image ajoutée. Pensez à enregistrer.');
+      } catch (error) {
+        toast(error.message, { type: 'error' });
+      }
+    });
+
+    function collect() {
+      const value = (name) => field(name).value;
+      return {
+        title: value('title'),
+        slug: value('slug'),
+        metaTitle: value('metaTitle'),
+        metaDescription: value('metaDescription'),
+        excerpt: value('excerpt'),
+        content: value('content'),
+        coverImage: value('coverImage'),
+        coverAlt: value('coverAlt'),
+        category: value('category'),
+        tags: value('tags').split(',').map((t) => t.trim()).filter(Boolean),
+        targetKeyword: value('targetKeyword'),
+        topicId: value('topicId'),
+        faq: [...form.querySelectorAll('[data-faq-item]')]
+          .map((item) => ({ question: item.querySelector('[data-faq-question]').value, answer: item.querySelector('[data-faq-answer]').value }))
+          .filter((f) => f.question.trim() || f.answer.trim()),
+      };
+    }
+
+    const DONE = {
+      save: 'Article enregistré.',
+      publish: 'Article publié.',
+      schedule: 'Publication programmée.',
+      unpublish: 'Article repassé en brouillon.',
+    };
+
+    async function run(action) {
+      if (busy) return;
+      const payload = { action, post: collect() };
+      if (action === 'schedule') {
+        const at = $('[data-schedule-at]').value;
+        if (!at) {
+          toast('Choisissez la date et l’heure de publication.', { type: 'error' });
+          return;
+        }
+        payload.scheduledAt = new Date(at).toISOString();
+      }
+      if (action === 'publish' && !window.confirm('Publier cet article sur le site ?')) return;
+      busy = true;
+      form.classList.add('is-busy');
+      status.textContent = 'Enregistrement…';
+      try {
+        const result = await postJson(id ? `/admin/api/articles/${id}` : '/admin/api/articles', payload);
+        if (!result.ok) {
+          toast(result.errors?.length ? 'À corriger avant d’enregistrer :' : 'Enregistrement impossible.', { type: 'error', details: result.errors || [] });
+          status.textContent = 'Non enregistré';
+          return;
+        }
+        setDirty(false);
+        const reload = !id || result.post.status !== form.dataset.status || field('slug').value !== result.post.slug;
+        if (reload) {
+          try {
+            sessionStorage.setItem('post-toast', DONE[action]);
+          } catch {
+            // Stockage indisponible : pas de message après le rechargement.
+          }
+          location.href = `/admin/articles/${result.post.id}`;
+          return;
+        }
+        id = result.post.id;
+        toast(DONE[action]);
+        status.textContent = 'Toutes les modifications sont enregistrées';
+      } catch {
+        toast('Connexion impossible : vos modifications ne sont pas enregistrées.', { type: 'error' });
+      } finally {
+        busy = false;
+        form.classList.remove('is-busy');
+        refreshMarkers();
+      }
+    }
+
+    for (const button of form.querySelectorAll('[data-action]')) {
+      button.addEventListener('click', () => run(button.dataset.action));
+    }
+    document.addEventListener('keydown', (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+        event.preventDefault();
+        run('save');
+      }
+    });
+
+    try {
+      const message = sessionStorage.getItem('post-toast');
+      if (message) {
+        sessionStorage.removeItem('post-toast');
+        toast(message);
+      }
+    } catch {
+      // Stockage indisponible : pas de message.
+    }
+    refreshAll();
+  }
 })();

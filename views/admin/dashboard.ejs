@@ -17,6 +17,11 @@
     <span class="stat__value"><%= unread %></span>
     <span class="stat__label"><%= unread > 1 ? 'demandes non lues' : 'demande non lue' %></span>
   </a>
+  <a class="stat" href="/admin/articles?statut=draft">
+    <span class="stat__icon"><%- icon('file-text', { size: 20 }) %></span>
+    <span class="stat__value"><%= draftCount %></span>
+    <span class="stat__label"><%= draftCount > 1 ? 'articles à relire' : 'article à relire' %></span>
+  </a>
   <a class="stat" href="/admin/pages/projects">
     <span class="stat__icon"><%- icon('images', { size: 20 }) %></span>
     <span class="stat__value"><%= visibleProjects %></span>
@@ -44,6 +49,30 @@
       <span class="todo__check"><%- icon(item.done ? 'circle-check' : 'circle-alert', { size: 18 }) %></span>
       <span class="todo__label"><%= item.label %></span>
       <% if (!item.done) { %><a class="todo__link" href="<%= item.href %>">Compléter<%- icon('chevron-right', { size: 14 }) %></a><% } %>
+    </li>
+    <% } %>
+  </ul>
+</section>
+<% } %>
+
+<% if (drafts.length) { %>
+<section class="card">
+  <header class="card__head card__head--row">
+    <div>
+      <h2>Articles à relire</h2>
+      <p>Brouillons du blog en attente de votre validation</p>
+    </div>
+    <a class="btn btn--secondary btn--sm" href="/admin/articles?statut=draft">Tout voir</a>
+  </header>
+  <ul class="mini-messages">
+    <% for (const p of drafts) { %>
+    <li>
+      <a href="/admin/articles/<%= p.id %>">
+        <span class="dot" aria-hidden="true"></span>
+        <strong><%= p.title || 'Sans titre' %></strong>
+        <span class="mini-messages__text"><% if (p.source === 'api') { %><span class="tag tag--api">API</span><% } %><%= p.markers ? `${p.markers} marqueur${p.markers > 1 ? 's' : ''} à compléter` : 'Prêt à publier' %></span>
+        <time datetime="<%= p.updatedAt %>"><%= relativeDate(p.updatedAt) %></time>
+      </a>
     </li>
     <% } %>
   </ul>

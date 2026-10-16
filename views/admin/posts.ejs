@@ -1,0 +1,85 @@
+<%- include('partials/head', { title: 'Articles' }) %>
+<%
+  const qs = (params) => {
+    const s = new URLSearchParams(Object.entries(params).filter(([, v]) => v)).toString();
+    return s ? `?${s}` : '';
+  };
+  const plural = { draft: 'Brouillons', scheduled: 'Programmés', published: 'Publiés' };
+-%>
+<header class="page-head">
+  <div>
+    <h1>Articles</h1>
+    <p>Relisez les brouillons rédigés par Claude, remplissez les marqueurs [À COMPLÉTER], puis publiez. Rien n’est mis en ligne sans votre validation.</p>
+  </div>
+  <div class="page-head__actions">
+    <a class="btn btn--secondary" href="/blog" target="_blank" rel="noopener"><%- icon('external-link', { size: 16 }) %>Voir le blog</a>
+    <a class="btn btn--primary" href="/admin/articles/nouveau"><%- icon('plus', { size: 16 }) %>Nouvel article</a>
+  </div>
+</header>
+
+<% if (!total) { %>
+<div class="empty card">
+  <span class="empty__icon"><%- icon('file-text', { size: 28 }) %></span>
+  <h2>Aucun article pour le moment</h2>
+  <p>Les brouillons envoyés par l’agent de rédaction apparaîtront ici, avec le badge « API ».</p>
+</div>
+<% } else { %>
+<div class="toolbar">
+  <nav class="tabs" aria-label="Filtrer par statut">
+    <a class="tab" href="/admin/articles<%= qs({ categorie: filters.category, tri: filters.sort === 'ancien' ? 'ancien' : '' }) %>"<% if (!filters.status) { %> aria-current="page"<% } %>>Tous<span><%= total %></span></a>
+    <% for (const s of statuses) { %>
+    <a class="tab" href="/admin/articles<%= qs({ statut: s.value, categorie: filters.category, tri: filters.sort === 'ancien' ? 'ancien' : '' }) %>"<% if (filters.status === s.value) { %> aria-current="page"<% } %>><%= plural[s.value] %><span><%= counts[s.value] %></span></a>
+    <% } %>
+  </nav>
+  <form class="search" method="get" action="/admin/articles">
+    <% if (filters.status) { %><input type="hidden" name="statut" value="<%= filters.status %>"><% } %>
+    <span class="select select--compact">
+      <select class="input" name="categorie" aria-label="Catégorie" data-autosubmit>
+        <option value="">Toutes les catégories</option>
+        <% for (const cat of categories) { %><option value="<%= cat.value %>"<%= filters.category === cat.value ? ' selected' : '' %>><%= cat.label %></option><% } %>
+      </select>
+      <%- icon('chevron-down', { size: 16, className: 'select__chevron' }) %>
+    </span>
+    <span class="select select--compact">
+      <select class="input" name="tri" aria-label="Tri" data-autosubmit>
+        <option value="recent"<%= filters.sort === 'recent' ? ' selected' : '' %>>Plus récents</option>
+        <option value="ancien"<%= filters.sort === 'ancien' ? ' selected' : '' %>>Plus anciens</option>
+      </select>
+      <%- icon('chevron-down', { size: 16, className: 'select__chevron' }) %>
+    </span>
+    <noscript><button class="btn btn--secondary" type="submit">Filtrer</button></noscript>
+  </form>
+</div>
+
+<% if (!posts.length) { %>
+<p class="empty-filter">Aucun article ne correspond à ces critères. <a href="/admin/articles">Voir tous les articles</a></p>
+<% } else { %>
+<ul class="post-list">
+  <% for (const p of posts) { %>
+  <li class="post-row">
+    <a class="post-row__main" href="/admin/articles/<%= p.id %>">
+      <span class="post-row__title"><strong><%= p.title || 'Sans titre' %></strong>
+        <span class="post-row__meta">
+          <span class="post-status post-status--<%= p.status %>"><%= statusLabel(p.status) %></span>
+          <% if (p.source === 'api') { %><span class="tag tag--api" title="Rédigé par l’agent via l’API">API</span><% } %>
+          <span class="tag"><%= categoryLabel(p.category) %></span>
+          <% if (p.topicId) { %><span class="tag"><%= p.topicId %></span><% } %>
+          <span><%= p.words %> mots</span>
+          <% if (p.targetKeyword) { %><span>« <%= p.targetKeyword %> »</span><% } %>
+        </span>
+      </span>
+      <% if (p.markers.length) { %>
+      <span class="marker-count" title="Marqueurs [À COMPLÉTER] restants"><%- icon('triangle-alert', { size: 15 }) %><%= p.markers.length %> à compléter</span>
+      <% } else if (p.status === 'draft') { %>
+      <span class="marker-count marker-count--ok"><%- icon('circle-check', { size: 15 }) %>Prêt à publier</span>
+      <% } %>
+      <time datetime="<%= p.publishedAt || p.scheduledAt || p.updatedAt %>" title="<%= formatDate(p.publishedAt || p.scheduledAt || p.updatedAt) %>">
+        <%= p.status === 'published' ? 'Publié ' : p.status === 'scheduled' ? 'Prévu ' : 'Modifié ' %><%= p.status === 'scheduled' ? `le ${formatDate(p.scheduledAt)}` : relativeDate(p.publishedAt || p.updatedAt) %>
+      </time>
+    </a>
+  </li>
+  <% } %>
+</ul>
+<% } %>
+<% } %>
+<%- include('partials/foot') %>

@@ -1,0 +1,205 @@
+<%- include('partials/head', { title: post.id ? 'Modifier l’article' : 'Nouvel article' }) %>
+<%
+  const tagsValue = (post.tags || []).join(', ');
+  const isLive = post.status === 'published';
+-%>
+<form class="post-editor" data-post-editor data-id="<%= post.id %>" data-status="<%= post.status %>" novalidate>
+  <header class="page-head">
+    <div>
+      <p class="post-editor__crumb"><a href="/admin/articles"><%- icon('chevron-left', { size: 14 }) %>Articles</a></p>
+      <h1><%= post.title || 'Nouvel article' %></h1>
+      <p class="post-row__meta">
+        <span class="post-status post-status--<%= post.status %>" data-status-label><%= statusLabel(post.status) %></span>
+        <% if (post.source === 'api') { %><span class="tag tag--api">API</span><% } %>
+        <% if (post.topicId) { %><span class="tag">Sujet <%= post.topicId %></span><% } %>
+        <% if (post.status === 'scheduled' && post.scheduledAt) { %><span>Prévu le <%= formatDate(post.scheduledAt) %></span><% } %>
+        <% if (post.publishedAt) { %><span>Publié le <%= formatDate(post.publishedAt) %></span><% } %>
+      </p>
+    </div>
+    <% if (post.id) { %>
+    <a class="btn btn--secondary" href="/blog/<%= post.slug %><%= isLive ? '' : '?preview' %>" target="_blank" rel="noopener" data-view-link><%- icon('eye', { size: 16 }) %><%= isLive ? 'Voir l’article' : 'Aperçu sur le site' %></a>
+    <% } %>
+  </header>
+
+  <section class="card markers-card<%= markers.length ? '' : ' is-clear' %>" data-markers aria-live="polite">
+    <div class="markers-card__head">
+      <span data-markers-icon><%- icon(markers.length ? 'triangle-alert' : 'circle-check', { size: 20 }) %></span>
+      <div>
+        <h2 data-markers-title><%= markers.length ? `${markers.length} marqueur${markers.length > 1 ? 's' : ''} à compléter avant publication` : 'Aucun marqueur restant' %></h2>
+        <p data-markers-help><%= markers.length ? 'Remplacez chaque marqueur par une information réelle (exemple client, chiffre, expérience), puis publiez.' : 'L’article peut être publié dès que les champs SEO sont au vert.' %></p>
+      </div>
+    </div>
+    <ol class="markers-card__list" data-markers-list><% for (const m of markers) { %><li><%= m %></li><% } %></ol>
+  </section>
+
+  <div class="post-editor__grid">
+    <div class="post-editor__main">
+      <section class="card">
+        <header class="card__head"><h2>Article</h2></header>
+        <div class="card__body">
+          <div class="fields">
+            <label class="field">
+              <span class="field__label">Titre (H1) <span class="counter" data-counter="title" data-max="<%= limits.title %>"></span></span>
+              <input class="input input--lg" name="title" value="<%= post.title %>" required>
+            </label>
+            <label class="field">
+              <span class="field__label">Résumé (liste du blog) <span class="counter" data-counter="excerpt" data-max="<%= limits.excerpt %>"></span></span>
+              <textarea class="input" name="excerpt" rows="3"><%= post.excerpt %></textarea>
+            </label>
+            <div class="field">
+              <div class="md-tabs" role="tablist" aria-label="Contenu">
+                <span class="field__label" id="content-label">Contenu (Markdown)</span>
+                <button type="button" role="tab" aria-selected="true" aria-controls="md-write" data-md-tab="write">Écrire</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="md-preview" data-md-tab="preview">Aperçu</button>
+                <span class="md-tabs__stats" data-content-stats></span>
+              </div>
+              <div id="md-write" role="tabpanel">
+                <textarea class="input input--prose md-input" name="content" rows="28" aria-labelledby="content-label" spellcheck="true"><%= post.content %></textarea>
+                <p class="field__help">## Titre de section, ### sous-titre, - liste, 1. liste numérotée, **gras**, *italique*, [texte](https://lien), tableaux avec | colonnes |. Le HTML n’est pas accepté.</p>
+              </div>
+              <div id="md-preview" role="tabpanel" hidden>
+                <div class="md-preview prose" data-md-preview><%- preview %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <header class="card__head card__head--row">
+          <div><h2>FAQ de l’article</h2><p>De 0 à 6 questions, affichées en fin d’article et dans les données structurées FAQPage.</p></div>
+          <button class="btn btn--secondary btn--sm" type="button" data-faq-add><%- icon('plus', { size: 15 }) %>Ajouter une question</button>
+        </header>
+        <div class="card__body">
+          <ol class="faq-editor" data-faq-list>
+            <% for (const item of post.faq || []) { %>
+            <li class="faq-editor__item" data-faq-item>
+              <label class="field"><span class="field__label">Question</span><input class="input" data-faq-question value="<%= item.question %>"></label>
+              <label class="field"><span class="field__label">Réponse <span class="counter" data-words></span></span><textarea class="input" data-faq-answer rows="3"><%= item.answer %></textarea></label>
+              <button class="btn btn--ghost btn--sm btn--danger" type="button" data-faq-remove><%- icon('trash-2', { size: 15 }) %>Supprimer</button>
+            </li>
+            <% } %>
+          </ol>
+          <p class="muted" data-faq-empty<%= (post.faq || []).length ? ' hidden' : '' %>>Aucune question pour le moment.</p>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-editor__side">
+      <section class="card">
+        <header class="card__head"><h2>Aperçu Google</h2></header>
+        <div class="card__body">
+          <div class="serp" data-serp>
+            <span class="serp__site"><span class="serp__favicon" aria-hidden="true"></span><span><strong><%= site.name %></strong><span data-serp-url></span></span></span>
+            <span class="serp__title" data-serp-title></span>
+            <span class="serp__desc" data-serp-desc></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <header class="card__head"><h2>Référencement</h2></header>
+        <div class="card__body">
+          <div class="fields">
+            <label class="field">
+              <span class="field__label">Titre Google <span class="counter" data-counter="metaTitle" data-max="<%= limits.metaTitle %>"></span></span>
+              <input class="input" name="metaTitle" value="<%= post.metaTitle %>" placeholder="Vide : titre + « | Subnet »">
+            </label>
+            <label class="field">
+              <span class="field__label">Description Google <span class="counter" data-counter="metaDescription" data-min="<%= limits.metaDescriptionMin %>" data-max="<%= limits.metaDescription %>"></span></span>
+              <textarea class="input" name="metaDescription" rows="4"><%= post.metaDescription %></textarea>
+            </label>
+            <label class="field">
+              <span class="field__label">Adresse <span class="counter" data-counter="slug" data-max="<%= limits.slug %>"></span></span>
+              <span class="input-prefix"><span>/blog/</span><input class="input" name="slug" value="<%= post.slug %>" placeholder="générée depuis le titre"></span>
+            </label>
+            <label class="field">
+              <span class="field__label">Requête visée (interne)</span>
+              <input class="input" name="targetKeyword" value="<%= post.targetKeyword %>">
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <header class="card__head"><h2>Classement</h2></header>
+        <div class="card__body">
+          <div class="fields">
+            <label class="field">
+              <span class="field__label">Catégorie</span>
+              <span class="select">
+                <select class="input" name="category">
+                  <% for (const cat of categories) { %><option value="<%= cat.value %>"<%= post.category === cat.value ? ' selected' : '' %>><%= cat.label %></option><% } %>
+                </select>
+                <%- icon('chevron-down', { size: 16, className: 'select__chevron' }) %>
+              </span>
+            </label>
+            <label class="field">
+              <span class="field__label">Étiquettes (6 max, séparées par des virgules)</span>
+              <input class="input" name="tags" value="<%= tagsValue %>">
+            </label>
+            <input type="hidden" name="topicId" value="<%= post.topicId %>">
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <header class="card__head"><h2>Image de couverture</h2><p>Facultative. Sans image, l’image de partage du site est utilisée.</p></header>
+        <div class="card__body">
+          <div class="fields">
+            <div class="cover-field" data-cover>
+              <img class="cover-field__img" data-cover-img src="<%= post.coverImage || '' %>" alt=""<%= post.coverImage ? '' : ' hidden' %>>
+              <input type="hidden" name="coverImage" value="<%= post.coverImage %>">
+              <div class="cover-field__actions">
+                <label class="btn btn--secondary btn--sm"><%- icon('upload', { size: 15 }) %>Choisir une image<input class="sr-only" type="file" accept="image/*" data-cover-file></label>
+                <button class="btn btn--ghost btn--sm btn--danger" type="button" data-cover-remove<%= post.coverImage ? '' : ' hidden' %>>Retirer</button>
+              </div>
+            </div>
+            <label class="field">
+              <span class="field__label">Texte alternatif (obligatoire avec une image)</span>
+              <input class="input" name="coverAlt" value="<%= post.coverAlt || '' %>">
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card publish-card">
+        <header class="card__head"><h2>Publication</h2></header>
+        <div class="card__body">
+          <div class="publish-card__actions">
+            <button class="btn btn--secondary btn--block" type="button" data-action="save"><%- icon('save', { size: 16 }) %><%= post.status === 'draft' ? 'Enregistrer le brouillon' : 'Enregistrer' %></button>
+            <button class="btn btn--primary btn--block" type="button" data-action="publish"<%= markers.length ? ' disabled' : '' %>><%- icon('send', { size: 16 }) %><%= isLive ? 'Mettre à jour en ligne' : 'Publier maintenant' %></button>
+            <div class="schedule">
+              <label class="field"><span class="field__label">Programmer le</span><input class="input" type="datetime-local" data-schedule-at></label>
+              <button class="btn btn--secondary btn--block" type="button" data-action="schedule"<%= markers.length ? ' disabled' : '' %>><%- icon('calendar-clock', { size: 16 }) %>Programmer</button>
+            </div>
+            <% if (post.status !== 'draft') { %>
+            <button class="btn btn--ghost btn--block" type="button" data-action="unpublish"><%- icon('eye-off', { size: 16 }) %>Dépublier (repasser en brouillon)</button>
+            <% } %>
+          </div>
+          <p class="hint" data-publish-hint<%= markers.length ? '' : ' hidden' %>><%- icon('info', { size: 16 }) %>Publication bloquée tant qu’il reste des marqueurs [À COMPLÉTER].</p>
+          <p class="savebar__status" data-save-status role="status"></p>
+        </div>
+      </section>
+
+      <% if (post.id) { %>
+      <section class="card card--danger">
+        <div class="card__body">
+          <button class="btn btn--ghost btn--sm btn--danger" type="submit" form="delete-post"><%- icon('trash-2', { size: 15 }) %>Rejeter et supprimer l’article</button>
+        </div>
+      </section>
+      <% } %>
+    </aside>
+  </div>
+</form>
+<% if (post.id) { %>
+<form id="delete-post" method="post" action="/admin/articles/<%= post.id %>/supprimer" data-confirm="Supprimer définitivement cet article ?"></form>
+<% } %>
+<template id="faq-item-template">
+  <li class="faq-editor__item" data-faq-item>
+    <label class="field"><span class="field__label">Question</span><input class="input" data-faq-question></label>
+    <label class="field"><span class="field__label">Réponse <span class="counter" data-words></span></span><textarea class="input" data-faq-answer rows="3"></textarea></label>
+    <button class="btn btn--ghost btn--sm btn--danger" type="button" data-faq-remove><%- icon('trash-2', { size: 15 }) %>Supprimer</button>
+  </li>
+</template>
+<%- include('partials/foot') %>

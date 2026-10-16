@@ -1,6 +1,6 @@
 <%
   const site = c.site;
-  const pageTitle = page.title ? `${page.title} · ${site.name}` : `${site.name} · ${site.tagline}`;
+  const pageTitle = page.fullTitle || (page.title ? `${page.title} · ${site.name}` : `${site.name} · ${site.tagline}`);
   const description = page.description || site.description;
   const canonical = baseUrl + (page.path || currentPath);
   const shareImage = baseUrl + (page.image || site.shareImage || '/assets/images/og.jpg');
@@ -15,13 +15,22 @@
 <% if (page.noindex) { %><meta name="robots" content="noindex">
 <% } else { %><link rel="canonical" href="<%= canonical %>">
 <% } -%>
-<meta property="og:type" content="website">
+<meta property="og:type" content="<%= page.ogType || 'website' %>">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="<%= site.name %>">
 <meta property="og:title" content="<%= pageTitle %>">
 <meta property="og:description" content="<%= description %>">
 <meta property="og:url" content="<%= canonical %>">
 <meta property="og:image" content="<%= shareImage %>">
+<% if (page.publishedTime) { %><meta property="article:published_time" content="<%= page.publishedTime %>">
+<% } -%>
+<% if (page.modifiedTime) { %><meta property="article:modified_time" content="<%= page.modifiedTime %>">
+<% } -%>
+<% if (page.prev) { %><link rel="prev" href="<%= baseUrl + page.prev %>">
+<% } -%>
+<% if (page.next) { %><link rel="next" href="<%= baseUrl + page.next %>">
+<% } -%>
+<link rel="alternate" type="application/rss+xml" title="Blog <%= site.name %>" href="<%= baseUrl %>/blog/rss.xml">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="<%= asset('images/favicon.svg') %>" type="image/svg+xml">
@@ -30,7 +39,7 @@
 <link rel="stylesheet" href="<%= asset('css/site.css') %>">
 <script><%- inlineJs %></script>
 <script src="<%= asset('js/site.js') %>" defer></script>
-<% if (locals.jsonLd) { %><script type="application/ld+json"><%- jsonForScript(jsonLd) %></script>
+<% for (const data of [].concat(locals.jsonLd || [])) { %><script type="application/ld+json"><%- jsonForScript(data) %></script>
 <% } -%>
 </head>
 <body>

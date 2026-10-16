@@ -6,7 +6,7 @@ const SOURCES = { accueil: 'page d’accueil', contact: 'page contact' };
 
 export function createMailer(smtp, log = console) {
   if (!smtp?.host) {
-    return { enabled: false, async notifyNewMessage() { return false; } };
+    return { enabled: false, async notifyNewMessage() { return false; }, async notifyNewDraft() { return false; } };
   }
 
   let transporter;
@@ -23,15 +23,44 @@ export function createMailer(smtp, log = console) {
     return transporter;
   }
 
+  const addresses = (content) => {
+    const to = smtp.to || content.contact.email;
+    const from = smtp.from || smtp.user;
+    if (!to || !from) log.warn('Email : destinataire ou expéditeur manquant (MAIL_TO / MAIL_FROM).');
+    return to && from ? { to, from } : null;
+  };
+
   return {
     enabled: true,
+    // Brouillon d'article créé par l'agent de rédaction (API du blog).
+    async notifyNewDraft(post, { markers, adminUrl, previewUrl }, content) {
+      const target = addresses(content);
+      if (!target) return false;
+      const lines = [
+        `Nouveau brouillon d’article sur ${content.site.name}`,
+        '',
+        `Titre : ${post.title}`,
+        `Requête visée : ${post.targetKeyword || 'non précisée'}`,
+        `Marqueurs [À COMPLÉTER] à remplir : ${markers.length}`,
+        ...markers.map((m) => `  • ${m}`),
+        '',
+        `Relire et publier : ${adminUrl}`,
+        `Aperçu : ${previewUrl}`,
+        '',
+        'L’article reste en brouillon tant que vous ne le publiez pas.',
+      ];
+      const t = await getTransporter();
+      await t.sendMail({
+        ...target,
+        subject: `Brouillon à relire : ${post.title} (${markers.length} marqueur${markers.length > 1 ? 's' : ''})`,
+        text: lines.join('\n'),
+      });
+      return true;
+    },
     async notifyNewMessage(message, content) {
-      const to = smtp.to || content.contact.email;
-      const from = smtp.from || smtp.user;
-      if (!to || !from) {
-        log.warn('Email : destinataire ou expéditeur manquant (MAIL_TO / MAIL_FROM).');
-        return false;
-      }
+      const target = addresses(content);
+      if (!target) return false;
+      const { to, from } = target;
       const sector = CONTACT_SECTOR_OPTIONS.find((o) => o.value === message.sector)?.label || '';
       const isQuote = message.type !== 'contact';
       const details = [

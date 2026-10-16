@@ -18,6 +18,7 @@ Les fonctionnalités de réservation, d'acompte et de devis vendues aux clients 
 | L'offre | `/offre` | Fonctionnalités incluses, modules illustrés par des captures (réservation, acompte, devis, horaires, administration), comparatif avec les plateformes de réservation, design, bénéfices |
 | Secteurs | `/secteurs` et `/secteurs/restaurateurs`, `/tatoueurs`, `/instituts`, `/tpe-pme` | Une page par métier : ce que le site gère, fonctionnalités mises en avant, parcours client en trois écrans mobiles, ton |
 | Réalisations | `/realisations` | Galerie filtrable par secteur (version ordinateur et capture mobile), avec visionneuse |
+| Blog | `/blog`, `/blog/categorie/…`, `/blog/<article>`, `/blog/rss.xml` | Articles de conseils : sommaire, FAQ, articles liés, données structurées. Les brouillons sont rédigés par un agent via l'API ([docs/blog-api.md](docs/blog-api.md)) et publiés depuis l'admin |
 | FAQ | `/faq` | Questions fréquentes |
 | Contact | `/contact` | Formulaire « demande de devis » ou « simple question » (fonctionnalités souhaitées, protection anti-spam), coordonnées, horaires, réseaux. Un formulaire rapide figure aussi en bas de l'accueil |
 | Pages légales | `/mentions-legales`, `/confidentialite`, `/cookies`, `/conditions-generales` | Modèles remplis automatiquement avec vos informations |
@@ -61,6 +62,7 @@ Rendez-vous sur `/admin`. Le mot de passe est celui de `ADMIN_PASSWORD`. Si la v
 | FAQ | Questions et réponses |
 | Coordonnées | Email, téléphone, adresse, zone d'intervention, horaires, réseaux sociaux, textes de la page contact et fonctionnalités proposées dans le formulaire de devis |
 | Pages légales | Informations légales et contenu des quatre pages réglementaires |
+| Articles | Articles du blog : brouillons de l'agent (badge « API »), éditeur Markdown avec aperçu, compteurs SEO, aperçu Google, FAQ, programmation. Publication bloquée tant qu'il reste des marqueurs [À COMPLÉTER] |
 | Demandes | Demandes de devis et questions envoyées depuis la page contact et l'accueil : statut (nouvelle, en cours, traitée), note interne, recherche, filtres et export CSV |
 | Compte et sauvegarde | Mot de passe, sauvegarde et restauration des contenus |
 
@@ -87,6 +89,7 @@ Toutes les variables sont décrites dans `.env.example`.
 | `DATA_DIR` | Dossier des contenus, messages et images | `./data` |
 | `BASE_URL` | Adresse publique du site (plan du site, liens de partage) | adresse saisie dans l'admin, sinon celle de la requête |
 | `TRUST_PROXY` | Proxys de confiance (Nginx, hébergeur…) | réseaux locaux et privés |
+| `BLOG_API_KEY` | Clé de l'API de brouillons du blog (`openssl rand -base64 32`) | API désactivée |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` | Serveur d'envoi des notifications | désactivé |
 | `MAIL_FROM`, `MAIL_TO` | Expéditeur et destinataire des notifications | `SMTP_USER` et email de contact |
 
