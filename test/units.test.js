@@ -77,6 +77,7 @@ describe('utilitaires', () => {
   test('typographie française', () => {
     assert.equal(frenchTypography('Pourquoi ? Voici : « oui » !'), 'Pourquoi ? Voici : « oui » !');
     assert.equal(frenchTypography('https://exemple.fr'), 'https://exemple.fr');
+    assert.equal(frenchTypography('Questions – Instituts'), 'Questions\u00a0– Instituts', 'le tiret ne commence pas une ligne');
   });
 
   test('liens téléphone', () => {

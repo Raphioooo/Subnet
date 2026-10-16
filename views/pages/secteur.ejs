@@ -71,6 +71,67 @@
   </section>
   <% } %>
 
+  <% const pf = sector.platform; -%>
+  <% if (pf.title && pf.points.length) { %>
+  <section class="section<%= bg() %>" aria-labelledby="plateforme">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (pf.eyebrow) { %><p class="eyebrow reveal"><%= pf.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="plateforme"><%= pf.title %></h2>
+        <% if (pf.text) { %><p class="lead reveal"><%= pf.text %></p><% } %>
+      </header>
+      <ol class="pillars pillars--center">
+        <% pf.points.forEach((item, i) => { %>
+        <li class="pillar reveal">
+          <span class="pillar__num"><%= String(i + 1).padStart(2, '0') %></span>
+          <div>
+            <h3 class="h4"><%= item.title %></h3>
+            <% if (item.text) { %><p><%= item.text %></p><% } %>
+          </div>
+        </li>
+        <% }) %>
+      </ol>
+    </div>
+  </section>
+  <% } %>
+
+  <% const ad = sector.admin; -%>
+  <% if (ad.title && ad.items.length) { %>
+  <section class="section<%= bg() %>" aria-labelledby="gestion">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (ad.eyebrow) { %><p class="eyebrow reveal"><%= ad.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="gestion"><%= ad.title %></h2>
+        <% if (ad.text) { %><p class="lead reveal"><%= ad.text %></p><% } %>
+      </header>
+      <ul class="checklist checklist--large checklist--center">
+        <% for (const item of ad.items) { %><li class="reveal"><%- icon('check', { size: 18, strokeWidth: 2.25 }) %><span><%= item %></span></li><% } %>
+      </ul>
+    </div>
+  </section>
+  <% } %>
+
+  <% const pr = sector.process; -%>
+  <% if (pr.title && pr.steps.length) { const soft = bg(); %>
+  <section class="section<%= soft %>" aria-labelledby="creation">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (pr.eyebrow) { %><p class="eyebrow reveal"><%= pr.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="creation"><%= pr.title %></h2>
+      </header>
+      <ol class="card-grid card-grid--steps">
+        <% pr.steps.forEach((step, i) => { %>
+        <li class="card<%= soft ? ' card--white' : '' %> reveal">
+          <span class="step-num"><%= i + 1 %></span>
+          <h3 class="h4"><%= step.title %></h3>
+          <% if (step.text) { %><p><%= step.text %></p><% } %>
+        </li>
+        <% }) %>
+      </ol>
+    </div>
+  </section>
+  <% } %>
+
   <% if (projects.length) { %>
   <section class="section<%= bg() %>" aria-labelledby="exemples">
     <div class="container">
@@ -82,6 +143,30 @@
       <div class="project-grid<%= projects.length === 1 ? ' project-grid--single' : '' %>">
         <% for (const project of projects) { %><%- include('../partials/project-card', { project }) %><% } %>
       </div>
+    </div>
+  </section>
+  <% } %>
+
+  <% const fq = sector.faq; -%>
+  <% if (fq.items.length || sector.local) { %>
+  <section class="section<%= bg() %>"<% if (fq.items.length) { %> aria-labelledby="questions"<% } %>>
+    <div class="container container--narrow">
+      <% if (fq.items.length) { %>
+      <header class="section-head section-head--center">
+        <h2 class="h2 reveal" id="questions"><%= fq.title || 'Questions fréquentes' %></h2>
+      </header>
+      <div class="faq">
+        <% for (const item of fq.items) { %>
+        <details class="faq__item reveal">
+          <summary><span><%= item.question %></span><span class="faq__icon" aria-hidden="true"><%- icon('plus', { size: 20 }) %></span></summary>
+          <div class="faq__answer prose"><%- md(item.answer) %></div>
+        </details>
+        <% } %>
+      </div>
+      <% } %>
+      <% if (sector.local) { %>
+      <p class="note reveal"><%= sector.local %> <a class="link-arrow" href="/creation-site-internet-grenoble">Création de site internet à Grenoble<%- icon('chevron-right', { size: 16 }) %></a></p>
+      <% } %>
     </div>
   </section>
   <% } %>

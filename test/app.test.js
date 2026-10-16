@@ -150,6 +150,18 @@ describe('site public', () => {
     assert.equal(legal.match(/<h1[\s>]/g)?.length, 1, 'un seul H1 sur les pages légales');
   });
 
+  test('pages secteurs enrichies : plateforme, gestion, déroulé, FAQ et ancrage local', async () => {
+    const sector = app.ctx.store.getContent().sectors.find((s) => s.slug === 'instituts');
+    const html = (await (await request('/secteurs/instituts')).text()).replace(/[\u00a0\u202f]/g, ' ');
+    for (const title of [sector.platform.title, sector.admin.title, sector.process.title, sector.faq.title]) {
+      assert.ok(html.includes(title.replace(' – ', ' – ')), `section « ${title} »`);
+    }
+    assert.ok(html.includes('Isère'), 'paragraphe local');
+    const blocks = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
+    assert.deepEqual(blocks.map((b) => b['@type']), ['Service', 'BreadcrumbList', 'FAQPage']);
+    assert.equal(blocks[2].mainEntity.length, sector.faq.items.length);
+  });
+
   test('fichiers statiques versionnés', async () => {
     const html = await (await request('/')).text();
     const css = html.match(/href="(\/assets\/css\/site\.css\?v=[a-f0-9]+)"/);

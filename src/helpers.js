@@ -16,12 +16,14 @@ export const NAV = [
 
 export const OPTIONAL_TOKENS = new Set(['capital', 'rcs', 'tva', 'telephone', 'hebergeur_contact']);
 
-// Typographie française : espaces insécables avant « : ; ! ? » et dans les guillemets.
+// Typographie française : espaces insécables avant « : ; ! ? », dans les guillemets
+// et avant un tiret d'incise (qui ne doit pas commencer une ligne).
 export function frenchTypography(text) {
   return text
     .replace(/ ([:»])/g, ' $1')
     .replace(/ ([;!?])/g, ' $1')
-    .replace(/« /g, '« ');
+    .replace(/« /g, '« ')
+    .replace(/ ([–—]) /g, ' $1 ');
 }
 
 export function mapStrings(value, fn) {
@@ -267,7 +269,8 @@ export function sectorJsonLd(c, sector, baseUrl) {
   };
   const areas = areasServed(c.contact);
   if (areas) service.areaServed = areas;
-  return [service, breadcrumbJsonLd(baseUrl, [['Accueil', '/'], ['Secteurs', '/secteurs'], [sector.name, `/secteurs/${sector.slug}`]])];
+  const breadcrumb = breadcrumbJsonLd(baseUrl, [['Accueil', '/'], ['Secteurs', '/secteurs'], [sector.name, `/secteurs/${sector.slug}`]]);
+  return [service, breadcrumb, ...(sector.faq.items.length ? [faqJsonLd(sector.faq.items)] : [])];
 }
 
 export function breadcrumbJsonLd(baseUrl, trail) {
