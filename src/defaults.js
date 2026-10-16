@@ -62,7 +62,7 @@ Contact : {{email}}
 
 ## Données collectées
 
-Lorsque vous utilisez le formulaire de contact, nous collectons les informations que vous nous transmettez : nom et prénom, adresse email et, si vous les renseignez, numéro de téléphone, nom de votre entreprise, secteur d’activité et contenu de votre message.
+Lorsque vous utilisez le formulaire de demande de devis, nous collectons les informations que vous nous transmettez : nom et prénom, adresse email et, si vous les renseignez, numéro de téléphone, nom de votre entreprise, secteur d’activité, fonctionnalités souhaitées et contenu de votre message.
 
 Le site n’utilise aucun outil de mesure d’audience ni aucun cookie publicitaire.
 
@@ -106,7 +106,7 @@ const TERMS = `Les présentes conditions générales régissent les prestations 
 
 ## 1. Objet
 
-Le Prestataire conçoit et réalise des sites internet vitrines ainsi que les prestations associées décrites dans le devis : conception graphique, intégration des contenus, mise en place de l’espace d’administration et mise en ligne.
+Le Prestataire conçoit et réalise des sites et applications web sur mesure ainsi que les prestations associées décrites dans le devis : conception graphique, développement des fonctionnalités (réservation en ligne, paiement d’acompte, devis, gestion des horaires), mise en place du panneau d’administration, intégration des contenus et mise en ligne.
 
 ## 2. Devis et commande
 
@@ -136,7 +136,7 @@ Le transfert des droits d’exploitation sur les éléments créés spécifiquem
 
 ## 8. Responsabilité
 
-Le Prestataire est tenu à une obligation de moyens. Sa responsabilité ne saurait être engagée en cas de contenu fourni par le Client, de mauvaise utilisation de l’espace d’administration ou de défaillance d’un service tiers (hébergeur, registraire de nom de domaine, messagerie).
+Le Prestataire est tenu à une obligation de moyens. Sa responsabilité ne saurait être engagée en cas de contenu fourni par le Client, de mauvaise utilisation de l’espace d’administration ou de défaillance d’un service tiers (hébergeur, prestataire de paiement, registraire de nom de domaine, messagerie).
 
 ## 9. Droit applicable et litiges
 
@@ -144,14 +144,15 @@ Les présentes conditions sont soumises au droit français. En cas de litige, le
 
 Contact : {{email}}`;
 
+
 export const defaults = {
-  meta: { version: 1, updatedAt: null },
+  meta: { version: 2, updatedAt: null },
 
   site: {
     name: 'Subnet',
-    tagline: 'Sites vitrines minimalistes et administrables',
+    tagline: 'Sites sur mesure avec réservation, acompte et devis',
     description:
-      'Subnet conçoit des sites vitrines minimalistes, premium et administrables pour les restaurateurs, tatoueurs, instituts de beauté, TPE et PME.',
+      'Sites sur mesure avec réservation en ligne, acompte, devis, gestion des horaires et panneau d’administration, pour restaurateurs, tatoueurs, instituts, TPE et PME.',
     url: '',
     logo: '',
     shareImage: '',
@@ -166,12 +167,21 @@ export const defaults = {
     hours: [],
     socials: [],
     page: {
-      eyebrow: 'Contact',
+      eyebrow: 'Demande de devis',
       title: 'Parlons de votre projet.',
       intro:
-        'Quelques mots sur votre activité et vos objectifs suffisent. Nous vous proposons ensuite une structure adaptée et un devis clair.',
+        'Dites-nous qui vous êtes et ce dont vous avez besoin : réservation, acompte, devis, horaires… Nous revenons vers vous avec une proposition et un devis clair.',
+      modulesLabel: 'Fonctionnalités souhaitées',
+      modules: [
+        'Réservation en ligne',
+        'Paiement d’acompte',
+        'Devis en ligne',
+        'Gestion des horaires',
+        'Panneau d’administration',
+        'Galerie ou portfolio',
+      ],
       infoTitle: 'Coordonnées',
-      success: 'Merci, votre message a bien été envoyé. Nous revenons vers vous très vite.',
+      success: 'Merci, votre demande a bien été envoyée. Nous revenons vers vous très vite avec une proposition.',
       privacy:
         'Vos informations sont utilisées uniquement pour répondre à votre demande. Elles ne sont jamais cédées à des tiers.',
     },
@@ -179,10 +189,10 @@ export const defaults = {
 
   home: {
     hero: {
-      eyebrow: 'Création de sites vitrines',
-      title: 'L’essentiel, magnifiquement présenté.',
+      eyebrow: 'Sites sur mesure, full stack',
+      title: 'Le site qui fait tourner votre activité.',
       subtitle:
-        'Des sites minimalistes, premium et simples à gérer pour les restaurateurs, tatoueurs, instituts de beauté, TPE et PME.',
+        'Réservation en ligne, acompte, devis, horaires et panneau d’administration : un site complet et élégant pour les restaurateurs, tatoueurs, instituts, TPE et PME.',
       primaryLabel: 'Demander un devis',
       primaryLink: '/contact',
       secondaryLabel: 'Découvrir l’offre',
@@ -190,56 +200,78 @@ export const defaults = {
     },
     pillars: {
       eyebrow: 'Positionnement',
-      title: 'Plus qu’une vitrine. Un véritable outil commercial.',
+      title: 'Plus qu’une vitrine. Votre outil de travail.',
       text:
-        'Votre site ne se contente pas d’être beau. Il présente votre activité, rassure vos visiteurs et transforme leur intérêt en prise de contact.',
+        'Votre site ne se contente pas de présenter votre activité : il prend les réservations, sécurise vos rendez-vous, envoie vos devis et vous fait gagner du temps chaque jour.',
       items: [
-        { title: 'Présenter votre activité', text: 'Ce que vous faites, pour qui et pourquoi vous : compris en quelques secondes.' },
-        { title: 'Rassurer le visiteur', text: 'Des informations claires et des éléments de réassurance qui inspirent confiance.' },
-        { title: 'Valoriser votre savoir-faire', text: 'Vos réalisations, votre lieu et votre univers mis en scène avec soin.' },
-        { title: 'Faciliter la prise de contact', text: 'Des appels à l’action visibles et un parcours fluide jusqu’à la demande.' },
-        { title: 'Développer votre visibilité', text: 'Une base sérieuse pour votre visibilité locale et la crédibilité de votre marque.' },
+        { title: 'Prendre des réservations', text: 'Vos clients réservent en ligne, à toute heure, sur les créneaux que vous ouvrez.' },
+        { title: 'Sécuriser vos rendez-vous', text: 'Un acompte réglé en ligne à la réservation limite les annulations de dernière minute.' },
+        { title: 'Envoyer vos devis', text: 'Des demandes complètes, des devis envoyés et acceptés en ligne, sans aller-retour.' },
+        { title: 'Gérer vos horaires', text: 'Horaires, disponibilités et fermetures exceptionnelles à jour en quelques secondes.' },
+        { title: 'Tout piloter au même endroit', text: 'Un panneau d’administration clair pour suivre réservations, paiements et demandes.' },
+      ],
+    },
+    journey: {
+      eyebrow: 'Côté client',
+      title: 'Réserver devient un réflexe.',
+      text: 'Un parcours limpide, du choix du créneau à la confirmation, en moins d’une minute sur mobile.',
+      steps: [
+        {
+          title: 'Choisir son créneau',
+          text: 'Prestation, date et heure disponibles, calculées selon vos horaires.',
+          image: '/assets/images/journey/etape-1.webp',
+        },
+        {
+          title: 'Régler l’acompte',
+          text: 'Paiement sécurisé par carte, en quelques secondes.',
+          image: '/assets/images/journey/etape-2.webp',
+        },
+        {
+          title: 'Recevoir la confirmation',
+          text: 'Confirmation immédiate et rappel par email avant le rendez-vous.',
+          image: '/assets/images/journey/etape-3.webp',
+        },
       ],
     },
     sectors: {
       eyebrow: 'Pour qui',
       title: 'Un site pensé pour votre métier.',
-      text: 'Une base minimaliste qui laisse s’exprimer votre univers, quel que soit votre secteur.',
+      text: 'Réservation de table, demande de projet, prise de rendez-vous ou devis : chaque site s’adapte à votre façon de travailler.',
       note: 'Commerce ou activité de service ? L’offre s’adapte aussi à vous.',
     },
     offer: {
       eyebrow: 'L’offre',
       title: 'Tout ce qu’il faut. Rien de superflu.',
-      text: 'Un site vitrine professionnel, conçu sur mesure dans sa structure, sa présentation et son organisation de contenu.',
+      text: 'Un site sur mesure qui réunit présentation, réservation, paiement et gestion, conçu autour de votre activité.',
       linkLabel: 'Voir le détail de l’offre',
     },
     admin: {
-      eyebrow: 'Espace d’administration',
+      eyebrow: 'Panneau d’administration',
       title: 'Vous gardez la main.',
       text:
-        'Textes, photos, horaires, prestations : mettez à jour l’essentiel en quelques clics, sans passer par un développeur pour chaque modification.',
+        'Réservations, acomptes, devis, horaires et contenus : tout se gère depuis un seul espace, simple et rapide, sans passer par un développeur.',
       image: '/assets/images/admin-preview.webp',
       points: [
-        { title: 'Un site toujours à jour', text: 'Vos informations restent exactes, même quand votre activité évolue.' },
-        { title: 'Votre autonomie', text: 'Vous gardez le contrôle de vos contenus, à votre rythme.' },
+        { icon: 'layout-dashboard', title: 'Votre journée en un coup d’œil', text: 'Réservations, paiements et demandes du jour, réunis sur un seul écran.' },
+        { icon: 'key-round', title: 'Votre autonomie', text: 'Horaires, prestations, tarifs et contenus : vous modifiez tout, à votre rythme.' },
       ],
     },
     why: {
       eyebrow: 'Pourquoi Subnet',
-      title: 'Le juste équilibre.',
+      title: 'Le meilleur des deux mondes.',
       text:
-        'Ni outil à tout faire soi-même, ni dépendance totale à un prestataire : un site premium que vous faites vivre en toute simplicité.',
+        'Les fonctionnalités d’une plateforme de réservation, l’image d’un site premium à votre nom. Sans compromis.',
       linkLabel: 'Voir le comparatif',
       items: [
-        { title: 'Un rendu premium', text: 'Sobre, professionnel et cohérent avec l’image de votre activité.' },
-        { title: 'Une vraie autonomie', text: 'Vos contenus se gèrent depuis un espace d’administration simple.' },
-        { title: 'Une approche métier', text: 'Une structure ciblée selon votre activité, pas un modèle générique.' },
+        { icon: 'gem', title: 'Votre marque, pas celle d’une plateforme', text: 'Vos clients réservent et paient sur votre site, à vos couleurs.' },
+        { icon: 'layers', title: 'Un outil complet', text: 'Réservation, acompte, devis et horaires réunis dans un seul système.' },
+        { icon: 'shield-check', title: 'Vos clients, vos données', text: 'Vous gardez la relation client et l’historique de votre activité.' },
       ],
     },
     projects: {
       eyebrow: 'Réalisations',
       title: 'Des univers, pas des modèles.',
-      text: 'Chaque site part de la même exigence de clarté, puis s’adapte à l’univers de son activité.',
+      text: 'Chaque site part de la même exigence de clarté, puis s’adapte à l’univers et au fonctionnement de son activité.',
       linkLabel: 'Voir les réalisations',
     },
   },
@@ -247,146 +279,144 @@ export const defaults = {
   offer: {
     hero: {
       eyebrow: 'L’offre',
-      title: 'Un site vitrine pensé comme un outil.',
-      subtitle: 'Simple à parcourir pour vos visiteurs. Simple à administrer pour vous.',
+      title: 'Un site complet, pensé pour votre activité.',
+      subtitle: 'Le design d’un site premium, les fonctionnalités d’un véritable outil métier.',
     },
     scope: {
       eyebrow: 'Ce qui est inclus',
-      title: 'Un périmètre clair, adapté à vos besoins.',
+      title: 'Un site sur mesure, de la présentation à la gestion.',
       text:
-        'Chaque site est conçu sur mesure dans sa structure, sa présentation et son organisation de contenu. Le périmètre fonctionnel peut inclure :',
+        'Chaque projet est conçu autour de votre activité : vous choisissez les fonctionnalités dont vous avez besoin, le site les réunit dans une expérience fluide.',
       closing:
-        'La navigation reste fluide, les contenus sont hiérarchisés, et le design favorise la lisibilité, la confiance et la conversion.',
+        'Le tout dans un design épuré, rapide et pensé pour inspirer confiance, sur ordinateur comme sur mobile.',
     },
     features: [
-      { icon: 'house', title: 'Une page d’accueil travaillée', text: 'Pour présenter votre activité avec impact dès les premières secondes.' },
-      { icon: 'layers', title: 'Vos services et prestations', text: 'Une ou plusieurs pages pour détailler clairement ce que vous proposez.' },
-      { icon: 'images', title: 'Une galerie ou un portfolio', text: 'Vos réalisations, votre lieu et votre univers mis en valeur avec élégance.' },
-      { icon: 'mail', title: 'Une page contact complète', text: 'Formulaire, téléphone, email, horaires, adresse et liens utiles.' },
-      { icon: 'info', title: 'Des informations pratiques', text: 'L’essentiel en un coup d’œil : accès, horaires, réservation…' },
-      { icon: 'mouse-pointer-click', title: 'Des appels à l’action', text: 'Des boutons visibles et cohérents avec les objectifs de votre site.' },
-      { icon: 'scale', title: 'Les pages légales', text: 'Un socle de pages légales et administratives utiles à votre activité.' },
-      { icon: 'smartphone', title: 'Parfait sur tous les écrans', text: 'Une consultation confortable sur ordinateur, tablette et mobile.' },
+      { icon: 'calendar-check', title: 'Réservation en ligne', text: 'Créneaux, prestations, capacité et confirmations automatiques, à toute heure.' },
+      { icon: 'credit-card', title: 'Paiement d’acompte', text: 'Un acompte réglé en ligne, en toute sécurité, à la réservation ou à la commande.' },
+      { icon: 'file-text', title: 'Devis en ligne', text: 'Des demandes complètes, des devis envoyés depuis votre espace et acceptés en ligne.' },
+      { icon: 'clock', title: 'Gestion des horaires', text: 'Horaires d’ouverture, disponibilités, congés et fermetures exceptionnelles.' },
+      { icon: 'layout-dashboard', title: 'Panneau d’administration', text: 'Réservations, paiements, devis, clients et contenus réunis au même endroit.' },
+      { icon: 'bell', title: 'Notifications automatiques', text: 'Confirmations et rappels par email, pour vous comme pour vos clients.' },
+      { icon: 'images', title: 'Présentation soignée', text: 'Services, galerie ou portfolio, carte et informations pratiques mis en valeur.' },
+      { icon: 'smartphone', title: 'Parfait sur mobile', text: 'Réserver, payer ou demander un devis en quelques gestes, depuis un téléphone.' },
     ],
     structure: {
-      eyebrow: 'Structure',
-      title: 'Une base cohérente et efficace.',
-      text: 'La structure peut varier selon votre métier. Elle comprend généralement :',
+      eyebrow: 'Fonctionnalités',
+      title: 'Des modules qui travaillent pour vous.',
+      text: 'Chaque site combine les modules utiles à votre activité. Les plus demandés :',
       steps: [
         {
-          title: 'Page d’accueil',
-          text: 'Elle résume votre identité, vos points forts et votre offre principale.',
+          title: 'Réservation en ligne',
+          text: 'Vos clients choisissent une prestation, une date et un créneau disponible, puis reçoivent une confirmation immédiate.',
           items: [
-            'Un grand visuel ou une mise en scène épurée',
-            'Une accroche claire',
-            'Une présentation rapide de l’activité',
-            'Les services ou catégories principales',
-            'Des visuels de votre univers',
-            'Un ou plusieurs appels à l’action',
-            'Les informations essentielles, visibles rapidement',
+            'Créneaux calculés selon vos horaires et disponibilités',
+            'Prestations, durées, capacité ou nombre de couverts',
+            'Confirmation et rappel automatiques par email',
+            'Modification ou annulation selon vos conditions',
+            'Planning des réservations dans votre espace',
           ],
         },
         {
-          title: 'Services ou prestations',
-          text:
-            'Vos offres, détaillées de manière claire et ordonnée. Cette page convient aussi bien à un institut, un restaurant ou un tatoueur qu’à une entreprise de services.',
-          items: [],
-        },
-        {
-          title: 'Galerie, portfolio ou réalisations',
-          text:
-            'Un élément central pour les métiers visuels ou expérientiels, simple à mettre à jour et pensé pour mettre vos images en valeur avec élégance.',
+          title: 'Acompte en ligne',
+          text: 'Un acompte est demandé à la réservation ou à la commande pour sécuriser vos rendez-vous et vos projets.',
           items: [
-            'Les plats, le lieu ou l’ambiance pour un restaurant',
-            'Les réalisations et les styles pour un tatoueur',
-            'L’espace, les soins ou les résultats pour un institut',
-            'Les chantiers, produits ou cas clients pour une TPE ou PME',
+            'Paiement sécurisé par carte bancaire',
+            'Montant fixe ou pourcentage, selon la prestation',
+            'Conditions d’annulation et de remboursement claires',
+            'Suivi des paiements dans le panneau d’administration',
           ],
         },
         {
-          title: 'Contact',
-          text: 'Tout ce qu’il faut pour générer des prises de contact rapidement.',
+          title: 'Devis',
+          text: 'Les demandes arrivent complètes, vous répondez vite, et le client accepte le devis en ligne.',
           items: [
-            'Formulaire de contact',
-            'Numéro de téléphone et adresse email',
-            'Adresse physique si besoin',
-            'Horaires',
-            'Liens vers les réseaux sociaux',
-            'Carte ou informations d’accès si pertinent',
+            'Formulaire de demande adapté à votre métier',
+            'Devis préparé et envoyé depuis votre espace',
+            'Acceptation en ligne et acompte à la signature',
+            'Suivi des statuts : envoyé, accepté, refusé',
           ],
         },
         {
-          title: 'Pages utiles et légales',
-          text: 'Selon votre activité, le site intègre les pages nécessaires.',
+          title: 'Gestion des horaires',
+          text: 'Vos horaires et disponibilités se gèrent à un seul endroit et se mettent à jour partout sur le site.',
           items: [
-            'Mentions légales',
-            'Politique de confidentialité',
-            'Politique de cookies si nécessaire',
-            'Conditions générales et d’utilisation',
-            'Informations réglementaires utiles au secteur',
-            'FAQ ou informations pratiques',
+            'Horaires d’ouverture et services',
+            'Disponibilités par prestation ou par membre de l’équipe',
+            'Congés et fermetures exceptionnelles',
+            'Bandeau d’information sur le site en un clic',
+          ],
+        },
+        {
+          title: 'Panneau d’administration',
+          text: 'Un espace simple et rapide pour piloter votre activité au quotidien.',
+          items: [
+            'Réservations, acomptes et devis',
+            'Fiches clients et historique',
+            'Prestations, tarifs, textes et photos',
+            'Pages légales et conditions générales',
           ],
         },
       ],
     },
     admin: {
       eyebrow: 'Administration',
-      title: 'Votre site, toujours à jour.',
+      title: 'Votre activité, sous contrôle.',
       text:
-        'Un espace d’administration vous permet de gérer vos contenus importants sans passer par un développeur pour chaque modification.',
-      itemsTitle: 'Vous modifiez facilement :',
+        'Un panneau d’administration pensé pour le quotidien : vous gérez votre activité sans passer par un développeur.',
+      itemsTitle: 'Depuis votre espace, vous gérez :',
       items: [
-        'Les textes principaux',
-        'Les titres et sous-titres',
-        'Les images de la galerie',
-        'Les coordonnées de contact',
-        'Les horaires',
-        'L’adresse',
-        'Les liens vers les réseaux sociaux',
-        'Les prestations et catégories',
-        'Les pages légales',
-        'Les conditions générales',
-        'Les informations pratiques',
+        'Les réservations',
+        'Les acomptes et paiements',
+        'Les devis',
+        'Les horaires et disponibilités',
+        'Les fermetures exceptionnelles',
+        'Les prestations et tarifs',
+        'Les fiches clients',
+        'Les textes et photos',
+        'La galerie ou le portfolio',
+        'Les coordonnées et réseaux sociaux',
+        'Les pages légales et CGV',
       ],
       points: [
-        { title: 'Un site toujours à jour', text: 'Vos informations restent exactes, même quand votre activité évolue.' },
-        { title: 'Votre autonomie', text: 'Vous gardez la main sur vos contenus, sans délai ni surcoût.' },
+        { icon: 'refresh-cw', title: 'Toujours à jour', text: 'Horaires, disponibilités ou tarifs changent ? Le site suit immédiatement.' },
+        { icon: 'key-round', title: 'Votre autonomie', text: 'Vous gardez la main sur vos réservations, vos paiements et vos contenus.' },
       ],
       note:
-        'En restauration, dans la beauté ou le tatouage, cette autonomie fait la différence : horaires, visuels, périodes de fermeture et prestations évoluent régulièrement.',
+        'En restauration, dans la beauté ou le tatouage, cette autonomie fait la différence : services, créneaux, périodes de fermeture et prestations évoluent sans cesse.',
     },
     comparison: {
       eyebrow: 'Comparatif',
       title: 'Le juste équilibre.',
       text:
-        'Beaucoup de solutions imposent soit de tout faire soi-même, soit de dépendre d’un prestataire pour la moindre modification. Cette offre équilibre image de marque, simplicité d’usage et autonomie.',
+        'Assembler plusieurs outils soi-même prend du temps ; dépendre d’une plateforme de réservation impose son image et ses conditions. Subnet réunit le meilleur des deux.',
       columns: {
         criterion: 'Critère',
-        diy: 'Outil à faire soi-même',
-        agency: 'Agence classique',
+        diy: 'Site + outils à assembler',
+        platform: 'Plateforme de réservation',
         ours: 'Subnet',
       },
       rows: [
-        { criterion: 'Mise en place', diy: 'Souvent longue', agency: 'Variable', ours: 'Structurée et pensée pour aller à l’essentiel' },
-        { criterion: 'Qualité du rendu', diy: 'Dépend fortement de l’utilisateur', agency: 'Souvent bonne, mais plus coûteuse', ours: 'Premium, sobre et professionnelle' },
-        { criterion: 'Simplicité', diy: 'Peut devenir complexe', agency: 'Bonne côté client, mais dépendance forte', ours: 'Simple à utiliser après la mise en place' },
-        { criterion: 'Modifications du contenu', diy: 'À gérer seul', agency: 'Souvent facturées ou dépendantes du prestataire', ours: 'Gérables depuis l’espace d’administration' },
-        { criterion: 'Galerie et visuels', diy: 'Pas toujours optimisés', agency: 'Selon la prestation', ours: 'Pensés comme des éléments centraux' },
-        { criterion: 'Pages légales et infos utiles', diy: 'Souvent oubliées', agency: 'Variables', ours: 'Intégrées dans la structure du site' },
-        { criterion: 'Adaptation métier', diy: 'Souvent générique', agency: 'Oui', ours: 'Oui, avec une approche ciblée par activité' },
+        { criterion: 'Réservation en ligne', diy: 'Extension à configurer soi-même', platform: 'Oui, sur l’interface de la plateforme', ours: 'Intégrée à votre site, à vos couleurs' },
+        { criterion: 'Acompte', diy: 'Rarement prévu', platform: 'Selon la plateforme et ses conditions', ours: 'Paiement sécurisé à la réservation' },
+        { criterion: 'Devis', diy: 'Formulaire basique', platform: 'Rarement proposé', ours: 'Demande, envoi et acceptation en ligne' },
+        { criterion: 'Horaires et disponibilités', diy: 'À mettre à jour à plusieurs endroits', platform: 'Gérés sur la plateforme', ours: 'Gérés une fois, à jour partout' },
+        { criterion: 'Image de marque', diy: 'Dépend fortement de l’utilisateur', platform: 'Celle de la plateforme', ours: 'La vôtre, premium et cohérente' },
+        { criterion: 'Relation client', diy: 'Dispersée entre plusieurs outils', platform: 'Partagée avec la plateforme', ours: 'Vos clients et vos données restent chez vous' },
+        { criterion: 'Administration', diy: 'Plusieurs interfaces', platform: 'Interface imposée', ours: 'Un seul panneau, pensé pour vous' },
       ],
     },
     design: {
       eyebrow: 'Design',
       title: 'Une esthétique maîtrisée.',
-      text: 'Un design épuré, une typographie soignée et des espaces qui respirent, pour mettre votre contenu au premier plan.',
+      text:
+        'Un design épuré, une typographie soignée et des parcours limpides : réserver, payer ou demander un devis devient évident.',
       items: [
         'Une grande clarté de lecture',
         'Des compositions propres',
         'Une hiérarchie visuelle forte',
         'Des visuels valorisés par l’espace',
         'Une esthétique premium mais discrète',
-        'Des interfaces simples à comprendre',
+        'Des parcours simples à comprendre',
         'Un sentiment de qualité et de maîtrise',
       ],
       closing:
@@ -397,13 +427,13 @@ export const defaults = {
       title: 'Ce que vous y gagnez.',
       text: '',
       items: [
-        'Un site professionnel, moderne et cohérent avec l’image de votre activité',
-        'Une vitrine claire et rassurante',
-        'Vos photos, réalisations ou votre lieu mis en valeur',
-        'Une prise de contact facilitée',
-        'Des informations utiles centralisées',
-        'La main sur vos contenus grâce à l’espace d’administration',
-        'Un site durable, lisible et pensé pour inspirer confiance',
+        'Des réservations prises à toute heure, sans décrocher le téléphone',
+        'Moins de rendez-vous non honorés grâce à l’acompte',
+        'Des devis envoyés et acceptés plus rapidement',
+        'Des horaires et disponibilités toujours à jour',
+        'Un seul espace pour gérer toute votre activité',
+        'Votre image de marque, pas celle d’une plateforme',
+        'Un site rapide, sécurisé et pensé pour inspirer confiance',
       ],
     },
   },
@@ -413,12 +443,12 @@ export const defaults = {
       eyebrow: 'Secteurs',
       title: 'Pensé pour votre métier.',
       subtitle:
-        'Restaurant, studio de tatouage, institut ou entreprise : la structure et le ton s’adaptent à votre activité.',
+        'Réservation de table, demande de projet, rendez-vous ou devis : les fonctionnalités et le ton s’adaptent à votre activité.',
     },
     note: {
       title: 'Commerce ou activité de service ?',
       text:
-        'L’offre s’adresse aussi aux commerces et activités de service qui souhaitent un site vitrine moderne, administrable et durable.',
+        'L’offre s’adresse aussi aux commerces et aux activités de service : réservation, acompte, devis et gestion des horaires s’adaptent à votre fonctionnement.',
     },
   },
 
@@ -429,24 +459,23 @@ export const defaults = {
       name: 'Restaurateurs',
       icon: 'utensils',
       tone: 'Chaleureux et raffiné',
-      title: 'Donnez envie de pousser la porte.',
+      title: 'Vos tables se réservent, même en plein service.',
       intro:
-        'Un site qui met en avant l’univers de votre restaurant, votre carte et vos informations pratiques, pour transformer la curiosité en réservation.',
-      highlightsTitle: 'Ce que votre site met en avant',
+        'Un site élégant qui donne envie de venir, avec la réservation de table en ligne, l’acompte pour les groupes et vos horaires toujours à jour.',
+      highlightsTitle: 'Ce que votre site gère pour vous',
       highlights: [
-        'L’univers de votre restaurant',
-        'La carte ou vos spécialités',
-        'Les photos du lieu et des plats',
-        'Vos horaires',
-        'Les informations de réservation',
-        'L’adresse et l’accès',
-        'Les événements et menus spéciaux',
+        'Réservation de table selon vos services et votre capacité',
+        'Acompte pour les groupes, privatisations et soirées spéciales',
+        'Demandes de devis pour les événements et privatisations',
+        'Horaires des services et fermetures exceptionnelles',
+        'Carte, menus du moment et photos modifiables',
+        'Planning des réservations et des couverts dans votre espace',
       ],
-      galleryTitle: 'Une galerie qui met en appétit',
-      galleryText: 'Les plats, le lieu et l’ambiance, présentés avec élégance.',
-      autonomyTitle: 'Toujours à jour',
-      autonomyText:
-        'Horaires, menus du moment, fermetures exceptionnelles : mettez-les à jour vous-même, en quelques secondes.',
+      features: [
+        { icon: 'calendar-check', title: 'Réservation de table', text: 'Date, heure et nombre de couverts : vos clients réservent et reçoivent une confirmation immédiate.' },
+        { icon: 'credit-card', title: 'Acompte pour les groupes', text: 'Sécurisez les grandes tablées et les soirées spéciales avec un acompte réglé en ligne.' },
+        { icon: 'clock', title: 'Services et horaires', text: 'Midi, soir, fermetures exceptionnelles : votre site et vos créneaux restent synchronisés.' },
+      ],
       image: '/assets/images/concepts/restaurant-desktop.webp',
       mobileImage: '/assets/images/concepts/restaurant-mobile.webp',
     },
@@ -456,23 +485,23 @@ export const defaults = {
       name: 'Tatoueurs & tatoueuses',
       icon: 'pen-tool',
       tone: 'Artistique et pointu',
-      title: 'Un portfolio à la hauteur de votre style.',
+      title: 'Du projet à la séance, sans aller-retour.',
       intro:
-        'Un site pensé comme un portfolio premium, qui valorise votre style artistique et simplifie les demandes de projet.',
-      highlightsTitle: 'Ce que votre site met en avant',
+        'Un portfolio premium qui valorise votre style, avec la demande de projet, le devis, l’acompte et la réservation de séance réunis sur votre site.',
+      highlightsTitle: 'Ce que votre site gère pour vous',
       highlights: [
-        'Votre style artistique',
-        'Une galerie classée par style ou par projet',
-        'La présentation du ou des artistes',
-        'Un formulaire de demande de projet',
-        'Les informations de prise de rendez-vous',
-        'Les consignes et informations utiles au client',
+        'Demande de projet détaillée : zone, taille, style, références',
+        'Devis envoyé depuis votre espace et accepté en ligne',
+        'Acompte versé à la réservation de la séance',
+        'Agenda des séances et disponibilités par artiste',
+        'Portfolio classé par style ou par projet',
+        'Consignes avant et après la séance',
       ],
-      galleryTitle: 'Un portfolio qui parle pour vous',
-      galleryText: 'Vos réalisations et vos styles, classés pour guider vos futurs clients.',
-      autonomyTitle: 'Toujours à jour',
-      autonomyText:
-        'Ajoutez vos dernières pièces, ouvrez vos réservations, précisez vos consignes : tout se gère depuis votre espace.',
+      features: [
+        { icon: 'file-text', title: 'Demande de projet et devis', text: 'Les demandes arrivent complètes : vous chiffrez, envoyez le devis, le client l’accepte en ligne.' },
+        { icon: 'credit-card', title: 'Acompte à la réservation', text: 'La séance est confirmée une fois l’acompte réglé : fini les rendez-vous oubliés.' },
+        { icon: 'calendar-check', title: 'Agenda des séances', text: 'Vos disponibilités et celles de vos artistes, gérées depuis un seul espace.' },
+      ],
       image: '/assets/images/concepts/tatouage-desktop.webp',
       mobileImage: '/assets/images/concepts/tatouage-mobile.webp',
     },
@@ -482,25 +511,23 @@ export const defaults = {
       name: 'Instituts & bien-être',
       icon: 'flower-2',
       tone: 'Doux et élégant',
-      title: 'L’expérience commence dès votre site.',
+      title: 'Votre agenda se remplit tout seul.',
       intro:
-        'Un site qui reflète l’ambiance de votre institut, présente clairement vos prestations et facilite la prise de rendez-vous.',
-      highlightsTitle: 'Ce que votre site met en avant',
+        'Un site qui reflète l’ambiance de votre institut, avec la prise de rendez-vous en ligne par prestation, l’acompte et vos horaires toujours à jour.',
+      highlightsTitle: 'Ce que votre site gère pour vous',
       highlights: [
-        'La présentation de votre institut',
-        'Vos prestations',
-        'L’ambiance du lieu',
-        'Une galerie',
-        'Vos horaires',
-        'Les moyens de contact',
-        'Les informations de réservation',
-        'Des conseils ou une FAQ utile',
+        'Prise de rendez-vous en ligne par prestation et par durée',
+        'Acompte ou paiement à la réservation',
+        'Horaires, créneaux, congés et fermetures exceptionnelles',
+        'Carte des soins et tarifs modifiables',
+        'Confirmations et rappels automatiques par email',
+        'Planning et fiches clients dans votre espace',
       ],
-      galleryTitle: 'Une galerie tout en douceur',
-      galleryText: 'L’espace, les soins, les résultats ou l’univers de votre marque.',
-      autonomyTitle: 'Toujours à jour',
-      autonomyText:
-        'Nouvelles prestations, horaires ou périodes de fermeture : votre site suit l’évolution de votre institut.',
+      features: [
+        { icon: 'calendar-check', title: 'Rendez-vous en ligne', text: 'Vos clientes choisissent leur soin et un créneau disponible, à toute heure.' },
+        { icon: 'credit-card', title: 'Acompte sécurisé', text: 'Un acompte à la réservation limite les absences et les annulations tardives.' },
+        { icon: 'bell', title: 'Rappels automatiques', text: 'Une confirmation puis un rappel par email avant chaque rendez-vous.' },
+      ],
       image: '/assets/images/concepts/institut-desktop.webp',
       mobileImage: '/assets/images/concepts/institut-mobile.webp',
     },
@@ -510,25 +537,23 @@ export const defaults = {
       name: 'TPE & PME',
       icon: 'briefcase',
       tone: 'Institutionnel et rassurant',
-      title: 'Une image à la hauteur de votre sérieux.',
+      title: 'Du devis à l’acompte, tout se passe en ligne.',
       intro:
-        'Un site plus institutionnel et commercial, qui présente votre entreprise, vos services et vos réalisations, et génère des demandes de devis.',
-      highlightsTitle: 'Ce que votre site met en avant',
+        'Un site institutionnel et commercial qui présente votre entreprise, reçoit des demandes de devis complètes et sécurise vos commandes avec un acompte.',
+      highlightsTitle: 'Ce que votre site gère pour vous',
       highlights: [
-        'La présentation de votre entreprise',
-        'Vos services',
-        'Vos réalisations',
-        'Vos valeurs',
-        'Vos coordonnées',
-        'Les demandes de devis',
-        'Les pages légales et administratives',
-        'Un site administrable qui suit l’évolution de votre activité',
+        'Demandes de devis structurées selon vos services',
+        'Devis préparés, envoyés et suivis depuis votre espace',
+        'Acompte à l’acceptation du devis ou à la commande',
+        'Prise de rendez-vous ou planification d’interventions',
+        'Présentation de l’entreprise, des services et des réalisations',
+        'Pages légales et conditions générales intégrées',
       ],
-      galleryTitle: 'Vos preuves, en images',
-      galleryText: 'Chantiers, produits, réalisations ou cas clients.',
-      autonomyTitle: 'Toujours à jour',
-      autonomyText:
-        'Vos services, réalisations et informations évoluent ? Votre site aussi, sans attendre un prestataire.',
+      features: [
+        { icon: 'file-text', title: 'Devis en ligne', text: 'Demande, chiffrage, envoi et acceptation : chaque devis est suivi de bout en bout.' },
+        { icon: 'credit-card', title: 'Acompte à la commande', text: 'Le client accepte le devis et règle l’acompte en ligne, en toute sécurité.' },
+        { icon: 'calendar-check', title: 'Rendez-vous et interventions', text: 'Visites, rendez-vous ou chantiers planifiés selon vos disponibilités.' },
+      ],
       image: '/assets/images/concepts/pme-desktop.webp',
       mobileImage: '/assets/images/concepts/pme-mobile.webp',
     },
@@ -539,7 +564,7 @@ export const defaults = {
       eyebrow: 'Réalisations',
       title: 'Des univers, pas des modèles.',
       subtitle:
-        'Chaque site part de la même exigence de clarté, puis s’adapte à l’univers de son activité.',
+        'Chaque site part de la même exigence de clarté, puis s’adapte à l’univers et au fonctionnement de son activité.',
     },
     emptyText: 'Les premières réalisations arrivent très bientôt.',
   },
@@ -552,7 +577,7 @@ export const defaults = {
       badge: 'Concept',
       sector: 'restaurateurs',
       description:
-        'Un univers chaleureux et raffiné : la carte de saison, l’ambiance du lieu et la réservation mises en avant dès l’accueil.',
+        'Réservation de table en ligne, acompte pour les groupes, carte et horaires gérés depuis le panneau d’administration.',
       image: '/assets/images/concepts/restaurant-desktop.webp',
       url: '',
     },
@@ -563,7 +588,7 @@ export const defaults = {
       badge: 'Concept',
       sector: 'tatoueurs',
       description:
-        'Un portfolio artistique et pointu : galerie classée par style, présentation des artistes et demande de projet en ligne.',
+        'Portfolio classé par style, demande de projet, devis accepté en ligne et acompte à la réservation de la séance.',
       image: '/assets/images/concepts/tatouage-desktop.webp',
       url: '',
     },
@@ -574,7 +599,7 @@ export const defaults = {
       badge: 'Concept',
       sector: 'instituts',
       description:
-        'Une ambiance douce et élégante : prestations claires, univers apaisant et prise de rendez-vous facilitée.',
+        'Prise de rendez-vous par soin, acompte sécurisé, rappels automatiques et planning dans l’espace d’administration.',
       image: '/assets/images/concepts/institut-desktop.webp',
       url: '',
     },
@@ -585,7 +610,7 @@ export const defaults = {
       badge: 'Concept',
       sector: 'tpe-pme',
       description:
-        'Une présence institutionnelle et rassurante : savoir-faire, réalisations, valeurs et demandes de devis.',
+        'Demandes de devis détaillées, devis acceptés en ligne avec acompte à la commande, réalisations et savoir-faire.',
       image: '/assets/images/concepts/pme-desktop.webp',
       url: '',
     },
@@ -603,47 +628,58 @@ export const defaults = {
     {
       question: 'À qui s’adresse cette offre ?',
       answer:
-        'Aux restaurateurs, tatoueurs et tatoueuses, instituts de beauté et de bien-être, TPE et PME, ainsi qu’aux commerces et activités de service qui souhaitent un site vitrine moderne, administrable et durable.',
+        'Aux restaurateurs, tatoueurs et tatoueuses, instituts de beauté et de bien-être, TPE et PME, ainsi qu’aux commerces et activités de service qui veulent un site complet : réservation, acompte, devis, gestion des horaires et panneau d’administration.',
     },
     {
-      question: 'Pourrai-je modifier mon site moi-même ?',
+      question: 'Comment fonctionne la réservation en ligne ?',
       answer:
-        'Oui. Un espace d’administration vous permet de modifier vos textes, titres, images de galerie, coordonnées, horaires, adresse, liens vers les réseaux sociaux, prestations et pages légales, sans passer par un développeur.',
+        'Vos clients choisissent une prestation, une date et un créneau disponible, calculé à partir de vos horaires et de vos disponibilités. Ils reçoivent une confirmation par email, et la réservation apparaît aussitôt dans votre panneau d’administration.',
     },
     {
-      question: 'Quelles pages contiendra mon site ?',
+      question: 'Comment fonctionne l’acompte ?',
       answer:
-        'La structure s’adapte à votre métier. Une base efficace comprend généralement une page d’accueil, une page services, une galerie ou un portfolio, une page contact et les pages légales utiles à votre activité.',
+        'L’acompte est réglé en ligne par carte bancaire, via un prestataire de paiement sécurisé, au moment de la réservation ou de l’acceptation d’un devis. Vous choisissez le montant (fixe ou en pourcentage) et vos conditions d’annulation.',
+    },
+    {
+      question: 'Puis-je envoyer des devis depuis mon site ?',
+      answer:
+        'Oui. Les demandes arrivent via un formulaire adapté à votre métier. Vous préparez et envoyez le devis depuis votre espace, et votre client l’accepte en ligne, avec un acompte si vous le souhaitez.',
+    },
+    {
+      question: 'Puis-je modifier mes horaires et mes disponibilités moi-même ?',
+      answer:
+        'Oui. Horaires d’ouverture, créneaux, congés et fermetures exceptionnelles se modifient en quelques secondes depuis le panneau d’administration : le site et les réservations s’adaptent immédiatement.',
+    },
+    {
+      question: 'Que contient le panneau d’administration ?',
+      answer:
+        'Vos réservations, acomptes, devis et fiches clients, ainsi que tous les contenus du site : textes, photos, prestations, tarifs, horaires, coordonnées et pages légales.',
+    },
+    {
+      question: 'À qui appartiennent les données de mes clients ?',
+      answer:
+        'À vous. Contrairement à une plateforme de réservation, la relation client reste sur votre site et dans votre espace d’administration.',
     },
     {
       question: 'Mon site sera-t-il adapté aux mobiles ?',
-      answer: 'Oui. Chaque site est pensé pour une consultation confortable sur ordinateur, tablette et mobile.',
-    },
-    {
-      question: 'Mon site ressemblera-t-il à celui des autres ?',
       answer:
-        'Non. La base visuelle reste minimaliste pour mieux laisser s’exprimer votre univers : chaleureux et raffiné pour un restaurant, artistique et pointu pour un tatoueur, doux et élégant pour un institut, institutionnel et rassurant pour une PME.',
-    },
-    {
-      question: 'Les pages légales sont-elles prévues ?',
-      answer:
-        'Oui. Mentions légales, politique de confidentialité, conditions générales ou informations réglementaires : elles sont intégrées à la structure du site et modifiables depuis l’espace d’administration.',
+        'Oui. Chaque site est pensé d’abord pour le mobile : vos clients réservent, paient ou demandent un devis en quelques gestes.',
     },
     {
       question: 'Comment se déroule un projet ?',
       answer:
-        'Nous échangeons d’abord sur votre activité et vos objectifs. Nous définissons ensuite la structure du site, puis nous le concevons et le mettons en ligne. Vous recevez enfin vos accès à l’espace d’administration.',
+        'Nous échangeons d’abord sur votre activité et votre façon de travailler, puis nous définissons ensemble les fonctionnalités utiles. Nous concevons ensuite le site, le testons avec vous et le mettons en ligne. Vous recevez enfin vos accès au panneau d’administration.',
     },
     {
       question: 'Combien coûte un site ?',
       answer:
-        'Chaque projet est différent. Présentez-nous votre activité et vos besoins : nous vous adressons un devis clair et détaillé.',
+        'Chaque projet dépend des fonctionnalités choisies. Présentez-nous votre activité et vos besoins : nous vous adressons un devis clair et détaillé.',
     },
   ],
 
   cta: {
     title: 'Parlons de votre projet.',
-    text: 'Présentez-nous votre activité et vos objectifs. Nous vous proposons une structure adaptée et un devis clair.',
+    text: 'Présentez-nous votre activité et les fonctionnalités dont vous avez besoin : nous vous proposons une solution adaptée et un devis clair.',
     buttonLabel: 'Demander un devis',
     buttonLink: '/contact',
   },

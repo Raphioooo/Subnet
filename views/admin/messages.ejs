@@ -33,6 +33,7 @@
           <% if (m.phone) { %><div><dt>Téléphone</dt><dd><a href="<%= telHref(m.phone) %>"><%= m.phone %></a></dd></div><% } %>
           <% if (m.company) { %><div><dt>Entreprise</dt><dd><%= m.company %></dd></div><% } %>
           <% if (m.sector) { %><div><dt>Activité</dt><dd><%= sectorLabel(m.sector) %></dd></div><% } %>
+          <% if (m.modules && m.modules.length) { %><div class="message__modules"><dt>Fonctionnalités souhaitées</dt><dd><% for (const mod of m.modules) { %><span class="tag"><%= mod %></span><% } %></dd></div><% } %>
           <div><dt>Reçu</dt><dd><%= formatDate(m.createdAt) %></dd></div>
         </dl>
         <p class="message__text"><%- nl2br(m.message) %></p>

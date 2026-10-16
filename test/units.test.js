@@ -3,7 +3,10 @@ import assert from 'node:assert/strict';
 import { applyTokens, renderMarkdown } from '../src/markdown.js';
 import { sanitizeObject } from '../src/sanitize.js';
 import { frenchTypography, telHref } from '../src/helpers.js';
-import { mergeDefaults } from '../src/store.js';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { Store, mergeDefaults } from '../src/store.js';
 import { Auth } from '../src/auth.js';
 import { detectImage } from '../src/routes/admin.js';
 
@@ -83,6 +86,30 @@ describe('utilitaires', () => {
   test('fusion avec les valeurs par défaut', () => {
     const merged = mergeDefaults({ a: 1, b: { c: 2, d: 3 }, list: [1], when: null }, { b: { c: 5 }, list: [], extra: true, when: '2026' });
     assert.deepEqual(merged, { a: 1, b: { c: 5, d: 3 }, list: [], when: '2026' });
+  });
+
+  test('migration des contenus de la première version', async () => {
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'subnet-migration-'));
+    await fs.writeFile(
+      path.join(dir, 'content.json'),
+      JSON.stringify({
+        meta: { version: 1 },
+        site: { name: 'Mon Studio', tagline: 'Sites vitrines' },
+        contact: { email: 'bonjour@studio.fr', page: { title: 'Ancien titre' } },
+        home: { hero: { title: 'L’essentiel, magnifiquement présenté.' } },
+        legal: { identity: { siret: '123' } },
+      }),
+    );
+    const store = new Store(dir);
+    await store.init();
+    const content = store.getContent();
+    assert.equal(content.meta.version, 2);
+    assert.equal(content.site.name, 'Mon Studio');
+    assert.equal(content.contact.email, 'bonjour@studio.fr');
+    assert.equal(content.legal.identity.siret, '123');
+    assert.equal(content.home.hero.title, 'Le site qui fait tourner votre activité.');
+    assert.ok(content.site.tagline.includes('réservation'));
+    await fs.rm(dir, { recursive: true, force: true });
   });
 
   test('détection du format des images', () => {

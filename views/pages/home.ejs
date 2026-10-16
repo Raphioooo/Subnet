@@ -65,8 +65,32 @@
     </div>
   </section>
 
+  <% const j = c.home.journey; if (j.steps.length) { %>
+  <section class="section section--soft" aria-labelledby="parcours">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (j.eyebrow) { %><p class="eyebrow reveal"><%= j.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="parcours"><%= j.title %></h2>
+        <% if (j.text) { %><p class="lead reveal"><%= j.text %></p><% } %>
+      </header>
+      <ol class="journey">
+        <% j.steps.forEach((step, i) => { %>
+        <li class="journey__step reveal">
+          <% if (step.image) { %>
+          <div class="phone phone--static"><div class="phone__screen"><img src="<%= step.image %>" alt="" width="600" height="1300" loading="lazy" decoding="async"></div></div>
+          <% } %>
+          <p class="journey__num"><span><%= i + 1 %></span></p>
+          <h3 class="h4"><%= step.title %></h3>
+          <% if (step.text) { %><p><%= step.text %></p><% } %>
+        </li>
+        <% }) %>
+      </ol>
+    </div>
+  </section>
+  <% } %>
+
   <% const s = c.home.sectors; -%>
-  <section class="section section--soft" aria-labelledby="secteurs">
+  <section class="section" aria-labelledby="secteurs">
     <div class="container">
       <header class="section-head section-head--center">
         <% if (s.eyebrow) { %><p class="eyebrow reveal"><%= s.eyebrow %></p><% } %>
@@ -83,7 +107,7 @@
   </section>
 
   <% const o = c.home.offer; -%>
-  <section class="section" aria-labelledby="offre">
+  <section class="section section--soft" aria-labelledby="offre">
     <div class="container">
       <header class="section-head">
         <% if (o.eyebrow) { %><p class="eyebrow reveal"><%= o.eyebrow %></p><% } %>
@@ -95,7 +119,7 @@
     </div>
   </section>
 
-  <% const a = c.home.admin; const pointIcons = ['refresh-cw', 'key-round', 'shield-check', 'zap']; -%>
+  <% const a = c.home.admin; -%>
   <section class="section section--dark" aria-labelledby="administration">
     <div class="container">
       <header class="section-head section-head--center">
@@ -117,7 +141,7 @@
       <div class="points">
         <% a.points.forEach((pt, i) => { %>
         <div class="point reveal">
-          <span class="point__icon"><%- icon(pointIcons[i % pointIcons.length], { size: 22 }) %></span>
+          <span class="point__icon"><%- icon(pt.icon || 'check', { size: 22 }) %></span>
           <div>
             <h3 class="h4"><%= pt.title %></h3>
             <% if (pt.text) { %><p><%= pt.text %></p><% } %>
@@ -128,7 +152,7 @@
     </div>
   </section>
 
-  <% const w = c.home.why; const whyIcons = ['gem', 'sliders-horizontal', 'target', 'shield-check']; -%>
+  <% const w = c.home.why; -%>
   <section class="section" aria-labelledby="pourquoi">
     <div class="container">
       <header class="section-head section-head--center">
@@ -139,7 +163,7 @@
       <div class="card-grid card-grid--<%= Math.min(w.items.length, 4) %>">
         <% w.items.forEach((item, i) => { %>
         <div class="card reveal">
-          <span class="card__icon"><%- icon(whyIcons[i % whyIcons.length], { size: 26 }) %></span>
+          <span class="card__icon"><%- icon(item.icon || 'check', { size: 26 }) %></span>
           <h3 class="h3"><%= item.title %></h3>
           <% if (item.text) { %><p><%= item.text %></p><% } %>
         </div>

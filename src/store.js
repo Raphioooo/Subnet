@@ -24,8 +24,23 @@ export function mergeDefaults(def, saved) {
   return typeof saved === typeof def ? saved : def;
 }
 
+// Version 1 : offre « site vitrine ». Les textes de présentation sont remplacés
+// par ceux de l'offre actuelle ; les informations propres à l'entreprise sont conservées.
+function migrate(raw) {
+  if (!isPlainObject(raw) || (raw.meta?.version ?? 1) >= defaults.meta.version) return raw;
+  const { page, ...contact } = isPlainObject(raw.contact) ? raw.contact : {};
+  return {
+    meta: raw.meta,
+    site: isPlainObject(raw.site) ? { ...raw.site, tagline: undefined, description: undefined } : undefined,
+    contact,
+    projects: raw.projects,
+    legal: isPlainObject(raw.legal) ? { identity: raw.legal.identity } : undefined,
+  };
+}
+
 function normalizeContent(raw) {
-  const content = mergeDefaults(defaults, raw);
+  const content = mergeDefaults(defaults, migrate(raw));
+  content.meta.version = defaults.meta.version;
   // Les secteurs ont des adresses fixes : on garantit leur présence
   // tout en conservant l'ordre choisi dans l'administration.
   const saved = (content.sectors || []).filter((s, i, all) => SECTOR_SLUGS.includes(s?.slug) && all.findIndex((x) => x?.slug === s.slug) === i);

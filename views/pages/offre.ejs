@@ -41,7 +41,6 @@
     </div>
   </section>
 
-  <% const pointIcons = ['refresh-cw', 'key-round', 'shield-check', 'zap']; -%>
   <section class="section section--dark" id="administration" aria-labelledby="admin-titre">
     <div class="container">
       <header class="section-head">
@@ -59,7 +58,7 @@
         <div class="stack">
           <% o.admin.points.forEach((pt, i) => { %>
           <div class="point reveal">
-            <span class="point__icon"><%- icon(pointIcons[i % pointIcons.length], { size: 22 }) %></span>
+            <span class="point__icon"><%- icon(pt.icon || 'check', { size: 22 }) %></span>
             <div>
               <h3 class="h4"><%= pt.title %></h3>
               <% if (pt.text) { %><p><%= pt.text %></p><% } %>

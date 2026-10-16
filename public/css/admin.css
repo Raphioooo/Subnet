@@ -1465,6 +1465,17 @@ a.stat:hover {
   overflow-wrap: anywhere;
 }
 
+.message__modules {
+  grid-column: 1 / -1;
+}
+
+.message__modules dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
 .message__text {
   padding: 14px 16px;
   border-radius: 12px;

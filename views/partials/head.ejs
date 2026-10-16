@@ -36,11 +36,11 @@
 <body>
 <a class="skip-link" href="#contenu">Aller au contenu</a>
 <% if (site.notice.enabled && site.notice.text) { %>
-<div class="notice">
+<aside class="notice" aria-label="Information">
   <div class="container notice__inner">
     <span><%= site.notice.text %></span>
     <% if (site.notice.link) { %><a href="<%= site.notice.link %>"><%= site.notice.linkLabel || 'En savoir plus' %><%- icon('chevron-right', { size: 14, strokeWidth: 2 }) %></a><% } %>
   </div>
-</div>
+</aside>
 <% } %>
 <%- include('header') %>

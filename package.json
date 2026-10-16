@@ -1,7 +1,7 @@
 {
   "name": "subnet",
   "version": "1.0.0",
-  "description": "Site vitrine de Subnet : création de sites internet minimalistes, premium et administrables.",
+  "description": "Site de Subnet : création de sites sur mesure avec réservation en ligne, acompte, devis, gestion des horaires et panneau d’administration.",
   "private": true,
   "type": "module",
   "main": "server.js",

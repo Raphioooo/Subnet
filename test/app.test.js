@@ -54,13 +54,13 @@ after(async () => {
 describe('site public', () => {
   test('toutes les pages répondent', async () => {
     const pages = {
-      '/': 'L’essentiel, magnifiquement présenté.',
-      '/offre': 'Un site vitrine pensé comme un outil.',
+      '/': 'Le site qui fait tourner votre activité.',
+      '/offre': 'Un site complet, pensé pour votre activité.',
       '/secteurs': 'Pensé pour votre métier.',
-      '/secteurs/restaurateurs': 'Donnez envie de pousser la porte.',
-      '/secteurs/tatoueurs': 'Un portfolio à la hauteur de votre style.',
-      '/secteurs/instituts': 'L’expérience commence dès votre site.',
-      '/secteurs/tpe-pme': 'Une image à la hauteur de votre sérieux.',
+      '/secteurs/restaurateurs': 'Vos tables se réservent, même en plein service.',
+      '/secteurs/tatoueurs': 'Du projet à la séance, sans aller-retour.',
+      '/secteurs/instituts': 'Votre agenda se remplit tout seul.',
+      '/secteurs/tpe-pme': 'Du devis à l’acompte, tout se passe en ligne.',
       '/realisations': 'Maison Olive',
       '/faq': 'Questions fréquentes.',
       '/contact': 'Parlons de votre projet.',
@@ -114,26 +114,35 @@ describe('site public', () => {
 });
 
 describe('formulaire de contact', () => {
+  test('le formulaire propose les fonctionnalités', async () => {
+    const html = await (await request('/contact')).text();
+    assert.equal((html.match(/name="modules"/g) || []).length, 6);
+    assert.ok(html.includes('Paiement d’acompte'));
+  });
+
   test('envoi valide : message enregistré', async () => {
     const token = await contactToken();
+    const body = new URLSearchParams({
+      name: 'Camille Martin',
+      email: 'Camille@Exemple.fr',
+      phone: '06 12 34 56 78',
+      company: 'Le Comptoir',
+      sector: 'restaurateurs',
+      message: 'Bonjour, je souhaite un site avec réservation pour mon restaurant.',
+      token,
+    });
+    for (const value of ['0', '1', '1', '99', 'x']) body.append('modules', value);
     const res = await request('/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        name: 'Camille Martin',
-        email: 'Camille@Exemple.fr',
-        phone: '06 12 34 56 78',
-        company: 'Le Comptoir',
-        sector: 'restaurateurs',
-        message: 'Bonjour, je souhaite un site pour mon restaurant.',
-        token,
-      }),
+      body,
     });
     assert.equal(res.status, 303);
     assert.equal(res.headers.get('location'), '/contact?envoye=1#formulaire');
     const [message] = app.ctx.store.listMessages();
     assert.equal(message.name, 'Camille Martin');
     assert.equal(message.email, 'camille@exemple.fr');
+    assert.deepEqual(message.modules, ['Réservation en ligne', 'Paiement d’acompte']);
     assert.equal(message.read, false);
     const confirmation = await (await request('/contact?envoye=1')).text();
     assert.ok(confirmation.includes('Message envoyé'));
@@ -233,7 +242,16 @@ describe('administration', () => {
       { email: 'bonjour@subnet.fr', phone: '06 00 00 00 00', address: '1 rue de Paris\n75001 Paris', area: 'France entière' },
       { hours: [{ label: 'Lundi – vendredi', value: '9 h – 18 h' }, { label: '', value: '' }] },
       { socials: [{ network: 'instagram', url: 'instagram.com/subnet' }] },
-      { eyebrow: 'Contact', title: 'Écrivez-nous.', intro: 'Intro', infoTitle: 'Coordonnées', success: 'Merci', privacy: 'Données protégées' },
+      {
+        eyebrow: 'Contact',
+        title: 'Écrivez-nous.',
+        intro: 'Intro',
+        modulesLabel: 'Besoins',
+        modules: ['Réservation', '', 'Acompte'],
+        infoTitle: 'Coordonnées',
+        success: 'Merci',
+        privacy: 'Données protégées',
+      },
     ];
     const res = await request('/admin/api/pages/contact', {
       method: 'POST',
@@ -248,6 +266,7 @@ describe('administration', () => {
     const html = await (await request('/contact')).text();
     assert.ok(html.includes('bonjour@subnet.fr'));
     assert.ok(html.includes('Écrivez-nous.'));
+    assert.deepEqual(content.contact.page.modules, ['Réservation', 'Acompte']);
     assert.ok(html.includes('href="tel:+33600000000"'));
   });
 

@@ -7,7 +7,15 @@ import { faqJsonLd, organizationJsonLd, renderLegal } from '../helpers.js';
 
 const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
 
-function validateContact(body) {
+// Fonctionnalités cochées : indices de la liste proposée, convertis en libellés.
+function selectedModules(raw, available) {
+  const list = (Array.isArray(raw) ? raw : raw ? [raw] : []).map(String);
+  const indices = [...new Set(list.filter((v) => /^\d{1,2}$/.test(v) && Number(v) < available.length))];
+  return { indices, labels: indices.map((i) => available[Number(i)]) };
+}
+
+function validateContact(body, availableModules = []) {
+  const modules = selectedModules(body.modules, availableModules);
   const values = {
     name: cleanText(body.name, 100),
     email: cleanText(body.email, 200).toLowerCase(),
@@ -15,13 +23,14 @@ function validateContact(body) {
     company: cleanText(body.company, 120),
     sector: CONTACT_SECTOR_OPTIONS.some((o) => o.value === body.sector) ? body.sector : '',
     message: cleanText(body.message, 5000, true),
+    modules: modules.indices,
   };
   const errors = {};
   if (values.name.length < 2) errors.name = 'Indiquez votre nom.';
   if (!isEmail(values.email)) errors.email = 'Indiquez une adresse email valide.';
   if (values.phone && !TEL_RE.test(values.phone)) errors.phone = 'Ce numéro ne semble pas valide.';
   if (values.message.length < 10) errors.message = 'Décrivez votre projet en quelques mots.';
-  return { values, errors };
+  return { values, errors, modules: modules.labels };
 }
 
 export function publicRouter({ config, store, auth, mailer, log }) {
@@ -108,7 +117,7 @@ export function publicRouter({ config, store, auth, mailer, log }) {
 
   router.post('/contact', express.urlencoded({ extended: false, limit: '32kb' }), async (req, res) => {
     const body = req.body || {};
-    const { values, errors } = validateContact(body);
+    const { values, errors, modules } = validateContact(body, store.getContent().contact.page.modules);
 
     // Champ piège invisible : rempli uniquement par les robots.
     if (cleanText(body.website)) return res.redirect(303, '/contact?envoye=1#formulaire');
@@ -129,7 +138,7 @@ export function publicRouter({ config, store, auth, mailer, log }) {
       });
     }
 
-    const message = await store.addMessage(values);
+    const message = await store.addMessage({ ...values, modules });
     mailer.notifyNewMessage(message, store.getContent()).catch((err) => {
       log.error('Email de notification non envoyé :', err.message);
     });

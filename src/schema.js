@@ -42,10 +42,15 @@ export const SOCIAL_OPTIONS = [
 ];
 
 export const ICON_OPTIONS = [
+  ['calendar-check', 'Réservation'], ['calendar-days', 'Calendrier'], ['calendar-clock', 'Créneaux'],
+  ['credit-card', 'Paiement'], ['wallet', 'Acompte'], ['hand-coins', 'Encaissement'], ['badge-euro', 'Tarif'],
+  ['receipt', 'Facture'], ['file-check', 'Devis accepté'], ['clipboard-list', 'Demande'], ['bell', 'Notification'],
+  ['layout-dashboard', 'Tableau de bord'], ['chart-no-axes-column', 'Statistiques'], ['user-round', 'Client'],
+  ['timer', 'Durée'], ['ticket', 'Billet'], ['list-checks', 'Liste'],
   ['house', 'Accueil'], ['layers', 'Services'], ['images', 'Galerie'], ['image', 'Image'],
   ['camera', 'Photo'], ['mail', 'Email'], ['phone', 'Téléphone'], ['message-circle', 'Message'],
   ['info', 'Information'], ['mouse-pointer-click', 'Action'], ['scale', 'Juridique'],
-  ['smartphone', 'Mobile'], ['monitor-smartphone', 'Multi-écrans'], ['calendar', 'Réservation'],
+  ['smartphone', 'Mobile'], ['monitor-smartphone', 'Multi-écrans'], ['calendar', 'Agenda'],
   ['clock', 'Horaires'], ['map-pin', 'Adresse'], ['star', 'Étoile'], ['heart', 'Cœur'],
   ['sparkles', 'Étincelles'], ['gem', 'Premium'], ['shield-check', 'Confiance'],
   ['badge-check', 'Qualité'], ['award', 'Distinction'], ['users', 'Équipe'], ['globe', 'Web'],
@@ -63,6 +68,11 @@ const title = { key: 'title', type: 'text', label: 'Titre', max: 160, required: 
 const text = (label = 'Texte', rows = 3) => ({ key: 'text', type: 'textarea', label, rows, max: 1200 });
 const titleText = () => [
   { key: 'title', type: 'text', label: 'Titre', max: 120, required: true },
+  { key: 'text', type: 'textarea', label: 'Texte', rows: 2, max: 600 },
+];
+const iconTitleText = () => [
+  { key: 'icon', type: 'select', label: 'Icône', options: ICON_OPTIONS, iconPicker: true, half: true },
+  { key: 'title', type: 'text', label: 'Titre', max: 120, required: true, half: true },
   { key: 'text', type: 'textarea', label: 'Texte', rows: 2, max: 600 },
 ];
 const heroFields = [
@@ -174,6 +184,30 @@ export const PAGES = [
         ],
       },
       {
+        title: 'Parcours client',
+        description: 'Les trois étapes de réservation présentées sur la page d’accueil.',
+        path: 'home.journey',
+        fields: [
+          eyebrow,
+          title,
+          text('Texte', 2),
+          {
+            key: 'steps',
+            type: 'repeater',
+            label: 'Étapes',
+            itemLabel: 'title',
+            thumbKey: 'image',
+            addLabel: 'Ajouter une étape',
+            maxItems: 4,
+            fields: [
+              { key: 'title', type: 'text', label: 'Titre', max: 80, required: true },
+              { key: 'text', type: 'textarea', label: 'Texte', rows: 2, max: 300 },
+              { key: 'image', type: 'image', label: 'Capture d’écran (format téléphone)' },
+            ],
+          },
+        ],
+      },
+      {
         title: 'Pour qui',
         description: 'Les cartes des secteurs se modifient dans la rubrique « Secteurs ».',
         path: 'home.sectors',
@@ -193,7 +227,7 @@ export const PAGES = [
           title,
           text(),
           { key: 'image', type: 'image', label: 'Visuel' },
-          { key: 'points', type: 'repeater', label: 'Avantages', itemLabel: 'title', addLabel: 'Ajouter un avantage', maxItems: 4, fields: titleText() },
+          { key: 'points', type: 'repeater', label: 'Avantages', itemLabel: 'title', addLabel: 'Ajouter un avantage', maxItems: 4, fields: iconTitleText() },
         ],
       },
       {
@@ -204,7 +238,7 @@ export const PAGES = [
           title,
           text(),
           { key: 'linkLabel', type: 'text', label: 'Texte du lien', max: 60 },
-          { key: 'items', type: 'repeater', label: 'Arguments', itemLabel: 'title', addLabel: 'Ajouter un argument', maxItems: 4, fields: titleText() },
+          { key: 'items', type: 'repeater', label: 'Arguments', itemLabel: 'title', addLabel: 'Ajouter un argument', maxItems: 4, fields: iconTitleText() },
         ],
       },
       {
@@ -249,7 +283,7 @@ export const PAGES = [
         ],
       },
       {
-        title: 'Structure recommandée',
+        title: 'Modules',
         path: 'offer.structure',
         fields: [
           eyebrow,
@@ -258,9 +292,9 @@ export const PAGES = [
           {
             key: 'steps',
             type: 'repeater',
-            label: 'Pages',
+            label: 'Modules',
             itemLabel: 'title',
-            addLabel: 'Ajouter une page',
+            addLabel: 'Ajouter un module',
             maxItems: 10,
             fields: [
               { key: 'title', type: 'text', label: 'Titre', max: 80, required: true },
@@ -279,7 +313,7 @@ export const PAGES = [
           text(),
           { key: 'itemsTitle', type: 'text', label: 'Titre de la liste', max: 80 },
           { key: 'items', type: 'list', label: 'Contenus modifiables', addLabel: 'Ajouter une ligne', maxItems: 20 },
-          { key: 'points', type: 'repeater', label: 'Avantages', itemLabel: 'title', addLabel: 'Ajouter un avantage', maxItems: 4, fields: titleText() },
+          { key: 'points', type: 'repeater', label: 'Avantages', itemLabel: 'title', addLabel: 'Ajouter un avantage', maxItems: 4, fields: iconTitleText() },
           { key: 'note', type: 'textarea', label: 'Note', rows: 2, max: 600 },
         ],
       },
@@ -297,7 +331,7 @@ export const PAGES = [
             fields: [
               { key: 'criterion', type: 'text', label: 'Colonne 1', max: 40, half: true },
               { key: 'diy', type: 'text', label: 'Colonne 2', max: 40, half: true },
-              { key: 'agency', type: 'text', label: 'Colonne 3', max: 40, half: true },
+              { key: 'platform', type: 'text', label: 'Colonne 3', max: 40, half: true },
               { key: 'ours', type: 'text', label: 'Colonne 4 (mise en avant)', max: 40, half: true },
             ],
           },
@@ -311,7 +345,7 @@ export const PAGES = [
             fields: [
               { key: 'criterion', type: 'text', label: 'Critère', max: 80, required: true },
               { key: 'diy', type: 'text', label: 'Colonne 2', max: 160, half: true },
-              { key: 'agency', type: 'text', label: 'Colonne 3', max: 160, half: true },
+              { key: 'platform', type: 'text', label: 'Colonne 3', max: 160, half: true },
               { key: 'ours', type: 'text', label: 'Colonne 4 (mise en avant)', max: 160 },
             ],
           },
@@ -374,10 +408,15 @@ export const PAGES = [
               { key: 'intro', type: 'textarea', label: 'Introduction', rows: 3, max: 600 },
               { key: 'highlightsTitle', type: 'text', label: 'Titre de la liste', max: 80 },
               { key: 'highlights', type: 'list', label: 'Ce que le site met en avant', addLabel: 'Ajouter une ligne', maxItems: 12 },
-              { key: 'galleryTitle', type: 'text', label: 'Titre « galerie »', max: 80, half: true },
-              { key: 'galleryText', type: 'text', label: 'Texte « galerie »', max: 200, half: true },
-              { key: 'autonomyTitle', type: 'text', label: 'Titre « autonomie »', max: 80, half: true },
-              { key: 'autonomyText', type: 'text', label: 'Texte « autonomie »', max: 300, half: true },
+              {
+                key: 'features',
+                type: 'repeater',
+                label: 'Fonctionnalités mises en avant',
+                itemLabel: 'title',
+                addLabel: 'Ajouter une fonctionnalité',
+                maxItems: 4,
+                fields: iconTitleText(),
+              },
               { key: 'image', type: 'image', label: 'Visuel ordinateur', half: true },
               { key: 'mobileImage', type: 'image', label: 'Visuel mobile', half: true },
             ],
@@ -520,6 +559,15 @@ export const PAGES = [
           eyebrow,
           title,
           { key: 'intro', type: 'textarea', label: 'Introduction', rows: 2, max: 400 },
+          { key: 'modulesLabel', type: 'text', label: 'Titre des cases à cocher', max: 80 },
+          {
+            key: 'modules',
+            type: 'list',
+            label: 'Fonctionnalités proposées dans le formulaire',
+            addLabel: 'Ajouter une fonctionnalité',
+            maxItems: 12,
+            itemMax: 60,
+          },
           { key: 'infoTitle', type: 'text', label: 'Titre des coordonnées', max: 60 },
           { key: 'success', type: 'text', label: 'Message de confirmation', max: 200 },
           { key: 'privacy', type: 'textarea', label: 'Mention sous le formulaire', rows: 2, max: 400 },

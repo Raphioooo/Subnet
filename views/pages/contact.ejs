@@ -48,9 +48,19 @@
                 <%- icon('chevron-down', { size: 18 }) %>
               </div>
             </div>
+            <% if (cp.modules.length) { %>
+            <fieldset class="form__field form__field--full form__modules">
+              <legend><%= cp.modulesLabel || 'Fonctionnalités souhaitées' %> <span class="optional">facultatif</span></legend>
+              <div class="checks">
+                <% cp.modules.forEach((label, i) => { %>
+                <label class="check"><input type="checkbox" name="modules" value="<%= i %>"<%= (values.modules || []).includes(String(i)) ? ' checked' : '' %>><span><%- icon('check', { size: 14, strokeWidth: 2.5 }) %><%= label %></span></label>
+                <% }) %>
+              </div>
+            </fieldset>
+            <% } %>
             <div class="form__field form__field--full<%= errors.message ? ' has-error' : '' %>">
               <label for="f-message">Votre projet</label>
-              <textarea id="f-message" name="message" rows="6" required maxlength="5000" placeholder="Votre activité, vos objectifs, vos délais…"<% if (errors.message) { %> aria-invalid="true" aria-describedby="e-message"<% } %>><%= values.message || '' %></textarea>
+              <textarea id="f-message" name="message" rows="6" required maxlength="5000" placeholder="Votre activité, votre façon de travailler, vos délais…"<% if (errors.message) { %> aria-invalid="true" aria-describedby="e-message"<% } %>><%= values.message || '' %></textarea>
               <% if (errors.message) { %><p class="form__error" id="e-message"><%= errors.message %></p><% } %>
             </div>
             <div class="form__trap" aria-hidden="true">

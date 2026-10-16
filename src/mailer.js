@@ -37,6 +37,7 @@ export function createMailer(smtp, log = console) {
         ['Téléphone', message.phone],
         ['Entreprise', message.company],
         ['Activité', sector],
+        ['Fonctionnalités', (message.modules || []).join(', ')],
       ]
         .filter(([, value]) => value)
         .map(([label, value]) => `${label} : ${value}`);
