@@ -1,16 +1,38 @@
+# Mise en ligne : le site (Node.js) derrière Caddy, qui gère le HTTPS
+# (certificats Let's Encrypt obtenus et renouvelés automatiquement).
+# Renseignez DOMAIN dans le fichier .env, puis : docker compose up -d --build
+name: subnet
+
 services:
   site:
     build: .
     restart: unless-stopped
-    ports:
-      - "3000:3000"
     env_file:
       - .env
     environment:
       NODE_ENV: production
+      PORT: 3000
       DATA_DIR: /data
     volumes:
       - subnet-data:/data
 
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - site
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
 volumes:
   subnet-data:
+  caddy-data:
+  caddy-config:

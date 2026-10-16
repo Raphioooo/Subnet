@@ -85,7 +85,8 @@ export function adminRouter({ config, store, auth, mailer, log }) {
   const router = express.Router();
   const loginLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 10 });
 
-  router.use((req, res, next) => {
+  router.use(async (req, res, next) => {
+    await auth.refresh();
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('X-Robots-Tag', 'noindex, nofollow');
     const content = store.getContent();

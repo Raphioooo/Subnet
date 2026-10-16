@@ -92,18 +92,30 @@ Toutes les variables sont décrites dans `.env.example`.
 
 ## Mise en ligne
 
+Le guide pas à pas [docs/guide-mise-en-ligne.pdf](docs/guide-mise-en-ligne.pdf) détaille toute la mise en ligne : nom de domaine, VPS, sécurisation, DNS, HTTPS, mises à jour automatiques et sauvegardes.
+
 Le site est une application Node.js qui a besoin d'un **dossier de données persistant** : c'est là que vivent vos contenus et vos images. Pensez à le sauvegarder.
 
-### Avec Docker
+### Sur un VPS avec Docker (recommandé)
 
 ```bash
-cp .env.example .env   # renseignez au moins ADMIN_PASSWORD
+cp .env.example .env   # renseignez DOMAIN (ex. mondomaine.fr) et BASE_URL
 docker compose up -d --build
 ```
 
-Les données sont conservées dans le volume `subnet-data`. Placez un reverse proxy (Caddy, Nginx, Traefik) devant le port 3000 pour le HTTPS.
+`docker-compose.yml` lance le site derrière [Caddy](https://caddyserver.com), qui obtient et renouvelle seul le certificat HTTPS de `DOMAIN` (le DNS doit déjà pointer vers le serveur) et redirige `www.` vers le domaine principal. Seuls les ports 80 et 443 sont ouverts ; les données sont conservées dans le volume `subnet-data`.
 
-### Sur un serveur (VPS)
+| Commande | Rôle |
+| --- | --- |
+| `./scripts/deploy.sh` | Récupère la dernière version (`git pull`), reconstruit et redémarre le site |
+| `./scripts/backup.sh` | Archive les données (contenus, demandes, images) dans `backups/` et garde les 14 dernières |
+| `./scripts/restore.sh <archive>` | Restaure une archive, après une sauvegarde de sécurité de l'état actuel |
+| `docker compose exec site npm run set-password` | Choisit un nouveau mot de passe d'administration (mot de passe oublié) |
+| `docker compose logs -f site` | Affiche le journal du site (dont le mot de passe temporaire au premier démarrage) |
+
+Le workflow GitHub Actions `.github/workflows/deploy.yml` lance les tests à chaque push et pull request. Après un push sur `main`, il met le serveur à jour par SSH si les secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY` et `DEPLOY_KNOWN_HOSTS` sont renseignés ; sinon, cette étape est simplement ignorée.
+
+### Sur un serveur sans Docker
 
 ```bash
 git clone <ce dépôt> subnet && cd subnet
@@ -165,8 +177,11 @@ src/
   routes/admin.js      espace d'administration
 views/                 gabarits (pages, éléments communs, admin)
 public/                CSS, JavaScript, police, images
-scripts/set-password.js
+scripts/               mot de passe, mise à jour, sauvegarde et restauration
 test/                  tests automatisés
+docs/                  guide de mise en ligne (PDF)
+Dockerfile, docker-compose.yml, Caddyfile   mise en ligne avec Docker et HTTPS
+.github/workflows/     tests et mise en ligne automatiques
 ```
 
 ## Sécurité

@@ -10,7 +10,8 @@ const config = loadConfig();
 const app = await createApp(config);
 
 const server = app.listen(config.port, config.host, () => {
-  console.log(`Site disponible sur http://localhost:${config.port} (administration : /admin)`);
+  const url = config.baseUrl || `http://localhost:${config.port}`;
+  console.log(`Site disponible sur ${url} (administration : ${url}/admin)`);
 });
 
 for (const signal of ['SIGINT', 'SIGTERM']) {

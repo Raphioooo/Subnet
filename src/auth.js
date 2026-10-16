@@ -58,12 +58,14 @@ export class Auth {
     this.sessionSecret = sessionSecret;
     this.log = log;
     this.record = null;
+    this.mtimeMs = 0;
   }
 
   async init() {
     await fs.mkdir(this.dataDir, { recursive: true });
     this.secret = this.sessionSecret || (await this.#loadOrCreateSecret());
     this.record = await readJson(this.file);
+    this.mtimeMs = await this.#mtime();
 
     if (this.usesEnvPassword) return;
     if (!this.record?.hash) {
@@ -115,6 +117,26 @@ export class Auth {
     const tmp = `${this.file}.tmp`;
     await fs.writeFile(tmp, JSON.stringify(this.record, null, 2), { mode: 0o600 });
     await fs.rename(tmp, this.file);
+    this.mtimeMs = await this.#mtime();
+  }
+
+  async #mtime() {
+    try {
+      return (await fs.stat(this.file)).mtimeMs;
+    } catch (err) {
+      if (err.code === 'ENOENT') return 0;
+      throw err;
+    }
+  }
+
+  // Relit le mot de passe s'il a été changé par un autre processus
+  // (npm run set-password pendant que le site tourne).
+  async refresh() {
+    if (this.usesEnvPassword) return;
+    const mtime = await this.#mtime();
+    if (!mtime || mtime === this.mtimeMs) return;
+    this.record = (await readJson(this.file)) ?? this.record;
+    this.mtimeMs = mtime;
   }
 
   async verifyPassword(password) {

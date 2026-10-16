@@ -4,3 +4,6 @@ data
 .git
 *.log
 test
+backups
+docs
+.github

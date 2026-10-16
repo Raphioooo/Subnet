@@ -145,6 +145,23 @@ describe('utilitaires', () => {
 });
 
 describe('sessions', () => {
+  test('mot de passe changé par un autre processus', async () => {
+    const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'subnet-auth-'));
+    const log = { warn() {}, info() {} };
+    const server = new Auth({ dataDir, log });
+    await server.init();
+    const token = server.createToken();
+    const script = new Auth({ dataDir, log });
+    await script.init();
+    await script.setPassword('nouveau-mot-de-passe');
+    assert.equal(await server.verifyPassword('nouveau-mot-de-passe'), false);
+    await server.refresh();
+    assert.equal(await server.verifyPassword('nouveau-mot-de-passe'), true);
+    assert.equal(server.isTemporary, false);
+    assert.equal(server.verifyToken(token), false);
+    await fs.rm(dataDir, { recursive: true, force: true });
+  });
+
   test('jetons signés, expirés ou falsifiés', async () => {
     const auth = new Auth({ dataDir: '/tmp', adminPassword: 'secret-123', sessionSecret: 'x'.repeat(64) });
     auth.secret = 'x'.repeat(64);
