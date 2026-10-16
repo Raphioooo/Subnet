@@ -2,8 +2,13 @@
 <main id="contenu">
   <section class="page-hero page-hero--sector">
     <div class="container page-hero__inner">
+      <% if (sector.seo.h1) { %>
+      <h1 class="eyebrow eyebrow--icon reveal"><%- icon(sector.icon, { size: 18 }) %><%= sector.seo.h1 %></h1>
+      <p class="display display--page reveal"><%= sector.title %></p>
+      <% } else { %>
       <p class="eyebrow eyebrow--icon reveal"><%- icon(sector.icon, { size: 18 }) %><%= sector.name %></p>
       <h1 class="display display--page reveal"><%= sector.title %></h1>
+      <% } %>
       <% if (sector.intro) { %><p class="lead page-hero__lead reveal"><%= sector.intro %></p><% } %>
       <div class="actions actions--center reveal">
         <a class="btn btn--primary btn--lg" href="/contact?secteur=<%= sector.slug %>"><%= c.cta.buttonLabel %></a>

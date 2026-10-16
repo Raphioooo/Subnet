@@ -1,7 +1,13 @@
 <section class="page-hero<%= locals.compact ? ' page-hero--compact' : '' %>">
   <div class="container page-hero__inner">
+    <% const h1 = page.seo && page.seo.h1; -%>
+    <% if (h1) { %>
+    <h1 class="eyebrow reveal"><%= h1 %></h1>
+    <p class="display display--page reveal"><%= hero.title %></p>
+    <% } else { %>
     <% if (hero.eyebrow) { %><p class="eyebrow reveal"><%= hero.eyebrow %></p><% } %>
     <h1 class="display display--page reveal"><%= hero.title %></h1>
+    <% } %>
     <% if (hero.subtitle) { %><p class="lead page-hero__lead reveal"><%= hero.subtitle %></p><% } %>
   </div>
 </section>

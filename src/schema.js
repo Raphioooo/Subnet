@@ -92,6 +92,42 @@ const heroFields = [
   title,
   { key: 'subtitle', type: 'textarea', label: 'Sous-titre', rows: 2, max: 400 },
 ];
+// Référencement : ce que Google lit en priorité. « counter » = longueur conseillée.
+const seoFields = [
+  {
+    key: 'title',
+    type: 'text',
+    label: 'Titre pour Google',
+    max: 90,
+    counter: 60,
+    help: 'Affiché dans l’onglet du navigateur et en titre dans les résultats de recherche. Vide : titre automatique.',
+  },
+  {
+    key: 'description',
+    type: 'textarea',
+    label: 'Description pour Google',
+    rows: 2,
+    max: 300,
+    counter: 158,
+    help: 'Le résumé affiché sous le titre dans les résultats de recherche et lors d’un partage.',
+  },
+  {
+    key: 'h1',
+    type: 'text',
+    label: 'Titre principal (H1)',
+    max: 120,
+    counter: 70,
+    help: 'Affiché en petit au-dessus du grand titre, à la place du surtitre : dites ce que vous proposez, pour qui et où. Vide : le grand titre sert de H1.',
+  },
+];
+const seoSection = (path) => ({
+  title: 'Référencement',
+  description: 'Le titre, la description et le titre principal que Google lit en priorité pour cette page.',
+  path,
+  collapsed: true,
+  fields: seoFields,
+});
+
 const journeyStepFields = [
   { key: 'title', type: 'text', label: 'Titre', max: 80, required: true },
   { key: 'text', type: 'textarea', label: 'Texte', rows: 2, max: 300 },
@@ -141,6 +177,14 @@ export const PAGES = [
             help: 'Utilisée pour le plan du site et les liens de partage.',
           },
           {
+            key: 'shareName',
+            type: 'text',
+            label: 'Nom complet',
+            max: 80,
+            placeholder: 'Subnet – Création de sites internet',
+            help: 'Votre nom suivi de votre métier : affiché lors des partages et transmis à Google.',
+          },
+          {
             key: 'shareImage',
             type: 'image',
             label: 'Image de partage',
@@ -179,6 +223,7 @@ export const PAGES = [
     description: 'Les textes et visuels de la page d’accueil.',
     view: '/',
     sections: [
+      seoSection('home.seo'),
       {
         title: 'Bandeau principal',
         path: 'home.hero',
@@ -269,6 +314,7 @@ export const PAGES = [
     description: 'Le détail de l’offre : périmètre, structure, administration, comparatif, design et bénéfices.',
     view: '/offre',
     sections: [
+      seoSection('offer.seo'),
       { title: 'En-tête de page', path: 'offer.hero', fields: heroFields },
       {
         title: 'Périmètre',
@@ -401,6 +447,7 @@ export const PAGES = [
     description: 'Les pages dédiées à chaque métier et leurs visuels.',
     view: '/secteurs',
     sections: [
+      seoSection('sectorsPage.seo'),
       { title: 'En-tête de la page Secteurs', path: 'sectorsPage.hero', fields: heroFields },
       {
         title: 'Encadré « autres activités »',
@@ -455,6 +502,9 @@ export const PAGES = [
               },
               { key: 'image', type: 'image', label: 'Visuel ordinateur', half: true },
               { key: 'mobileImage', type: 'image', label: 'Visuel mobile', half: true },
+              { key: 'imageAlt', type: 'text', label: 'Description du visuel ordinateur', max: 160, half: true, help: 'Lue par Google et par les lecteurs d’écran.' },
+              { key: 'mobileImageAlt', type: 'text', label: 'Description du visuel mobile', max: 160, half: true },
+              { key: 'seo', type: 'group', label: 'Référencement de la page', fields: seoFields },
             ],
           },
         ],
@@ -468,6 +518,7 @@ export const PAGES = [
     description: 'La galerie de projets : ajoutez, masquez ou réordonnez vos réalisations.',
     view: '/realisations',
     sections: [
+      seoSection('projectsPage.seo'),
       {
         title: 'En-tête de page',
         path: 'projectsPage',
@@ -513,6 +564,7 @@ export const PAGES = [
     description: 'Les questions fréquentes et leurs réponses.',
     view: '/faq',
     sections: [
+      seoSection('faqPage.seo'),
       { title: 'En-tête de page', path: 'faqPage.hero', fields: heroFields },
       {
         title: 'Questions',
@@ -549,6 +601,25 @@ export const PAGES = [
           { key: 'phone', type: 'tel', label: 'Téléphone', placeholder: '06 12 34 56 78', half: true },
           { key: 'address', type: 'textarea', label: 'Adresse', rows: 3, max: 300, help: 'Laissez vide si vous ne recevez pas de public.' },
           { key: 'area', type: 'text', label: 'Zone d’intervention', max: 160, placeholder: 'Ex. Lyon et alentours, ou partout en France à distance' },
+        ],
+      },
+      {
+        title: 'Informations pour Google',
+        description: 'Transmises aux moteurs de recherche pour situer votre activité. Elles ne sont pas affichées telles quelles sur le site.',
+        path: 'contact',
+        fields: [
+          { key: 'city', type: 'text', label: 'Ville', max: 80, half: true, placeholder: 'Grenoble' },
+          { key: 'postalCode', type: 'text', label: 'Code postal', max: 10, half: true, placeholder: '38000' },
+          { key: 'region', type: 'text', label: 'Région', max: 80, half: true, placeholder: 'Auvergne-Rhône-Alpes' },
+          { key: 'founder', type: 'text', label: 'Fondateur ou fondatrice', max: 120, half: true },
+          {
+            key: 'areasServed',
+            type: 'list',
+            label: 'Zones desservies',
+            addLabel: 'Ajouter une zone',
+            maxItems: 12,
+            itemMax: 80,
+          },
         ],
       },
       {
@@ -589,6 +660,7 @@ export const PAGES = [
           },
         ],
       },
+      seoSection('contact.page.seo'),
       {
         title: 'Page contact',
         path: 'contact.page',

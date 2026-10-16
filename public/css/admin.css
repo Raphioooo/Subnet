@@ -666,6 +666,17 @@ code {
   margin-right: 2px;
 }
 
+.field__count {
+  color: var(--text-3);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.field__count.is-over {
+  color: var(--warning);
+  font-weight: 600;
+}
+
 .input {
   width: 100%;
   min-height: 40px;

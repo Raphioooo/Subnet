@@ -1,7 +1,9 @@
 <%
   const site = c.site;
-  const pageTitle = page.title ? `${page.title} · ${site.name}` : `${site.name} · ${site.tagline}`;
-  const description = page.description || site.description;
+  // Référencement saisi dans l'administration, sinon titre et description automatiques.
+  const seo = page.seo || {};
+  const pageTitle = seo.title || (page.title ? `${page.title} · ${site.name}` : `${site.name} · ${site.tagline}`);
+  const description = seo.description || page.description || site.description;
   const canonical = baseUrl + (page.path || currentPath);
   const shareImage = baseUrl + (page.image || site.shareImage || '/assets/images/og.jpg');
 -%>
@@ -17,7 +19,7 @@
 <% } -%>
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:site_name" content="<%= site.name %>">
+<meta property="og:site_name" content="<%= site.shareName || site.name %>">
 <meta property="og:title" content="<%= pageTitle %>">
 <meta property="og:description" content="<%= description %>">
 <meta property="og:url" content="<%= canonical %>">

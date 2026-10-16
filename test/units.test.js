@@ -104,12 +104,51 @@ describe('utilitaires', () => {
     const store = new Store(dir);
     await store.init();
     const content = store.getContent();
-    assert.equal(content.meta.version, 2);
+    assert.equal(content.meta.version, defaults.meta.version);
     assert.equal(content.site.name, 'Mon Studio');
     assert.equal(content.contact.email, 'bonjour@studio.fr');
     assert.equal(content.legal.identity.siret, '123');
     assert.equal(content.home.hero.title, 'Le site qui fait tourner votre activité.');
     assert.ok(content.site.tagline.includes('réservation'));
+    await fs.rm(dir, { recursive: true, force: true });
+  });
+
+  test('migration de la version 2 : référencement local', async () => {
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'subnet-seo-'));
+    const file = path.join(dir, 'content.json');
+    await fs.writeFile(
+      file,
+      JSON.stringify({
+        meta: { version: 2, updatedAt: '2026-01-01T10:00:00.000Z' },
+        site: {
+          name: 'Subnet',
+          description:
+            'Sites sur mesure avec réservation en ligne, acompte, devis, gestion des horaires et panneau d’administration, pour restaurateurs, tatoueurs, instituts, TPE et PME.',
+        },
+        contact: { email: 'hello@exemple.fr', phone: '0766653509', area: 'Région AURA / Toute la France via zoom' },
+        home: { hero: { eyebrow: 'Mon surtitre', title: 'Mon slogan.' } },
+      }),
+    );
+    const store = new Store(dir);
+    await store.init();
+    const content = store.getContent();
+    assert.ok(content.site.description.includes('Grenoble'), 'description d’origine remplacée');
+    assert.equal(content.contact.area, defaults.contact.area);
+    assert.equal(content.contact.email, 'hello@exemple.fr');
+    assert.equal(content.home.hero.title, 'Mon slogan.', 'textes personnalisés conservés');
+    assert.equal(content.home.seo.h1, defaults.home.seo.h1);
+    assert.equal(content.sectors[0].seo.title, defaults.sectors[0].seo.title);
+    assert.ok(content.meta.sections.home > '2026-01-01', 'date de modification des pages mise à jour');
+    const saved = JSON.parse(await fs.readFile(file, 'utf8'));
+    assert.equal(saved.meta.version, defaults.meta.version, 'migration enregistrée une seule fois');
+    const original = JSON.parse(await fs.readFile(`${file}.v2.bak`, 'utf8'));
+    assert.equal(original.meta.version, 2, 'version précédente gardée de côté');
+
+    await fs.writeFile(file, JSON.stringify({ meta: { version: 2 }, site: { description: 'Ma description.' }, contact: { area: 'Lyon' } }));
+    const custom = new Store(dir);
+    await custom.init();
+    assert.equal(custom.getContent().site.description, 'Ma description.');
+    assert.equal(custom.getContent().contact.area, 'Lyon');
     await fs.rm(dir, { recursive: true, force: true });
   });
 

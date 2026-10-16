@@ -146,13 +146,14 @@ Contact : {{email}}`;
 
 
 export const defaults = {
-  meta: { version: 2, updatedAt: null },
+  meta: { version: 3, updatedAt: null, createdAt: null, sections: null },
 
   site: {
     name: 'Subnet',
     tagline: 'Sites sur mesure avec réservation, acompte et devis',
     description:
-      'Sites sur mesure avec réservation en ligne, acompte, devis, gestion des horaires et panneau d’administration, pour restaurateurs, tatoueurs, instituts, TPE et PME.',
+      'Création de sites internet sur mesure à Grenoble et partout en France : réservation en ligne, acompte, devis, horaires et panneau d’administration pour restaurateurs, tatoueurs, instituts, TPE et PME.',
+    shareName: 'Subnet – Création de sites internet',
     url: '',
     logo: '',
     shareImage: '',
@@ -163,7 +164,12 @@ export const defaults = {
     email: '',
     phone: '',
     address: '',
-    area: '',
+    area: 'Grenoble (Isère) · Auvergne-Rhône-Alpes · Toute la France en visio',
+    city: 'Grenoble',
+    postalCode: '',
+    region: 'Auvergne-Rhône-Alpes',
+    areasServed: ['Grenoble', 'Isère', 'Auvergne-Rhône-Alpes', 'France'],
+    founder: 'Raphaël Scotton',
     hours: [],
     socials: [],
     page: {
@@ -184,10 +190,22 @@ export const defaults = {
       success: 'Merci, votre demande a bien été envoyée. Nous revenons vers vous très vite avec une proposition.',
       privacy:
         'Vos informations sont utilisées uniquement pour répondre à votre demande. Elles ne sont jamais cédées à des tiers.',
+      seo: {
+        title: 'Devis site internet à Grenoble – Contact | Subnet',
+        description:
+          'Demandez un devis pour votre site internet sur mesure. Basé à Grenoble, Subnet accompagne les pros en Auvergne-Rhône-Alpes et dans toute la France.',
+        h1: 'Demandez un devis pour votre site internet',
+      },
     },
   },
 
   home: {
+    seo: {
+      title: 'Création de site internet sur mesure à Grenoble | Subnet',
+      description:
+        'Création de sites internet sur mesure à Grenoble pour restaurants, tatoueurs, instituts et TPE/PME : réservation, acompte, devis et panneau admin.',
+      h1: 'Création de sites internet sur mesure à Grenoble',
+    },
     hero: {
       eyebrow: 'Sites sur mesure, full stack',
       title: 'Le site qui fait tourner votre activité.',
@@ -277,6 +295,12 @@ export const defaults = {
   },
 
   offer: {
+    seo: {
+      title: 'Site sur mesure avec réservation, devis et admin | Subnet',
+      description:
+        'Un site sur mesure avec réservation en ligne, acompte, devis, horaires et panneau d’administration. Conçu à Grenoble, pour toute la France.',
+      h1: 'Un site internet sur mesure avec son panneau d’administration',
+    },
     hero: {
       eyebrow: 'L’offre',
       title: 'Un site complet, pensé pour votre activité.',
@@ -449,6 +473,12 @@ export const defaults = {
   },
 
   sectorsPage: {
+    seo: {
+      title: 'Sites pour restaurants, tatoueurs, instituts et PME | Subnet',
+      description:
+        'Restaurant, studio de tatouage, institut de beauté ou PME : un site internet adapté à votre métier, avec réservation, devis et acompte en ligne.',
+      h1: 'Des sites internet adaptés à chaque métier',
+    },
     hero: {
       eyebrow: 'Secteurs',
       title: 'Pensé pour votre métier.',
@@ -505,7 +535,15 @@ export const defaults = {
         },
       ],
       image: '/assets/images/concepts/restaurant-desktop.webp',
+      imageAlt: 'Site de restaurant sur ordinateur : carte, horaires et réservation',
       mobileImage: '/assets/images/concepts/restaurant-mobile.webp',
+      mobileImageAlt: 'Site de restaurant sur mobile avec réservation de table en ligne',
+      seo: {
+        title: 'Création site restaurant avec réservation en ligne | Subnet',
+        description:
+          'Site internet pour restaurant avec réservation de table en ligne, acompte pour les groupes, carte et horaires modifiables. Sans commission. Grenoble.',
+        h1: 'Site internet pour restaurant avec réservation en ligne',
+      },
     },
     {
       slug: 'tatoueurs',
@@ -549,7 +587,15 @@ export const defaults = {
         },
       ],
       image: '/assets/images/concepts/tatouage-desktop.webp',
+      imageAlt: 'Site de studio de tatouage sur ordinateur avec portfolio par style',
       mobileImage: '/assets/images/concepts/tatouage-mobile.webp',
+      mobileImageAlt: 'Site de tatoueur sur mobile avec portfolio et demande de projet',
+      seo: {
+        title: 'Site internet tatoueur : portfolio, devis, acompte | Subnet',
+        description:
+          'Site internet pour tatoueur et studio de tatouage : portfolio par style, demande de projet, devis et acompte en ligne, réservation de séance.',
+        h1: 'Site internet pour tatoueur : portfolio, devis et acompte',
+      },
     },
     {
       slug: 'instituts',
@@ -593,7 +639,15 @@ export const defaults = {
         },
       ],
       image: '/assets/images/concepts/institut-desktop.webp',
+      imageAlt: 'Site d’institut de beauté sur ordinateur avec liste des soins',
       mobileImage: '/assets/images/concepts/institut-mobile.webp',
+      mobileImageAlt: 'Site d’institut de beauté sur mobile avec prise de rendez-vous',
+      seo: {
+        title: 'Site institut de beauté avec prise de RDV en ligne | Subnet',
+        description:
+          'Site internet pour institut de beauté et bien-être : prise de rendez-vous en ligne par soin, acompte, rappels et horaires à jour. Sans commission.',
+        h1: 'Site internet pour institut de beauté avec rendez-vous en ligne',
+      },
     },
     {
       slug: 'tpe-pme',
@@ -637,11 +691,25 @@ export const defaults = {
         },
       ],
       image: '/assets/images/concepts/pme-desktop.webp',
+      imageAlt: 'Site de PME sur ordinateur présentant les services et réalisations',
       mobileImage: '/assets/images/concepts/pme-mobile.webp',
+      mobileImageAlt: 'Site de PME sur mobile avec formulaire de demande de devis',
+      seo: {
+        title: 'Création site internet TPE PME avec devis en ligne | Subnet',
+        description:
+          'Site internet pour TPE et PME : présentation, demandes de devis détaillées, devis accepté en ligne et acompte à la commande. Basé à Grenoble.',
+        h1: 'Site internet pour TPE et PME avec devis en ligne',
+      },
     },
   ],
 
   projectsPage: {
+    seo: {
+      title: 'Exemples de sites internet par secteur | Subnet',
+      description:
+        'Exemples de sites sur mesure pour restaurant, studio de tatouage, institut et PME : réservation, devis, acompte et panneau d’administration.',
+      h1: 'Exemples de sites internet par secteur',
+    },
     hero: {
       eyebrow: 'Réalisations',
       title: 'Des univers, pas des modèles.',
@@ -703,6 +771,12 @@ export const defaults = {
   ],
 
   faqPage: {
+    seo: {
+      title: 'FAQ création de site internet sur mesure | Subnet',
+      description:
+        'Réservation en ligne, acompte, devis, panneau d’administration, propriété des données : les réponses à vos questions avant de créer votre site.',
+      h1: 'Questions fréquentes sur la création de votre site',
+    },
     hero: {
       eyebrow: 'FAQ',
       title: 'Questions fréquentes.',

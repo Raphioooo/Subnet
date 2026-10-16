@@ -179,8 +179,19 @@
     form.querySelectorAll('[data-items]').forEach(refreshMoveButtons);
     form.querySelectorAll('[data-type="list"], [data-type="repeater"]').forEach(refreshLimits);
 
+    const refreshCounter = (counter) => {
+      const input = counter.closest('[data-field]')?.querySelector('[data-input]');
+      if (!input) return;
+      const length = input.value.length;
+      counter.querySelector('[data-count]').textContent = length;
+      counter.classList.toggle('is-over', length > Number(counter.dataset.counter));
+    };
+    form.querySelectorAll('[data-counter]').forEach(refreshCounter);
+
     form.addEventListener('input', (event) => {
       setDirty(true);
+      const counter = event.target.closest('[data-field]')?.querySelector(':scope > [data-counter]');
+      if (counter) refreshCounter(counter);
       const item = event.target.closest('.r-item');
       if (item) refreshItemHead(item);
     });

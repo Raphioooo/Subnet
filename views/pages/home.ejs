@@ -4,8 +4,13 @@
 
   <section class="hero">
     <div class="container hero__inner">
+      <% if (page.seo.h1) { %>
+      <h1 class="eyebrow reveal"><%= page.seo.h1 %></h1>
+      <p class="display reveal"><%= h.title %></p>
+      <% } else { %>
       <% if (h.eyebrow) { %><p class="eyebrow reveal"><%= h.eyebrow %></p><% } %>
       <h1 class="display reveal"><%= h.title %></h1>
+      <% } %>
       <% if (h.subtitle) { %><p class="lead hero__lead reveal"><%= h.subtitle %></p><% } %>
       <div class="actions actions--center reveal">
         <% if (h.primaryLabel) { %><a class="btn btn--primary btn--lg" href="<%= h.primaryLink %>"><%= h.primaryLabel %></a><% } %>

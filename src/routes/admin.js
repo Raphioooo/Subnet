@@ -184,7 +184,7 @@ export function adminRouter({ config, store, auth, mailer, log }) {
     if (!page) return res.status(404).json({ ok: false, errors: ['Page inconnue.'] });
     const { draft, errors } = applyPageInput(page, store.getContent(), req.body);
     if (errors.length) return res.status(400).json({ ok: false, errors });
-    const saved = await store.saveContent(draft);
+    const saved = await store.saveContent(draft, { pages: [page.id] });
     res.json({ ok: true, updatedAt: saved.meta.updatedAt });
   });
 
@@ -340,7 +340,7 @@ export function adminRouter({ config, store, auth, mailer, log }) {
       draft = result.draft;
     }
     if (errors.length) return res.status(400).json({ ok: false, errors: errors.slice(0, 10) });
-    await store.saveContent(draft);
+    await store.saveContent(draft, { pages: PAGES.map((p) => p.id) });
     res.json({ ok: true });
   });
 

@@ -115,9 +115,36 @@ describe('site public', () => {
   test('sitemap et robots', async () => {
     const sitemap = await (await request('/sitemap.xml')).text();
     assert.ok(sitemap.includes('/secteurs/tatoueurs'));
-    assert.ok(sitemap.includes('/mentions-legales'));
+    assert.ok(!sitemap.includes('/mentions-legales'), 'pages légales hors du plan du site');
+    assert.equal((await request('/mentions-legales')).status, 200, 'mais toujours accessibles');
+    assert.match(sitemap, /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
     const robots = await (await request('/robots.txt')).text();
     assert.ok(robots.includes('Disallow: /admin'));
+  });
+
+  test('référencement : titre, description et un seul H1 par page', async () => {
+    const c = app.ctx.store.getContent();
+    const pages = [
+      ['/', c.home.seo],
+      ['/offre', c.offer.seo],
+      ['/secteurs', c.sectorsPage.seo],
+      ['/secteurs/tatoueurs', c.sectors.find((s) => s.slug === 'tatoueurs').seo],
+      ['/realisations', c.projectsPage.seo],
+      ['/faq', c.faqPage.seo],
+      ['/contact', c.contact.page.seo],
+    ];
+    for (const [url, seo] of pages) {
+      // Espaces insécables de la typographie française ramenées à des espaces simples.
+      const html = (await (await request(url)).text()).replace(/\u00a0/g, ' ');
+      assert.equal(html.match(/<h1[\s>]/g)?.length, 1, `un seul H1 sur ${url}`);
+      assert.ok(html.includes(`<title>${seo.title}</title>`), `title de ${url}`);
+      assert.ok(html.includes(`<meta name="description" content="${seo.description}">`), `description de ${url}`);
+      assert.ok(html.includes(`<meta property="og:title" content="${seo.title}">`), `og:title de ${url}`);
+      assert.match(html, new RegExp(`<h1[^>]*>(<svg[\\s\\S]*?</svg>)?${seo.h1}</h1>`), `H1 de ${url}`);
+      assert.ok(html.includes(`<meta property="og:site_name" content="${c.site.shareName}">`));
+    }
+    const legal = await (await request('/mentions-legales')).text();
+    assert.equal(legal.match(/<h1[\s>]/g)?.length, 1, 'un seul H1 sur les pages légales');
   });
 
   test('fichiers statiques versionnés', async () => {
@@ -288,8 +315,10 @@ describe('administration', () => {
   test('enregistrement d’une page et affichage public', async () => {
     const sections = [
       { email: 'bonjour@subnet.fr', phone: '06 00 00 00 00', address: '1 rue de Paris\n75001 Paris', area: 'France entière' },
+      null,
       { hours: [{ label: 'Lundi – vendredi', value: '9 h – 18 h' }, { label: '', value: '' }] },
       { socials: [{ network: 'instagram', url: 'instagram.com/subnet' }] },
+      null,
       {
         eyebrow: 'Contact',
         title: 'Écrivez-nous.',
@@ -318,6 +347,29 @@ describe('administration', () => {
     assert.ok(html.includes('href="tel:+33600000000"'));
   });
 
+  test('référencement vide : titre et H1 automatiques', async () => {
+    const res = await request('/admin/api/pages/faq', {
+      method: 'POST',
+      auth: true,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sections: [{ title: '', description: '', h1: '' }, null, null] }),
+    });
+    assert.equal(res.status, 200);
+    const html = await (await request('/faq')).text();
+    assert.ok(html.includes('<title>Questions fréquentes · Subnet</title>'));
+    assert.match(html, /<h1 class="display[^"]*">Questions fréquentes\.<\/h1>/);
+    assert.ok(app.ctx.store.getContent().meta.sections.faq, 'date de modification de la page enregistrée');
+  });
+
+  test('plan du site : date de modification propre à chaque page', async () => {
+    await app.ctx.store.updateContent((draft) => {
+      draft.meta.sections = { offer: '2025-05-05T08:00:00.000Z', faq: '2026-01-02T08:00:00.000Z' };
+    });
+    const sitemap = await (await request('/sitemap.xml')).text();
+    assert.match(sitemap, /\/offre<\/loc><lastmod>2025-05-05</);
+    assert.match(sitemap, /\/faq<\/loc><lastmod>2026-01-02</);
+  });
+
   test('données invalides refusées', async () => {
     const res = await request('/admin/api/pages/general', {
       method: 'POST',
@@ -338,7 +390,7 @@ describe('administration', () => {
       method: 'POST',
       auth: true,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sections: [null, null, { sectors: [...reordered, { slug: 'pirate', name: 'Pirate' }] }] }),
+      body: JSON.stringify({ sections: [null, null, null, { sectors: [...reordered, { slug: 'pirate', name: 'Pirate' }] }] }),
     });
     assert.equal(res.status, 200);
     const saved = app.ctx.store.getContent().sectors;
