@@ -587,11 +587,11 @@ textarea {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: var(--text);
+  gap: 8px;
+  color: var(--accent);
   font-size: 1.1875rem;
-  font-weight: 650;
-  letter-spacing: -0.035em;
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
 .logo:hover {
@@ -599,13 +599,13 @@ textarea {
 }
 
 .logo__mark {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   flex: none;
 }
 
-.logo__dot {
-  fill: var(--accent);
+.logo__word {
+  text-transform: lowercase;
 }
 
 .logo__img {
@@ -2598,8 +2598,8 @@ textarea {
 }
 
 .site-footer__brand .logo__mark {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
 }
 
 .site-footer .socials a {

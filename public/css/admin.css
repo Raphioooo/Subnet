@@ -202,7 +202,7 @@ code {
 
 .brand__mark {
   flex: none;
-  color: var(--text);
+  color: var(--accent);
 }
 
 .brand strong {
@@ -1562,6 +1562,7 @@ a.stat:hover {
 
 .login__mark {
   margin-bottom: 12px;
+  color: var(--accent);
 }
 
 .login__card h1 {
