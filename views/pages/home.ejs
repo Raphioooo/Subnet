@@ -73,18 +73,7 @@
         <h2 class="h2 reveal" id="parcours"><%= j.title %></h2>
         <% if (j.text) { %><p class="lead reveal"><%= j.text %></p><% } %>
       </header>
-      <ol class="journey">
-        <% j.steps.forEach((step, i) => { %>
-        <li class="journey__step reveal">
-          <% if (step.image) { %>
-          <div class="phone phone--static"><div class="phone__screen"><img src="<%= step.image %>" alt="" width="600" height="1300" loading="lazy" decoding="async"></div></div>
-          <% } %>
-          <p class="journey__num"><span><%= i + 1 %></span></p>
-          <h3 class="h4"><%= step.title %></h3>
-          <% if (step.text) { %><p><%= step.text %></p><% } %>
-        </li>
-        <% }) %>
-      </ol>
+      <%- include('../partials/journey', { steps: j.steps }) %>
     </div>
   </section>
   <% } %>

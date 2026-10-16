@@ -92,6 +92,11 @@ const heroFields = [
   title,
   { key: 'subtitle', type: 'textarea', label: 'Sous-titre', rows: 2, max: 400 },
 ];
+const journeyStepFields = [
+  { key: 'title', type: 'text', label: 'Titre', max: 80, required: true },
+  { key: 'text', type: 'textarea', label: 'Texte', rows: 2, max: 300 },
+  { key: 'image', type: 'image', label: 'Capture d’écran (format téléphone)' },
+];
 
 export const PAGES = [
   {
@@ -211,11 +216,7 @@ export const PAGES = [
             thumbKey: 'image',
             addLabel: 'Ajouter une étape',
             maxItems: 4,
-            fields: [
-              { key: 'title', type: 'text', label: 'Titre', max: 80, required: true },
-              { key: 'text', type: 'textarea', label: 'Texte', rows: 2, max: 300 },
-              { key: 'image', type: 'image', label: 'Capture d’écran (format téléphone)' },
-            ],
+            fields: journeyStepFields,
           },
         ],
       },
@@ -440,6 +441,17 @@ export const PAGES = [
                 addLabel: 'Ajouter une fonctionnalité',
                 maxItems: 4,
                 fields: iconTitleText(),
+              },
+              { key: 'journeyTitle', type: 'text', label: 'Titre du parcours client', max: 120 },
+              {
+                key: 'journey',
+                type: 'repeater',
+                label: 'Parcours client',
+                itemLabel: 'title',
+                thumbKey: 'image',
+                addLabel: 'Ajouter une étape',
+                maxItems: 4,
+                fields: journeyStepFields,
               },
               { key: 'image', type: 'image', label: 'Visuel ordinateur', half: true },
               { key: 'mobileImage', type: 'image', label: 'Visuel mobile', half: true },

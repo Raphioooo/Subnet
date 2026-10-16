@@ -486,6 +486,24 @@ export const defaults = {
         { icon: 'credit-card', title: 'Acompte pour les groupes', text: 'Sécurisez les grandes tablées et les soirées spéciales avec un acompte réglé en ligne.' },
         { icon: 'clock', title: 'Services et horaires', text: 'Midi, soir, fermetures exceptionnelles : votre site et vos créneaux restent synchronisés.' },
       ],
+      journeyTitle: 'Une table réservée en trois gestes.',
+      journey: [
+        {
+          title: 'Choisir sa table',
+          text: 'Date, couverts et service : seuls les créneaux encore disponibles sont proposés.',
+          image: '/assets/images/concepts/restaurant-mobile.webp',
+        },
+        {
+          title: 'Régler l’acompte',
+          text: 'Pour les groupes, un acompte par couvert est réglé en ligne, en quelques secondes.',
+          image: '/assets/images/parcours/restaurant-acompte.webp',
+        },
+        {
+          title: 'Recevoir la confirmation',
+          text: 'Confirmation immédiate par email, puis rappel la veille du repas.',
+          image: '/assets/images/parcours/restaurant-confirmation.webp',
+        },
+      ],
       image: '/assets/images/concepts/restaurant-desktop.webp',
       mobileImage: '/assets/images/concepts/restaurant-mobile.webp',
     },
@@ -511,6 +529,24 @@ export const defaults = {
         { icon: 'file-text', title: 'Demande de projet et devis', text: 'Les demandes arrivent complètes : vous chiffrez, envoyez le devis, le client l’accepte en ligne.' },
         { icon: 'credit-card', title: 'Acompte à la réservation', text: 'La séance est confirmée une fois l’acompte réglé : fini les rendez-vous oubliés.' },
         { icon: 'calendar-check', title: 'Agenda des séances', text: 'Vos disponibilités et celles de vos artistes, gérées depuis un seul espace.' },
+      ],
+      journeyTitle: 'Une demande claire, une séance confirmée.',
+      journey: [
+        {
+          title: 'Décrire son projet',
+          text: 'Style, emplacement, taille et références : la demande arrive complète.',
+          image: '/assets/images/parcours/tatouage-demande.webp',
+        },
+        {
+          title: 'Accepter le devis',
+          text: 'Le devis envoyé depuis votre espace est accepté en ligne, avec l’acompte.',
+          image: '/assets/images/concepts/tatouage-mobile.webp',
+        },
+        {
+          title: 'Réserver sa séance',
+          text: 'La séance est confirmée, avec vos consignes et un rappel la veille.',
+          image: '/assets/images/parcours/tatouage-seance.webp',
+        },
       ],
       image: '/assets/images/concepts/tatouage-desktop.webp',
       mobileImage: '/assets/images/concepts/tatouage-mobile.webp',
@@ -538,6 +574,24 @@ export const defaults = {
         { icon: 'credit-card', title: 'Acompte sécurisé', text: 'Un acompte à la réservation limite les absences et les annulations tardives.' },
         { icon: 'bell', title: 'Rappels automatiques', text: 'Une confirmation puis un rappel par email avant chaque rendez-vous.' },
       ],
+      journeyTitle: 'Un rendez-vous pris en moins d’une minute.',
+      journey: [
+        {
+          title: 'Choisir son soin',
+          text: 'Soin, date et créneau disponibles, selon vos horaires et votre équipe.',
+          image: '/assets/images/journey/etape-1.webp',
+        },
+        {
+          title: 'Régler l’acompte',
+          text: 'Paiement sécurisé par carte : les rendez-vous non honorés se font rares.',
+          image: '/assets/images/journey/etape-2.webp',
+        },
+        {
+          title: 'Recevoir la confirmation',
+          text: 'Confirmation immédiate, ajout à l’agenda et rappel la veille.',
+          image: '/assets/images/journey/etape-3.webp',
+        },
+      ],
       image: '/assets/images/concepts/institut-desktop.webp',
       mobileImage: '/assets/images/concepts/institut-mobile.webp',
     },
@@ -563,6 +617,24 @@ export const defaults = {
         { icon: 'file-text', title: 'Devis en ligne', text: 'Demande, chiffrage, envoi et acceptation : chaque devis est suivi de bout en bout.' },
         { icon: 'credit-card', title: 'Acompte à la commande', text: 'Le client accepte le devis et règle l’acompte en ligne, en toute sécurité.' },
         { icon: 'calendar-check', title: 'Rendez-vous et interventions', text: 'Visites, rendez-vous ou chantiers planifiés selon vos disponibilités.' },
+      ],
+      journeyTitle: 'Une demande complète, une commande lancée.',
+      journey: [
+        {
+          title: 'Demander un devis',
+          text: 'Type de projet, dimensions et photos : vous avez tout pour chiffrer.',
+          image: '/assets/images/parcours/pme-demande.webp',
+        },
+        {
+          title: 'Valider le devis',
+          text: 'Le client accepte le devis en ligne et verse l’acompte à la commande.',
+          image: '/assets/images/concepts/pme-mobile.webp',
+        },
+        {
+          title: 'Planifier l’intervention',
+          text: 'Acompte reçu, rendez-vous fixé : chaque étape du projet est suivie.',
+          image: '/assets/images/parcours/pme-suivi.webp',
+        },
       ],
       image: '/assets/images/concepts/pme-desktop.webp',
       mobileImage: '/assets/images/concepts/pme-mobile.webp',

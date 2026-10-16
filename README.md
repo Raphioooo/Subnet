@@ -15,9 +15,9 @@ Les fonctionnalités de réservation, d'acompte et de devis vendues aux clients 
 | Page | Adresse | Contenu |
 | --- | --- | --- |
 | Accueil | `/` | Accroche, vitrine animée par secteur, positionnement, parcours client (créneau, acompte, confirmation), secteurs, fonctionnalités, panneau d'administration, « pourquoi nous », réalisations |
-| L'offre | `/offre` | Fonctionnalités incluses, modules (réservation, acompte, devis, horaires, administration), comparatif avec les plateformes de réservation, design, bénéfices |
-| Secteurs | `/secteurs` et `/secteurs/restaurateurs`, `/tatoueurs`, `/instituts`, `/tpe-pme` | Une page par métier : ce que le site gère, fonctionnalités mises en avant, ton |
-| Réalisations | `/realisations` | Galerie filtrable par secteur, avec visionneuse |
+| L'offre | `/offre` | Fonctionnalités incluses, modules illustrés par des captures (réservation, acompte, devis, horaires, administration), comparatif avec les plateformes de réservation, design, bénéfices |
+| Secteurs | `/secteurs` et `/secteurs/restaurateurs`, `/tatoueurs`, `/instituts`, `/tpe-pme` | Une page par métier : ce que le site gère, fonctionnalités mises en avant, parcours client en trois écrans mobiles, ton |
+| Réalisations | `/realisations` | Galerie filtrable par secteur (version ordinateur et capture mobile), avec visionneuse |
 | FAQ | `/faq` | Questions fréquentes |
 | Contact | `/contact` | Formulaire « demande de devis » ou « simple question » (fonctionnalités souhaitées, protection anti-spam), coordonnées, horaires, réseaux. Un formulaire rapide figure aussi en bas de l'accueil |
 | Pages légales | `/mentions-legales`, `/confidentialite`, `/cookies`, `/conditions-generales` | Modèles remplis automatiquement avec vos informations |
@@ -55,9 +55,9 @@ Rendez-vous sur `/admin`. Le mot de passe est celui de `ADMIN_PASSWORD`. Si la v
 | --- | --- |
 | Général | Nom du site, logo, description pour Google, image de partage, bandeau d'information (fermeture exceptionnelle, nouveauté…), bloc « Parlons de votre projet » |
 | Accueil | Tous les textes, boutons et icônes de la page d'accueil, dont les étapes du parcours client |
-| L'offre | Fonctionnalités incluses, modules, contenus gérables, comparatif, principes de design, bénéfices |
-| Secteurs | Textes, listes, fonctionnalités mises en avant, visuels et ordre des quatre pages métiers |
-| Réalisations | Projets de la galerie : ajout, image, secteur, lien, ordre, affichage ou masquage |
+| L'offre | Fonctionnalités incluses, modules et leurs illustrations (format téléphone ou ordinateur), contenus gérables, comparatif, principes de design, bénéfices |
+| Secteurs | Textes, listes, fonctionnalités mises en avant, parcours client (étapes et captures), visuels et ordre des quatre pages métiers |
+| Réalisations | Projets de la galerie : ajout, image principale et capture mobile, secteur, lien, ordre, affichage ou masquage |
 | FAQ | Questions et réponses |
 | Coordonnées | Email, téléphone, adresse, zone d'intervention, horaires, réseaux sociaux, textes de la page contact et fonctionnalités proposées dans le formulaire de devis |
 | Pages légales | Informations légales et contenu des quatre pages réglementaires |

@@ -77,6 +77,23 @@ describe('site public', () => {
     }
   });
 
+  test('illustrations : parcours client, modules et réalisations', async () => {
+    const sector = await (await request('/secteurs/tatoueurs')).text();
+    assert.ok(sector.includes('Une demande claire, une séance confirmée.'));
+    assert.ok(sector.includes('/assets/images/parcours/tatouage-demande.webp'));
+    assert.ok(sector.includes('project-grid--single'));
+    const offer = await (await request('/offre')).text();
+    assert.equal(offer.match(/ step--media /g)?.length, 5);
+    assert.ok(offer.includes('/assets/images/modules/horaires.webp'));
+    const projects = await (await request('/realisations')).text();
+    assert.equal(projects.match(/class="project-card__phone"/g)?.length, 4);
+    for (const file of ['parcours/pme-suivi.webp', 'modules/horaires.webp']) {
+      const res = await request(`/assets/images/${file}`);
+      assert.equal(res.status, 200, file);
+      assert.equal(res.headers.get('content-type'), 'image/webp');
+    }
+  });
+
   test('page inconnue : 404', async () => {
     assert.equal((await request('/nexiste-pas')).status, 404);
     assert.equal((await request('/secteurs/inconnu')).status, 404);

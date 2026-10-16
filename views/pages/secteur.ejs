@@ -32,8 +32,13 @@
     </div>
   </section>
 
+  <%
+    // Fonds alternés (gris clair / blanc) pour les sections présentes.
+    let band = 0;
+    const bg = () => (band++ % 2 === 0 ? ' section--soft' : '');
+  -%>
   <% if (sector.features.length) { %>
-  <section class="section section--soft" aria-labelledby="fonctionnalites">
+  <section class="section<%= bg() %>" aria-labelledby="fonctionnalites">
     <div class="container">
       <h2 class="sr-only" id="fonctionnalites">Fonctionnalités</h2>
       <div class="card-grid">
@@ -49,22 +54,34 @@
   </section>
   <% } %>
 
+  <% if (sector.journey.length) { %>
+  <section class="section<%= bg() %>" aria-labelledby="parcours">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <p class="eyebrow reveal">Côté client</p>
+        <h2 class="h2 reveal" id="parcours"><%= sector.journeyTitle || 'Le parcours de vos clients.' %></h2>
+      </header>
+      <%- include('../partials/journey', { steps: sector.journey }) %>
+    </div>
+  </section>
+  <% } %>
+
   <% if (projects.length) { %>
-  <section class="section" aria-labelledby="exemples">
+  <section class="section<%= bg() %>" aria-labelledby="exemples">
     <div class="container">
       <header class="section-head">
         <p class="eyebrow reveal">Réalisations</p>
         <h2 class="h2 reveal" id="exemples">Un aperçu en images.</h2>
         <a class="link-arrow link-arrow--lg reveal" href="/realisations">Voir toutes les réalisations<%- icon('chevron-right', { size: 18 }) %></a>
       </header>
-      <div class="project-grid">
+      <div class="project-grid<%= projects.length === 1 ? ' project-grid--single' : '' %>">
         <% for (const project of projects) { %><%- include('../partials/project-card', { project }) %><% } %>
       </div>
     </div>
   </section>
   <% } %>
 
-  <section class="section<%= projects.length ? ' section--soft' : '' %>" aria-labelledby="autres">
+  <section class="section<%= bg() %>" aria-labelledby="autres">
     <div class="container">
       <header class="section-head">
         <h2 class="h2 reveal" id="autres">Les autres secteurs.</h2>

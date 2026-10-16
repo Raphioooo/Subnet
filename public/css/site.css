@@ -103,6 +103,10 @@ img {
   height: auto;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 a {
   color: var(--accent);
   text-decoration: none;
@@ -699,10 +703,6 @@ textarea {
   overflow-y: auto;
   padding: 16px var(--gutter) 48px;
   background: #fff;
-}
-
-.mobile-menu[hidden] {
-  display: none;
 }
 
 .mobile-menu ul {
@@ -1695,11 +1695,20 @@ textarea {
   gap: 20px;
 }
 
-.project-card[hidden] {
-  display: none;
+.project-grid--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 900px) {
+  .project-grid--single .project-card {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: center;
+    gap: clamp(32px, 4vw, 64px);
+  }
 }
 
 .project-card__media {
+  position: relative;
   display: block;
   width: 100%;
   aspect-ratio: 16 / 10;
@@ -1722,10 +1731,6 @@ textarea {
   object-fit: cover;
   object-position: top center;
   transition: transform 1s var(--ease-out);
-}
-
-.project-card__media {
-  position: relative;
 }
 
 .project-card__media:hover > img {
@@ -2447,7 +2452,7 @@ textarea {
   min-height: 40px;
   padding: 0 18px;
   border-radius: 980px;
-  color: var(--text-2);
+  color: #55555a;
   font-size: 0.9375rem;
   font-weight: 500;
   white-space: nowrap;
@@ -2468,15 +2473,27 @@ textarea {
 @media (max-width: 520px) {
   .segmented {
     display: flex;
+    min-inline-size: 0;
   }
 
   .segmented label {
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .segmented span {
     width: 100%;
-    padding: 0 10px;
+    height: 100%;
+    padding: 6px 10px;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 400px) {
+  .segmented svg {
+    display: none;
   }
 }
 
@@ -2491,6 +2508,7 @@ textarea {
 
 .quick-contact__inner {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(32px, 5vw, 64px);
   padding: clamp(24px, 5vw, 72px);
   border-radius: var(--radius-xl);
