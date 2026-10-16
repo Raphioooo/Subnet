@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title><%= title %> · Administration · <%= site.name %></title>
+<link rel="icon" href="<%= asset('images/favicon.svg') %>" type="image/svg+xml">
+<link rel="stylesheet" href="<%= asset('css/admin.css') %>">
+<script src="<%= asset('js/admin.js') %>" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+<div class="shell">
+  <aside class="sidebar" id="sidebar" data-sidebar>
+    <a class="brand" href="/admin">
+      <svg class="brand__mark" width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="9" fill="currentColor"/><rect x="15" y="15" width="11" height="11" rx="3.4" fill="#2b59ff"/></svg>
+      <span><strong><%= site.name %></strong><small>Administration</small></span>
+    </a>
+    <nav class="sidebar__nav" aria-label="Administration">
+      <a class="nav-link" href="/admin"<% if (active === 'dashboard') { %> aria-current="page"<% } %>><%- icon('layout-dashboard', { size: 18 }) %>Tableau de bord</a>
+      <p class="nav-label">Contenus</p>
+      <% for (const p of pages) { %>
+      <a class="nav-link" href="/admin/pages/<%= p.id %>"<% if (active === p.id) { %> aria-current="page"<% } %>><%- icon(p.icon, { size: 18 }) %><%= p.title %></a>
+      <% } %>
+      <p class="nav-label">Suivi</p>
+      <a class="nav-link" href="/admin/demandes"<% if (active === 'requests') { %> aria-current="page"<% } %>><%- icon('inbox', { size: 18 }) %>Demandes<span class="nav-count" data-unread-count<%= unread ? '' : ' hidden' %>><%= unread %></span></a>
+      <a class="nav-link" href="/admin/compte"<% if (active === 'account') { %> aria-current="page"<% } %>><%- icon('lock', { size: 18 }) %>Compte et sauvegarde</a>
+    </nav>
+    <div class="sidebar__foot">
+      <a class="nav-link" href="/" target="_blank" rel="noopener"><%- icon('external-link', { size: 18 }) %>Voir le site</a>
+      <form method="post" action="/admin/deconnexion">
+        <button class="nav-link" type="submit"><%- icon('log-out', { size: 18 }) %>Se déconnecter</button>
+      </form>
+    </div>
+  </aside>
+  <div class="sidebar-backdrop" data-sidebar-close hidden></div>
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn" type="button" data-sidebar-toggle aria-controls="sidebar" aria-expanded="false"><%- icon('menu', { size: 20 }) %><span class="sr-only">Ouvrir le menu</span></button>
+      <span class="topbar__title"><%= title %></span>
+      <a class="icon-btn" href="/" target="_blank" rel="noopener"><%- icon('external-link', { size: 18 }) %><span class="sr-only">Voir le site</span></a>
+    </header>
+    <main class="content" id="contenu">

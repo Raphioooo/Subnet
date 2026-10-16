@@ -1,0 +1,14 @@
+<section class="cta" aria-labelledby="cta-title">
+  <div class="container cta__inner reveal">
+    <h2 class="h2" id="cta-title"><%= c.cta.title %></h2>
+    <% if (c.cta.text) { %><p class="lead"><%= c.cta.text %></p><% } %>
+    <div class="actions actions--center">
+      <a class="btn btn--primary btn--lg" href="<%= locals.ctaHref || c.cta.buttonLink %>"><%= c.cta.buttonLabel %></a>
+      <% if (c.contact.phone) { %>
+      <a class="link-arrow link-arrow--lg" href="<%= telHref(c.contact.phone) %>"><%- icon('phone', { size: 18 }) %><%= c.contact.phone %></a>
+      <% } else if (c.contact.email) { %>
+      <a class="link-arrow link-arrow--lg" href="mailto:<%= c.contact.email %>"><%- icon('mail', { size: 18 }) %><%= c.contact.email %></a>
+      <% } %>
+    </div>
+  </div>
+</section>

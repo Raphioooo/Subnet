@@ -1,0 +1,21 @@
+<%- include('../partials/head') %>
+<main id="contenu">
+  <%- include('../partials/page-hero', { hero: c.faqPage.hero }) %>
+
+  <section class="section section--flush-top">
+    <div class="container container--narrow">
+      <div class="faq">
+        <% for (const item of c.faq) { %>
+        <details class="faq__item reveal">
+          <summary><span><%= item.question %></span><span class="faq__icon" aria-hidden="true"><%- icon('plus', { size: 20 }) %></span></summary>
+          <div class="faq__answer prose"><%- md(item.answer) %></div>
+        </details>
+        <% } %>
+      </div>
+      <p class="faq__more reveal">Une autre question ? <a class="link-arrow" href="/contact">Écrivez-nous<%- icon('chevron-right', { size: 16 }) %></a></p>
+    </div>
+  </section>
+
+  <%- include('../partials/cta') %>
+</main>
+<%- include('../partials/footer') %>

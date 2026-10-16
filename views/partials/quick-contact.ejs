@@ -1,0 +1,54 @@
+<% const ct = c.contact; -%>
+<section class="quick-contact" id="contact" aria-labelledby="contact-titre">
+  <div class="container">
+    <div class="quick-contact__inner reveal">
+      <div class="quick-contact__intro">
+        <p class="eyebrow">Contact</p>
+        <h2 class="h2" id="contact-titre"><%= c.cta.title %></h2>
+        <% if (c.cta.text) { %><p class="lead"><%= c.cta.text %></p><% } %>
+        <ul class="quick-contact__links">
+          <% if (ct.phone) { %><li><a href="<%= telHref(ct.phone) %>"><%- icon('phone', { size: 18 }) %><%= ct.phone %></a></li><% } %>
+          <% if (ct.email) { %><li><a href="mailto:<%= ct.email %>"><%- icon('mail', { size: 18 }) %><%= ct.email %></a></li><% } %>
+          <li><a href="/contact"><%- icon('file-text', { size: 18 }) %>Formulaire de devis détaillé</a></li>
+        </ul>
+      </div>
+      <div class="quick-contact__form">
+        <% if (sent) { %>
+        <div class="success" role="status">
+          <span class="success__icon"><%- icon('circle-check', { size: 32 }) %></span>
+          <h3 class="h3">Message envoyé</h3>
+          <p><%= ct.page.success %></p>
+        </div>
+        <% } else { %>
+        <form class="form" method="post" action="/contact" novalidate data-contact-form>
+          <%- include('request-type', { selected: 'devis' }) %>
+          <input type="hidden" name="source" value="accueil">
+          <div class="form__grid">
+            <div class="form__field">
+              <label for="q-name">Nom et prénom</label>
+              <input id="q-name" name="name" type="text" autocomplete="name" required maxlength="100">
+            </div>
+            <div class="form__field">
+              <label for="q-email">Email</label>
+              <input id="q-email" name="email" type="email" autocomplete="email" required maxlength="200">
+            </div>
+            <div class="form__field form__field--full">
+              <label for="q-message" data-type-label data-label-devis="Votre projet" data-label-contact="Votre message">Votre projet</label>
+              <textarea id="q-message" name="message" rows="4" required maxlength="5000" data-placeholder-devis="Votre activité et les fonctionnalités dont vous avez besoin…" data-placeholder-contact="Votre question, en quelques mots…" placeholder="Votre activité et les fonctionnalités dont vous avez besoin…"></textarea>
+            </div>
+            <div class="form__trap" aria-hidden="true">
+              <label for="q-website">Ne pas remplir</label>
+              <input id="q-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="token" value="<%= token %>">
+          </div>
+          <div class="form__footer">
+            <button class="btn btn--primary btn--lg" type="submit">Envoyer</button>
+            <p class="form__privacy"><%= ct.page.privacy %><% if (c.legal.privacy.published) { %> <a href="/confidentialite">En savoir plus</a>.<% } %></p>
+          </div>
+        </form>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>

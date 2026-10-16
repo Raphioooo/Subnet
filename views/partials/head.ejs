@@ -1,0 +1,46 @@
+<%
+  const site = c.site;
+  const pageTitle = page.title ? `${page.title} · ${site.name}` : `${site.name} · ${site.tagline}`;
+  const description = page.description || site.description;
+  const canonical = baseUrl + (page.path || currentPath);
+  const shareImage = baseUrl + (page.image || site.shareImage || '/assets/images/og.jpg');
+-%>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title><%= pageTitle %></title>
+<meta name="description" content="<%= description %>">
+<% if (page.noindex) { %><meta name="robots" content="noindex">
+<% } else { %><link rel="canonical" href="<%= canonical %>">
+<% } -%>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="<%= site.name %>">
+<meta property="og:title" content="<%= pageTitle %>">
+<meta property="og:description" content="<%= description %>">
+<meta property="og:url" content="<%= canonical %>">
+<meta property="og:image" content="<%= shareImage %>">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="<%= asset('images/favicon.svg') %>" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="<%= asset('images/apple-touch-icon.png') %>">
+<link rel="stylesheet" href="<%= asset('css/site.css') %>">
+<script><%- inlineJs %></script>
+<script src="<%= asset('js/site.js') %>" defer></script>
+<% if (locals.jsonLd) { %><script type="application/ld+json"><%- jsonForScript(jsonLd) %></script>
+<% } -%>
+</head>
+<body>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+<% if (site.notice.enabled && site.notice.text) { %>
+<aside class="notice" aria-label="Information">
+  <div class="container notice__inner">
+    <span><%= site.notice.text %></span>
+    <% if (site.notice.link) { %><a href="<%= site.notice.link %>"><%= site.notice.linkLabel || 'En savoir plus' %><%- icon('chevron-right', { size: 14, strokeWidth: 2 }) %></a><% } %>
+  </div>
+</aside>
+<% } %>
+<%- include('header') %>

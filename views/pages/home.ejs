@@ -1,0 +1,186 @@
+<%- include('../partials/head') %>
+<% const h = c.home.hero; -%>
+<main id="contenu">
+
+  <section class="hero">
+    <div class="container hero__inner">
+      <% if (h.eyebrow) { %><p class="eyebrow reveal"><%= h.eyebrow %></p><% } %>
+      <h1 class="display reveal"><%= h.title %></h1>
+      <% if (h.subtitle) { %><p class="lead hero__lead reveal"><%= h.subtitle %></p><% } %>
+      <div class="actions actions--center reveal">
+        <% if (h.primaryLabel) { %><a class="btn btn--primary btn--lg" href="<%= h.primaryLink %>"><%= h.primaryLabel %></a><% } %>
+        <% if (h.secondaryLabel) { %><a class="link-arrow link-arrow--lg" href="<%= h.secondaryLink %>"><%= h.secondaryLabel %><%- icon('chevron-right', { size: 18 }) %></a><% } %>
+      </div>
+    </div>
+
+    <div class="container container--wide">
+      <div class="showcase reveal" data-showcase>
+        <div class="devices devices--hero">
+          <div class="browser">
+            <div class="browser__bar" aria-hidden="true"><span class="browser__dots"><i></i><i></i><i></i></span><span class="browser__address"><%- icon('lock', { size: 11, strokeWidth: 2.25 }) %></span></div>
+            <div class="browser__screen">
+              <% c.sectors.forEach((s, i) => { %>
+              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.image %>"
+                alt="Exemple de site pour <%= s.name.toLowerCase() %>" width="1600" height="1000" decoding="async"
+                <% if (i === 0) { %>fetchpriority="high"<% } else { %>loading="lazy" aria-hidden="true"<% } %>>
+              <% }) %>
+            </div>
+          </div>
+          <div class="phone" aria-hidden="true">
+            <div class="phone__screen">
+              <% c.sectors.forEach((s, i) => { %>
+              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.mobileImage %>" alt="" width="600" height="1300" decoding="async" loading="lazy">
+              <% }) %>
+            </div>
+          </div>
+        </div>
+        <div class="showcase__tabs" role="group" aria-label="Exemples de sites par secteur">
+          <% c.sectors.forEach((s, i) => { %>
+          <button class="chip" type="button" data-slide-to="<%= i %>" aria-pressed="<%= i === 0 %>"><%- icon(s.icon, { size: 16 }) %><%= s.shortName %></button>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <% const p = c.home.pillars; -%>
+  <section class="section" aria-labelledby="positionnement">
+    <div class="container split">
+      <header class="split__aside">
+        <% if (p.eyebrow) { %><p class="eyebrow reveal"><%= p.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="positionnement"><%= p.title %></h2>
+        <% if (p.text) { %><p class="lead reveal"><%= p.text %></p><% } %>
+      </header>
+      <ol class="pillars">
+        <% p.items.forEach((item, i) => { %>
+        <li class="pillar reveal">
+          <span class="pillar__num"><%= String(i + 1).padStart(2, '0') %></span>
+          <div>
+            <h3 class="h4"><%= item.title %></h3>
+            <% if (item.text) { %><p><%= item.text %></p><% } %>
+          </div>
+        </li>
+        <% }) %>
+      </ol>
+    </div>
+  </section>
+
+  <% const j = c.home.journey; if (j.steps.length) { %>
+  <section class="section section--soft" aria-labelledby="parcours">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (j.eyebrow) { %><p class="eyebrow reveal"><%= j.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="parcours"><%= j.title %></h2>
+        <% if (j.text) { %><p class="lead reveal"><%= j.text %></p><% } %>
+      </header>
+      <%- include('../partials/journey', { steps: j.steps }) %>
+    </div>
+  </section>
+  <% } %>
+
+  <% const s = c.home.sectors; -%>
+  <section class="section" aria-labelledby="secteurs">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (s.eyebrow) { %><p class="eyebrow reveal"><%= s.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="secteurs"><%= s.title %></h2>
+        <% if (s.text) { %><p class="lead reveal"><%= s.text %></p><% } %>
+      </header>
+      <div class="sector-grid">
+        <% for (const sector of c.sectors) { %><%- include('../partials/sector-card', { sector }) %><% } %>
+      </div>
+      <% if (s.note) { %>
+      <p class="note reveal"><%= s.note %> <a class="link-arrow" href="/contact">Parlons-en<%- icon('chevron-right', { size: 16 }) %></a></p>
+      <% } %>
+    </div>
+  </section>
+
+  <% const o = c.home.offer; -%>
+  <section class="section section--soft" aria-labelledby="offre">
+    <div class="container">
+      <header class="section-head">
+        <% if (o.eyebrow) { %><p class="eyebrow reveal"><%= o.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="offre"><%= o.title %></h2>
+        <% if (o.text) { %><p class="lead reveal"><%= o.text %></p><% } %>
+        <% if (o.linkLabel) { %><a class="link-arrow link-arrow--lg reveal" href="/offre"><%= o.linkLabel %><%- icon('chevron-right', { size: 18 }) %></a><% } %>
+      </header>
+      <%- include('../partials/features') %>
+    </div>
+  </section>
+
+  <% const a = c.home.admin; -%>
+  <section class="section section--dark" aria-labelledby="administration">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (a.eyebrow) { %><p class="eyebrow reveal"><%= a.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="administration"><%= a.title %></h2>
+        <% if (a.text) { %><p class="lead reveal"><%= a.text %></p><% } %>
+      </header>
+      <% if (a.image) { %>
+      <div class="admin-shot reveal">
+        <div class="browser browser--dark">
+          <div class="browser__bar" aria-hidden="true"><span class="browser__dots"><i></i><i></i><i></i></span><span class="browser__address"><%- icon('lock', { size: 11, strokeWidth: 2.25 }) %></span></div>
+          <div class="browser__screen"><img src="<%= a.image %>" alt="Aperçu de l’espace d’administration" width="1600" height="1000" loading="lazy" decoding="async"></div>
+        </div>
+      </div>
+      <% } %>
+      <ul class="chips chips--center reveal">
+        <% for (const item of c.offer.admin.items) { %><li class="chip chip--static"><%= item %></li><% } %>
+      </ul>
+      <div class="points">
+        <% a.points.forEach((pt, i) => { %>
+        <div class="point reveal">
+          <span class="point__icon"><%- icon(pt.icon || 'check', { size: 22 }) %></span>
+          <div>
+            <h3 class="h4"><%= pt.title %></h3>
+            <% if (pt.text) { %><p><%= pt.text %></p><% } %>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <% const w = c.home.why; -%>
+  <section class="section" aria-labelledby="pourquoi">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (w.eyebrow) { %><p class="eyebrow reveal"><%= w.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="pourquoi"><%= w.title %></h2>
+        <% if (w.text) { %><p class="lead reveal"><%= w.text %></p><% } %>
+      </header>
+      <div class="card-grid card-grid--<%= Math.min(w.items.length, 4) %>">
+        <% w.items.forEach((item, i) => { %>
+        <div class="card reveal">
+          <span class="card__icon"><%- icon(item.icon || 'check', { size: 26 }) %></span>
+          <h3 class="h3"><%= item.title %></h3>
+          <% if (item.text) { %><p><%= item.text %></p><% } %>
+        </div>
+        <% }) %>
+      </div>
+      <% if (w.linkLabel) { %>
+      <p class="section-foot reveal"><a class="link-arrow link-arrow--lg" href="/offre#comparatif"><%= w.linkLabel %><%- icon('chevron-right', { size: 18 }) %></a></p>
+      <% } %>
+    </div>
+  </section>
+
+  <% if (projects.length) { const pr = c.home.projects; %>
+  <section class="section section--soft" aria-labelledby="realisations">
+    <div class="container">
+      <header class="section-head">
+        <% if (pr.eyebrow) { %><p class="eyebrow reveal"><%= pr.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="realisations"><%= pr.title %></h2>
+        <% if (pr.text) { %><p class="lead reveal"><%= pr.text %></p><% } %>
+        <% if (pr.linkLabel) { %><a class="link-arrow link-arrow--lg reveal" href="/realisations"><%= pr.linkLabel %><%- icon('chevron-right', { size: 18 }) %></a><% } %>
+      </header>
+      <div class="project-grid">
+        <% for (const project of projects) { %><%- include('../partials/project-card', { project }) %><% } %>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <%- include('../partials/quick-contact') %>
+</main>
+<%- include('../partials/lightbox') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,31 @@
+<%- include('../partials/head') %>
+<main id="contenu">
+  <%- include('../partials/page-hero', { hero: c.sectorsPage.hero }) %>
+
+  <section class="section section--flush-top" aria-labelledby="liste-secteurs">
+    <div class="container">
+      <h2 class="sr-only" id="liste-secteurs">Les secteurs</h2>
+      <div class="sector-grid sector-grid--large">
+        <% for (const sector of c.sectors) { %><%- include('../partials/sector-card', { sector, withIntro: true }) %><% } %>
+      </div>
+    </div>
+  </section>
+
+  <% if (c.sectorsPage.note.title || c.sectorsPage.note.text) { %>
+  <section class="section section--soft section--tight">
+    <div class="container">
+      <div class="callout reveal">
+        <span class="callout__icon"><%- icon('store', { size: 26 }) %></span>
+        <div>
+          <% if (c.sectorsPage.note.title) { %><h2 class="h3"><%= c.sectorsPage.note.title %></h2><% } %>
+          <% if (c.sectorsPage.note.text) { %><p><%= c.sectorsPage.note.text %></p><% } %>
+        </div>
+        <a class="btn btn--secondary" href="/contact?secteur=commerce">Parlons-en</a>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <%- include('../partials/cta') %>
+</main>
+<%- include('../partials/footer') %>

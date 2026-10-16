@@ -1,0 +1,30 @@
+<%- include('../partials/head') %>
+<main id="contenu">
+  <%- include('../partials/page-hero', { hero: c.projectsPage.hero }) %>
+
+  <section class="section section--flush-top" aria-labelledby="liste-projets">
+    <div class="container">
+      <h2 class="sr-only" id="liste-projets">Les projets</h2>
+      <% if (projects.length) { %>
+      <% if (filters.length > 1) { %>
+      <div class="filters reveal" role="group" aria-label="Filtrer par secteur" data-filters>
+        <button class="chip" type="button" data-filter="" aria-pressed="true">Tous</button>
+        <% for (const f of filters) { %><button class="chip" type="button" data-filter="<%= f.value %>" aria-pressed="false"><%= f.label %></button><% } %>
+      </div>
+      <% } %>
+      <div class="project-grid" data-project-grid>
+        <% for (const project of projects) { %><%- include('../partials/project-card', { project }) %><% } %>
+      </div>
+      <% } else { %>
+      <div class="empty reveal">
+        <span class="empty__icon"><%- icon('images', { size: 28 }) %></span>
+        <p><%= c.projectsPage.emptyText %></p>
+      </div>
+      <% } %>
+    </div>
+  </section>
+
+  <%- include('../partials/cta') %>
+</main>
+<%- include('../partials/lightbox') %>
+<%- include('../partials/footer') %>

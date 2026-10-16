@@ -1,0 +1,7 @@
+<section class="page-hero<%= locals.compact ? ' page-hero--compact' : '' %>">
+  <div class="container page-hero__inner">
+    <% if (hero.eyebrow) { %><p class="eyebrow reveal"><%= hero.eyebrow %></p><% } %>
+    <h1 class="display display--page reveal"><%= hero.title %></h1>
+    <% if (hero.subtitle) { %><p class="lead page-hero__lead reveal"><%= hero.subtitle %></p><% } %>
+  </div>
+</section>

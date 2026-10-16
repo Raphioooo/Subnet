@@ -1,0 +1,51 @@
+# Lance les tests à chaque push et pull request. Après un push sur main,
+# met le site à jour sur le serveur par SSH (si les secrets DEPLOY_* sont
+# renseignés dans GitHub : Settings > Secrets and variables > Actions).
+name: Tests et mise en ligne
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  deploy:
+    name: Mise en ligne
+    needs: tests
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mettre à jour le serveur
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          if [ -z "$DEPLOY_HOST" ]; then
+            echo "Mise en ligne automatique non configurée (secrets DEPLOY_*) : étape ignorée."
+            exit 0
+          fi
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          # La clé est limitée côté serveur à scripts/deploy.sh (voir le guide).
+          ssh -T -o BatchMode=yes -i ~/.ssh/deploy_key "$DEPLOY_USER@$DEPLOY_HOST"

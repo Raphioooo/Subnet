@@ -1,0 +1,8 @@
+<div class="list-item" data-item>
+  <input class="input" data-input type="text" value="<%= itemValue %>" maxlength="300" aria-label="Ligne de la liste">
+  <div class="item-actions">
+    <button class="icon-btn icon-btn--sm" type="button" data-action="up" aria-label="Monter"><%- icon('arrow-up', { size: 15 }) %></button>
+    <button class="icon-btn icon-btn--sm" type="button" data-action="down" aria-label="Descendre"><%- icon('arrow-down', { size: 15 }) %></button>
+    <button class="icon-btn icon-btn--sm icon-btn--danger" type="button" data-action="remove" aria-label="Supprimer"><%- icon('trash-2', { size: 15 }) %></button>
+  </div>
+</div>

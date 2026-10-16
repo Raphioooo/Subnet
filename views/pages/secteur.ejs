@@ -1,0 +1,98 @@
+<%- include('../partials/head') %>
+<main id="contenu">
+  <section class="page-hero page-hero--sector">
+    <div class="container page-hero__inner">
+      <p class="eyebrow eyebrow--icon reveal"><%- icon(sector.icon, { size: 18 }) %><%= sector.name %></p>
+      <h1 class="display display--page reveal"><%= sector.title %></h1>
+      <% if (sector.intro) { %><p class="lead page-hero__lead reveal"><%= sector.intro %></p><% } %>
+      <div class="actions actions--center reveal">
+        <a class="btn btn--primary btn--lg" href="/contact?secteur=<%= sector.slug %>"><%= c.cta.buttonLabel %></a>
+        <a class="link-arrow link-arrow--lg" href="/offre">Découvrir l’offre<%- icon('chevron-right', { size: 18 }) %></a>
+      </div>
+    </div>
+    <div class="container container--wide">
+      <div class="reveal">
+        <%- include('../partials/devices', { desktop: sector.image, mobile: sector.mobileImage, alt: `Exemple de site pour ${sector.name.toLowerCase()}`, eager: true, variant: 'hero' }) %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="atouts">
+    <div class="container split">
+      <header class="split__aside">
+        <p class="eyebrow reveal">Ton & univers</p>
+        <p class="tone reveal"><%= sector.tone %>.</p>
+      </header>
+      <div>
+        <h2 class="h3 reveal" id="atouts"><%= sector.highlightsTitle %></h2>
+        <ul class="checklist checklist--large">
+          <% for (const item of sector.highlights) { %><li class="reveal"><%- icon('check', { size: 18, strokeWidth: 2.25 }) %><span><%= item %></span></li><% } %>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <%
+    // Fonds alternés (gris clair / blanc) pour les sections présentes.
+    let band = 0;
+    const bg = () => (band++ % 2 === 0 ? ' section--soft' : '');
+  -%>
+  <% if (sector.features.length) { %>
+  <section class="section<%= bg() %>" aria-labelledby="fonctionnalites">
+    <div class="container">
+      <h2 class="sr-only" id="fonctionnalites">Fonctionnalités</h2>
+      <div class="card-grid">
+        <% for (const f of sector.features) { %>
+        <div class="card card--white reveal">
+          <span class="card__icon"><%- icon(f.icon || 'check', { size: 26 }) %></span>
+          <h3 class="h3"><%= f.title %></h3>
+          <% if (f.text) { %><p><%= f.text %></p><% } %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <% if (sector.journey.length) { %>
+  <section class="section<%= bg() %>" aria-labelledby="parcours">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <p class="eyebrow reveal">Côté client</p>
+        <h2 class="h2 reveal" id="parcours"><%= sector.journeyTitle || 'Le parcours de vos clients.' %></h2>
+      </header>
+      <%- include('../partials/journey', { steps: sector.journey }) %>
+    </div>
+  </section>
+  <% } %>
+
+  <% if (projects.length) { %>
+  <section class="section<%= bg() %>" aria-labelledby="exemples">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow reveal">Réalisations</p>
+        <h2 class="h2 reveal" id="exemples">Un aperçu en images.</h2>
+        <a class="link-arrow link-arrow--lg reveal" href="/realisations">Voir toutes les réalisations<%- icon('chevron-right', { size: 18 }) %></a>
+      </header>
+      <div class="project-grid<%= projects.length === 1 ? ' project-grid--single' : '' %>">
+        <% for (const project of projects) { %><%- include('../partials/project-card', { project }) %><% } %>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <section class="section<%= bg() %>" aria-labelledby="autres">
+    <div class="container">
+      <header class="section-head">
+        <h2 class="h2 reveal" id="autres">Les autres secteurs.</h2>
+      </header>
+      <div class="sector-grid sector-grid--three">
+        <% for (const other of others) { %><%- include('../partials/sector-card', { sector: other }) %><% } %>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/cta', { ctaHref: `/contact?secteur=${sector.slug}` }) %>
+</main>
+<%- include('../partials/lightbox') %>
+<%- include('../partials/footer') %>

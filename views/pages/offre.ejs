@@ -1,0 +1,130 @@
+<%- include('../partials/head') %>
+<% const o = c.offer; -%>
+<main id="contenu">
+  <%- include('../partials/page-hero', { hero: o.hero }) %>
+
+  <section class="section section--flush-top" aria-labelledby="perimetre">
+    <div class="container">
+      <header class="section-head">
+        <% if (o.scope.eyebrow) { %><p class="eyebrow reveal"><%= o.scope.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="perimetre"><%= o.scope.title %></h2>
+        <% if (o.scope.text) { %><p class="lead reveal"><%= o.scope.text %></p><% } %>
+      </header>
+      <%- include('../partials/features') %>
+      <% if (o.scope.closing) { %><p class="statement reveal"><%= o.scope.closing %></p><% } %>
+    </div>
+  </section>
+
+  <section class="section section--soft" id="structure" aria-labelledby="structure-titre">
+    <div class="container">
+      <header class="section-head">
+        <% if (o.structure.eyebrow) { %><p class="eyebrow reveal"><%= o.structure.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="structure-titre"><%= o.structure.title %></h2>
+        <% if (o.structure.text) { %><p class="lead reveal"><%= o.structure.text %></p><% } %>
+      </header>
+      <ol class="steps">
+        <% o.structure.steps.forEach((step, i) => { %>
+        <li class="step reveal<%= step.image ? ` step--media step--${step.imageFormat === 'browser' ? 'browser' : 'phone'}` : '' %>">
+          <span class="step__num"><%= i + 1 %></span>
+          <div class="step__body">
+            <h3 class="h3"><%= step.title %></h3>
+            <% if (step.text) { %><p><%= step.text %></p><% } %>
+            <% if (step.items.length) { %>
+            <ul class="checklist checklist--compact">
+              <% for (const item of step.items) { %><li><%- icon('check', { size: 16, strokeWidth: 2.25 }) %><span><%= item %></span></li><% } %>
+            </ul>
+            <% } %>
+          </div>
+          <% if (step.image) { %>
+          <div class="step__media">
+            <% if (step.imageFormat === 'browser') { %>
+            <div class="browser">
+              <div class="browser__bar" aria-hidden="true"><span class="browser__dots"><i></i><i></i><i></i></span><span class="browser__address"><%- icon('lock', { size: 11, strokeWidth: 2.25 }) %></span></div>
+              <div class="browser__screen"><img src="<%= step.image %>" alt="Exemple : <%= step.title.toLowerCase() %>" width="1600" height="1000" loading="lazy" decoding="async"></div>
+            </div>
+            <% } else { %>
+            <div class="phone phone--static"><div class="phone__screen"><img src="<%= step.image %>" alt="Exemple : <%= step.title.toLowerCase() %>" width="600" height="1300" loading="lazy" decoding="async"></div></div>
+            <% } %>
+          </div>
+          <% } %>
+        </li>
+        <% }) %>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--dark" id="administration" aria-labelledby="admin-titre">
+    <div class="container">
+      <header class="section-head">
+        <% if (o.admin.eyebrow) { %><p class="eyebrow reveal"><%= o.admin.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="admin-titre"><%= o.admin.title %></h2>
+        <% if (o.admin.text) { %><p class="lead reveal"><%= o.admin.text %></p><% } %>
+      </header>
+      <div class="split split--even">
+        <div class="panel reveal">
+          <% if (o.admin.itemsTitle) { %><h3 class="h4"><%= o.admin.itemsTitle %></h3><% } %>
+          <ul class="checklist checklist--two">
+            <% for (const item of o.admin.items) { %><li><%- icon('check', { size: 16, strokeWidth: 2.25 }) %><span><%= item %></span></li><% } %>
+          </ul>
+        </div>
+        <div class="stack">
+          <% o.admin.points.forEach((pt, i) => { %>
+          <div class="point reveal">
+            <span class="point__icon"><%- icon(pt.icon || 'check', { size: 22 }) %></span>
+            <div>
+              <h3 class="h4"><%= pt.title %></h3>
+              <% if (pt.text) { %><p><%= pt.text %></p><% } %>
+            </div>
+          </div>
+          <% }) %>
+          <% if (o.admin.note) { %><p class="muted reveal"><%= o.admin.note %></p><% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="comparatif" aria-labelledby="comparatif-titre">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (o.comparison.eyebrow) { %><p class="eyebrow reveal"><%= o.comparison.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="comparatif-titre"><%= o.comparison.title %></h2>
+        <% if (o.comparison.text) { %><p class="lead reveal"><%= o.comparison.text %></p><% } %>
+      </header>
+      <%- include('../partials/comparison') %>
+    </div>
+  </section>
+
+  <section class="section section--soft" id="design" aria-labelledby="design-titre">
+    <div class="container split">
+      <header class="split__aside">
+        <% if (o.design.eyebrow) { %><p class="eyebrow reveal"><%= o.design.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="design-titre"><%= o.design.title %></h2>
+        <% if (o.design.text) { %><p class="lead reveal"><%= o.design.text %></p><% } %>
+      </header>
+      <div>
+        <ul class="principles">
+          <% for (const item of o.design.items) { %><li class="reveal"><%= item %></li><% } %>
+        </ul>
+        <% if (o.design.closing) { %><p class="muted reveal"><%= o.design.closing %></p><% } %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="benefices" aria-labelledby="benefices-titre">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (o.benefits.eyebrow) { %><p class="eyebrow reveal"><%= o.benefits.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="benefices-titre"><%= o.benefits.title %></h2>
+        <% if (o.benefits.text) { %><p class="lead reveal"><%= o.benefits.text %></p><% } %>
+      </header>
+      <ul class="benefits">
+        <% for (const item of o.benefits.items) { %>
+        <li class="benefit reveal"><span class="benefit__icon"><%- icon('check', { size: 18, strokeWidth: 2.25 }) %></span><span><%= item %></span></li>
+        <% } %>
+      </ul>
+    </div>
+  </section>
+
+  <%- include('../partials/cta') %>
+</main>
+<%- include('../partials/footer') %>

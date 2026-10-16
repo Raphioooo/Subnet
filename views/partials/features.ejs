@@ -1,0 +1,9 @@
+<ul class="feature-grid">
+  <% for (const f of c.offer.features) { %>
+  <li class="feature reveal">
+    <span class="feature__icon"><%- icon(f.icon || 'check', { size: 24 }) %></span>
+    <h3 class="h4"><%= f.title %></h3>
+    <% if (f.text) { %><p><%= f.text %></p><% } %>
+  </li>
+  <% } %>
+</ul>

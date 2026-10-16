@@ -1,0 +1,94 @@
+<%- include('partials/head', { title: 'Tableau de bord' }) %>
+<%
+  const todo = checklist.filter((i) => !i.done);
+  const doneCount = checklist.length - todo.length;
+-%>
+<header class="page-head">
+  <div>
+    <h1>Tableau de bord</h1>
+    <p>Mettez à jour votre site en toute autonomie : chaque modification est en ligne dès l’enregistrement.</p>
+  </div>
+  <a class="btn btn--secondary" href="/" target="_blank" rel="noopener"><%- icon('external-link', { size: 16 }) %>Voir le site</a>
+</header>
+
+<div class="stats">
+  <a class="stat" href="/admin/demandes">
+    <span class="stat__icon"><%- icon('inbox', { size: 20 }) %></span>
+    <span class="stat__value"><%= unread %></span>
+    <span class="stat__label"><%= unread > 1 ? 'demandes non lues' : 'demande non lue' %></span>
+  </a>
+  <a class="stat" href="/admin/pages/projects">
+    <span class="stat__icon"><%- icon('images', { size: 20 }) %></span>
+    <span class="stat__value"><%= visibleProjects %></span>
+    <span class="stat__label"><%= visibleProjects > 1 ? 'réalisations en ligne' : 'réalisation en ligne' %></span>
+  </a>
+  <div class="stat">
+    <span class="stat__icon"><%- icon('clock', { size: 20 }) %></span>
+    <span class="stat__value stat__value--text"><%= updatedAt ? relativeDate(updatedAt) : 'Jamais' %></span>
+    <span class="stat__label">dernière modification</span>
+  </div>
+</div>
+
+<% if (todo.length) { %>
+<section class="card">
+  <header class="card__head card__head--row">
+    <div>
+      <h2>Pour bien démarrer</h2>
+      <p><%= doneCount %> étape<%= doneCount > 1 ? 's' : '' %> sur <%= checklist.length %> terminée<%= doneCount > 1 ? 's' : '' %></p>
+    </div>
+    <span class="progress" aria-hidden="true"><span style="width: <%= Math.round((doneCount / checklist.length) * 100) %>%"></span></span>
+  </header>
+  <ul class="todo">
+    <% for (const item of checklist) { %>
+    <li class="<%= item.done ? 'is-done' : '' %>">
+      <span class="todo__check"><%- icon(item.done ? 'circle-check' : 'circle-alert', { size: 18 }) %></span>
+      <span class="todo__label"><%= item.label %></span>
+      <% if (!item.done) { %><a class="todo__link" href="<%= item.href %>">Compléter<%- icon('chevron-right', { size: 14 }) %></a><% } %>
+    </li>
+    <% } %>
+  </ul>
+</section>
+<% } %>
+
+<section class="block">
+  <h2 class="block__title">Modifier le site</h2>
+  <div class="tiles">
+    <% for (const p of pages) { %>
+    <a class="tile" href="/admin/pages/<%= p.id %>">
+      <span class="tile__icon"><%- icon(p.icon, { size: 20 }) %></span>
+      <strong><%= p.title %></strong>
+      <span><%= p.description %></span>
+    </a>
+    <% } %>
+  </div>
+</section>
+
+<section class="card">
+  <header class="card__head card__head--row">
+    <div>
+      <h2>Dernières demandes</h2>
+      <p><%= totalMessages %> demande<%= totalMessages > 1 ? 's' : '' %> au total, envoyée<%= totalMessages > 1 ? 's' : '' %> depuis les formulaires du site</p>
+    </div>
+    <a class="btn btn--secondary btn--sm" href="/admin/demandes">Tout voir</a>
+  </header>
+  <% if (messages.length) { %>
+  <ul class="mini-messages">
+    <% for (const m of messages) { %>
+    <li class="<%= m.read ? '' : 'is-unread' %>">
+      <a href="/admin/demandes#m-<%= m.id %>">
+        <span class="dot" aria-hidden="true"></span>
+        <strong><%= m.name %></strong>
+        <span class="mini-messages__text"><span class="tag tag--<%= m.type %>"><%= m.type === 'contact' ? 'Question' : 'Devis' %></span><%= m.message %></span>
+        <time datetime="<%= m.createdAt %>"><%= relativeDate(m.createdAt) %></time>
+      </a>
+    </li>
+    <% } %>
+  </ul>
+  <% } else { %>
+  <p class="muted">Aucune demande pour le moment. Les demandes envoyées depuis la page contact et le formulaire de l’accueil apparaîtront ici.</p>
+  <% } %>
+  <% if (!mailEnabled) { %>
+  <p class="hint"><%- icon('info', { size: 16 }) %>Les notifications par email ne sont pas configurées : consultez vos demandes ici, ou renseignez les variables SMTP pour être prévenu à chaque demande.</p>
+  <% } %>
+</section>
+<%- include('partials/foot') %>
