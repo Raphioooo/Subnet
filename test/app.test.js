@@ -161,6 +161,33 @@ describe('formulaire de contact', () => {
     assert.ok(html.includes('Décrivez votre projet en quelques mots.'));
   });
 
+  test('formulaire rapide de l’accueil : question enregistrée', async () => {
+    const html = await (await request('/')).text();
+    const token = html.match(/name="token" value="([^"]+)"/)[1];
+    const res = await request('/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        type: 'contact',
+        source: 'accueil',
+        name: 'Paul Renaud',
+        email: 'paul@example.com',
+        company: '=1+1',
+        modules: '0',
+        message: 'Bonjour, quels sont vos délais habituels ?',
+        token,
+      }),
+    });
+    assert.equal(res.status, 303);
+    assert.equal(res.headers.get('location'), '/?envoye=1#contact');
+    const saved = app.ctx.store.messages.find((m) => m.name === 'Paul Renaud');
+    assert.equal(saved.type, 'contact');
+    assert.equal(saved.source, 'accueil');
+    assert.equal(saved.status, 'nouvelle');
+    assert.deepEqual(saved.modules, [], 'pas de fonctionnalités pour une simple question');
+    assert.ok((await (await request('/?envoye=1')).text()).includes('Message envoyé'));
+  });
+
   test('robots : champ piège et jeton invalide', async () => {
     const before = app.ctx.store.messages.length;
     const token = await contactToken();
@@ -221,7 +248,7 @@ describe('administration', () => {
       const res = await request(`/admin/pages/${id}`, { auth: true });
       assert.equal(res.status, 200, id);
     }
-    for (const pathname of ['/admin/messages', '/admin/compte']) {
+    for (const pathname of ['/admin/demandes', '/admin/compte']) {
       assert.equal((await request(pathname, { auth: true })).status, 200, pathname);
     }
   });
@@ -336,14 +363,56 @@ describe('administration', () => {
     assert.ok((await (await request('/')).text()).includes('Titre restauré.'));
   });
 
-  test('messages : lecture et suppression', async () => {
+  test('demandes : liste, filtres, statut, note et export', async () => {
+    const legacy = await request('/admin/messages', { auth: true });
+    assert.equal(legacy.status, 301);
+    assert.equal(legacy.headers.get('location'), '/admin/demandes');
+
+    const list = await (await request('/admin/demandes', { auth: true })).text();
+    assert.ok(list.includes('Camille Martin'));
+    assert.ok(list.includes('Paul Renaud'));
+    const questions = await (await request('/admin/demandes?type=contact', { auth: true })).text();
+    assert.ok(questions.includes('Paul Renaud'));
+    assert.ok(!questions.includes('Camille Martin'));
+    const search = await (await request('/admin/demandes?q=comptoir', { auth: true })).text();
+    assert.ok(search.includes('Camille Martin') && !search.includes('Paul Renaud'));
+
+    const [message] = app.ctx.store.listMessages().filter((m) => m.name === 'Camille Martin');
+    const form = (data) => ({
+      method: 'POST',
+      auth: true,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data),
+    });
+    const status = await request(`/admin/demandes/${message.id}/statut`, form({ status: 'en-cours', retour: '/admin/demandes?type=devis' }));
+    assert.equal(status.status, 303);
+    assert.equal(status.headers.get('location'), `/admin/demandes?type=devis#m-${message.id}`);
+    const note = await request(`/admin/demandes/${message.id}/note`, form({ note: 'Rappeler mardi', retour: 'https://evil.example' }));
+    assert.equal(note.headers.get('location'), `/admin/demandes#m-${message.id}`);
+    const saved = app.ctx.store.messages.find((m) => m.id === message.id);
+    assert.equal(saved.status, 'en-cours');
+    assert.equal(saved.note, 'Rappeler mardi');
+    assert.equal(saved.read, true);
+    const enCours = await (await request('/admin/demandes?statut=en-cours', { auth: true })).text();
+    assert.ok(enCours.includes('Camille Martin') && !enCours.includes('Paul Renaud'));
+
+    const csv = await request('/admin/demandes/export.csv', { auth: true });
+    assert.equal(csv.status, 200);
+    assert.match(csv.headers.get('content-type'), /text\/csv/);
+    const text = await csv.text();
+    assert.ok(text.includes('"En cours"') && text.includes('"Rappeler mardi"'));
+    assert.ok(text.includes(`"'=1+1"`), 'formule neutralisée');
+  });
+
+  test('demandes : lecture et suppression', async () => {
     const [message] = app.ctx.store.listMessages();
     const read = await request(`/admin/api/messages/${message.id}/read`, { method: 'POST', auth: true });
     assert.equal(read.status, 200);
     assert.equal(app.ctx.store.messages.find((m) => m.id === message.id).read, true);
-    const del = await request(`/admin/messages/${message.id}/supprimer`, { method: 'POST', auth: true });
+    const before = app.ctx.store.messages.length;
+    const del = await request(`/admin/demandes/${message.id}/supprimer`, { method: 'POST', auth: true });
     assert.equal(del.status, 303);
-    assert.equal(app.ctx.store.messages.length, 0);
+    assert.equal(app.ctx.store.messages.length, before - 1);
   });
 
   test('déconnexion', async () => {

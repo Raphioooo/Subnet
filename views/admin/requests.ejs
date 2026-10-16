@@ -1,0 +1,110 @@
+<%- include('partials/head', { title: 'Demandes' }) %>
+<%
+  const qs = (params) => {
+    const s = new URLSearchParams(Object.entries(params).filter(([, v]) => v)).toString();
+    return s ? `?${s}` : '';
+  };
+  const retour = `/admin/demandes${query ? `?${query}` : ''}`;
+  const labelOf = (list, value) => list.find((o) => o.value === value)?.label || value;
+  const plural = { nouvelle: 'Nouvelles', 'en-cours': 'En cours', traitee: 'Traitées' };
+-%>
+<header class="page-head">
+  <div>
+    <h1>Demandes</h1>
+    <p>Les demandes de devis et les messages envoyés depuis les formulaires du site. Elles sont supprimées automatiquement au bout de trois ans.</p>
+  </div>
+  <div class="page-head__actions">
+    <% if (unread) { %>
+    <form method="post" action="/admin/demandes/tout-lu">
+      <input type="hidden" name="retour" value="<%= retour %>">
+      <button class="btn btn--secondary" type="submit"><%- icon('check', { size: 16 }) %>Tout marquer comme lu</button>
+    </form>
+    <% } %>
+    <% if (total) { %><a class="btn btn--secondary" href="/admin/demandes/export.csv"><%- icon('download', { size: 16 }) %>Exporter (CSV)</a><% } %>
+  </div>
+</header>
+
+<% if (!total) { %>
+<div class="empty card">
+  <span class="empty__icon"><%- icon('inbox', { size: 28 }) %></span>
+  <h2>Aucune demande pour le moment</h2>
+  <p>Les demandes envoyées depuis la page contact et le formulaire de l’accueil apparaîtront ici.</p>
+  <a class="btn btn--secondary btn--sm" href="/contact" target="_blank" rel="noopener"><%- icon('external-link', { size: 15 }) %>Voir le formulaire</a>
+</div>
+<% } else { %>
+<div class="toolbar">
+  <nav class="tabs" aria-label="Filtrer par statut">
+    <a class="tab" href="/admin/demandes<%= qs({ type: filters.type, q: filters.q }) %>"<% if (!filters.status) { %> aria-current="page"<% } %>>Toutes<span><%= total %></span></a>
+    <% for (const s of statuses) { %>
+    <a class="tab" href="/admin/demandes<%= qs({ statut: s.value, type: filters.type, q: filters.q }) %>"<% if (filters.status === s.value) { %> aria-current="page"<% } %>><%= plural[s.value] %><span><%= counts[s.value] %></span></a>
+    <% } %>
+  </nav>
+  <form class="search" method="get" action="/admin/demandes" role="search">
+    <% if (filters.status) { %><input type="hidden" name="statut" value="<%= filters.status %>"><% } %>
+    <span class="select select--compact">
+      <select class="input" name="type" aria-label="Type de demande" data-autosubmit>
+        <option value="">Tous les types</option>
+        <% for (const t of types) { %><option value="<%= t.value %>"<%= filters.type === t.value ? ' selected' : '' %>><%= t.label %></option><% } %>
+      </select>
+      <%- icon('chevron-down', { size: 16, className: 'select__chevron' }) %>
+    </span>
+    <input class="input" type="search" name="q" value="<%= filters.q %>" placeholder="Nom, email, entreprise…" aria-label="Rechercher une demande">
+    <button class="btn btn--secondary" type="submit"><%- icon('search', { size: 16 }) %><span class="sr-only">Rechercher</span></button>
+  </form>
+</div>
+
+<% if (!requests.length) { %>
+<p class="empty-filter">Aucune demande ne correspond à ces critères. <a href="/admin/demandes">Voir toutes les demandes</a></p>
+<% } else { %>
+<ul class="messages">
+  <% for (const m of requests) { %>
+  <li class="message<%= m.read ? '' : ' is-unread' %>" id="m-<%= m.id %>">
+    <details data-message="<%= m.id %>">
+      <summary>
+        <span class="dot" aria-hidden="true"></span>
+        <span class="message__who"><strong><%= m.name %></strong><span><%= m.company || m.email %></span></span>
+        <span class="message__excerpt"><%= m.message %></span>
+        <span class="tag tag--<%= m.type %>"><%= labelOf(types, m.type) %></span>
+        <span class="status status--<%= m.status %>"><%= labelOf(statuses, m.status) %></span>
+        <time datetime="<%= m.createdAt %>" title="<%= formatDate(m.createdAt) %>"><%= relativeDate(m.createdAt) %></time>
+      </summary>
+      <div class="message__body">
+        <dl class="message__meta">
+          <div><dt>Email</dt><dd><a href="mailto:<%= m.email %>"><%= m.email %></a></dd></div>
+          <% if (m.phone) { %><div><dt>Téléphone</dt><dd><a href="<%= telHref(m.phone) %>"><%= m.phone %></a></dd></div><% } %>
+          <% if (m.company) { %><div><dt>Entreprise</dt><dd><%= m.company %></dd></div><% } %>
+          <% if (m.sector) { %><div><dt>Activité</dt><dd><%= sectorLabel(m.sector) %></dd></div><% } %>
+          <div><dt>Reçue</dt><dd><%= formatDate(m.createdAt) %></dd></div>
+          <div><dt>Envoyée depuis</dt><dd><%= m.source === 'accueil' ? 'La page d’accueil' : 'La page contact' %></dd></div>
+          <% if (m.modules.length) { %><div class="message__modules"><dt>Fonctionnalités souhaitées</dt><dd><% for (const mod of m.modules) { %><span class="tag"><%= mod %></span><% } %></dd></div><% } %>
+        </dl>
+        <p class="message__text"><%- nl2br(m.message) %></p>
+        <div class="message__manage">
+          <form method="post" action="/admin/demandes/<%= m.id %>/statut">
+            <input type="hidden" name="retour" value="<%= retour %>">
+            <span class="field__label">Statut</span>
+            <div class="status-switch">
+              <% for (const s of statuses) { %><button type="submit" name="status" value="<%= s.value %>" aria-pressed="<%= m.status === s.value %>"><%= s.label %></button><% } %>
+            </div>
+          </form>
+          <form class="note-form" method="post" action="/admin/demandes/<%= m.id %>/note">
+            <input type="hidden" name="retour" value="<%= retour %>">
+            <label class="field"><span class="field__label">Note interne</span>
+              <textarea class="input" name="note" rows="2" maxlength="2000" placeholder="Rappeler mardi, budget à préciser…"><%= m.note %></textarea>
+            </label>
+            <button class="btn btn--secondary btn--sm" type="submit">Enregistrer la note</button>
+          </form>
+        </div>
+        <div class="message__actions">
+          <a class="btn btn--primary btn--sm" href="mailto:<%= m.email %>?subject=<%= encodeURIComponent((m.type === 'devis' ? 'Votre demande de devis — ' : 'Votre message — ') + site.name) %>"><%- icon('send', { size: 15 }) %>Répondre</a>
+          <form method="post" action="/admin/demandes/<%= m.id %>/lu"><input type="hidden" name="retour" value="<%= retour %>"><button class="btn btn--secondary btn--sm" type="submit"><%= m.read ? 'Marquer comme non lue' : 'Marquer comme lue' %></button></form>
+          <form method="post" action="/admin/demandes/<%= m.id %>/supprimer" data-confirm="Supprimer définitivement cette demande ?"><input type="hidden" name="retour" value="<%= retour %>"><button class="btn btn--ghost btn--sm btn--danger" type="submit"><%- icon('trash-2', { size: 15 }) %>Supprimer</button></form>
+        </div>
+      </div>
+    </details>
+  </li>
+  <% } %>
+</ul>
+<% } %>
+<% } %>
+<%- include('partials/foot') %>

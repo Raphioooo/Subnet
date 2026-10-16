@@ -46,7 +46,23 @@ function normalizeContent(raw) {
   const saved = (content.sectors || []).filter((s, i, all) => SECTOR_SLUGS.includes(s?.slug) && all.findIndex((x) => x?.slug === s.slug) === i);
   const missing = SECTOR_SLUGS.filter((slug) => !saved.some((s) => s.slug === slug)).map((slug) => ({ slug }));
   content.sectors = [...saved, ...missing].map((s) => mergeDefaults(defaults.sectors.find((d) => d.slug === s.slug), s));
+  addIllustrations(content.offer.structure.steps, defaults.offer.structure.steps, (d, s) => d.title === s.title);
+  addIllustrations(content.projects, defaults.projects, (d, p) => d.id === p.id && d.image === p.image);
   return content;
+}
+
+// Les illustrations ajoutées par une version récente du site sont reprises sur
+// les éléments d'origine encore inchangés ; une image retirée volontairement
+// (champ vide) n'est pas remise.
+function addIllustrations(items, defaultItems, sameItem) {
+  if (!Array.isArray(items)) return;
+  for (const item of items) {
+    const def = isPlainObject(item) && defaultItems.find((d) => sameItem(d, item));
+    if (!def) continue;
+    for (const key of ['image', 'imageFormat', 'mobileImage']) {
+      if (item[key] === undefined && def[key] !== undefined) item[key] = def[key];
+    }
+  }
 }
 
 async function readJson(file, fallback) {

@@ -1384,7 +1384,7 @@ a.stat:hover {
 
 .message summary {
   display: grid;
-  grid-template-columns: 8px minmax(120px, 200px) minmax(0, 1fr) auto auto;
+  grid-template-columns: 8px minmax(120px, 200px) minmax(0, 1fr) auto auto auto;
   align-items: center;
   gap: 14px;
   padding: 16px 20px;
@@ -1492,11 +1492,11 @@ a.stat:hover {
 
 @media (max-width: 720px) {
   .message summary {
-    grid-template-columns: 8px minmax(0, 1fr) auto;
+    grid-template-columns: 8px minmax(0, 1fr) auto auto;
   }
 
   .message__excerpt,
-  .message .tag {
+  .message summary .tag {
     display: none;
   }
 
@@ -1607,4 +1607,188 @@ a.stat:hover {
 
 .repeater--inline > .r-item + .r-item .fields {
   row-gap: 0;
+}
+
+
+/* Demandes ---------------------------------------------------------------- */
+
+.page-head__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 9px;
+  color: var(--text-2);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.tab:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.tab span {
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  font-size: 12px;
+  text-align: center;
+}
+
+.tab[aria-current='page'] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.search .input[type='search'] {
+  width: 220px;
+}
+
+.select--compact select {
+  min-width: 150px;
+}
+
+.empty-filter {
+  padding: 32px 24px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--text-2);
+  text-align: center;
+}
+
+.tag--devis {
+  background: rgba(43, 89, 255, 0.1);
+  color: #1d46e0;
+}
+
+.tag--contact {
+  background: #f1ecff;
+  color: #5b3cc4;
+}
+
+.mini-messages__text .tag {
+  margin-right: 8px;
+}
+
+.status {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status--nouvelle {
+  background: #fff4e0;
+  color: #9a6200;
+}
+
+.status--en-cours {
+  background: rgba(43, 89, 255, 0.1);
+  color: #1d46e0;
+}
+
+.status--traitee {
+  background: var(--success-soft);
+  color: #146c3a;
+}
+
+.message__manage {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px 24px;
+  align-items: start;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.message__manage form {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.note-form .field {
+  width: 100%;
+}
+
+.status-switch {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.status-switch button {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.status-switch button:hover {
+  color: var(--text);
+}
+
+.status-switch button[aria-pressed='true'] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 720px) {
+  .message__manage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .search,
+  .search .input[type='search'] {
+    width: 100%;
+  }
+
+  .search .input[type='search'] {
+    flex: 1;
+    width: auto;
+  }
 }

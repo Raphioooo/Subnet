@@ -2,8 +2,9 @@
   <button class="project-card__media" type="button" data-lightbox
     data-src="<%= project.image %>" data-title="<%= project.title %>" data-text="<%= project.description %>"
     data-url="<%= project.url %>" data-badge="<%= project.badge %>" data-sector-label="<%= sectorLabel(project.sector) %>"
-    aria-label="Agrandir : <%= project.title %>">
+    data-mobile="<%= project.mobileImage %>" aria-label="Agrandir : <%= project.title %>">
     <img src="<%= project.image %>" alt="<%= project.title %>" loading="lazy" decoding="async" width="1600" height="1000">
+    <% if (project.mobileImage) { %><span class="project-card__phone" aria-hidden="true"><img src="<%= project.mobileImage %>" alt="" loading="lazy" decoding="async" width="600" height="1300"></span><% } %>
   </button>
   <div class="project-card__body">
     <p class="project-card__meta">

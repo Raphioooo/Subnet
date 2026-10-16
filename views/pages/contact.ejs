@@ -18,6 +18,8 @@
         <form class="form" method="post" action="/contact#formulaire" novalidate data-contact-form>
           <% if (formError) { %><p class="form__alert" role="alert"><%- icon('circle-alert', { size: 18 }) %><%= formError %></p><% } %>
           <% if (Object.keys(errors).length) { %><p class="form__alert" role="alert"><%- icon('circle-alert', { size: 18 }) %>Merci de vérifier les champs indiqués.</p><% } %>
+          <%- include('../partials/request-type', { selected: values.type }) %>
+          <input type="hidden" name="source" value="contact">
           <div class="form__grid">
             <div class="form__field<%= errors.name ? ' has-error' : '' %>">
               <label for="f-name">Nom et prénom</label>
@@ -49,7 +51,7 @@
               </div>
             </div>
             <% if (cp.modules.length) { %>
-            <fieldset class="form__field form__field--full form__modules">
+            <fieldset class="form__field form__field--full form__modules" data-quote-only<%= values.type === 'contact' ? ' hidden' : '' %>>
               <legend><%= cp.modulesLabel || 'Fonctionnalités souhaitées' %> <span class="optional">facultatif</span></legend>
               <div class="checks">
                 <% cp.modules.forEach((label, i) => { %>
@@ -59,8 +61,8 @@
             </fieldset>
             <% } %>
             <div class="form__field form__field--full<%= errors.message ? ' has-error' : '' %>">
-              <label for="f-message">Votre projet</label>
-              <textarea id="f-message" name="message" rows="6" required maxlength="5000" placeholder="Votre activité, votre façon de travailler, vos délais…"<% if (errors.message) { %> aria-invalid="true" aria-describedby="e-message"<% } %>><%= values.message || '' %></textarea>
+              <label for="f-message" data-type-label data-label-devis="Votre projet" data-label-contact="Votre message"><%= values.type === 'contact' ? 'Votre message' : 'Votre projet' %></label>
+              <textarea id="f-message" name="message" rows="6" required maxlength="5000" data-placeholder-devis="Votre activité, votre façon de travailler, vos délais…" data-placeholder-contact="Votre question, en quelques mots…" placeholder="<%= values.type === 'contact' ? 'Votre question, en quelques mots…' : 'Votre activité, votre façon de travailler, vos délais…' %>"<% if (errors.message) { %> aria-invalid="true" aria-describedby="e-message"<% } %>><%= values.message || '' %></textarea>
               <% if (errors.message) { %><p class="form__error" id="e-message"><%= errors.message %></p><% } %>
             </div>
             <div class="form__trap" aria-hidden="true">

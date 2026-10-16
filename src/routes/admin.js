@@ -3,8 +3,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import express from 'express';
 import { SESSION_COOKIE, SESSION_TTL_MS } from '../auth.js';
-import { ICON_OPTIONS, PAGES, getPage } from '../schema.js';
-import { applyPageInput, getAt, isPlainObject } from '../sanitize.js';
+import { ICON_OPTIONS, PAGES, REQUEST_STATUSES, REQUEST_TYPES, getPage } from '../schema.js';
+import { applyPageInput, cleanText, getAt, isPlainObject } from '../sanitize.js';
+import { formatDate, sectorLabel } from '../helpers.js';
 import { createRateLimiter, isSameOrigin } from '../security.js';
 
 const MIN_PASSWORD_LENGTH = 10;
@@ -31,6 +32,20 @@ export function detectImage(buf) {
   if (['GIF87a', 'GIF89a'].includes(buf.toString('latin1', 0, 6))) return 'gif';
   if (buf.toString('latin1', 4, 12) === 'ftypavif') return 'avif';
   return null;
+}
+
+// Les demandes enregistrées avant l'ajout des types et statuts reçoivent des valeurs par défaut.
+export function normalizeRequest(message) {
+  return { type: 'devis', status: 'nouvelle', note: '', source: 'contact', modules: [], phone: '', company: '', sector: '', ...message };
+}
+
+const labelOf = (options, value) => options.find((o) => o.value === value)?.label || value;
+
+// Cellule CSV : guillemets échappés et formules neutralisées (=, +, -, @).
+function csvCell(value) {
+  let text = String(value ?? '');
+  if (/^[=+\-@\t\r]/.test(text)) text = `'${text}`;
+  return `"${text.replace(/"/g, '""')}"`;
 }
 
 // Valeurs vides utilisées pour les nouveaux éléments d'une liste.
@@ -147,7 +162,7 @@ export function adminRouter({ config, store, auth, mailer, log }) {
     res.render('admin/dashboard', {
       active: 'dashboard',
       checklist: setupChecklist(content, { auth, config }),
-      messages: store.listMessages().slice(0, 4),
+      messages: store.listMessages().slice(0, 4).map(normalizeRequest),
       totalMessages: store.messages.length,
       visibleProjects: content.projects.filter((p) => p.visible).length,
       mailEnabled: mailer.enabled,
@@ -182,10 +197,54 @@ export function adminRouter({ config, store, auth, mailer, log }) {
     res.json({ ok: true, url: `/uploads/${name}` });
   });
 
-  // Messages ----------------------------------------------------------------
+  // Demandes (formulaires de contact et de devis) -------------------------------
 
-  router.get('/messages', (req, res) => {
-    res.render('admin/messages', { active: 'messages', messages: store.listMessages() });
+  router.get('/messages', (req, res) => res.redirect(301, '/admin/demandes'));
+
+  router.get('/demandes', (req, res) => {
+    const all = store.listMessages().map(normalizeRequest);
+    const status = REQUEST_STATUSES.some((s) => s.value === req.query.statut) ? req.query.statut : '';
+    const type = REQUEST_TYPES.some((t) => t.value === req.query.type) ? req.query.type : '';
+    const q = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 80) : '';
+    const needle = q.toLowerCase();
+    const requests = all.filter(
+      (m) =>
+        (!status || m.status === status) &&
+        (!type || m.type === type) &&
+        (!needle || [m.name, m.email, m.phone, m.company, m.message].join(' ').toLowerCase().includes(needle)),
+    );
+    const counts = Object.fromEntries(REQUEST_STATUSES.map((s) => [s.value, all.filter((m) => m.status === s.value).length]));
+    res.render('admin/requests', {
+      active: 'requests',
+      requests,
+      total: all.length,
+      counts,
+      filters: { status, type, q },
+      query: new URLSearchParams(Object.entries({ statut: status, type, q }).filter(([, v]) => v)).toString(),
+      statuses: REQUEST_STATUSES,
+      types: REQUEST_TYPES,
+    });
+  });
+
+  router.get('/demandes/export.csv', (req, res) => {
+    const header = ['Date', 'Type', 'Statut', 'Nom', 'Email', 'Téléphone', 'Entreprise', 'Activité', 'Fonctionnalités', 'Message', 'Note interne', 'Envoyée depuis'];
+    const rows = store.listMessages().map(normalizeRequest).map((m) => [
+      formatDate(m.createdAt),
+      labelOf(REQUEST_TYPES, m.type),
+      labelOf(REQUEST_STATUSES, m.status),
+      m.name,
+      m.email,
+      m.phone,
+      m.company,
+      sectorLabel(m.sector),
+      m.modules.join(', '),
+      m.message,
+      m.note,
+      m.source === 'accueil' ? 'Accueil' : 'Page contact',
+    ]);
+    const csv = [header, ...rows].map((row) => row.map(csvCell).join(';')).join('\r\n');
+    res.attachment(`demandes-${new Date().toISOString().slice(0, 10)}.csv`);
+    res.type('text/csv; charset=utf-8').send(`\uFEFF${csv}\r\n`);
   });
 
   router.post('/api/messages/:id/read', async (req, res) => {
@@ -193,20 +252,37 @@ export function adminRouter({ config, store, auth, mailer, log }) {
     res.status(found ? 200 : 404).json({ ok: found, unread: store.unreadCount() });
   });
 
-  router.post('/messages/:id/lu', async (req, res) => {
+  const form = express.urlencoded({ extended: false, limit: '16kb' });
+  const back = (req, id) => {
+    const target = typeof req.body?.retour === 'string' && /^\/admin\/demandes(\?[^#\s]*)?$/.test(req.body.retour) ? req.body.retour : '/admin/demandes';
+    return id ? `${target}#m-${id}` : target;
+  };
+
+  router.post('/demandes/:id/statut', form, async (req, res) => {
+    const status = REQUEST_STATUSES.some((s) => s.value === req.body?.status) ? req.body.status : null;
+    if (status) await store.updateMessage(req.params.id, { status, read: true });
+    res.redirect(303, back(req, req.params.id));
+  });
+
+  router.post('/demandes/:id/note', form, async (req, res) => {
+    await store.updateMessage(req.params.id, { note: cleanText(req.body?.note, 2000, true), read: true });
+    res.redirect(303, back(req, req.params.id));
+  });
+
+  router.post('/demandes/:id/lu', form, async (req, res) => {
     const message = store.messages.find((m) => m.id === req.params.id);
     if (message) await store.updateMessage(message.id, { read: !message.read });
-    res.redirect(303, '/admin/messages');
+    res.redirect(303, back(req, req.params.id));
   });
 
-  router.post('/messages/:id/supprimer', async (req, res) => {
+  router.post('/demandes/:id/supprimer', form, async (req, res) => {
     await store.deleteMessage(req.params.id);
-    res.redirect(303, '/admin/messages');
+    res.redirect(303, back(req));
   });
 
-  router.post('/messages/tout-lu', async (req, res) => {
+  router.post('/demandes/tout-lu', form, async (req, res) => {
     for (const m of store.messages.filter((x) => !x.read)) await store.updateMessage(m.id, { read: true });
-    res.redirect(303, '/admin/messages');
+    res.redirect(303, back(req));
   });
 
   // Compte et sauvegarde ------------------------------------------------------

@@ -1,0 +1,5 @@
+<fieldset class="segmented" data-request-type>
+  <legend class="sr-only">Type de demande</legend>
+  <label><input type="radio" name="type" value="devis"<%= selected !== 'contact' ? ' checked' : '' %>><span><%- icon('file-text', { size: 16 }) %>Demande de devis</span></label>
+  <label><input type="radio" name="type" value="contact"<%= selected === 'contact' ? ' checked' : '' %>><span><%- icon('message-circle', { size: 16 }) %>Simple question</span></label>
+</fieldset>

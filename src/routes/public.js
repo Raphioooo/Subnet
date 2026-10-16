@@ -7,6 +7,12 @@ import { faqJsonLd, organizationJsonLd, renderLegal } from '../helpers.js';
 
 const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
 
+// Page d'origine du formulaire → page affichée après l'envoi.
+const SUCCESS_REDIRECTS = {
+  contact: '/contact?envoye=1#formulaire',
+  accueil: '/?envoye=1#contact',
+};
+
 // Fonctionnalités cochées : indices de la liste proposée, convertis en libellés.
 function selectedModules(raw, available) {
   const list = (Array.isArray(raw) ? raw : raw ? [raw] : []).map(String);
@@ -15,8 +21,10 @@ function selectedModules(raw, available) {
 }
 
 function validateContact(body, availableModules = []) {
-  const modules = selectedModules(body.modules, availableModules);
+  const type = body.type === 'contact' ? 'contact' : 'devis';
+  const modules = type === 'devis' ? selectedModules(body.modules, availableModules) : { indices: [], labels: [] };
   const values = {
+    type,
     name: cleanText(body.name, 100),
     email: cleanText(body.email, 200).toLowerCase(),
     phone: cleanText(body.phone, 40),
@@ -29,7 +37,9 @@ function validateContact(body, availableModules = []) {
   if (values.name.length < 2) errors.name = 'Indiquez votre nom.';
   if (!isEmail(values.email)) errors.email = 'Indiquez une adresse email valide.';
   if (values.phone && !TEL_RE.test(values.phone)) errors.phone = 'Ce numéro ne semble pas valide.';
-  if (values.message.length < 10) errors.message = 'Décrivez votre projet en quelques mots.';
+  if (values.message.length < 10) {
+    errors.message = type === 'devis' ? 'Décrivez votre projet en quelques mots.' : 'Écrivez votre message en quelques mots.';
+  }
   return { values, errors, modules: modules.labels };
 }
 
@@ -45,6 +55,8 @@ export function publicRouter({ config, store, auth, mailer, log }) {
       page: { title: '', description: c.site.description, path: '/' },
       projects: visibleProjects(c).slice(0, 4),
       jsonLd: organizationJsonLd(c, res.locals.baseUrl),
+      sent: req.query.envoye === '1',
+      token: auth.createFormToken(),
     });
   });
 
@@ -102,7 +114,7 @@ export function publicRouter({ config, store, auth, mailer, log }) {
     res.status(status).render('pages/contact', {
       page: { title: 'Contact', description: c.contact.page.intro, path: '/contact' },
       sent: req.query.envoye === '1' && status === 200 && !formError,
-      values: { sector: '', ...values },
+      values: { sector: '', type: 'devis', ...values },
       errors,
       formError,
       token: auth.createFormToken(),
@@ -112,15 +124,17 @@ export function publicRouter({ config, store, auth, mailer, log }) {
 
   router.get('/contact', (req, res) => {
     const sector = CONTACT_SECTOR_OPTIONS.some((o) => o.value === req.query.secteur) ? req.query.secteur : '';
-    renderContact(req, res, { values: { sector } });
+    const type = req.query.type === 'question' ? 'contact' : 'devis';
+    renderContact(req, res, { values: { sector, type } });
   });
 
   router.post('/contact', express.urlencoded({ extended: false, limit: '32kb' }), async (req, res) => {
     const body = req.body || {};
     const { values, errors, modules } = validateContact(body, store.getContent().contact.page.modules);
+    const source = Object.hasOwn(SUCCESS_REDIRECTS, body.source) ? body.source : 'contact';
 
     // Champ piège invisible : rempli uniquement par les robots.
-    if (cleanText(body.website)) return res.redirect(303, '/contact?envoye=1#formulaire');
+    if (cleanText(body.website)) return res.redirect(303, SUCCESS_REDIRECTS[source]);
 
     if (!auth.checkFormToken(body.token, config.contactMinDelayMs)) {
       return renderContact(req, res, {
@@ -138,11 +152,11 @@ export function publicRouter({ config, store, auth, mailer, log }) {
       });
     }
 
-    const message = await store.addMessage({ ...values, modules });
+    const message = await store.addMessage({ ...values, modules, source, status: 'nouvelle', note: '' });
     mailer.notifyNewMessage(message, store.getContent()).catch((err) => {
       log.error('Email de notification non envoyé :', err.message);
     });
-    res.redirect(303, '/contact?envoye=1#formulaire');
+    res.redirect(303, SUCCESS_REDIRECTS[source]);
   });
 
   for (const { key, slug } of LEGAL_PAGES) {

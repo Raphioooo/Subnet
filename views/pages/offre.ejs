@@ -24,7 +24,7 @@
       </header>
       <ol class="steps">
         <% o.structure.steps.forEach((step, i) => { %>
-        <li class="step reveal">
+        <li class="step reveal<%= step.image ? ` step--media step--${step.imageFormat === 'browser' ? 'browser' : 'phone'}` : '' %>">
           <span class="step__num"><%= i + 1 %></span>
           <div class="step__body">
             <h3 class="h3"><%= step.title %></h3>
@@ -35,6 +35,18 @@
             </ul>
             <% } %>
           </div>
+          <% if (step.image) { %>
+          <div class="step__media">
+            <% if (step.imageFormat === 'browser') { %>
+            <div class="browser">
+              <div class="browser__bar" aria-hidden="true"><span class="browser__dots"><i></i><i></i><i></i></span><span class="browser__address"><%- icon('lock', { size: 11, strokeWidth: 2.25 }) %></span></div>
+              <div class="browser__screen"><img src="<%= step.image %>" alt="Exemple : <%= step.title.toLowerCase() %>" width="1600" height="1000" loading="lazy" decoding="async"></div>
+            </div>
+            <% } else { %>
+            <div class="phone phone--static"><div class="phone__screen"><img src="<%= step.image %>" alt="Exemple : <%= step.title.toLowerCase() %>" width="600" height="1300" loading="lazy" decoding="async"></div></div>
+            <% } %>
+          </div>
+          <% } %>
         </li>
         <% }) %>
       </ol>

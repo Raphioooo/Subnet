@@ -12,10 +12,10 @@
 </header>
 
 <div class="stats">
-  <a class="stat" href="/admin/messages">
+  <a class="stat" href="/admin/demandes">
     <span class="stat__icon"><%- icon('inbox', { size: 20 }) %></span>
     <span class="stat__value"><%= unread %></span>
-    <span class="stat__label"><%= unread > 1 ? 'messages non lus' : 'message non lu' %></span>
+    <span class="stat__label"><%= unread > 1 ? 'demandes non lues' : 'demande non lue' %></span>
   </a>
   <a class="stat" href="/admin/pages/projects">
     <span class="stat__icon"><%- icon('images', { size: 20 }) %></span>
@@ -66,29 +66,29 @@
 <section class="card">
   <header class="card__head card__head--row">
     <div>
-      <h2>Derniers messages</h2>
-      <p><%= totalMessages %> message<%= totalMessages > 1 ? 's' : '' %> au total</p>
+      <h2>Dernières demandes</h2>
+      <p><%= totalMessages %> demande<%= totalMessages > 1 ? 's' : '' %> au total, envoyée<%= totalMessages > 1 ? 's' : '' %> depuis les formulaires du site</p>
     </div>
-    <a class="btn btn--secondary btn--sm" href="/admin/messages">Tout voir</a>
+    <a class="btn btn--secondary btn--sm" href="/admin/demandes">Tout voir</a>
   </header>
   <% if (messages.length) { %>
   <ul class="mini-messages">
     <% for (const m of messages) { %>
     <li class="<%= m.read ? '' : 'is-unread' %>">
-      <a href="/admin/messages#m-<%= m.id %>">
+      <a href="/admin/demandes#m-<%= m.id %>">
         <span class="dot" aria-hidden="true"></span>
         <strong><%= m.name %></strong>
-        <span class="mini-messages__text"><%= m.message %></span>
+        <span class="mini-messages__text"><span class="tag tag--<%= m.type %>"><%= m.type === 'contact' ? 'Question' : 'Devis' %></span><%= m.message %></span>
         <time datetime="<%= m.createdAt %>"><%= relativeDate(m.createdAt) %></time>
       </a>
     </li>
     <% } %>
   </ul>
   <% } else { %>
-  <p class="muted">Aucun message pour le moment. Les demandes envoyées depuis la page contact apparaîtront ici.</p>
+  <p class="muted">Aucune demande pour le moment. Les demandes envoyées depuis la page contact et le formulaire de l’accueil apparaîtront ici.</p>
   <% } %>
   <% if (!mailEnabled) { %>
-  <p class="hint"><%- icon('info', { size: 16 }) %>Les notifications par email ne sont pas configurées : consultez vos messages ici, ou renseignez les variables SMTP pour être prévenu à chaque demande.</p>
+  <p class="hint"><%- icon('info', { size: 16 }) %>Les notifications par email ne sont pas configurées : consultez vos demandes ici, ou renseignez les variables SMTP pour être prévenu à chaque demande.</p>
   <% } %>
 </section>
 <%- include('partials/foot') %>

@@ -48,7 +48,7 @@
   <% if (mailEnabled) { %>
   <p class="alert alert--success"><%- icon('circle-check', { size: 18 }) %>Activées : vous recevez un email à chaque nouvelle demande.</p>
   <% } else { %>
-  <p class="muted">Désactivées. Pour recevoir un email à chaque demande, renseignez les variables <code>SMTP_HOST</code>, <code>SMTP_USER</code>, <code>SMTP_PASS</code> (et éventuellement <code>MAIL_TO</code>) dans la configuration du serveur, puis redémarrez le site. En attendant, les demandes restent consultables dans « Messages ».</p>
+  <p class="muted">Désactivées. Pour recevoir un email à chaque demande, renseignez les variables <code>SMTP_HOST</code>, <code>SMTP_USER</code>, <code>SMTP_PASS</code> (et éventuellement <code>MAIL_TO</code>) dans la configuration du serveur, puis redémarrez le site. En attendant, les demandes restent consultables dans « Demandes ».</p>
   <% } %>
 </section>
 <%- include('partials/foot') %>

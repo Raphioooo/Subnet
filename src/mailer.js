@@ -2,6 +2,8 @@
 
 import { CONTACT_SECTOR_OPTIONS } from './schema.js';
 
+const SOURCES = { accueil: 'page d’accueil', contact: 'page contact' };
+
 export function createMailer(smtp, log = console) {
   if (!smtp?.host) {
     return { enabled: false, async notifyNewMessage() { return false; } };
@@ -31,7 +33,10 @@ export function createMailer(smtp, log = console) {
         return false;
       }
       const sector = CONTACT_SECTOR_OPTIONS.find((o) => o.value === message.sector)?.label || '';
+      const isQuote = message.type !== 'contact';
       const details = [
+        ['Type', isQuote ? 'Demande de devis' : 'Question'],
+        ['Envoyée depuis', SOURCES[message.source] || ''],
         ['Nom', message.name],
         ['Email', message.email],
         ['Téléphone', message.phone],
@@ -41,13 +46,21 @@ export function createMailer(smtp, log = console) {
       ]
         .filter(([, value]) => value)
         .map(([label, value]) => `${label} : ${value}`);
-      const lines = [`Nouveau message reçu sur ${content.site.name}`, '', ...details, '', message.message];
+      const lines = [
+        `${isQuote ? 'Nouvelle demande de devis' : 'Nouveau message'} reçu sur ${content.site.name}`,
+        '',
+        ...details,
+        '',
+        message.message,
+        '',
+        'Retrouvez toutes vos demandes dans l’administration, rubrique « Demandes ».',
+      ];
       const t = await getTransporter();
       await t.sendMail({
         from,
         to,
         replyTo: message.email,
-        subject: `Nouvelle demande de ${message.name}`,
+        subject: `${isQuote ? 'Nouvelle demande de devis' : 'Nouveau message'} de ${message.name}`,
         text: lines.join('\n'),
       });
       return true;

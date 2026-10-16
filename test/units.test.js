@@ -9,6 +9,7 @@ import path from 'node:path';
 import { Store, mergeDefaults } from '../src/store.js';
 import { Auth } from '../src/auth.js';
 import { detectImage } from '../src/routes/admin.js';
+import { defaults } from '../src/defaults.js';
 
 describe('markdown', () => {
   test('le HTML saisi est neutralisé', () => {
@@ -109,6 +110,30 @@ describe('utilitaires', () => {
     assert.equal(content.legal.identity.siret, '123');
     assert.equal(content.home.hero.title, 'Le site qui fait tourner votre activité.');
     assert.ok(content.site.tagline.includes('réservation'));
+    await fs.rm(dir, { recursive: true, force: true });
+  });
+
+  test('illustrations ajoutées aux contenus existants', async () => {
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'subnet-illustrations-'));
+    const steps = defaults.offer.structure.steps.map(({ image, imageFormat, ...step }) => step);
+    steps[1].image = '';
+    steps.push({ title: 'Module personnalisé', text: '', items: [] });
+    const projects = defaults.projects.map(({ mobileImage, ...project }) => project);
+    projects[1].image = '/uploads/mon-projet.webp';
+    await fs.writeFile(
+      path.join(dir, 'content.json'),
+      JSON.stringify({ meta: { version: 2 }, offer: { structure: { steps } }, projects }),
+    );
+    const store = new Store(dir);
+    await store.init();
+    const content = store.getContent();
+    const [first, second] = content.offer.structure.steps;
+    assert.equal(first.image, defaults.offer.structure.steps[0].image);
+    assert.equal(first.imageFormat, 'phone');
+    assert.equal(second.image, '');
+    assert.equal(content.offer.structure.steps.at(-1).image, undefined);
+    assert.equal(content.projects[0].mobileImage, defaults.projects[0].mobileImage);
+    assert.equal(content.projects[1].mobileImage, undefined);
     await fs.rm(dir, { recursive: true, force: true });
   });
 

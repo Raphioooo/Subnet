@@ -12,6 +12,18 @@ export const SECTOR_OPTIONS = [
   { value: 'autre', label: 'Autre activité' },
 ];
 
+// Types et statuts des demandes reçues via les formulaires.
+export const REQUEST_TYPES = [
+  { value: 'devis', label: 'Devis' },
+  { value: 'contact', label: 'Question' },
+];
+
+export const REQUEST_STATUSES = [
+  { value: 'nouvelle', label: 'Nouvelle' },
+  { value: 'en-cours', label: 'En cours' },
+  { value: 'traitee', label: 'Traitée' },
+];
+
 // Choix proposés dans le formulaire de contact public.
 export const CONTACT_SECTOR_OPTIONS = [
   { value: 'restaurateurs', label: 'Restaurant' },
@@ -296,10 +308,22 @@ export const PAGES = [
             itemLabel: 'title',
             addLabel: 'Ajouter un module',
             maxItems: 10,
+            thumbKey: 'image',
             fields: [
               { key: 'title', type: 'text', label: 'Titre', max: 80, required: true },
               { key: 'text', type: 'textarea', label: 'Texte', rows: 2, max: 600 },
               { key: 'items', type: 'list', label: 'Contenu', addLabel: 'Ajouter une ligne', maxItems: 12 },
+              { key: 'image', type: 'image', label: 'Illustration (facultatif)', half: true },
+              {
+                key: 'imageFormat',
+                type: 'select',
+                label: 'Format de l’illustration',
+                options: [
+                  { value: 'phone', label: 'Écran de téléphone' },
+                  { value: 'browser', label: 'Écran d’ordinateur' },
+                ],
+                half: true,
+              },
             ],
           },
         ],
@@ -461,7 +485,8 @@ export const PAGES = [
               { key: 'badge', type: 'text', label: 'Étiquette', max: 30, placeholder: 'Client, Concept…', half: true },
               { key: 'sector', type: 'select', label: 'Secteur', options: SECTOR_OPTIONS, half: true },
               { key: 'url', type: 'url', label: 'Lien vers le site (optionnel)', placeholder: 'https://', half: true },
-              { key: 'image', type: 'image', label: 'Image', required: true },
+              { key: 'image', type: 'image', label: 'Image principale', required: true, half: true },
+              { key: 'mobileImage', type: 'image', label: 'Capture mobile (facultatif)', half: true },
               { key: 'description', type: 'textarea', label: 'Description', rows: 3, max: 500 },
             ],
           },

@@ -138,6 +138,8 @@
     const text = dialog.querySelector('[data-lightbox-text]');
     const meta = dialog.querySelector('[data-lightbox-meta]');
     const link = dialog.querySelector('[data-lightbox-link]');
+    const phone = dialog.querySelector('[data-lightbox-phone]');
+    const mobile = dialog.querySelector('[data-lightbox-mobile]');
     let opener = null;
 
     document.addEventListener('click', (event) => {
@@ -164,6 +166,8 @@
       }
       link.hidden = !d.url;
       if (d.url) link.href = d.url;
+      phone.hidden = !d.mobile;
+      if (d.mobile) mobile.src = d.mobile;
       dialog.showModal();
     });
     dialog.addEventListener('click', (event) => {
@@ -172,9 +176,19 @@
     dialog.addEventListener('close', () => opener?.focus());
   }
 
-  // Formulaire de contact : évite les doubles envois.
-  const form = document.querySelector('[data-contact-form]');
-  if (form) {
+  // Formulaires de contact : type de demande et envoi unique.
+  for (const form of document.querySelectorAll('[data-contact-form]')) {
+    const update = () => {
+      const quote = (form.querySelector('input[name="type"]:checked')?.value || 'devis') === 'devis';
+      for (const el of form.querySelectorAll('[data-quote-only]')) el.hidden = !quote;
+      for (const el of form.querySelectorAll('[data-type-label]')) el.textContent = quote ? el.dataset.labelDevis : el.dataset.labelContact;
+      for (const el of form.querySelectorAll('[data-placeholder-devis]')) {
+        el.placeholder = quote ? el.dataset.placeholderDevis : el.dataset.placeholderContact;
+      }
+    };
+    form.addEventListener('change', (event) => {
+      if (event.target.name === 'type') update();
+    });
     form.addEventListener('submit', () => {
       const button = form.querySelector('button[type="submit"]');
       if (!button) return;

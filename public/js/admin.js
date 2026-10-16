@@ -62,6 +62,11 @@
     if (event.key === 'Escape' && sidebar?.classList.contains('is-open')) setSidebar(false);
   });
 
+  // Filtres envoyés dès qu'ils changent.
+  for (const el of document.querySelectorAll('[data-autosubmit]')) {
+    el.addEventListener('change', () => el.form?.submit());
+  }
+
   // Confirmation avant certaines actions ----------------------------------
   document.addEventListener('submit', (event) => {
     const message = event.target.dataset?.confirm;

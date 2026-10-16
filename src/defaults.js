@@ -315,6 +315,8 @@ export const defaults = {
             'Modification ou annulation selon vos conditions',
             'Planning des réservations dans votre espace',
           ],
+          image: '/assets/images/concepts/restaurant-mobile.webp',
+          imageFormat: 'phone',
         },
         {
           title: 'Acompte en ligne',
@@ -325,6 +327,8 @@ export const defaults = {
             'Conditions d’annulation et de remboursement claires',
             'Suivi des paiements dans le panneau d’administration',
           ],
+          image: '/assets/images/journey/etape-2.webp',
+          imageFormat: 'phone',
         },
         {
           title: 'Devis',
@@ -335,6 +339,8 @@ export const defaults = {
             'Acceptation en ligne et acompte à la signature',
             'Suivi des statuts : envoyé, accepté, refusé',
           ],
+          image: '/assets/images/concepts/pme-mobile.webp',
+          imageFormat: 'phone',
         },
         {
           title: 'Gestion des horaires',
@@ -345,6 +351,8 @@ export const defaults = {
             'Congés et fermetures exceptionnelles',
             'Bandeau d’information sur le site en un clic',
           ],
+          image: '/assets/images/modules/horaires.webp',
+          imageFormat: 'phone',
         },
         {
           title: 'Panneau d’administration',
@@ -355,6 +363,8 @@ export const defaults = {
             'Prestations, tarifs, textes et photos',
             'Pages légales et conditions générales',
           ],
+          image: '/assets/images/admin-preview.webp',
+          imageFormat: 'browser',
         },
       ],
     },
@@ -579,6 +589,7 @@ export const defaults = {
       description:
         'Réservation de table en ligne, acompte pour les groupes, carte et horaires gérés depuis le panneau d’administration.',
       image: '/assets/images/concepts/restaurant-desktop.webp',
+      mobileImage: '/assets/images/concepts/restaurant-mobile.webp',
       url: '',
     },
     {
@@ -590,6 +601,7 @@ export const defaults = {
       description:
         'Portfolio classé par style, demande de projet, devis accepté en ligne et acompte à la réservation de la séance.',
       image: '/assets/images/concepts/tatouage-desktop.webp',
+      mobileImage: '/assets/images/concepts/tatouage-mobile.webp',
       url: '',
     },
     {
@@ -601,6 +613,7 @@ export const defaults = {
       description:
         'Prise de rendez-vous par soin, acompte sécurisé, rappels automatiques et planning dans l’espace d’administration.',
       image: '/assets/images/concepts/institut-desktop.webp',
+      mobileImage: '/assets/images/concepts/institut-mobile.webp',
       url: '',
     },
     {
@@ -612,6 +625,7 @@ export const defaults = {
       description:
         'Demandes de devis détaillées, devis acceptés en ligne avec acompte à la commande, réalisations et savoir-faire.',
       image: '/assets/images/concepts/pme-desktop.webp',
+      mobileImage: '/assets/images/concepts/pme-mobile.webp',
       url: '',
     },
   ],

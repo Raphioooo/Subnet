@@ -5,7 +5,7 @@ Site de **Subnet**, qui présente une offre de création de **sites sur mesure �
 Le site de Subnet est un site de présentation de cette offre. Il dispose lui-même :
 
 - d'un design épuré inspiré des codes Apple (hiérarchie visuelle forte, typographie soignée, espaces respirants) ;
-- d'un formulaire de **demande de devis** où le prospect coche les fonctionnalités souhaitées ;
+- de formulaires de **demande de devis** et de **contact** (page contact et accueil), dont les envois arrivent dans la rubrique « Demandes » de l'admin ;
 - d'un **espace d'administration** pour modifier tous les contenus, les horaires et consulter les demandes, sans développeur.
 
 Les fonctionnalités de réservation, d'acompte et de devis vendues aux clients sont illustrées par des maquettes « Concept » (sites, parcours mobile et panneau d'administration de marques fictives).
@@ -19,7 +19,7 @@ Les fonctionnalités de réservation, d'acompte et de devis vendues aux clients 
 | Secteurs | `/secteurs` et `/secteurs/restaurateurs`, `/tatoueurs`, `/instituts`, `/tpe-pme` | Une page par métier : ce que le site gère, fonctionnalités mises en avant, ton |
 | Réalisations | `/realisations` | Galerie filtrable par secteur, avec visionneuse |
 | FAQ | `/faq` | Questions fréquentes |
-| Contact | `/contact` | Demande de devis avec fonctionnalités souhaitées (protégée contre le spam), coordonnées, horaires, réseaux |
+| Contact | `/contact` | Formulaire « demande de devis » ou « simple question » (fonctionnalités souhaitées, protection anti-spam), coordonnées, horaires, réseaux. Un formulaire rapide figure aussi en bas de l'accueil |
 | Pages légales | `/mentions-legales`, `/confidentialite`, `/cookies`, `/conditions-generales` | Modèles remplis automatiquement avec vos informations |
 
 Le site s'adapte aux ordinateurs, tablettes et mobiles. Il est pensé pour l'accessibilité (navigation au clavier, contrastes, textes alternatifs) et passe sans erreur les contrôles automatiques WCAG 2 AA. Il inclut le référencement de base : titres et descriptions, plan du site (`/sitemap.xml`), `robots.txt`, données structurées et image de partage.
@@ -61,7 +61,7 @@ Rendez-vous sur `/admin`. Le mot de passe est celui de `ADMIN_PASSWORD`. Si la v
 | FAQ | Questions et réponses |
 | Coordonnées | Email, téléphone, adresse, zone d'intervention, horaires, réseaux sociaux, textes de la page contact et fonctionnalités proposées dans le formulaire de devis |
 | Pages légales | Informations légales et contenu des quatre pages réglementaires |
-| Messages | Demandes de devis reçues, avec les fonctionnalités cochées |
+| Demandes | Demandes de devis et questions envoyées depuis la page contact et l'accueil : statut (nouvelle, en cours, traitée), note interne, recherche, filtres et export CSV |
 | Compte et sauvegarde | Mot de passe, sauvegarde et restauration des contenus |
 
 Bon à savoir :
@@ -70,7 +70,7 @@ Bon à savoir :
 - **Les images sont optimisées automatiquement** : redimensionnées (2400 px maximum) et converties en WebP dans le navigateur avant l'envoi.
 - **Le tableau de bord indique ce qui reste à compléter** avant la mise en ligne : email, informations légales, adresse du site, etc.
 - **Les pages légales se remplissent seules.** Dans leur texte, les balises entre doubles accolades sont remplacées par les informations saisies dans la section « Informations légales » : `{{entreprise}}`, `{{forme_juridique}}`, `{{siret}}`, `{{rcs}}`, `{{tva}}`, `{{capital}}`, `{{adresse}}`, `{{directeur_publication}}`, `{{hebergeur}}`, `{{hebergeur_adresse}}`, `{{hebergeur_contact}}`, `{{email}}`, `{{telephone}}`, `{{nom_site}}` et `{{url}}`. Une information obligatoire manquante apparaît surlignée « à compléter ». Une information facultative manquante (capital, TVA, immatriculation, téléphone…) fait disparaître sa ligne.
-- **Messages** : chaque demande est enregistrée dans l'admin. Pour recevoir aussi un email, configurez les variables `SMTP_*`. Les messages sont supprimés automatiquement au bout de trois ans, comme l'indique la politique de confidentialité.
+- **Demandes** : chaque envoi des formulaires (page contact et accueil) est enregistré dans la rubrique « Demandes » de l'admin, avec un compteur des demandes non lues. Vous y suivez chaque demande (nouvelle, en cours, traitée), ajoutez une note interne, filtrez, recherchez et exportez la liste en CSV. Pour recevoir aussi un email à chaque demande, configurez les variables `SMTP_*`. Les demandes sont supprimées automatiquement au bout de trois ans, comme l'indique la politique de confidentialité.
 
 > Les textes des pages légales sont des modèles fournis à titre indicatif. Faites-les relire et adapter à votre situation avant la mise en ligne.
 
