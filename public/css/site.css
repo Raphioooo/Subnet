@@ -1136,6 +1136,16 @@ textarea {
   margin-left: 4px;
 }
 
+.note + .note {
+  margin-top: 12px;
+}
+
+/* Page Grenoble : questions fréquentes sous la zone d'intervention */
+.local-faq__title {
+  margin: clamp(48px, 6vw, 80px) 0 clamp(20px, 2.5vw, 28px);
+  text-align: center;
+}
+
 /* Offre ------------------------------------------------------------------- */
 
 .feature-grid {

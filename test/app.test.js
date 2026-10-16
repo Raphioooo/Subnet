@@ -132,6 +132,7 @@ describe('site public', () => {
       ['/realisations', c.projectsPage.seo],
       ['/faq', c.faqPage.seo],
       ['/contact', c.contact.page.seo],
+      ['/creation-site-internet-grenoble', c.local.seo],
     ];
     for (const [url, seo] of pages) {
       // Espaces insécables de la typographie française ramenées à des espaces simples.
@@ -160,6 +161,18 @@ describe('site public', () => {
     const blocks = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
     assert.deepEqual(blocks.map((b) => b['@type']), ['Service', 'BreadcrumbList', 'FAQPage']);
     assert.equal(blocks[2].mainEntity.length, sector.faq.items.length);
+  });
+
+  test('page Grenoble : liée depuis l’accueil et le pied de page, dans le plan du site', async () => {
+    const c = app.ctx.store.getContent();
+    const html = await (await request('/creation-site-internet-grenoble')).text();
+    const blocks = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
+    assert.deepEqual(blocks.map((b) => b['@type']), ['Service', 'BreadcrumbList', 'FAQPage']);
+    assert.equal(blocks[2].mainEntity.length, c.local.faq.items.length);
+    const home = await (await request('/')).text();
+    assert.equal(home.match(/href="\/creation-site-internet-grenoble"/g)?.length, 2, 'lien dans « Pour qui » et en pied de page');
+    const sitemap = await (await request('/sitemap.xml')).text();
+    assert.ok(sitemap.includes('/creation-site-internet-grenoble</loc>'));
   });
 
   test('fichiers statiques versionnés', async () => {

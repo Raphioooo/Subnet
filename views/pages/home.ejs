@@ -97,6 +97,9 @@
       <% if (s.note) { %>
       <p class="note reveal"><%= s.note %> <a class="link-arrow" href="/contact">Parlons-en<%- icon('chevron-right', { size: 16 }) %></a></p>
       <% } %>
+      <% if (c.local.homeLink.label) { %>
+      <p class="note reveal"><%= c.local.homeLink.text %> <a class="link-arrow" href="/creation-site-internet-grenoble"><%= c.local.homeLink.label %><%- icon('chevron-right', { size: 16 }) %></a></p>
+      <% } %>
     </div>
   </section>
 

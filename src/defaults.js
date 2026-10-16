@@ -876,6 +876,74 @@ export const defaults = {
     },
   ],
 
+  // Page « Création de site internet à Grenoble » (référencement local).
+  local: {
+    seo: {
+      title: 'Création de site internet à Grenoble et en Isère | Subnet',
+      description:
+        'Création de sites internet sur mesure à Grenoble et en Isère : réservation, acompte, devis et panneau d’administration. Rendez-vous sur place ou en visio.',
+      h1: 'Création de site internet à Grenoble',
+    },
+    hero: {
+      eyebrow: 'Grenoble et Isère',
+      title: 'Votre site sur mesure, conçu à Grenoble.',
+      subtitle:
+        'Subnet crée des sites internet complets pour les restaurants, studios de tatouage, instituts, TPE et PME de Grenoble et de l’Isère : réservation en ligne, acompte, devis, horaires et panneau d’administration.',
+    },
+    intro: {
+      eyebrow: 'Sur mesure',
+      title: 'Un site qui travaille pour votre activité.',
+      text:
+        'Un site internet ne se limite plus à une vitrine. À Grenoble comme ailleurs, vos clients veulent réserver une table, prendre rendez-vous ou demander un devis en quelques gestes, depuis leur téléphone. Chaque site Subnet est conçu autour de votre façon de travailler : vous choisissez les fonctionnalités utiles, et le site les réunit dans une expérience simple, rapide et à votre image.',
+    },
+    sectors: {
+      eyebrow: 'Pour qui',
+      title: 'Pour les pros de Grenoble et de l’Isère.',
+      text: 'Restaurants du centre-ville, studios de tatouage, instituts de beauté, artisans et PME du bassin grenoblois : chaque métier a ses contraintes, et votre site s’y adapte.',
+    },
+    why: {
+      eyebrow: 'Prestataire local',
+      title: 'Pourquoi choisir un prestataire à Grenoble ?',
+      text: 'Travailler avec un interlocuteur proche simplifie tout le projet, du premier échange au suivi après la mise en ligne.',
+      items: [
+        { icon: 'users', title: 'Un interlocuteur unique', text: 'Vous échangez directement avec la personne qui conçoit et développe votre site, sans intermédiaire.' },
+        { icon: 'map-pin', title: 'Des rendez-vous sur place', text: 'À Grenoble et dans ses environs, nous pouvons nous retrouver pour lancer le projet ou pour la prise en main de votre espace d’administration.' },
+        { icon: 'store', title: 'La connaissance du terrain', text: 'Clientèle étudiante, visiteurs en route vers les massifs, habitués du quartier : votre site s’adresse à ceux qui vous cherchent dans la région grenobloise.' },
+        { icon: 'refresh-cw', title: 'Un suivi dans la durée', text: 'Une question, une évolution, une nouvelle fonctionnalité : vous savez à qui vous adresser, après la mise en ligne aussi.' },
+      ],
+    },
+    process: {
+      eyebrow: 'Déroulé',
+      title: 'Comment se déroule votre projet ?',
+      steps: [
+        { title: 'Premier échange', text: 'À Grenoble ou en visio, nous faisons le point sur votre activité, vos clients et les fonctionnalités dont vous avez besoin.' },
+        { title: 'Proposition et devis', text: 'Vous recevez une proposition claire : le périmètre du site, les modules retenus et un devis détaillé.' },
+        { title: 'Conception et développement', text: 'La maquette est validée avec vous, puis le site est développé et testé sur ordinateur et sur mobile.' },
+        { title: 'Mise en ligne et formation', text: 'Le site est mis en ligne sur votre nom de domaine, et vous êtes formé à votre espace d’administration.' },
+      ],
+    },
+    areas: {
+      title: 'Où intervenons-nous ?',
+      text:
+        'Subnet accompagne les entreprises de Grenoble et de toute l’agglomération (Échirolles, Saint-Martin-d’Hères, Meylan, Fontaine, Seyssinet-Pariset…), et plus largement de l’Isère, de Voiron au Grésivaudan. Pour le reste de l’Auvergne-Rhône-Alpes et partout en France, les échanges se font en visio. Où que soit votre clientèle, en centre-ville, sur le campus ou dans les vallées autour de Grenoble, votre site est pensé pour être trouvé par ceux qui vous cherchent près de chez eux.',
+    },
+    faq: {
+      title: 'Questions fréquentes à Grenoble',
+      items: [
+        { question: 'Peut-on se rencontrer à Grenoble ?', answer: 'Oui. Pour les entreprises de Grenoble et de ses environs, le premier échange et la prise en main du site peuvent se faire en personne. Le reste du projet avance aussi bien en visio.' },
+        { question: 'Combien coûte un site internet à Grenoble ?', answer: 'Le prix dépend des fonctionnalités choisies : un site de présentation avec demandes de devis ne demande pas le même travail qu’un site avec réservation et acompte en ligne. Après un premier échange, vous recevez un devis clair et détaillé.' },
+        { question: 'Quel est le délai pour créer un site ?', answer: 'Il dépend du périmètre du projet et de la disponibilité de vos contenus : textes, photos, logo. Le calendrier est indiqué dans le devis, étape par étape.' },
+        { question: 'Travaillez-vous uniquement avec des entreprises grenobloises ?', answer: 'Non. Subnet est basé à Grenoble et accompagne des entreprises dans toute la France : hors de la région grenobloise, les échanges se font en visio.' },
+        { question: 'Mon site sera-t-il visible dans les recherches locales ?', answer: 'Votre site met en avant votre ville et votre zone d’intervention, et transmet à Google vos informations : adresse, zone desservie, coordonnées. Associé à une fiche Google Business Profile à jour, il vous aide à apparaître quand on cherche votre métier à Grenoble.' },
+        { question: 'Mon site sera-t-il bien référencé sur Google ?', answer: 'Chaque site est rapide, adapté au mobile et structuré pour les moteurs de recherche : titres, descriptions, informations pour Google et plan du site sont en place dès la mise en ligne, et modifiables depuis votre espace.' },
+      ],
+    },
+    homeLink: {
+      text: 'Vous êtes à Grenoble ou en Isère ?',
+      label: 'Création de site internet à Grenoble',
+    },
+  },
+
   projectsPage: {
     seo: {
       title: 'Exemples de sites internet par secteur | Subnet',

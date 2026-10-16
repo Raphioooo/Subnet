@@ -273,6 +273,25 @@ export function sectorJsonLd(c, sector, baseUrl) {
   return [service, breadcrumb, ...(sector.faq.items.length ? [faqJsonLd(sector.faq.items)] : [])];
 }
 
+// Page Grenoble : le service local, le fil d'Ariane et les questions fréquentes.
+export function localJsonLd(c, baseUrl, path) {
+  const l = c.local;
+  const service = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: l.seo.h1 || l.hero.title,
+    serviceType: 'Création de site internet',
+    description: l.seo.description || l.hero.subtitle,
+    provider: businessRef(c, baseUrl),
+    url: baseUrl + path,
+  };
+  const areas = areasServed(c.contact);
+  if (areas) service.areaServed = areas;
+  const blocks = [service, breadcrumbJsonLd(baseUrl, [['Accueil', '/'], [l.seo.h1 || l.hero.title, path]])];
+  if (l.faq.items.length) blocks.push(faqJsonLd(l.faq.items));
+  return blocks;
+}
+
 export function breadcrumbJsonLd(baseUrl, trail) {
   return {
     '@context': 'https://schema.org',

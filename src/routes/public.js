@@ -3,9 +3,12 @@ import { LEGAL_PAGES } from '../defaults.js';
 import { CONTACT_SECTOR_OPTIONS } from '../schema.js';
 import { cleanText, isEmail } from '../sanitize.js';
 import { createRateLimiter } from '../security.js';
-import { faqJsonLd, organizationJsonLd, renderLegal, sectorJsonLd } from '../helpers.js';
+import { faqJsonLd, localJsonLd, organizationJsonLd, renderLegal, sectorJsonLd } from '../helpers.js';
 
 const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
+
+// Page dédiée à la ville (référencement local).
+export const LOCAL_PATH = '/creation-site-internet-grenoble';
 
 // Page d'origine du formulaire → page affichée après l'envoi.
 const SUCCESS_REDIRECTS = {
@@ -92,6 +95,14 @@ export function publicRouter({ config, store, auth, mailer, log }) {
       jsonLd: sectorJsonLd(c, sector, res.locals.baseUrl),
       others: c.sectors.filter((s) => s.slug !== sector.slug),
       projects: visibleProjects(c).filter((p) => p.sector === sector.slug).slice(0, 3),
+    });
+  });
+
+  router.get(LOCAL_PATH, (req, res) => {
+    const { c } = res.locals;
+    res.render('pages/local', {
+      page: { title: 'Création de site internet à Grenoble', description: c.local.hero.subtitle, path: LOCAL_PATH, seo: c.local.seo },
+      jsonLd: localJsonLd(c, res.locals.baseUrl, LOCAL_PATH),
     });
   });
 
@@ -193,6 +204,7 @@ export function publicRouter({ config, store, auth, mailer, log }) {
       ['/offre', ['offer']],
       ['/secteurs', ['sectors']],
       ...c.sectors.map((s) => [`/secteurs/${s.slug}`, ['sectors', 'projects']]),
+      [LOCAL_PATH, ['local', 'sectors', 'offer']],
       ['/realisations', ['projects']],
       ['/faq', ['faq']],
       ['/contact', ['contact']],

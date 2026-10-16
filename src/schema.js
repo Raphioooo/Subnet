@@ -572,6 +572,72 @@ export const PAGES = [
     ],
   },
   {
+    id: 'local',
+    title: 'Page Grenoble',
+    icon: 'building-2',
+    description: 'La page « Création de site internet à Grenoble », pour être trouvé par les entreprises de votre ville.',
+    view: '/creation-site-internet-grenoble',
+    sections: [
+      seoSection('local.seo'),
+      { title: 'En-tête de page', path: 'local.hero', fields: heroFields },
+      { title: 'Présentation', path: 'local.intro', fields: [eyebrow, title, text()] },
+      {
+        title: 'Pour qui',
+        description: 'Les cartes des secteurs se modifient dans la rubrique « Secteurs ».',
+        path: 'local.sectors',
+        fields: [eyebrow, title, text('Texte', 2)],
+      },
+      {
+        title: 'Pourquoi un prestataire local',
+        path: 'local.why',
+        fields: [
+          eyebrow,
+          title,
+          text('Texte', 2),
+          { key: 'items', type: 'repeater', label: 'Arguments', itemLabel: 'title', addLabel: 'Ajouter un argument', maxItems: 4, fields: iconTitleText() },
+        ],
+      },
+      {
+        title: 'Déroulé du projet',
+        path: 'local.process',
+        fields: [
+          eyebrow,
+          title,
+          { key: 'steps', type: 'repeater', label: 'Étapes', itemLabel: 'title', addLabel: 'Ajouter une étape', maxItems: 5, fields: titleText() },
+        ],
+      },
+      { title: 'Zone d’intervention', path: 'local.areas', fields: [title, text()] },
+      {
+        title: 'Questions fréquentes',
+        path: 'local.faq',
+        fields: [
+          title,
+          {
+            key: 'items',
+            type: 'repeater',
+            label: 'Questions',
+            itemLabel: 'question',
+            addLabel: 'Ajouter une question',
+            maxItems: 10,
+            fields: [
+              { key: 'question', type: 'text', label: 'Question', max: 200, required: true },
+              { key: 'answer', type: 'markdown', label: 'Réponse', rows: 3, max: 2000 },
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Lien vers cette page',
+        description: 'Affiché sur la page d’accueil (rubrique « Pour qui ») et en pied de page.',
+        path: 'local.homeLink',
+        fields: [
+          { key: 'text', type: 'text', label: 'Phrase d’accroche', max: 120 },
+          { key: 'label', type: 'text', label: 'Texte du lien', max: 80, required: true },
+        ],
+      },
+    ],
+  },
+  {
     id: 'projects',
     title: 'Réalisations',
     icon: 'images',
