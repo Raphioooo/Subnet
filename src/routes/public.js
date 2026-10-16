@@ -3,6 +3,7 @@ import { LEGAL_PAGES } from '../defaults.js';
 import { CONTACT_SECTOR_OPTIONS } from '../schema.js';
 import { cleanText, isEmail } from '../sanitize.js';
 import { createRateLimiter } from '../security.js';
+import { isPublished } from '../posts.js';
 import { faqJsonLd, localJsonLd, organizationJsonLd, renderLegal, sectorJsonLd } from '../helpers.js';
 
 const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
@@ -199,6 +200,7 @@ export function publicRouter({ config, store, auth, mailer, log }) {
   // Les pages légales restent accessibles et indexables, mais hors du plan du site.
   router.get('/sitemap.xml', (req, res) => {
     const { c, baseUrl } = res.locals;
+    const posts = store.listPosts().filter((p) => isPublished(p));
     const entries = [
       ['/', ['general', 'home', 'offer', 'sectors', 'projects', 'contact']],
       ['/offre', ['offer']],
@@ -209,12 +211,14 @@ export function publicRouter({ config, store, auth, mailer, log }) {
       ['/faq', ['faq']],
       ['/contact', ['contact']],
     ];
-    const urls = entries
-      .map(([p, pages]) => {
-        const lastmod = lastModified(c.meta, pages);
-        return `  <url><loc>${baseUrl}${p}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}</url>`;
-      })
-      .join('\n');
+    const url = (p, lastmod) => `  <url><loc>${baseUrl}${p}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}</url>`;
+    // Le blog est daté par son article le plus récemment modifié.
+    const blogLastmod = posts.map((p) => p.updatedAt).sort().at(-1)?.slice(0, 10) || '';
+    const urls = [
+      ...entries.map(([p, pages]) => url(p, lastModified(c.meta, pages))),
+      url('/blog', blogLastmod),
+      ...posts.map((p) => url(`/blog/${p.slug}`, p.updatedAt.slice(0, 10))),
+    ].join('\n');
     res
       .type('application/xml')
       .send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);

@@ -1,0 +1,40 @@
+<%- include('../partials/head') %>
+<main id="contenu">
+  <%- include('../partials/page-hero', { hero: {
+    eyebrow: category ? `Blog · ${category.label}` : 'Blog',
+    title: category ? `Conseils pour les ${category.label.toLowerCase()}.` : 'Conseils pour les pros.',
+    subtitle: 'Réservation en ligne, acompte, visibilité sur Google : des réponses concrètes pour faire tourner votre activité.',
+  }, compact: true }) %>
+
+  <section class="section section--flush-top">
+    <div class="container">
+      <% if (categories.length > 1 || category) { %>
+      <nav class="chips chips--center blog-filters reveal" aria-label="Catégories du blog">
+        <a class="chip" href="/blog"<% if (!category) { %> aria-current="page"<% } %>>Tous les articles</a>
+        <% for (const cat of categories) { %>
+        <a class="chip" href="/blog/categorie/<%= cat.value %>"<% if (category?.value === cat.value) { %> aria-current="page"<% } %>><%= cat.label %></a>
+        <% } %>
+      </nav>
+      <% } %>
+
+      <% if (posts.length) { %>
+      <div class="post-grid">
+        <% for (const post of posts) { %><%- include('../partials/post-card', { post }) %><% } %>
+      </div>
+      <% } else { %>
+      <p class="blog-empty reveal">Les premiers articles arrivent bientôt. En attendant, <a href="/faq">consultez nos réponses aux questions fréquentes</a>.</p>
+      <% } %>
+
+      <% if (pagination.pages > 1) { %>
+      <nav class="pagination" aria-label="Pages du blog">
+        <% if (pagination.page > 1) { %><a class="btn btn--secondary btn--sm" href="<%= pagination.at(pagination.page - 1) %>" rel="prev"><%- icon('chevron-left', { size: 16 }) %>Articles plus récents</a><% } %>
+        <span>Page <%= pagination.page %> sur <%= pagination.pages %></span>
+        <% if (pagination.page < pagination.pages) { %><a class="btn btn--secondary btn--sm" href="<%= pagination.at(pagination.page + 1) %>" rel="next">Articles plus anciens<%- icon('chevron-right', { size: 16 }) %></a><% } %>
+      </nav>
+      <% } %>
+    </div>
+  </section>
+
+  <%- include('../partials/cta') %>
+</main>
+<%- include('../partials/footer') %>

@@ -5,11 +5,13 @@ import { icon } from './icons.js';
 import { escapeHtml, renderMarkdown, applyTokens } from './markdown.js';
 import { CONTACT_SECTOR_OPTIONS, SECTOR_OPTIONS, SOCIAL_OPTIONS } from './schema.js';
 import { INLINE_JS } from './security.js';
+import { categoryLabel, effectiveMetaTitle, statusLabel } from './posts.js';
 
 export const NAV = [
   { href: '/offre', label: 'L’offre' },
   { href: '/secteurs', label: 'Secteurs' },
   { href: '/realisations', label: 'Réalisations' },
+  { href: '/blog', label: 'Blog' },
   { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -121,11 +123,17 @@ export function nl2br(text) {
 }
 
 const dateFormat = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Paris' });
+const longDateFormat = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long', timeZone: 'Europe/Paris' });
 const shortDateFormat = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short', timeZone: 'Europe/Paris' });
 
 export function formatDate(iso) {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? '' : dateFormat.format(d);
+}
+
+export function formatLongDate(iso) {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? '' : longDateFormat.format(d);
 }
 
 export function formatShortDate(iso) {
@@ -196,8 +204,12 @@ export function viewHelpers(config) {
     mapsHref,
     formatDate,
     formatShortDate,
+    formatLongDate,
     relativeDate,
     sectorLabel,
+    categoryLabel,
+    statusLabel,
+    effectiveMetaTitle,
     socialLabel,
     socialIcon,
     jsonForScript,
@@ -310,4 +322,45 @@ export function faqJsonLd(items) {
       acceptedAnswer: { '@type': 'Answer', text: f.answer },
     })),
   };
+}
+
+// Données structurées d'un article : BlogPosting, fil d'Ariane et FAQ.
+export function postJsonLd(post, { baseUrl, image }) {
+  const url = `${baseUrl}/blog/${post.slug}`;
+  const category = categoryLabel(post.category);
+  const items = [
+    ['Accueil', `${baseUrl}/`],
+    ['Blog', `${baseUrl}/blog`],
+    [category, `${baseUrl}/blog/categorie/${post.category}`],
+    [post.title, url],
+  ];
+  const data = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: post.title,
+      description: post.metaDescription || post.excerpt,
+      datePublished: post.publishedAt || post.createdAt,
+      dateModified: post.updatedAt,
+      author: { '@type': 'Person', name: 'Raphaël Scotton' },
+      publisher: { '@id': `${baseUrl}/#business` },
+      image,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+      inLanguage: 'fr-FR',
+      ...(post.tags?.length ? { keywords: post.tags.join(', ') } : {}),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: items.map(([name, item], i) => ({ '@type': 'ListItem', position: i + 1, name, item })),
+    },
+  ];
+  if (post.faq?.length) {
+    data.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: post.faq.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
+    });
+  }
+  return data;
 }

@@ -1,0 +1,83 @@
+<%- include('../partials/head') %>
+<main id="contenu">
+  <% if (preview) { %>
+  <p class="preview-banner" role="status">Aperçu réservé à l’administration · <%= statusLabel(post.status) %><% if (post.status === 'scheduled' && post.scheduledAt) { %> pour le <%= formatDate(post.scheduledAt) %><% } %> · <a href="/admin/articles/<%= post.id %>">Retour à l’éditeur</a></p>
+  <% } %>
+  <article class="post">
+    <header class="post__head">
+      <div class="container container--narrow">
+        <nav class="breadcrumb" aria-label="Fil d’Ariane">
+          <ol>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/blog/categorie/<%= post.category %>"><%= category?.label || post.category %></a></li>
+            <li aria-current="page"><%= post.title %></li>
+          </ol>
+        </nav>
+        <h1 class="display display--post"><%= post.title %></h1>
+        <% if (post.excerpt) { %><p class="lead post__lead"><%= post.excerpt %></p><% } %>
+        <p class="post__meta">
+          <span>Par Raphaël Scotton</span>
+          <% if (post.publishedAt) { %><span>Publié le <time datetime="<%= post.publishedAt %>"><%= formatLongDate(post.publishedAt) %></time></span><% } %>
+          <% if (post.publishedAt && post.updatedAt.slice(0, 10) !== post.publishedAt.slice(0, 10)) { %><span>Mis à jour le <time datetime="<%= post.updatedAt %>"><%= formatLongDate(post.updatedAt) %></time></span><% } %>
+          <span><%- icon('clock', { size: 15 }) %><%= minutes %> min de lecture</span>
+        </p>
+      </div>
+      <% if (post.coverImage) { %>
+      <div class="container post__cover"><img src="<%= post.coverImage %>" alt="<%= post.coverAlt %>" decoding="async"></div>
+      <% } %>
+    </header>
+
+    <div class="container container--narrow">
+      <% if (toc.length > 1) { %>
+      <nav class="toc" aria-labelledby="toc-title">
+        <p class="toc__title" id="toc-title">Sommaire</p>
+        <ol>
+          <% for (const h of toc) { %><li><a href="#<%= h.id %>"><%= h.text %></a></li><% } %>
+        </ol>
+      </nav>
+      <% } %>
+
+      <div class="prose prose--post"><%- html %></div>
+
+      <% if (post.faq.length) { %>
+      <section class="post__faq" aria-labelledby="faq-title">
+        <h2 class="h3" id="faq-title">Questions fréquentes</h2>
+        <div class="faq">
+          <% for (const item of post.faq) { %>
+          <details class="faq__item">
+            <summary><span><%= item.question %></span><span class="faq__icon" aria-hidden="true"><%- icon('plus', { size: 20 }) %></span></summary>
+            <div class="faq__answer prose"><%- md(item.answer) %></div>
+          </details>
+          <% } %>
+        </div>
+      </section>
+      <% } %>
+
+      <aside class="post__cta" aria-labelledby="post-cta-title">
+        <h2 class="h3" id="post-cta-title">Parlons de votre projet</h2>
+        <p>Un site sur mesure, avec réservation, acompte et administration, sans commission sur vos clients.</p>
+        <div class="actions">
+          <a class="btn btn--primary" href="/contact<%= sector ? `?secteur=${sector.slug}` : '' %>"><%= c.cta.buttonLabel %></a>
+          <% if (sector) { %>
+          <a class="link-arrow" href="/secteurs/<%= sector.slug %>">Le site pensé pour les <%= (sector.shortName || sector.name).toLowerCase() %><%- icon('chevron-right', { size: 16 }) %></a>
+          <% } else { %>
+          <a class="link-arrow" href="/offre">Découvrir l’offre<%- icon('chevron-right', { size: 16 }) %></a>
+          <% } %>
+        </div>
+      </aside>
+    </div>
+  </article>
+
+  <% if (related.length) { %>
+  <section class="section section--soft" aria-labelledby="related-title">
+    <div class="container">
+      <h2 class="h2 related__title" id="related-title">À lire aussi</h2>
+      <div class="post-grid">
+        <% for (const p of related) { %><%- include('../partials/post-card', { post: p }) %><% } %>
+      </div>
+    </div>
+  </section>
+  <% } %>
+</main>
+<%- include('../partials/footer') %>

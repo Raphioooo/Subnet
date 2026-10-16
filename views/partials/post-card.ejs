@@ -1,0 +1,9 @@
+<article class="post-card reveal">
+  <a class="post-card__link" href="/blog/<%= post.slug %>">
+    <% if (post.coverImage) { %><img class="post-card__image" src="<%= post.coverImage %>" alt="<%= post.coverAlt %>" loading="lazy" decoding="async"><% } %>
+    <span class="post-card__meta"><span class="post-card__category"><%= categoryLabel(post.category) %></span><time datetime="<%= post.publishedAt %>"><%= formatLongDate(post.publishedAt) %></time></span>
+    <h2 class="post-card__title"><%= post.title %></h2>
+    <% if (post.excerpt) { %><p class="post-card__excerpt"><%= post.excerpt %></p><% } %>
+    <span class="link-arrow">Lire l’article<%- icon('chevron-right', { size: 16 }) %></span>
+  </a>
+</article>
