@@ -1,0 +1,12 @@
+<dialog class="lightbox" data-lightbox-dialog aria-labelledby="lightbox-title">
+  <div class="lightbox__panel">
+    <button class="lightbox__close" type="button" data-lightbox-close aria-label="Fermer"><%- icon('x', { size: 20 }) %></button>
+    <div class="lightbox__media"><img src="" alt="" data-lightbox-img></div>
+    <div class="lightbox__body">
+      <p class="project-card__meta" data-lightbox-meta></p>
+      <h2 class="h3" id="lightbox-title" data-lightbox-title></h2>
+      <p data-lightbox-text></p>
+      <a class="link-arrow" href="#" target="_blank" rel="noopener noreferrer" data-lightbox-link hidden>Voir le site<%- icon('arrow-up-right', { size: 16 }) %></a>
+    </div>
+  </div>
+</dialog>

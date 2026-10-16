@@ -1,0 +1,176 @@
+import express from 'express';
+import { LEGAL_PAGES } from '../defaults.js';
+import { CONTACT_SECTOR_OPTIONS } from '../schema.js';
+import { cleanText, isEmail } from '../sanitize.js';
+import { createRateLimiter } from '../security.js';
+import { faqJsonLd, organizationJsonLd, renderLegal } from '../helpers.js';
+
+const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
+
+function validateContact(body) {
+  const values = {
+    name: cleanText(body.name, 100),
+    email: cleanText(body.email, 200).toLowerCase(),
+    phone: cleanText(body.phone, 40),
+    company: cleanText(body.company, 120),
+    sector: CONTACT_SECTOR_OPTIONS.some((o) => o.value === body.sector) ? body.sector : '',
+    message: cleanText(body.message, 5000, true),
+  };
+  const errors = {};
+  if (values.name.length < 2) errors.name = 'Indiquez votre nom.';
+  if (!isEmail(values.email)) errors.email = 'Indiquez une adresse email valide.';
+  if (values.phone && !TEL_RE.test(values.phone)) errors.phone = 'Ce numéro ne semble pas valide.';
+  if (values.message.length < 10) errors.message = 'Décrivez votre projet en quelques mots.';
+  return { values, errors };
+}
+
+export function publicRouter({ config, store, auth, mailer, log }) {
+  const router = express.Router();
+  const contactLimiter = createRateLimiter({ windowMs: 10 * 60 * 1000, max: 5 });
+
+  const visibleProjects = (c) => c.projects.filter((p) => p.visible && p.image);
+
+  router.get('/', (req, res) => {
+    const { c } = res.locals;
+    res.render('pages/home', {
+      page: { title: '', description: c.site.description, path: '/' },
+      projects: visibleProjects(c).slice(0, 4),
+      jsonLd: organizationJsonLd(c, res.locals.baseUrl),
+    });
+  });
+
+  router.get('/offre', (req, res) => {
+    const { c } = res.locals;
+    res.render('pages/offre', {
+      page: { title: 'L’offre', description: c.offer.hero.subtitle || c.site.description, path: '/offre' },
+    });
+  });
+
+  router.get('/secteurs', (req, res) => {
+    const { c } = res.locals;
+    res.render('pages/secteurs', {
+      page: { title: 'Secteurs', description: c.sectorsPage.hero.subtitle, path: '/secteurs' },
+    });
+  });
+
+  router.get('/secteurs/:slug', (req, res, next) => {
+    const { c } = res.locals;
+    const sector = c.sectors.find((s) => s.slug === req.params.slug);
+    if (!sector) return next();
+    res.render('pages/secteur', {
+      page: { title: sector.name, description: sector.intro, path: `/secteurs/${sector.slug}`, image: sector.image },
+      sector,
+      others: c.sectors.filter((s) => s.slug !== sector.slug),
+      projects: visibleProjects(c).filter((p) => p.sector === sector.slug).slice(0, 3),
+    });
+  });
+
+  router.get('/realisations', (req, res) => {
+    const { c } = res.locals;
+    const projects = visibleProjects(c);
+    const used = new Set(projects.map((p) => p.sector));
+    const filters = [
+      ...c.sectors.map((s) => ({ value: s.slug, label: s.shortName || s.name })),
+      { value: 'autre', label: 'Autres' },
+    ].filter((f) => used.has(f.value));
+    res.render('pages/realisations', {
+      page: { title: 'Réalisations', description: c.projectsPage.hero.subtitle, path: '/realisations' },
+      projects,
+      filters,
+    });
+  });
+
+  router.get('/faq', (req, res) => {
+    const { c } = res.locals;
+    res.render('pages/faq', {
+      page: { title: 'Questions fréquentes', description: c.faqPage.hero.subtitle, path: '/faq' },
+      jsonLd: c.faq.length ? faqJsonLd(c) : null,
+    });
+  });
+
+  const renderContact = (req, res, { values = {}, errors = {}, formError = '', status = 200 } = {}) => {
+    const { c } = res.locals;
+    res.status(status).render('pages/contact', {
+      page: { title: 'Contact', description: c.contact.page.intro, path: '/contact' },
+      sent: req.query.envoye === '1' && status === 200 && !formError,
+      values: { sector: '', ...values },
+      errors,
+      formError,
+      token: auth.createFormToken(),
+      sectorOptions: CONTACT_SECTOR_OPTIONS,
+    });
+  };
+
+  router.get('/contact', (req, res) => {
+    const sector = CONTACT_SECTOR_OPTIONS.some((o) => o.value === req.query.secteur) ? req.query.secteur : '';
+    renderContact(req, res, { values: { sector } });
+  });
+
+  router.post('/contact', express.urlencoded({ extended: false, limit: '32kb' }), async (req, res) => {
+    const body = req.body || {};
+    const { values, errors } = validateContact(body);
+
+    // Champ piège invisible : rempli uniquement par les robots.
+    if (cleanText(body.website)) return res.redirect(303, '/contact?envoye=1#formulaire');
+
+    if (!auth.checkFormToken(body.token, config.contactMinDelayMs)) {
+      return renderContact(req, res, {
+        values,
+        status: 400,
+        formError: 'Votre message n’a pas pu être envoyé. Merci de réessayer dans quelques secondes.',
+      });
+    }
+    if (Object.keys(errors).length) return renderContact(req, res, { values, errors, status: 400 });
+    if (!contactLimiter.hit(req.ip)) {
+      return renderContact(req, res, {
+        values,
+        status: 429,
+        formError: 'Vous avez envoyé plusieurs messages récemment. Merci de réessayer dans quelques minutes.',
+      });
+    }
+
+    const message = await store.addMessage(values);
+    mailer.notifyNewMessage(message, store.getContent()).catch((err) => {
+      log.error('Email de notification non envoyé :', err.message);
+    });
+    res.redirect(303, '/contact?envoye=1#formulaire');
+  });
+
+  for (const { key, slug } of LEGAL_PAGES) {
+    router.get(`/${slug}`, (req, res, next) => {
+      const { c, baseUrl } = res.locals;
+      const legal = c.legal[key];
+      if (!legal.published) return next();
+      res.render('pages/legal', {
+        page: { title: legal.title, description: `${legal.title} du site ${c.site.name}.`, path: `/${slug}` },
+        legal,
+        html: renderLegal(legal.body, c, baseUrl),
+      });
+    });
+  }
+
+  router.get('/robots.txt', (req, res) => {
+    res.type('text/plain').send(`User-agent: *\nDisallow: /admin\n\nSitemap: ${res.locals.baseUrl}/sitemap.xml\n`);
+  });
+
+  router.get('/sitemap.xml', (req, res) => {
+    const { c, baseUrl } = res.locals;
+    const paths = [
+      '/',
+      '/offre',
+      '/secteurs',
+      ...c.sectors.map((s) => `/secteurs/${s.slug}`),
+      '/realisations',
+      '/faq',
+      '/contact',
+      ...LEGAL_PAGES.filter(({ key }) => c.legal[key].published).map(({ slug }) => `/${slug}`),
+    ];
+    const lastmod = (c.meta.updatedAt || new Date().toISOString()).slice(0, 10);
+    const urls = paths.map((p) => `  <url><loc>${baseUrl}${p}</loc><lastmod>${lastmod}</lastmod></url>`).join('\n');
+    res
+      .type('application/xml')
+      .send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
+  });
+
+  return router;
+}

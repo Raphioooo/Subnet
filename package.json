@@ -1,0 +1,27 @@
+{
+  "name": "subnet",
+  "version": "1.0.0",
+  "description": "Site vitrine de Subnet : création de sites internet minimalistes, premium et administrables.",
+  "private": true,
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch-path=src --watch-path=views --watch-path=server.js server.js",
+    "test": "node --test \"test/*.test.js\"",
+    "set-password": "node scripts/set-password.js"
+  },
+  "engines": {
+    "node": ">=20.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raphioooo/Subnet.git"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "ejs": "^7.0.1",
+    "express": "^5.2.1",
+    "nodemailer": "^10.0.10"
+  }
+}

@@ -1,0 +1,54 @@
+<%- include('partials/head', { title: 'Compte et sauvegarde' }) %>
+<header class="page-head">
+  <div>
+    <h1>Compte et sauvegarde</h1>
+    <p>Votre mot de passe, la sauvegarde de vos contenus et les notifications.</p>
+  </div>
+</header>
+
+<section class="card">
+  <header class="card__head">
+    <h2>Mot de passe</h2>
+    <p>Il protège l’accès à cet espace d’administration.</p>
+  </header>
+  <% if (success) { %><p class="alert alert--success" role="status"><%- icon('circle-check', { size: 18 }) %><%= success %></p><% } %>
+  <% if (error) { %><p class="alert alert--error" role="alert"><%- icon('circle-alert', { size: 18 }) %><%= error %></p><% } %>
+  <% if (usesEnvPassword) { %>
+  <p class="muted">Le mot de passe est défini par la variable d’environnement <code>ADMIN_PASSWORD</code> : modifiez-la chez votre hébergeur ou dans le fichier <code>.env</code>, puis redémarrez le site.</p>
+  <% } else { %>
+  <% if (isTemporary) { %><p class="alert alert--warning"><%- icon('triangle-alert', { size: 18 }) %>Vous utilisez encore le mot de passe temporaire généré au premier démarrage : remplacez-le dès maintenant.</p><% } %>
+  <form class="form-stack" method="post" action="/admin/compte/mot-de-passe">
+    <label class="field"><span class="field__label">Mot de passe actuel</span><input class="input" type="password" name="current" autocomplete="current-password" required></label>
+    <div class="fields">
+      <label class="field field--half"><span class="field__label">Nouveau mot de passe</span><input class="input" type="password" name="password" autocomplete="new-password" minlength="<%= minLength %>" required></label>
+      <label class="field field--half"><span class="field__label">Confirmation</span><input class="input" type="password" name="confirm" autocomplete="new-password" minlength="<%= minLength %>" required></label>
+    </div>
+    <p class="field__help">Au moins <%= minLength %> caractères. Les autres sessions ouvertes seront déconnectées.</p>
+    <div><button class="btn btn--primary" type="submit">Changer le mot de passe</button></div>
+  </form>
+  <% } %>
+</section>
+
+<section class="card">
+  <header class="card__head">
+    <h2>Sauvegarde des contenus</h2>
+    <p>Téléchargez une copie de tous les textes et réglages du site, ou restaurez une sauvegarde précédente. Les images envoyées restent stockées sur le serveur.</p>
+  </header>
+  <div class="actions-row">
+    <a class="btn btn--secondary" href="/admin/sauvegarde"><%- icon('download', { size: 16 }) %>Télécharger une sauvegarde</a>
+    <button class="btn btn--secondary" type="button" data-action="import"><%- icon('upload', { size: 16 }) %>Restaurer une sauvegarde</button>
+    <input type="file" accept="application/json,.json" data-import-file hidden>
+  </div>
+</section>
+
+<section class="card">
+  <header class="card__head">
+    <h2>Notifications par email</h2>
+  </header>
+  <% if (mailEnabled) { %>
+  <p class="alert alert--success"><%- icon('circle-check', { size: 18 }) %>Activées : vous recevez un email à chaque nouvelle demande.</p>
+  <% } else { %>
+  <p class="muted">Désactivées. Pour recevoir un email à chaque demande, renseignez les variables <code>SMTP_HOST</code>, <code>SMTP_USER</code>, <code>SMTP_PASS</code> (et éventuellement <code>MAIL_TO</code>) dans la configuration du serveur, puis redémarrez le site. En attendant, les demandes restent consultables dans « Messages ».</p>
+  <% } %>
+</section>
+<%- include('partials/foot') %>

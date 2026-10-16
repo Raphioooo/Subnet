@@ -1,0 +1,11 @@
+<a class="sector-card reveal" href="/secteurs/<%= sector.slug %>">
+  <div class="sector-card__media">
+    <img src="<%= sector.image %>" alt="" loading="lazy" decoding="async" width="1600" height="1000">
+  </div>
+  <div class="sector-card__body">
+    <p class="sector-card__tone"><%- icon(sector.icon, { size: 16 }) %><%= sector.tone %></p>
+    <h3 class="h3"><%= sector.name %></h3>
+    <% if (locals.withIntro) { %><p><%= sector.intro %></p><% } %>
+    <span class="link-arrow">Découvrir<%- icon('chevron-right', { size: 16 }) %></span>
+  </div>
+</a>

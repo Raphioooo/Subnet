@@ -1,0 +1,81 @@
+<%- include('../partials/head') %>
+<main id="contenu">
+  <section class="page-hero page-hero--sector">
+    <div class="container page-hero__inner">
+      <p class="eyebrow eyebrow--icon reveal"><%- icon(sector.icon, { size: 18 }) %><%= sector.name %></p>
+      <h1 class="display display--page reveal"><%= sector.title %></h1>
+      <% if (sector.intro) { %><p class="lead page-hero__lead reveal"><%= sector.intro %></p><% } %>
+      <div class="actions actions--center reveal">
+        <a class="btn btn--primary btn--lg" href="/contact?secteur=<%= sector.slug %>"><%= c.cta.buttonLabel %></a>
+        <a class="link-arrow link-arrow--lg" href="/offre">Découvrir l’offre<%- icon('chevron-right', { size: 18 }) %></a>
+      </div>
+    </div>
+    <div class="container container--wide">
+      <div class="reveal">
+        <%- include('../partials/devices', { desktop: sector.image, mobile: sector.mobileImage, alt: `Exemple de site pour ${sector.name.toLowerCase()}`, eager: true, variant: 'hero' }) %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="atouts">
+    <div class="container split">
+      <header class="split__aside">
+        <p class="eyebrow reveal">Ton & univers</p>
+        <p class="tone reveal"><%= sector.tone %>.</p>
+      </header>
+      <div>
+        <h2 class="h3 reveal" id="atouts"><%= sector.highlightsTitle %></h2>
+        <ul class="checklist checklist--large">
+          <% for (const item of sector.highlights) { %><li class="reveal"><%- icon('check', { size: 18, strokeWidth: 2.25 }) %><span><%= item %></span></li><% } %>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="card-grid card-grid--2">
+        <div class="card card--white reveal">
+          <span class="card__icon"><%- icon('images', { size: 26 }) %></span>
+          <h2 class="h3"><%= sector.galleryTitle %></h2>
+          <p><%= sector.galleryText %></p>
+        </div>
+        <div class="card card--white reveal">
+          <span class="card__icon"><%- icon('refresh-cw', { size: 26 }) %></span>
+          <h2 class="h3"><%= sector.autonomyTitle %></h2>
+          <p><%= sector.autonomyText %></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <% if (projects.length) { %>
+  <section class="section" aria-labelledby="exemples">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow reveal">Réalisations</p>
+        <h2 class="h2 reveal" id="exemples">Un aperçu en images.</h2>
+        <a class="link-arrow link-arrow--lg reveal" href="/realisations">Voir toutes les réalisations<%- icon('chevron-right', { size: 18 }) %></a>
+      </header>
+      <div class="project-grid">
+        <% for (const project of projects) { %><%- include('../partials/project-card', { project }) %><% } %>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <section class="section<%= projects.length ? ' section--soft' : '' %>" aria-labelledby="autres">
+    <div class="container">
+      <header class="section-head">
+        <h2 class="h2 reveal" id="autres">Les autres secteurs.</h2>
+      </header>
+      <div class="sector-grid sector-grid--three">
+        <% for (const other of others) { %><%- include('../partials/sector-card', { sector: other }) %><% } %>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/cta', { ctaHref: `/contact?secteur=${sector.slug}` }) %>
+</main>
+<%- include('../partials/lightbox') %>
+<%- include('../partials/footer') %>

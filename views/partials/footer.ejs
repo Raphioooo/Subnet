@@ -1,0 +1,59 @@
+<%
+  const legalLinks = [
+    ['mentions', '/mentions-legales'],
+    ['privacy', '/confidentialite'],
+    ['cookies', '/cookies'],
+    ['terms', '/conditions-generales'],
+  ].filter(([key]) => c.legal[key].published);
+-%>
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a class="logo" href="/" aria-label="<%= c.site.name %>, accueil"><%- include('logo') %></a>
+        <p><%= c.site.description %></p>
+        <% if (c.contact.socials.length) { %>
+        <ul class="socials" aria-label="Réseaux sociaux">
+          <% for (const s of c.contact.socials) { %>
+          <li><a href="<%= s.url %>" target="_blank" rel="noopener noreferrer" aria-label="<%= socialLabel(s.network) %>"><%- socialIcon(s.network, { size: 18 }) %></a></li>
+          <% } %>
+        </ul>
+        <% } %>
+      </div>
+      <nav class="site-footer__nav" aria-label="Plan du site">
+        <div>
+          <h2>Navigation</h2>
+          <ul>
+            <li><a href="/">Accueil</a></li>
+            <% for (const item of nav) { %><li><a href="<%= item.href %>"><%= item.label %></a></li><% } %>
+          </ul>
+        </div>
+        <div>
+          <h2>Secteurs</h2>
+          <ul>
+            <% for (const s of c.sectors) { %><li><a href="/secteurs/<%= s.slug %>"><%= s.name %></a></li><% } %>
+          </ul>
+        </div>
+        <div>
+          <h2>Contact</h2>
+          <ul>
+            <% if (c.contact.email) { %><li><a href="mailto:<%= c.contact.email %>"><%= c.contact.email %></a></li><% } %>
+            <% if (c.contact.phone) { %><li><a href="<%= telHref(c.contact.phone) %>"><%= c.contact.phone %></a></li><% } %>
+            <% if (c.contact.area) { %><li><span><%= c.contact.area %></span></li><% } %>
+            <li><a href="/contact"><%= c.cta.buttonLabel %></a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <p>© <%= year() %> <%= c.site.name %>. Tous droits réservés.</p>
+      <% if (legalLinks.length) { %>
+      <ul>
+        <% for (const [key, href] of legalLinks) { %><li><a href="<%= href %>"><%= c.legal[key].title %></a></li><% } %>
+      </ul>
+      <% } %>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

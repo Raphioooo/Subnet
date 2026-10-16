@@ -1,0 +1,50 @@
+<%- include('partials/head', { title: 'Messages' }) %>
+<header class="page-head">
+  <div>
+    <h1>Messages</h1>
+    <p>Les demandes envoyées depuis le formulaire de contact. Elles sont supprimées automatiquement au bout de trois ans.</p>
+  </div>
+  <% if (unread) { %>
+  <form method="post" action="/admin/messages/tout-lu"><button class="btn btn--secondary" type="submit"><%- icon('check', { size: 16 }) %>Tout marquer comme lu</button></form>
+  <% } %>
+</header>
+
+<% if (!messages.length) { %>
+<div class="empty card">
+  <span class="empty__icon"><%- icon('inbox', { size: 28 }) %></span>
+  <h2>Aucun message</h2>
+  <p>Les demandes de vos visiteurs apparaîtront ici dès leur envoi.</p>
+</div>
+<% } else { %>
+<ul class="messages">
+  <% for (const m of messages) { %>
+  <li class="message<%= m.read ? '' : ' is-unread' %>" id="m-<%= m.id %>">
+    <details data-message="<%= m.id %>">
+      <summary>
+        <span class="dot" aria-hidden="true"></span>
+        <span class="message__who"><strong><%= m.name %></strong><% if (m.company) { %><span><%= m.company %></span><% } %></span>
+        <span class="message__excerpt"><%= m.message %></span>
+        <% if (m.sector) { %><span class="tag"><%= sectorLabel(m.sector) %></span><% } %>
+        <time datetime="<%= m.createdAt %>" title="<%= formatDate(m.createdAt) %>"><%= relativeDate(m.createdAt) %></time>
+      </summary>
+      <div class="message__body">
+        <dl class="message__meta">
+          <div><dt>Email</dt><dd><a href="mailto:<%= m.email %>"><%= m.email %></a></dd></div>
+          <% if (m.phone) { %><div><dt>Téléphone</dt><dd><a href="<%= telHref(m.phone) %>"><%= m.phone %></a></dd></div><% } %>
+          <% if (m.company) { %><div><dt>Entreprise</dt><dd><%= m.company %></dd></div><% } %>
+          <% if (m.sector) { %><div><dt>Activité</dt><dd><%= sectorLabel(m.sector) %></dd></div><% } %>
+          <div><dt>Reçu</dt><dd><%= formatDate(m.createdAt) %></dd></div>
+        </dl>
+        <p class="message__text"><%- nl2br(m.message) %></p>
+        <div class="message__actions">
+          <a class="btn btn--primary btn--sm" href="mailto:<%= m.email %>?subject=<%= encodeURIComponent('Votre demande — ' + site.name) %>"><%- icon('send', { size: 15 }) %>Répondre</a>
+          <form method="post" action="/admin/messages/<%= m.id %>/lu"><button class="btn btn--secondary btn--sm" type="submit"><%= m.read ? 'Marquer comme non lu' : 'Marquer comme lu' %></button></form>
+          <form method="post" action="/admin/messages/<%= m.id %>/supprimer" data-confirm="Supprimer définitivement ce message ?"><button class="btn btn--ghost btn--sm btn--danger" type="submit"><%- icon('trash-2', { size: 15 }) %>Supprimer</button></form>
+        </div>
+      </div>
+    </details>
+  </li>
+  <% } %>
+</ul>
+<% } %>
+<%- include('partials/foot') %>

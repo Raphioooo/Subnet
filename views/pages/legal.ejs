@@ -1,0 +1,10 @@
+<%- include('../partials/head') %>
+<main id="contenu">
+  <%- include('../partials/page-hero', { hero: { eyebrow: 'Informations légales', title: legal.title }, compact: true }) %>
+  <section class="section section--flush-top">
+    <div class="container container--narrow">
+      <article class="prose prose--legal reveal"><%- html %></article>
+    </div>
+  </section>
+</main>
+<%- include('../partials/footer') %>

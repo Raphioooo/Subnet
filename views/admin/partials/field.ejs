@@ -1,0 +1,91 @@
+<%
+  const f = field;
+  const v = value;
+  const half = f.half ? ' field--half' : '';
+  const inputType = f.type === 'email' ? 'email' : f.type === 'tel' ? 'tel' : 'text';
+-%>
+<% if (f.type === 'hidden') { -%>
+<input type="hidden" data-field="<%= f.key %>" data-type="hidden" value="<%= v ?? '' %>">
+<% } else if (f.type === 'toggle') { -%>
+<div class="field field--toggle" data-field="<%= f.key %>" data-type="toggle">
+  <label class="switch">
+    <input type="checkbox" data-input<%= (v ?? f.default) ? ' checked' : '' %>>
+    <span class="switch__track" aria-hidden="true"></span>
+    <span class="switch__label"><%= f.label %></span>
+  </label>
+  <% if (f.help) { %><p class="field__help"><%= f.help %></p><% } %>
+</div>
+<% } else if (['text', 'url', 'email', 'tel', 'link'].includes(f.type)) { -%>
+<div class="field<%= half %>" data-field="<%= f.key %>" data-type="<%= f.type %>">
+  <label>
+    <span class="field__label"><%= f.label %><% if (f.required) { %><span class="req" aria-hidden="true"> *</span><% } %></span>
+    <input class="input" data-input type="<%= inputType %>" value="<%= v ?? '' %>" maxlength="<%= f.max || 500 %>"<% if (f.type === 'url' || f.type === 'link') { %> inputmode="url" spellcheck="false" autocapitalize="off"<% } %><% if (f.placeholder) { %> placeholder="<%= f.placeholder %>"<% } %><% if (f.required) { %> required<% } %>>
+  </label>
+  <% if (f.help) { %><p class="field__help"><%= f.help %></p><% } %>
+</div>
+<% } else if (f.type === 'textarea' || f.type === 'markdown') { -%>
+<div class="field" data-field="<%= f.key %>" data-type="<%= f.type %>">
+  <label>
+    <span class="field__label"><%= f.label %><% if (f.required) { %><span class="req" aria-hidden="true"> *</span><% } %></span>
+    <textarea class="input<%= f.type === 'markdown' ? ' input--prose' : '' %>" data-input rows="<%= f.rows || 3 %>" maxlength="<%= f.max || 1500 %>"<% if (f.required) { %> required<% } %>><%= v ?? '' %></textarea>
+  </label>
+  <% if (f.type === 'markdown') { %><p class="field__help">Mise en forme : <code>## Titre</code> <code>**gras**</code> <code>*italique*</code> <code>- liste</code> <code>[texte](https://…)</code></p><% } %>
+  <% if (f.help) { %><p class="field__help"><%= f.help %></p><% } %>
+</div>
+<% } else if (f.type === 'select') { -%>
+<div class="field<%= half %>" data-field="<%= f.key %>" data-type="select">
+  <label>
+    <span class="field__label"><%= f.label %></span>
+    <span class="select<%= f.iconPicker ? ' select--icon' : '' %>">
+      <% if (f.iconPicker) { %><span class="select__preview" data-icon-preview><%- icon(v || f.options[0].value, { size: 18 }) %></span><% } %>
+      <select class="input" data-input<% if (f.iconPicker) { %> data-icon-select<% } %>>
+        <% for (const o of f.options) { %><option value="<%= o.value %>"<%= o.value === v ? ' selected' : '' %>><%= o.label %></option><% } %>
+      </select>
+      <%- icon('chevron-down', { size: 16, className: 'select__chevron' }) %>
+    </span>
+  </label>
+</div>
+<% } else if (f.type === 'image') { -%>
+<div class="field field--image<%= half %>" data-field="<%= f.key %>" data-type="image"<% if (f.keepAlpha) { %> data-keep-alpha<% } %>>
+  <span class="field__label"><%= f.label %><% if (f.required) { %><span class="req" aria-hidden="true"> *</span><% } %></span>
+  <div class="image-field">
+    <div class="image-field__preview" data-preview><% if (v) { %><img src="<%= v %>" alt=""><% } else { %><%- icon('image', { size: 24 }) %><% } %></div>
+    <div class="image-field__body">
+      <input type="hidden" data-input value="<%= v ?? '' %>">
+      <input type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/gif" data-file hidden>
+      <div class="image-field__actions">
+        <button class="btn btn--secondary btn--sm" type="button" data-action="pick-image"><%- icon('upload', { size: 15 }) %><span data-pick-label><%= v ? 'Remplacer' : 'Choisir une image' %></span></button>
+        <button class="btn btn--ghost btn--sm" type="button" data-action="clear-image"<%= v ? '' : ' hidden' %>>Retirer</button>
+      </div>
+      <p class="field__help"><%= f.help || 'JPEG, PNG ou WebP : l’image est optimisée automatiquement.' %></p>
+    </div>
+  </div>
+</div>
+<% } else if (f.type === 'list') { -%>
+<div class="field" data-field="<%= f.key %>" data-type="list" data-max="<%= f.maxItems || 30 %>">
+  <span class="field__label"><%= f.label %></span>
+  <div class="list" data-items>
+    <% for (const item of (v || [])) { %><%- include('list-item', { itemValue: item }) %><% } %>
+  </div>
+  <template data-template><%- include('list-item', { itemValue: '' }) %></template>
+  <button class="add-btn" type="button" data-action="add"><%- icon('plus', { size: 16 }) %><%= f.addLabel || 'Ajouter' %></button>
+</div>
+<% } else if (f.type === 'repeater') { -%>
+<div class="field field--repeater" data-field="<%= f.key %>" data-type="repeater" data-item-label="<%= f.itemLabel || '' %>" data-max="<%= f.maxItems || 50 %>"<% if (f.thumbKey) { %> data-thumb-key="<%= f.thumbKey %>"<% } %>>
+  <span class="field__label"><%= f.label %></span>
+  <div class="repeater<%= f.inline ? ' repeater--inline' : '' %>" data-items>
+    <% for (const item of (v || [])) { %><%- include('repeater-item', { rf: f, item, open: false }) %><% } %>
+  </div>
+  <% if (!f.fixed) { %>
+  <template data-template><%- include('repeater-item', { rf: f, item: blankItem(f.fields), open: true }) %></template>
+  <button class="add-btn" type="button" data-action="add"><%- icon('plus', { size: 16 }) %><%= f.addLabel || 'Ajouter' %></button>
+  <% } %>
+</div>
+<% } else if (f.type === 'group') { -%>
+<fieldset class="group" data-field="<%= f.key %>" data-type="group" data-scope>
+  <% if (f.label) { %><legend class="group__legend"><%= f.label %></legend><% } %>
+  <div class="fields">
+    <% for (const sub of f.fields) { %><%- include('field', { field: sub, value: (v || {})[sub.key] }) %><% } %>
+  </div>
+</fieldset>
+<% } -%>

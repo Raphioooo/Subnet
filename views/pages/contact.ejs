@@ -1,0 +1,97 @@
+<%- include('../partials/head') %>
+<% const cp = c.contact.page; const ct = c.contact; -%>
+<% const hasInfo = ct.email || ct.phone || ct.address || ct.area || ct.hours.length || ct.socials.length; -%>
+<main id="contenu">
+  <%- include('../partials/page-hero', { hero: { eyebrow: cp.eyebrow, title: cp.title, subtitle: cp.intro } }) %>
+
+  <section class="section section--flush-top" id="formulaire">
+    <div class="container contact<%= hasInfo ? '' : ' contact--single' %>">
+      <div class="contact__form reveal">
+        <% if (sent) { %>
+        <div class="success" role="status">
+          <span class="success__icon"><%- icon('circle-check', { size: 32 }) %></span>
+          <h2 class="h3">Message envoyé</h2>
+          <p><%= cp.success %></p>
+          <a class="link-arrow" href="/">Retour à l’accueil<%- icon('chevron-right', { size: 16 }) %></a>
+        </div>
+        <% } else { %>
+        <form class="form" method="post" action="/contact#formulaire" novalidate data-contact-form>
+          <% if (formError) { %><p class="form__alert" role="alert"><%- icon('circle-alert', { size: 18 }) %><%= formError %></p><% } %>
+          <% if (Object.keys(errors).length) { %><p class="form__alert" role="alert"><%- icon('circle-alert', { size: 18 }) %>Merci de vérifier les champs indiqués.</p><% } %>
+          <div class="form__grid">
+            <div class="form__field<%= errors.name ? ' has-error' : '' %>">
+              <label for="f-name">Nom et prénom</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="100" value="<%= values.name || '' %>"<% if (errors.name) { %> aria-invalid="true" aria-describedby="e-name"<% } %>>
+              <% if (errors.name) { %><p class="form__error" id="e-name"><%= errors.name %></p><% } %>
+            </div>
+            <div class="form__field<%= errors.email ? ' has-error' : '' %>">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200" value="<%= values.email || '' %>"<% if (errors.email) { %> aria-invalid="true" aria-describedby="e-email"<% } %>>
+              <% if (errors.email) { %><p class="form__error" id="e-email"><%= errors.email %></p><% } %>
+            </div>
+            <div class="form__field<%= errors.phone ? ' has-error' : '' %>">
+              <label for="f-phone">Téléphone <span class="optional">facultatif</span></label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" value="<%= values.phone || '' %>"<% if (errors.phone) { %> aria-invalid="true" aria-describedby="e-phone"<% } %>>
+              <% if (errors.phone) { %><p class="form__error" id="e-phone"><%= errors.phone %></p><% } %>
+            </div>
+            <div class="form__field">
+              <label for="f-company">Entreprise <span class="optional">facultatif</span></label>
+              <input id="f-company" name="company" type="text" autocomplete="organization" maxlength="120" value="<%= values.company || '' %>">
+            </div>
+            <div class="form__field form__field--full">
+              <label for="f-sector">Votre activité</label>
+              <div class="select">
+                <select id="f-sector" name="sector">
+                  <option value="">Choisir…</option>
+                  <% for (const o of sectorOptions) { %><option value="<%= o.value %>"<%= values.sector === o.value ? ' selected' : '' %>><%= o.label %></option><% } %>
+                </select>
+                <%- icon('chevron-down', { size: 18 }) %>
+              </div>
+            </div>
+            <div class="form__field form__field--full<%= errors.message ? ' has-error' : '' %>">
+              <label for="f-message">Votre projet</label>
+              <textarea id="f-message" name="message" rows="6" required maxlength="5000" placeholder="Votre activité, vos objectifs, vos délais…"<% if (errors.message) { %> aria-invalid="true" aria-describedby="e-message"<% } %>><%= values.message || '' %></textarea>
+              <% if (errors.message) { %><p class="form__error" id="e-message"><%= errors.message %></p><% } %>
+            </div>
+            <div class="form__trap" aria-hidden="true">
+              <label for="f-website">Ne pas remplir</label>
+              <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="token" value="<%= token %>">
+          </div>
+          <div class="form__footer">
+            <button class="btn btn--primary btn--lg" type="submit">Envoyer la demande</button>
+            <p class="form__privacy"><%= cp.privacy %><% if (c.legal.privacy.published) { %> <a href="/confidentialite">En savoir plus</a>.<% } %></p>
+          </div>
+        </form>
+        <% } %>
+      </div>
+
+      <% if (hasInfo) { %>
+      <aside class="contact__info reveal" aria-labelledby="coordonnees">
+        <h2 class="h4" id="coordonnees"><%= cp.infoTitle %></h2>
+        <ul class="info-list">
+          <% if (ct.email) { %><li><span class="info-list__icon"><%- icon('mail', { size: 20 }) %></span><div><span class="info-list__label">Email</span><a href="mailto:<%= ct.email %>"><%= ct.email %></a></div></li><% } %>
+          <% if (ct.phone) { %><li><span class="info-list__icon"><%- icon('phone', { size: 20 }) %></span><div><span class="info-list__label">Téléphone</span><a href="<%= telHref(ct.phone) %>"><%= ct.phone %></a></div></li><% } %>
+          <% if (ct.address) { %><li><span class="info-list__icon"><%- icon('map-pin', { size: 20 }) %></span><div><span class="info-list__label">Adresse</span><address><%- nl2br(ct.address) %></address><a class="link-arrow" href="<%= mapsHref(ct.address) %>" target="_blank" rel="noopener noreferrer">Itinéraire<%- icon('arrow-up-right', { size: 14 }) %></a></div></li><% } %>
+          <% if (ct.area) { %><li><span class="info-list__icon"><%- icon('globe', { size: 20 }) %></span><div><span class="info-list__label">Zone d’intervention</span><span><%= ct.area %></span></div></li><% } %>
+        </ul>
+        <% if (ct.hours.length) { %>
+        <div class="hours">
+          <h3 class="info-list__label"><%- icon('clock', { size: 16 }) %>Horaires</h3>
+          <dl>
+            <% for (const row of ct.hours) { %><div><dt><%= row.label %></dt><dd><%= row.value %></dd></div><% } %>
+          </dl>
+        </div>
+        <% } %>
+        <% if (ct.socials.length) { %>
+        <ul class="socials socials--labelled" aria-label="Réseaux sociaux">
+          <% for (const s of ct.socials) { %><li><a href="<%= s.url %>" target="_blank" rel="noopener noreferrer"><%- socialIcon(s.network, { size: 18 }) %><%= socialLabel(s.network) %></a></li><% } %>
+        </ul>
+        <% } %>
+      </aside>
+      <% } %>
+    </div>
+  </section>
+</main>
+<%- include('../partials/footer') %>

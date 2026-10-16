@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Connexion · Administration · <%= site.name %></title>
+<link rel="icon" href="<%= asset('images/favicon.svg') %>" type="image/svg+xml">
+<link rel="stylesheet" href="<%= asset('css/admin.css') %>">
+</head>
+<body class="login">
+  <main class="login__card">
+    <svg class="login__mark" width="52" height="52" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="9" fill="#1d1d1f"/><rect x="15" y="15" width="11" height="11" rx="3.4" fill="#2b59ff"/></svg>
+    <h1>Administration</h1>
+    <p class="muted"><%= site.name %></p>
+    <% if (error) { %><p class="alert alert--error" role="alert"><%- icon('circle-alert', { size: 18 }) %><%= error %></p><% } %>
+    <form method="post" action="/admin/connexion" class="form-stack">
+      <input type="hidden" name="suite" value="<%= next %>">
+      <label class="field">
+        <span class="field__label">Mot de passe</span>
+        <input class="input input--lg" type="password" name="password" autocomplete="current-password" required autofocus>
+      </label>
+      <button class="btn btn--primary btn--lg btn--block" type="submit">Se connecter</button>
+    </form>
+    <a class="login__back" href="/"><%- icon('chevron-left', { size: 16 }) %>Retour au site</a>
+  </main>
+</body>
+</html>

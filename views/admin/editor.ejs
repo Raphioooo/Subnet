@@ -1,0 +1,37 @@
+<%- include('partials/head', { title: page.title }) %>
+<form class="editor" data-editor data-page="<%= page.id %>" novalidate>
+  <header class="page-head">
+    <div>
+      <h1><%= page.title %></h1>
+      <p><%= page.description %></p>
+    </div>
+    <a class="btn btn--secondary" href="<%= page.view %>" target="_blank" rel="noopener"><%- icon('eye', { size: 16 }) %>Voir sur le site</a>
+  </header>
+
+  <% for (const section of page.sections) { const target = getAt(content, section.path) || {}; %>
+  <section class="card<%= section.collapsed ? ' card--collapsible' : '' %>" data-section data-scope>
+    <header class="card__head">
+      <% if (section.collapsed) { %>
+      <button class="card__toggle" type="button" data-action="toggle-card" aria-expanded="false">
+        <h2><%= section.title %></h2><%- icon('chevron-down', { size: 18 }) %>
+      </button>
+      <% } else { %>
+      <h2><%= section.title %></h2>
+      <% } %>
+      <% if (section.description) { %><p><%= section.description %></p><% } %>
+    </header>
+    <div class="card__body"<%= section.collapsed ? ' hidden' : '' %>>
+      <div class="fields">
+        <% for (const field of section.fields) { %><%- include('partials/field', { field, value: target[field.key] }) %><% } %>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <div class="savebar" data-savebar>
+    <p class="savebar__status" data-status role="status">Aucune modification en cours</p>
+    <button class="btn btn--primary" type="submit" data-save disabled>Enregistrer</button>
+  </div>
+</form>
+<template id="icon-library"><% for (const o of iconOptions) { %><span data-icon-name="<%= o.value %>"><%- icon(o.value, { size: 18 }) %></span><% } %></template>
+<%- include('partials/foot') %>

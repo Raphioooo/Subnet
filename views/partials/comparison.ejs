@@ -1,0 +1,24 @@
+<% const cmp = c.offer.comparison; -%>
+<div class="comparison reveal">
+  <table class="comparison__table">
+    <caption class="sr-only"><%= cmp.title %></caption>
+    <thead>
+      <tr>
+        <th scope="col"><%= cmp.columns.criterion %></th>
+        <th scope="col"><%= cmp.columns.diy %></th>
+        <th scope="col"><%= cmp.columns.agency %></th>
+        <th scope="col" class="is-ours"><%= cmp.columns.ours %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const row of cmp.rows) { %>
+      <tr>
+        <th scope="row"><%= row.criterion %></th>
+        <td data-label="<%= cmp.columns.diy %>"><%= row.diy %></td>
+        <td data-label="<%= cmp.columns.agency %>"><%= row.agency %></td>
+        <td data-label="<%= cmp.columns.ours %>" class="is-ours"><span class="ours-cell"><%- icon('check', { size: 16, strokeWidth: 2.5 }) %><span><%= row.ours %></span></span></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,32 @@
+<%
+  const labelField = rf.fields.find((x) => x.key === rf.itemLabel);
+  let label = rf.itemLabel ? item[rf.itemLabel] : '';
+  if (labelField && labelField.type === 'select') label = labelField.options.find((o) => o.value === label)?.label || label;
+  const thumb = rf.thumbKey ? item[rf.thumbKey] : '';
+  const isHidden = item.visible === false;
+-%>
+<div class="r-item<%= rf.inline ? ' r-item--inline' : '' %>" data-item data-scope>
+  <% if (!rf.inline) { %>
+  <div class="r-item__head">
+    <button class="r-item__toggle" type="button" data-action="toggle" aria-expanded="<%= open ? 'true' : 'false' %>">
+      <%- icon('chevron-right', { size: 16, className: 'r-item__chevron' }) %>
+      <% if (rf.thumbKey) { %><span class="r-item__thumb" data-thumb><% if (thumb) { %><img src="<%= thumb %>" alt=""><% } %></span><% } %>
+      <span class="r-item__title" data-title><%= label || 'Nouvel élément' %></span>
+      <span class="r-item__badge" data-hidden-badge<%= isHidden ? '' : ' hidden' %>>Masqué</span>
+    </button>
+    <div class="item-actions">
+      <button class="icon-btn icon-btn--sm" type="button" data-action="up" aria-label="Monter"><%- icon('arrow-up', { size: 15 }) %></button>
+      <button class="icon-btn icon-btn--sm" type="button" data-action="down" aria-label="Descendre"><%- icon('arrow-down', { size: 15 }) %></button>
+      <% if (!rf.fixed) { %><button class="icon-btn icon-btn--sm icon-btn--danger" type="button" data-action="remove" aria-label="Supprimer"><%- icon('trash-2', { size: 15 }) %></button><% } %>
+    </div>
+  </div>
+  <% } %>
+  <div class="r-item__body"<%= open || rf.inline ? '' : ' hidden' %>>
+    <div class="fields">
+      <% for (const sub of rf.fields) { %><%- include('field', { field: sub, value: item[sub.key] }) %><% } %>
+    </div>
+    <% if (rf.inline) { %>
+    <button class="icon-btn icon-btn--sm icon-btn--danger r-item__remove" type="button" data-action="remove" aria-label="Supprimer"><%- icon('trash-2', { size: 15 }) %></button>
+    <% } %>
+  </div>
+</div>
