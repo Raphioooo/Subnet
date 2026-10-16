@@ -192,6 +192,7 @@ public/                CSS, JavaScript, police, images
 scripts/               installation, mise à jour, sauvegarde, restauration, mot de passe
 test/                  tests automatisés
 docs/                  guide de mise en ligne (PDF)
+docs/logo/             logo Subnet en SVG et PNG (bleu ou blanc, fond transparent)
 Dockerfile, docker-compose.yml, Caddyfile   mise en ligne avec Docker et HTTPS
 .github/workflows/     tests et mise en ligne automatiques
 ```

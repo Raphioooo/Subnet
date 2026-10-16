@@ -14,7 +14,7 @@
 <div class="shell">
   <aside class="sidebar" id="sidebar" data-sidebar>
     <a class="brand" href="/admin">
-      <svg class="brand__mark" width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="9" fill="currentColor"/><rect x="15" y="15" width="11" height="11" rx="3.4" fill="#2b59ff"/></svg>
+      <%- include('../../partials/mark', { cls: 'brand__mark', size: 30 }) %>
       <span><strong><%= site.name %></strong><small>Administration</small></span>
     </a>
     <nav class="sidebar__nav" aria-label="Administration">
