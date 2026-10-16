@@ -95,14 +95,14 @@ if ! sshd -t; then
   fail "La configuration SSH est invalide : elle n'a pas été modifiée."
 fi
 systemctl reload ssh 2>/dev/null || systemctl restart ssh 2>/dev/null || systemctl restart sshd
-if sshd -T | grep -qx 'passwordauthentication no'; then
+if [ "$(sshd -T | awk '$1 == "passwordauthentication" { print $2 }')" = no ]; then
   info "Mots de passe et compte root refusés pour les nouvelles connexions."
 else
   warn "Les réglages SSH ne semblent pas appliqués : vérifiez /etc/ssh/sshd_config."
 fi
 
 step "Pare-feu"
-SSH_PORT="$(sshd -T | awk '$1 == "port" { print $2; exit }')"
+SSH_PORT="$(sshd -T | awk '$1 == "port" && !seen { print $2; seen = 1 }')"
 ufw allow "${SSH_PORT:-22}/tcp" comment 'SSH' > /dev/null
 ufw allow 80/tcp comment 'HTTP' > /dev/null
 ufw allow 443 comment 'HTTPS' > /dev/null
@@ -166,6 +166,7 @@ info "Chaque nuit à 3 h 30, dans $SITE_DIR/backups (14 sauvegardes conservées)
 
 step "Certificat HTTPS"
 PUBLIC_IP="$(curl -fsS4 --max-time 5 https://api.ipify.org 2>/dev/null || true)"
+[ -n "$PUBLIC_IP" ] || PUBLIC_IP="$(ip -4 route get 1.1.1.1 2>/dev/null | awk '{ for (i = 1; i < NF; i++) if ($i == "src") print $(i + 1) }' || true)"
 DNS_IP="$(getent ahostsv4 "$DOMAIN" 2>/dev/null | awk 'NR == 1 { print $1 }' || true)"
 HTTPS_OK=
 if [ "$DOMAIN" = localhost ]; then
@@ -173,7 +174,7 @@ if [ "$DOMAIN" = localhost ]; then
 elif [ -n "$PUBLIC_IP" ] && [ "$DNS_IP" = "$PUBLIC_IP" ]; then
   for _ in $(seq 1 45); do
     if as_app sh -c "cd '$SITE_DIR' && docker compose logs caddy" 2>/dev/null \
-      | grep 'certificate obtained successfully' | grep -q "\"identifier\":\"$DOMAIN\""; then
+      | grep 'certificate obtained successfully' | grep "\"identifier\":\"$DOMAIN\"" > /dev/null; then
       HTTPS_OK=1
       break
     fi
@@ -186,15 +187,19 @@ else
   warn "Rien à faire : le certificat HTTPS sera obtenu automatiquement dès qu'il sera à jour."
 fi
 
-PASSWORD_BOX="$(as_app sh -c "cd '$SITE_DIR' && docker compose logs --no-color site" | sed -n 's/^[^|]*| //p' | grep -E '^[┌│└]' || true)"
+SITE_LOGS="$(as_app sh -c "cd '$SITE_DIR' && docker compose logs --no-color site" 2>/dev/null || true)"
+PASSWORD_BOX="$(printf '%s\n' "$SITE_LOGS" | sed -n 's/^[^|]*| //p' | grep -E '^[┌│└]' || true)"
 
 printf '\n\033[1;32m✓ Installation terminée\033[0m\n\n'
 info "Site             https://$DOMAIN"
 info "Administration   https://$DOMAIN/admin"
 if [ -n "$PASSWORD_BOX" ]; then
   printf '\n%s\n' "$PASSWORD_BOX" | sed 's/^/  /'
+elif printf '%s\n' "$SITE_LOGS" | grep 'mot de passe temporaire est toujours actif' > /dev/null; then
+  info "Mot de passe     le mot de passe temporaire affiché à la première installation"
+  info "                 (perdu ? cd ~/site && docker compose exec site npm run set-password)"
 else
-  info "Mot de passe     celui que vous avez déjà choisi dans l'administration"
+  info "Mot de passe     celui que vous avez choisi dans l'administration"
 fi
 printf '\n'
 info "Connectez-vous désormais au serveur avec : ssh $APP_USER@${PUBLIC_IP:-<adresse du serveur>}"

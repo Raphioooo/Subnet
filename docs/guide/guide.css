@@ -146,7 +146,7 @@ kbd {
 /* Titres de page ---------------------------------------------------------- */
 
 .page { break-before: page; }
-.doc-title { font-size: 24pt; letter-spacing: -0.03em; margin-bottom: 6mm; }
+.doc-title { font-size: 24pt; letter-spacing: -0.03em; margin-bottom: 6mm; break-after: avoid; }
 .part-label { display: inline-block; margin-bottom: 2mm; font-size: 8pt; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
 
 /* Sommaire ----------------------------------------------------------------- */

@@ -96,7 +96,18 @@ Le guide pas à pas [docs/guide-mise-en-ligne.pdf](docs/guide-mise-en-ligne.pdf)
 
 Le site est une application Node.js qui a besoin d'un **dossier de données persistant** : c'est là que vivent vos contenus et vos images. Pensez à le sauvegarder.
 
-### Sur un VPS avec Docker (recommandé)
+### Sur un VPS, en une commande (recommandé)
+
+Sur un serveur Ubuntu Server LTS ou Debian neuf, connecté avec l'utilisateur fourni par l'hébergeur :
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/Raphioooo/Subnet/main/scripts/install.sh
+sudo bash install.sh mondomaine.fr
+```
+
+Le script met le système à jour, crée l'utilisateur `subnet` (connexion par clé SSH uniquement, root refusé), active le pare-feu et les correctifs automatiques, installe Docker, récupère le site dans `~subnet/site`, le démarre en HTTPS et programme une sauvegarde chaque nuit. Il affiche à la fin le mot de passe temporaire de l'administration et peut être relancé sans risque.
+
+### Avec Docker, manuellement
 
 ```bash
 cp .env.example .env   # renseignez DOMAIN (ex. mondomaine.fr) et BASE_URL
@@ -108,12 +119,13 @@ docker compose up -d --build
 | Commande | Rôle |
 | --- | --- |
 | `./scripts/deploy.sh` | Récupère la dernière version (`git pull`), reconstruit et redémarre le site |
+| `./scripts/setup-auto-deploy.sh` | Crée la clé de mise en ligne automatique et affiche les quatre secrets à saisir dans GitHub |
 | `./scripts/backup.sh` | Archive les données (contenus, demandes, images) dans `backups/` et garde les 14 dernières |
 | `./scripts/restore.sh <archive>` | Restaure une archive, après une sauvegarde de sécurité de l'état actuel |
 | `docker compose exec site npm run set-password` | Choisit un nouveau mot de passe d'administration (mot de passe oublié) |
 | `docker compose logs -f site` | Affiche le journal du site (dont le mot de passe temporaire au premier démarrage) |
 
-Le workflow GitHub Actions `.github/workflows/deploy.yml` lance les tests à chaque push et pull request. Après un push sur `main`, il met le serveur à jour par SSH si les secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY` et `DEPLOY_KNOWN_HOSTS` sont renseignés ; sinon, cette étape est simplement ignorée.
+Le workflow GitHub Actions `.github/workflows/deploy.yml` lance les tests à chaque push et pull request. Après un push sur `main`, il met le serveur à jour par SSH si les secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY` et `DEPLOY_KNOWN_HOSTS` sont renseignés (`./scripts/setup-auto-deploy.sh` les prépare) ; sinon, cette étape est simplement ignorée.
 
 ### Sur un serveur sans Docker
 
@@ -177,7 +189,7 @@ src/
   routes/admin.js      espace d'administration
 views/                 gabarits (pages, éléments communs, admin)
 public/                CSS, JavaScript, police, images
-scripts/               mot de passe, mise à jour, sauvegarde et restauration
+scripts/               installation, mise à jour, sauvegarde, restauration, mot de passe
 test/                  tests automatisés
 docs/                  guide de mise en ligne (PDF)
 Dockerfile, docker-compose.yml, Caddyfile   mise en ligne avec Docker et HTTPS
