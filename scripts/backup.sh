@@ -10,5 +10,5 @@ file="backups/subnet-$(date +%Y-%m-%d-%H%M%S).tar.gz"
 trap 'rm -f "$file.tmp"' EXIT
 docker compose exec -T site tar -czf - -C /data . > "$file.tmp"
 mv "$file.tmp" "$file"
-ls -1t backups/subnet-*.tar.gz | tail -n +15 | xargs -r rm --
+ls -1t backups/subnet-*.tar.gz | tail -n +15 | while read -r old; do rm -f -- "$old"; done
 echo "Sauvegarde créée : $file ($(du -h "$file" | cut -f1))"

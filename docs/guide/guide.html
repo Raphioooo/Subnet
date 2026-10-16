@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Subnet · Guide de mise en ligne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+
+<!-- Couverture ============================================================ -->
+<section class="cover">
+  <div class="brand"><svg viewBox="0 0 32 32"><rect x="1" y="1" width="30" height="30" rx="9" fill="#1d1d1f"/><rect x="15" y="15" width="11" height="11" rx="3.4" fill="#2b59ff"/></svg>Subnet</div>
+  <p class="kicker">Guide pas à pas</p>
+  <h1>Mettre votre site<br>en ligne</h1>
+  <p class="subtitle">Du nom de domaine au site sécurisé en HTTPS, avec mises à jour automatiques à chaque push et sauvegardes quotidiennes.</p>
+  <div class="chips">
+    <span class="chip"><i data-icon="list"></i>14 étapes</span>
+    <span class="chip"><i data-icon="clock"></i>2 à 3 heures</span>
+    <span class="chip"><i data-icon="smile"></i>Aucune connaissance technique requise</span>
+  </div>
+  <div class="cover-shot">
+    <div class="bar"><i></i><i></i><i></i><span class="url"><i data-icon="lock"></i>https://mondomaine.fr</span></div>
+    <img src="img/accueil.jpg" alt="">
+  </div>
+  <div class="cover-foot"><span>Version d’octobre 2026</span><span>Ubuntu Server LTS · Docker · Caddy · GitHub Actions</span></div>
+</section>
+
+<!-- Sommaire ============================================================== -->
+<section>
+  <h1 class="doc-title">Sommaire</h1>
+  <nav class="toc">
+    <a href="#intro"><span class="n"></span><span class="t">Avant de commencer</span><span class="fill"></span><span class="p" data-page-of="intro">00</span></a>
+    <p class="toc-part">Partie 1 · Préparer</p>
+    <a href="#s1"><span class="n">01</span><span class="t">Créer votre clé SSH</span><span class="d">5 min</span><span class="fill"></span><span class="p" data-page-of="s1">00</span></a>
+    <a href="#s2"><span class="n">02</span><span class="t">Réserver votre nom de domaine</span><span class="d">10 min</span><span class="fill"></span><span class="p" data-page-of="s2">00</span></a>
+    <a href="#s3"><span class="n">03</span><span class="t">Louer votre serveur (VPS)</span><span class="d">10 min</span><span class="fill"></span><span class="p" data-page-of="s3">00</span></a>
+    <a href="#s4"><span class="n">04</span><span class="t">Relier le domaine au serveur (DNS)</span><span class="d">10 min</span><span class="fill"></span><span class="p" data-page-of="s4">00</span></a>
+    <p class="toc-part">Partie 2 · Installer</p>
+    <a href="#s5"><span class="n">05</span><span class="t">Vous connecter au serveur</span><span class="d">10 min</span><span class="fill"></span><span class="p" data-page-of="s5">00</span></a>
+    <a href="#s6"><span class="n">06</span><span class="t">Sécuriser le serveur</span><span class="d">15 min</span><span class="fill"></span><span class="p" data-page-of="s6">00</span></a>
+    <a href="#s7"><span class="n">07</span><span class="t">Installer Docker</span><span class="d">5 min</span><span class="fill"></span><span class="p" data-page-of="s7">00</span></a>
+    <a href="#s8"><span class="n">08</span><span class="t">Publier le code et le récupérer sur le serveur</span><span class="d">15 min</span><span class="fill"></span><span class="p" data-page-of="s8">00</span></a>
+    <a href="#s9"><span class="n">09</span><span class="t">Configurer le site</span><span class="d">10 min</span><span class="fill"></span><span class="p" data-page-of="s9">00</span></a>
+    <a href="#s10"><span class="n">10</span><span class="t">Démarrer le site en HTTPS</span><span class="d">5 min</span><span class="fill"></span><span class="p" data-page-of="s10">00</span></a>
+    <p class="toc-part">Partie 3 · Faire vivre le site</p>
+    <a href="#s11"><span class="n">11</span><span class="t">Configurer l’administration</span><span class="d">20 min</span><span class="fill"></span><span class="p" data-page-of="s11">00</span></a>
+    <a href="#s12"><span class="n">12</span><span class="t">Mettre à jour le site à chaque push</span><span class="d">15 min</span><span class="fill"></span><span class="p" data-page-of="s12">00</span></a>
+    <a href="#s13"><span class="n">13</span><span class="t">Sauvegarder les données</span><span class="d">10 min</span><span class="fill"></span><span class="p" data-page-of="s13">00</span></a>
+    <a href="#s14"><span class="n">14</span><span class="t">Entretenir et surveiller</span><span class="d">10 min / mois</span><span class="fill"></span><span class="p" data-page-of="s14">00</span></a>
+    <p class="toc-part">En cas de besoin</p>
+    <a href="#depannage"><span class="n"></span><span class="t">Dépannage</span><span class="fill"></span><span class="p" data-page-of="depannage">00</span></a>
+    <a href="#annexes"><span class="n"></span><span class="t">Annexes : aide-mémoire, fichier .env, liste de vérification, glossaire</span><span class="fill"></span><span class="p" data-page-of="annexes">00</span></a>
+  </nav>
+</section>
+
+<!-- Introduction ========================================================== -->
+<section class="page" id="intro" data-toc>
+  <p class="part-label">Introduction</p>
+  <h1 class="doc-title">Avant de commencer</h1>
+
+  <h3 class="mt0">Ce que vous allez mettre en place</h3>
+  <p>Votre site va tourner sur un <strong>serveur privé virtuel (VPS)</strong> que vous louez au mois. Quand un visiteur tape <strong>mondomaine.fr</strong>, l’annuaire d’internet (le DNS) lui donne l’adresse de votre serveur. Sur celui-ci, <strong>Caddy</strong> gère le cadenas HTTPS et transmet les visites au site, qui enregistre vos contenus et les demandes reçues. Le code, lui, vit sur <strong>GitHub</strong> : chaque nouvelle version y est publiée, puis récupérée par le serveur.</p>
+
+  <figure>
+    <svg viewBox="0 0 680 300" role="img" aria-label="Schéma : le visiteur interroge le DNS puis se connecte en HTTPS au serveur, où Caddy transmet au site, qui enregistre ses données ; GitHub fournit les mises à jour.">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#2b59ff"/></marker>
+        <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#8a8a92"/></marker>
+      </defs>
+      <style>
+        .bx { fill: #fff; stroke: #d9d9e0; stroke-width: 1.2; }
+        .bx2 { fill: #ffffff; stroke: #c9d4ff; stroke-width: 1.2; }
+        .vps { fill: #f3f5ff; stroke: #2b59ff; stroke-width: 1.2; stroke-dasharray: 5 4; }
+        .t1 { font: 700 12.5px Inter, InterG, sans-serif; fill: #1d1d1f; }
+        .t2 { font: 400 10px Inter, InterG, sans-serif; fill: #6e6e73; }
+        .t3 { font: 600 9.5px Inter, InterG, sans-serif; fill: #2b59ff; letter-spacing: .02em; }
+        .mono { font: 400 9.5px 'JetBrains Mono', monospace; fill: #1d1d1f; }
+        .ln { stroke: #2b59ff; stroke-width: 1.6; fill: none; }
+        .lg { stroke: #8a8a92; stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; }
+        .lab { font: 600 9.5px Inter, InterG, sans-serif; fill: #2b59ff; }
+        .labg { font: 500 9.5px Inter, InterG, sans-serif; fill: #6e6e73; }
+      </style>
+      <rect class="bx" x="8" y="156" width="124" height="84" rx="12"/>
+      <text class="t1" x="70" y="192" text-anchor="middle">Visiteur</text>
+      <text class="t2" x="70" y="210" text-anchor="middle">ordinateur ou mobile</text>
+
+      <rect class="bx" x="180" y="10" width="196" height="66" rx="12"/>
+      <text class="t1" x="278" y="36" text-anchor="middle">DNS (registrar)</text>
+      <text class="mono" x="278" y="56" text-anchor="middle">mondomaine.fr → 203.0.113.10</text>
+
+      <rect class="bx" x="398" y="10" width="274" height="66" rx="12"/>
+      <text class="t1" x="535" y="36" text-anchor="middle">GitHub</text>
+      <text class="t2" x="535" y="56" text-anchor="middle">le code du site · branche main</text>
+
+      <rect class="vps" x="180" y="102" width="492" height="190" rx="16"/>
+      <text class="t3" x="196" y="124">VOTRE SERVEUR (VPS) · UBUNTU + DOCKER</text>
+
+      <rect class="bx2" x="196" y="148" width="140" height="112" rx="12"/>
+      <text class="t1" x="266" y="188" text-anchor="middle">Caddy</text>
+      <text class="t2" x="266" y="207" text-anchor="middle">cadenas HTTPS</text>
+      <text class="t2" x="266" y="223" text-anchor="middle">ports 80 et 443</text>
+
+      <rect class="bx2" x="358" y="148" width="146" height="112" rx="12"/>
+      <text class="t1" x="431" y="188" text-anchor="middle">Site Subnet</text>
+      <text class="t2" x="431" y="207" text-anchor="middle">Node.js</text>
+      <text class="t2" x="431" y="223" text-anchor="middle">port 3000 (interne)</text>
+
+      <rect class="bx2" x="526" y="148" width="132" height="112" rx="12"/>
+      <text class="t1" x="592" y="188" text-anchor="middle">Données</text>
+      <text class="t2" x="592" y="207" text-anchor="middle">contenus, demandes</text>
+      <text class="t2" x="592" y="223" text-anchor="middle">et images</text>
+
+      <path class="ln" d="M70 156 V43 H174" marker-end="url(#ar)"/>
+      <text class="lab" x="80" y="36">1 · quelle adresse ?</text>
+      <path class="ln" d="M132 204 H190" marker-end="url(#ar)"/>
+      <text class="lab" x="136" y="196">2 · HTTPS</text>
+      <path class="ln" d="M336 204 H352" marker-end="url(#ar)"/>
+      <path class="ln" d="M504 204 H520" marker-end="url(#ar)"/>
+      <path class="lg" d="M431 76 V142" marker-end="url(#arg)"/>
+      <text class="labg" x="439" y="94">mises à jour (git pull)</text>
+    </svg>
+    <figcaption>Le chemin d’une visite, et celui des mises à jour.</figcaption>
+  </figure>
+
+  <h3>Le parcours en un coup d’œil</h3>
+  <div class="route">
+    <div class="col"><h4>1 · Préparer</h4><ol>
+      <li><b>01</b>Clé SSH<span>5 min</span></li>
+      <li><b>02</b>Nom de domaine<span>10 min</span></li>
+      <li><b>03</b>Serveur VPS<span>10 min</span></li>
+      <li><b>04</b>DNS<span>10 min</span></li>
+    </ol></div>
+    <div class="col"><h4>2 · Installer</h4><ol>
+      <li><b>05</b>Connexion<span>10 min</span></li>
+      <li><b>06</b>Sécurité<span>15 min</span></li>
+      <li><b>07</b>Docker<span>5 min</span></li>
+      <li><b>08</b>Code<span>15 min</span></li>
+      <li><b>09</b>Configuration<span>10 min</span></li>
+      <li><b>10</b>Démarrage HTTPS<span>5 min</span></li>
+    </ol></div>
+    <div class="col"><h4>3 · Faire vivre</h4><ol>
+      <li><b>11</b>Administration<span>20 min</span></li>
+      <li><b>12</b>Mises à jour<span>15 min</span></li>
+      <li><b>13</b>Sauvegardes<span>10 min</span></li>
+      <li><b>14</b>Entretien<span>mensuel</span></li>
+    </ol></div>
+  </div>
+  <p class="small">Les étapes 1 à 10 se font d’une traite. Les étapes 11 à 14 peuvent attendre le lendemain, mais ne les oubliez pas : elles protègent votre site.</p>
+</section>
+
+<section class="page">
+  <h3 class="mt0">Ce qu’il vous faut</h3>
+  <div class="grid4">
+    <div class="card"><span class="ico"><i data-icon="monitor"></i></span><h4>Un ordinateur</h4><p>Windows, macOS ou Linux.</p></div>
+    <div class="card"><span class="ico"><i data-icon="branch"></i></span><h4>Votre GitHub</h4><p>Dépôt Raphioooo/Subnet.</p></div>
+    <div class="card"><span class="ico"><i data-icon="card"></i></span><h4>Une carte bancaire</h4><p>Domaine et serveur.</p></div>
+    <div class="card"><span class="ico"><i data-icon="clock"></i></span><h4>2 à 3 heures</h4><p>Attente du DNS comprise.</p></div>
+  </div>
+
+  <h3>Budget</h3>
+  <table class="t">
+    <thead><tr><th>Poste</th><th>Coût indicatif</th><th>Remarque</th></tr></thead>
+    <tr><td>Nom de domaine</td><td>7 à 15 € par an</td><td>Comparez le prix du renouvellement, pas celui de la 1<sup>re</sup> année.</td></tr>
+    <tr><td>Serveur VPS</td><td>5 à 10 € par mois</td><td>L’entrée de gamme suffit largement.</td></tr>
+    <tr><td>Certificat HTTPS</td><td>Gratuit</td><td>Let’s Encrypt, obtenu et renouvelé automatiquement.</td></tr>
+    <tr><td>GitHub, GitHub Actions</td><td>Gratuit</td><td>Largement dans les limites de l’offre gratuite.</td></tr>
+    <tr><td>Email d’envoi</td><td>0 à 5 € par mois</td><td>Facultatif ; souvent inclus avec le nom de domaine.</td></tr>
+  </table>
+
+  <h3>Comment lire ce guide</h3>
+  <p>Chaque étape indique où se passe l’action. Les commandes sont à copier-coller telles quelles, <strong>une ligne après l’autre</strong>, en attendant la fin de chacune.</p>
+  <div class="legend">
+    <p><span class="lg lg-pc">Sur votre ordinateur</span>commande à taper dans le terminal de votre ordinateur</p>
+    <p><span class="lg lg-srv">Sur le serveur</span>commande à taper une fois connecté au serveur, à partir de l’étape 5</p>
+    <p><span class="lg lg-out">Résultat attendu</span>ce que le terminal doit afficher, à peu de chose près</p>
+  </div>
+
+  <table class="t">
+    <thead><tr><th>Dans ce guide</th><th>À remplacer par</th></tr></thead>
+    <tr><td><span class="ph">mondomaine.fr</span></td><td>votre nom de domaine, sans <code>www</code> ni <code>https://</code></td></tr>
+    <tr><td><span class="ph">203.0.113.10</span></td><td>l’adresse IPv4 de votre serveur (étape 3)</td></tr>
+    <tr><td><span class="ph">2001:db8::10</span></td><td>son adresse IPv6, si elle existe</td></tr>
+    <tr><td>subnet</td><td>le nom de votre utilisateur sur le serveur : vous pouvez garder celui-ci</td></tr>
+  </table>
+  <div class="note"><p class="note-title"><i data-icon="bulb"></i>Bon à savoir</p>
+    <ul>
+      <li><strong>Coller dans un terminal</strong> : clic droit (Windows), <kbd>⌘ V</kbd> (Mac) ou <kbd>Ctrl Maj V</kbd> (Linux).</li>
+      <li><strong>Les mots de passe ne s’affichent pas</strong> pendant la frappe, pas même des étoiles : c’est normal, tapez-le puis <kbd>Entrée</kbd>.</li>
+      <li><strong>Les lignes qui commencent par #</strong> sont des commentaires : inutile de les taper.</li>
+      <li>Une commande semble bloquée ? Certaines prennent une minute ; <kbd>Ctrl C</kbd> en interrompt une.</li>
+    </ul>
+  </div>
+
+
+</section>
+
+<!-- Étape 1 =============================================================== -->
+<section class="step" id="s1" data-toc>
+  <header class="step-head">
+    <div class="step-num">01</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 1 · Préparer</span><span class="tag"><i data-icon="monitor"></i>Sur votre ordinateur</span><span class="tag"><i data-icon="clock"></i>5 min</span></p>
+      <h2>Créer votre clé SSH</h2>
+      <p class="step-goal">La clé SSH vous permettra de vous connecter au serveur sans mot de passe, de façon bien plus sûre.</p>
+    </div>
+  </header>
+
+  <p>Une clé SSH est une paire de fichiers. La <strong>clé privée</strong> reste sur votre ordinateur et ne doit jamais être partagée. La <strong>clé publique</strong> peut être donnée sans risque, par exemple à votre hébergeur : le serveur n’acceptera que l’ordinateur qui possède la clé privée correspondante.</p>
+
+  <ol class="do">
+    <li><strong>Ouvrez un terminal.</strong>
+      <ul>
+        <li>Windows 10 ou 11 : menu Démarrer, tapez <strong>Terminal</strong> (ou <strong>PowerShell</strong>) et ouvrez-le.</li>
+        <li>macOS : <span class="ui">Applications</span><span class="sep">›</span><span class="ui">Utilitaires</span><span class="sep">›</span><span class="ui">Terminal</span>.</li>
+        <li>Linux : ouvrez l’application <strong>Terminal</strong>.</li>
+      </ul>
+    </li>
+    <li><strong>Créez la clé</strong> (la commande est la même partout) :
+      <div class="cmd"><div class="cmd-label">Sur votre ordinateur</div><pre><code>ssh-keygen -t ed25519 -C "subnet"</code></pre></div>
+      <p>Appuyez sur <kbd>Entrée</kbd> pour accepter l’emplacement proposé. Choisissez ensuite une <strong>phrase de passe</strong> et confirmez-la : elle protège la clé si votre ordinateur est perdu ou volé. Rien ne s’affiche pendant la saisie, c’est normal.</p>
+    </li>
+    <li><strong>Affichez votre clé publique :</strong>
+      <div class="cmd"><div class="cmd-label">Sur votre ordinateur · macOS et Linux</div><pre><code>cat ~/.ssh/id_ed25519.pub</code></pre></div>
+      <div class="cmd"><div class="cmd-label">Sur votre ordinateur · Windows (PowerShell)</div><pre><code>Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub</code></pre></div>
+      <div class="out"><div class="out-label">Résultat attendu</div><pre><code>ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK3nZ8v…q9Xc subnet</code></pre></div>
+      <p>Copiez <strong>toute la ligne</strong> et gardez-la sous la main : vous la collerez chez l’hébergeur à l’étape 3.</p>
+    </li>
+  </ol>
+
+  <div class="note danger"><p class="note-title"><i data-icon="shield"></i>Gardez la clé privée pour vous</p>
+    <p>Le fichier <code>id_ed25519</code> (sans <code>.pub</code>) ne doit jamais être envoyé, copié dans un email ni publié. Si vous changez d’ordinateur, créez une nouvelle clé et ajoutez-la au serveur (étape 5).</p>
+  </div>
+  <div class="note"><p class="note-title"><i data-icon="info"></i>Windows : « ssh-keygen » est introuvable ?</p>
+    <p>Le client SSH est intégré à Windows 10 et 11. S’il manque : <span class="ui">Paramètres</span><span class="sep">›</span><span class="ui">Système</span><span class="sep">›</span><span class="ui">Fonctionnalités facultatives</span>, puis ajoutez <strong>Client OpenSSH</strong> et rouvrez le terminal.</p>
+  </div>
+</section>
+
+<!-- Étape 2 =============================================================== -->
+<section class="step" id="s2" data-toc>
+  <header class="step-head">
+    <div class="step-num">02</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 1 · Préparer</span><span class="tag"><i data-icon="globe"></i>Dans le navigateur</span><span class="tag"><i data-icon="clock"></i>10 min</span></p>
+      <h2>Réserver votre nom de domaine</h2>
+      <p class="step-goal">Acheter l’adresse de votre site, par exemple <strong>mondomaine.fr</strong>, auprès d’un registrar.</p>
+    </div>
+  </header>
+
+  <p>Un <strong>registrar</strong> est la société auprès de laquelle vous louez votre nom de domaine, à l’année. Choisissez-en un qui inclut la gestion de la <strong>zone DNS</strong> : c’est le cas de ceux-ci.</p>
+  <table class="t">
+    <thead><tr><th>Registrar</th><th>En bref</th></tr></thead>
+    <tr><td>OVHcloud</td><td>Français, très répandu, interface en français.</td></tr>
+    <tr><td>Gandi</td><td>Français, interface claire.</td></tr>
+    <tr><td>Infomaniak</td><td>Suisse, engagé sur l’écologie.</td></tr>
+    <tr><td>IONOS</td><td>Interface en français ; vérifiez le prix du renouvellement.</td></tr>
+  </table>
+
+  <ol class="do">
+    <li><strong>Cherchez le nom souhaité</strong> sur le site du registrar : court, facile à dicter, sans tiret si possible. Le <strong>.fr</strong> est réservé aux personnes et entreprises établies dans l’Union européenne, ce qui est le cas d’une entreprise française.</li>
+    <li><strong>Refusez les options inutiles</strong> lors de la commande : hébergement web, créateur de site, certificat SSL payant. Ce guide installe un certificat HTTPS gratuit.</li>
+    <li><strong>Option utile : une adresse email à votre nom</strong>, comme contact@mondomaine.fr. Elle servira d’adresse de contact et pour envoyer les notifications du site (étape 9). Certains registrars en offrent une avec le domaine.</li>
+    <li><strong>Activez le renouvellement automatique</strong> : un domaine expiré rend le site et les emails injoignables.</li>
+  </ol>
+
+  <div class="note ok"><p class="note-title"><i data-icon="check"></i>Résultat</p>
+    <p>Dans votre espace client, vous voyez votre domaine et sa <strong>zone DNS</strong>. Vous y reviendrez à l’étape 4.</p>
+  </div>
+</section>
+
+<!-- Étape 3 =============================================================== -->
+<section class="step" id="s3" data-toc>
+  <header class="step-head">
+    <div class="step-num">03</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 1 · Préparer</span><span class="tag"><i data-icon="globe"></i>Dans le navigateur</span><span class="tag"><i data-icon="clock"></i>10 min</span></p>
+      <h2>Louer votre serveur (VPS)</h2>
+      <p class="step-goal">Louer la machine sur laquelle le site tournera, jour et nuit.</p>
+    </div>
+  </header>
+
+  <p>Un <strong>VPS</strong> (serveur privé virtuel) est un serveur loué au mois chez un hébergeur. Vous en êtes l’administrateur : vous y installerez le site en quelques commandes. Hébergeurs reconnus : <strong>OVHcloud</strong> et <strong>Scaleway</strong> (France), <strong>Hetzner</strong> (Allemagne, Finlande), <strong>IONOS</strong>, <strong>Infomaniak</strong> (Suisse). Les offres d’entrée de gamme, autour de 5 à 10 € par mois, suffisent largement.</p>
+
+  <table class="t">
+    <thead><tr><th>Élément</th><th>À choisir</th></tr></thead>
+    <tr><td>Système</td><td><strong>Ubuntu Server 26.04 LTS</strong> (ou 24.04 LTS). « LTS » signifie maintenu pendant au moins cinq ans.</td></tr>
+    <tr><td>Processeur</td><td>1 à 2 vCPU</td></tr>
+    <tr><td>Mémoire</td><td>2 Go minimum, 4 Go confortable</td></tr>
+    <tr><td>Stockage</td><td>20 Go SSD ou plus</td></tr>
+    <tr><td>Localisation</td><td>France ou Union européenne (RGPD et rapidité pour vos visiteurs)</td></tr>
+    <tr><td>Réseau</td><td>Adresse IPv4 publique incluse (c’est presque toujours le cas)</td></tr>
+  </table>
+
+  <ol class="do">
+    <li><strong>Commandez le VPS</strong> en choisissant l’image <strong>Ubuntu Server LTS</strong>.</li>
+    <li><strong>Ajoutez votre clé SSH</strong> quand l’interface le propose (champ « Clé SSH » ou « SSH key ») : collez la ligne copiée à l’étape 1.</li>
+    <li><strong>Activez les sauvegardes de l’hébergeur</strong> si l’option existe (« backups » ou « snapshots ») : pour quelques euros par mois, vous pourrez restaurer tout le serveur.</li>
+    <li><strong>Une fois le serveur livré</strong> (en quelques minutes), notez :
+      <ul>
+        <li>son adresse <strong>IPv4</strong>, par exemple <span class="ph">203.0.113.10</span> ;</li>
+        <li>son adresse <strong>IPv6</strong> si elle est indiquée, par exemple <span class="ph">2001:db8::10</span> ;</li>
+        <li>le <strong>nom d’utilisateur</strong> de connexion, indiqué par l’hébergeur : souvent <code>root</code>, ou <code>ubuntu</code> chez OVHcloud.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <div class="note"><p class="note-title"><i data-icon="info"></i>Pas de champ pour la clé SSH ?</p>
+    <p>L’hébergeur vous envoie alors un mot de passe par email. Vous ajouterez votre clé lors de la première connexion (encadré de l’étape 5).</p>
+  </div>
+</section>
+
+<!-- Étape 4 =============================================================== -->
+<section class="step" id="s4" data-toc>
+  <header class="step-head">
+    <div class="step-num">04</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 1 · Préparer</span><span class="tag"><i data-icon="globe"></i>Dans le navigateur</span><span class="tag"><i data-icon="clock"></i>10 min + attente</span></p>
+      <h2>Relier le domaine au serveur (DNS)</h2>
+      <p class="step-goal">Indiquer à internet que mondomaine.fr correspond à l’adresse de votre serveur. On le fait dès maintenant : la mise à jour peut prendre jusqu’à quelques heures.</p>
+    </div>
+  </header>
+
+  <ol class="do">
+    <li><strong>Ouvrez la zone DNS</strong> dans l’espace client du registrar, par exemple : <span class="ui">Noms de domaine</span><span class="sep">›</span><span class="ui">mondomaine.fr</span><span class="sep">›</span><span class="ui">Zone DNS</span>.</li>
+    <li><strong>Supprimez les entrées A, AAAA et CNAME existantes</strong> pour le domaine principal (sous-domaine vide ou <code>@</code>) et pour <code>www</code> : elles pointent vers une page d’attente du registrar. <strong>Ne touchez pas aux entrées MX et TXT</strong>, qui servent aux emails.</li>
+    <li><strong>Ajoutez ces entrées</strong>, en laissant le TTL proposé :
+      <table class="t">
+        <thead><tr><th>Type</th><th>Sous-domaine</th><th>Cible</th></tr></thead>
+        <tr><td>A</td><td>vide (ou @)</td><td><span class="ph">203.0.113.10</span></td></tr>
+        <tr><td>A</td><td>www</td><td><span class="ph">203.0.113.10</span></td></tr>
+        <tr><td>AAAA</td><td>vide (ou @)</td><td><span class="ph">2001:db8::10</span> · seulement si votre VPS a une IPv6</td></tr>
+        <tr><td>AAAA</td><td>www</td><td><span class="ph">2001:db8::10</span> · idem</td></tr>
+      </table>
+    </li>
+    <li><strong>Vérifiez</strong>, au bout de quelques minutes :
+      <div class="cmd"><div class="cmd-label">Sur votre ordinateur</div><pre><code>nslookup <span class="ph">mondomaine.fr</span></code></pre></div>
+      <div class="out"><div class="out-label">Résultat attendu</div><pre><code>Non-authoritative answer:
+Name:    mondomaine.fr
+Address: 203.0.113.10</code></pre></div>
+      <p>La réponse doit contenir l’adresse de votre serveur. Vous pouvez aussi vérifier sur <strong>dnschecker.org</strong>.</p>
+    </li>
+  </ol>
+
+  <div class="note warn"><p class="note-title"><i data-icon="alert"></i>IPv6 : seulement si elle fonctionne</p>
+    <p>Une entrée AAAA vers une adresse IPv6 non configurée sur le serveur bloque une partie des visiteurs et peut empêcher l’obtention du certificat HTTPS. Dans le doute, n’ajoutez que les entrées A : l’IPv4 suffit.</p>
+  </div>
+  <div class="note"><p class="note-title"><i data-icon="clock"></i>La propagation</p>
+    <p>Selon le registrar, la nouvelle adresse est visible en quelques minutes ou quelques heures. Continuez les étapes suivantes en attendant : le DNS doit simplement être en place à l’étape 10.</p>
+  </div>
+</section>
+
+<!-- Étape 5 =============================================================== -->
+<section class="step" id="s5" data-toc>
+  <header class="step-head">
+    <div class="step-num">05</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 2 · Installer</span><span class="tag"><i data-icon="server"></i>Ordinateur puis serveur</span><span class="tag"><i data-icon="clock"></i>10 min</span></p>
+      <h2>Vous connecter au serveur</h2>
+      <p class="step-goal">Ouvrir une session sur le serveur et installer ses mises à jour.</p>
+    </div>
+  </header>
+
+  <ol class="do">
+    <li><strong>Connectez-vous</strong> avec l’utilisateur fourni par l’hébergeur (<code>root</code>, ou <code>ubuntu</code> chez OVHcloud) :
+      <div class="cmd"><div class="cmd-label">Sur votre ordinateur</div><pre><code>ssh root@<span class="ph">203.0.113.10</span></code></pre></div>
+      <p>À la première connexion, le terminal demande si vous faites confiance au serveur (<em>Are you sure you want to continue connecting?</em>) : tapez <code>yes</code> puis <kbd>Entrée</kbd>. Saisissez ensuite la phrase de passe de votre clé.</p>
+      <div class="out"><div class="out-label">Résultat attendu</div><pre><code>Welcome to Ubuntu 26.04 LTS (GNU/Linux …)
+…
+root@vps-subnet:~#</code></pre></div>
+      <p>Vous êtes connecté : les commandes que vous tapez s’exécutent désormais <strong>sur le serveur</strong>. Pour revenir au terminal de votre ordinateur, tapez <code>exit</code>.</p>
+    </li>
+    <li><strong>Installez les mises à jour</strong> et quelques outils, puis réglez le fuseau horaire :
+      <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>sudo apt update &amp;&amp; sudo apt full-upgrade -y
+sudo apt install -y git ufw unattended-upgrades
+sudo timedatectl set-timezone Europe/Paris</code></pre></div>
+      <p>Si un écran demande quels services redémarrer, validez simplement avec <kbd>Entrée</kbd>.</p>
+    </li>
+    <li><strong>Redémarrez</strong> pour appliquer les mises à jour :
+      <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>sudo reboot</code></pre></div>
+      <p>La connexion se ferme. Patientez une minute, puis reconnectez-vous avec la même commande qu’au point 1.</p>
+    </li>
+  </ol>
+
+  <div class="note"><p class="note-title"><i data-icon="key"></i>Vous vous êtes connecté avec un mot de passe ?</p>
+    <p>Si l’hébergeur vous a fourni un mot de passe plutôt que d’enregistrer votre clé, ajoutez-la maintenant, <strong>depuis votre ordinateur</strong> (remplacez <code>ubuntu</code> par votre utilisateur) :</p>
+    <div class="cmd"><div class="cmd-label">Sur votre ordinateur · macOS et Linux</div><pre><code>ssh-copy-id ubuntu@<span class="ph">203.0.113.10</span></code></pre></div>
+    <div class="cmd"><div class="cmd-label">Sur votre ordinateur · Windows (PowerShell)</div><pre><code>$key = Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub
+ssh ubuntu@<span class="ph">203.0.113.10</span> "mkdir -p ~/.ssh; echo '$key' &gt;&gt; ~/.ssh/authorized_keys"</code></pre></div>
+    <p>La connexion suivante ne demandera plus le mot de passe du serveur.</p>
+  </div>
+</section>
+
+<!-- Étape 6 =============================================================== -->
+<section class="step" id="s6" data-toc>
+  <header class="step-head">
+    <div class="step-num">06</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 2 · Installer</span><span class="tag"><i data-icon="server"></i>Sur le serveur</span><span class="tag"><i data-icon="clock"></i>15 min</span></p>
+      <h2>Sécuriser le serveur</h2>
+      <p class="step-goal">Créer votre propre utilisateur, interdire les connexions par mot de passe et n’ouvrir que les ports nécessaires.</p>
+    </div>
+  </header>
+
+  <h3 class="mt0"><span class="sub">6.1</span>Créer votre utilisateur</h3>
+  <p>Plutôt que de travailler avec le compte <code>root</code>, créez un utilisateur personnel, ici <strong>subnet</strong>, autorisé à agir en administrateur avec <code>sudo</code>. Les quatre dernières commandes lui copient votre clé SSH.</p>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>sudo adduser subnet
+sudo usermod -aG sudo subnet
+sudo mkdir -p /home/subnet/.ssh
+sudo cp ~/.ssh/authorized_keys /home/subnet/.ssh/
+sudo chown -R subnet:subnet /home/subnet/.ssh
+sudo chmod 700 /home/subnet/.ssh &amp;&amp; sudo chmod 600 /home/subnet/.ssh/authorized_keys</code></pre></div>
+  <p><code>adduser</code> demande un mot de passe : choisissez-le solide et rangez-le dans votre gestionnaire de mots de passe, <code>sudo</code> vous le demandera. Les questions suivantes (nom complet, téléphone…) sont facultatives : <kbd>Entrée</kbd> à chaque fois.</p>
+
+  <h3><span class="sub">6.2</span>Tester la nouvelle connexion</h3>
+  <p><strong>Sans fermer la session en cours</strong>, ouvrez un second terminal sur votre ordinateur :</p>
+  <div class="cmd"><div class="cmd-label">Sur votre ordinateur · nouveau terminal</div><pre><code>ssh subnet@<span class="ph">203.0.113.10</span></code></pre></div>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur · connecté en tant que subnet</div><pre><code>sudo whoami</code></pre></div>
+  <div class="out"><div class="out-label">Résultat attendu (après le mot de passe de subnet)</div><pre><code>root</code></pre></div>
+
+  <h3><span class="sub">6.3</span>Interdire les mots de passe et le compte root</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>sudo tee /etc/ssh/sshd_config.d/00-subnet.conf &gt; /dev/null &lt;&lt;'EOF'
+PermitRootLogin no
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+EOF
+sudo sshd -t &amp;&amp; sudo systemctl restart ssh
+sudo sshd -T | grep -E 'permitrootlogin|passwordauthentication'</code></pre></div>
+  <div class="out"><div class="out-label">Résultat attendu</div><pre><code>permitrootlogin no
+passwordauthentication no</code></pre></div>
+  <p>Vérifiez dans un nouveau terminal que <code>ssh subnet@203.0.113.10</code> fonctionne toujours. <strong>Désormais, connectez-vous toujours ainsi</strong> : la connexion avec <code>root</code> et par mot de passe est refusée.</p>
+  <div class="note warn"><p class="note-title"><i data-icon="alert"></i>Pourquoi « 00- » dans le nom du fichier ?</p>
+    <p>La plupart des VPS contiennent déjà un fichier <code>50-cloud-init.conf</code> qui autorise les mots de passe. SSH retient la première valeur lue : le préfixe <code>00-</code> garantit que vos réglages passent avant. Avec un autre nom, ils pourraient être ignorés sans aucun message.</p>
+  </div>
+  <div class="note danger"><p class="note-title"><i data-icon="shield"></i>Ne vous enfermez pas dehors</p>
+    <p>Gardez une session ouverte tant qu’une nouvelle connexion n’a pas réussi. En cas de blocage, la <strong>console de secours</strong> de l’hébergeur (KVM, VNC ou console web) permet toujours de reprendre la main.</p>
+  </div>
+
+  <h3><span class="sub">6.4</span>Activer le pare-feu</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>sudo ufw allow OpenSSH
+sudo ufw allow 80/tcp
+sudo ufw allow 443
+sudo ufw enable
+sudo ufw status</code></pre></div>
+  <p>À la question <em>Proceed with operation (y|n)?</em>, répondez <code>y</code>.</p>
+  <div class="out"><div class="out-label">Résultat attendu</div><pre><code>Status: active
+
+To                         Action      From
+--                         ------      ----
+OpenSSH                    ALLOW       Anywhere
+80/tcp                     ALLOW       Anywhere
+443                        ALLOW       Anywhere
+…</code></pre></div>
+  <p>Seuls SSH (port 22), HTTP (80) et HTTPS (443) sont ouverts. Le site lui-même (port 3000) n’est jamais exposé : Caddy reste le seul point d’entrée.</p>
+
+  <h3><span class="sub">6.5</span>Correctifs de sécurité automatiques</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>sudo dpkg-reconfigure -plow unattended-upgrades</code></pre></div>
+  <p>Répondez <strong>Oui</strong> (<em>Yes</em>) : les correctifs de sécurité du système s’installeront désormais chaque nuit.</p>
+</section>
+
+<!-- Étape 7 =============================================================== -->
+<section class="step" id="s7" data-toc>
+  <header class="step-head">
+    <div class="step-num">07</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 2 · Installer</span><span class="tag"><i data-icon="server"></i>Sur le serveur</span><span class="tag"><i data-icon="clock"></i>5 min</span></p>
+      <h2>Installer Docker</h2>
+      <p class="step-goal">Installer Docker, qui fait tourner le site et Caddy dans des conteneurs isolés, faciles à mettre à jour.</p>
+    </div>
+  </header>
+
+  <p>Docker emballe une application avec tout ce dont elle a besoin (ici Node.js) : rien d’autre à installer sur le serveur. Connecté en tant que <strong>subnet</strong>, copiez ce bloc en entier : ce sont les commandes de la documentation officielle de Docker.</p>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+sudo tee /etc/apt/sources.list.d/docker.sources &gt; /dev/null &lt;&lt;EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release &amp;&amp; echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</code></pre></div>
+  <p class="small">Vous avez choisi Debian ? Remplacez <code>ubuntu</code> par <code>debian</code> dans les deux adresses <code>download.docker.com</code>.</p>
+  <p>Autorisez ensuite votre utilisateur à se servir de Docker, puis fermez la session :</p>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>sudo usermod -aG docker subnet
+exit</code></pre></div>
+  <p>Reconnectez-vous (<code>ssh subnet@203.0.113.10</code>) pour que ce droit soit pris en compte, puis vérifiez :</p>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>docker run --rm hello-world
+docker compose version</code></pre></div>
+  <div class="out"><div class="out-label">Résultat attendu</div><pre><code>Hello from Docker!
+This message shows that your installation appears to be working correctly.
+…
+Docker Compose version v5.6.0</code></pre></div>
+  <p class="small">Le numéro de version peut être différent : c’est sans importance.</p>
+
+  <div class="note danger"><p class="note-title"><i data-icon="shield"></i>Le groupe docker</p>
+    <p>Être membre du groupe <code>docker</code> revient à avoir les droits d’administrateur du serveur : ne l’accordez qu’à votre utilisateur.</p>
+  </div>
+</section>
+
+<!-- Étape 8 =============================================================== -->
+<section class="step" id="s8" data-toc>
+  <header class="step-head">
+    <div class="step-num">08</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 2 · Installer</span><span class="tag"><i data-icon="branch"></i>GitHub puis serveur</span><span class="tag"><i data-icon="clock"></i>15 min</span></p>
+      <h2>Publier le code et le récupérer sur le serveur</h2>
+      <p class="step-goal">Valider la version du site sur GitHub (branche <code>main</code>), puis la copier sur le serveur.</p>
+    </div>
+  </header>
+
+  <h3 class="mt0"><span class="sub">8.1</span>Fusionner la version de travail dans main</h3>
+  <p>Le code du site est sur GitHub, dans le dépôt <strong>Raphioooo/Subnet</strong>. Les derniers développements sont sur la branche <code>claude/subnet-site-descriptif-604gbe</code>. La branche <code>main</code> est celle que le serveur met en ligne : on y fusionne le travail par une <strong>pull request</strong>.</p>
+  <ol class="do">
+    <li>Sur github.com, ouvrez le dépôt, puis <span class="ui">Pull requests</span><span class="sep">›</span><span class="ui">New pull request</span>.</li>
+    <li>Choisissez <strong>base : main</strong> et <strong>compare : claude/subnet-site-descriptif-604gbe</strong>, puis cliquez deux fois sur <span class="ui">Create pull request</span>.</li>
+    <li>Patientez une à deux minutes : GitHub lance les tests automatiques. Quand la coche verte apparaît, cliquez sur <span class="ui">Merge pull request</span>, puis <span class="ui">Confirm merge</span>.</li>
+  </ol>
+  <div class="note ok"><p class="note-title"><i data-icon="check"></i>C’est ainsi pour chaque nouvelle version</p>
+    <p>Une pull request fusionnée dans <code>main</code>, c’est une nouvelle version prête à être mise en ligne. À l’étape 12, cette mise en ligne deviendra automatique.</p>
+  </div>
+
+  <h3><span class="sub">8.2</span>Donner au serveur un accès en lecture au dépôt</h3>
+  <p>Le dépôt est privé : le serveur a besoin de sa propre clé, autorisée uniquement à <strong>lire</strong> ce dépôt (une « deploy key »).</p>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>ssh-keygen -t ed25519 -N "" -C "serveur-subnet" -f ~/.ssh/github
+cat ~/.ssh/github.pub</code></pre></div>
+  <p>Copiez la ligne affichée (<code>ssh-ed25519 …</code>). Sur GitHub, dans le dépôt : <span class="ui">Settings</span><span class="sep">›</span><span class="ui">Deploy keys</span><span class="sep">›</span><span class="ui">Add deploy key</span>. Titre : <strong>Serveur VPS</strong> ; Key : collez la ligne ; laissez <strong>Allow write access</strong> décoché ; validez avec <span class="ui">Add key</span>. Puis, sur le serveur :</p>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>cat &gt;&gt; ~/.ssh/config &lt;&lt;'EOF'
+Host github.com
+  IdentityFile ~/.ssh/github
+  IdentitiesOnly yes
+EOF
+chmod 600 ~/.ssh/config
+ssh -T git@github.com</code></pre></div>
+  <p>La première fois, vérifiez que l’empreinte affichée est bien celle de GitHub, <code>SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU</code>, puis tapez <code>yes</code>.</p>
+  <div class="out"><div class="out-label">Résultat attendu</div><pre><code>Hi Raphioooo/Subnet! You've successfully authenticated, but GitHub does not provide shell access.</code></pre></div>
+
+  <h3><span class="sub">8.3</span>Copier le site sur le serveur</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>git clone git@github.com:Raphioooo/Subnet.git ~/site
+cd ~/site
+ls</code></pre></div>
+  <div class="out"><div class="out-label">Résultat attendu</div><pre><code>Caddyfile   README.md           docs               package.json  scripts    src   views
+Dockerfile  docker-compose.yml  package-lock.json  public        server.js  test</code></pre></div>
+  <div class="note"><p class="note-title"><i data-icon="info"></i>Dépôt public ?</p>
+    <p>Si le dépôt est public, la clé de déploiement est inutile : <code>git clone https://github.com/Raphioooo/Subnet.git ~/site</code> suffit.</p>
+  </div>
+</section>
+
+<!-- Étape 9 =============================================================== -->
+<section class="step" id="s9" data-toc>
+  <header class="step-head">
+    <div class="step-num">09</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 2 · Installer</span><span class="tag"><i data-icon="server"></i>Sur le serveur</span><span class="tag"><i data-icon="clock"></i>10 min</span></p>
+      <h2>Configurer le site</h2>
+      <p class="step-goal">Renseigner votre domaine et, si vous le souhaitez, l’envoi d’un email à chaque demande reçue.</p>
+    </div>
+  </header>
+
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>cd ~/site
+cp .env.example .env
+chmod 600 .env
+nano .env</code></pre></div>
+  <p>Le fichier s’ouvre dans l’éditeur <strong>nano</strong>. Déplacez-vous avec les flèches du clavier et complétez au minimum ces deux lignes, sans espace autour du signe <code>=</code> :</p>
+  <div class="file"><div class="out-label">Fichier .env</div><pre><code>DOMAIN=<span class="ph">mondomaine.fr</span>
+BASE_URL=https://<span class="ph">mondomaine.fr</span></code></pre></div>
+  <p>Enregistrez avec <kbd>Ctrl O</kbd> puis <kbd>Entrée</kbd>, et quittez avec <kbd>Ctrl X</kbd>.</p>
+
+  <table class="t">
+    <thead><tr><th>Réglage</th><th>Que mettre ?</th></tr></thead>
+    <tr><td><code>ADMIN_PASSWORD</code></td><td>Laissez vide (recommandé). Un mot de passe temporaire s’affichera au premier démarrage, et vous choisirez le vôtre dans l’administration : il sera enregistré chiffré, et non en clair dans ce fichier.</td></tr>
+    <tr><td><code>SESSION_SECRET</code></td><td>Laissez vide : une clé secrète est générée automatiquement.</td></tr>
+    <tr><td><code>SMTP_…</code>, <code>MAIL_…</code></td><td>Facultatif : pour recevoir un email à chaque demande (ci-dessous).</td></tr>
+    <tr><td><code>PORT</code>, <code>NODE_ENV</code>, <code>DATA_DIR</code>, <code>TRUST_PROXY</code></td><td>Ne pas modifier : les valeurs conviennent à Docker et Caddy.</td></tr>
+  </table>
+
+  <h3>Recevoir un email à chaque demande (facultatif)</h3>
+  <p>Sans ce réglage, les demandes restent consultables dans l’administration (rubrique <strong>Demandes</strong>). Pour être prévenu par email, indiquez une boîte email existante qui servira d’expéditeur. Exemple avec une adresse OVHcloud :</p>
+  <div class="file"><div class="out-label">Fichier .env · exemple</div><pre><code>SMTP_HOST=ssl0.ovh.net
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=<span class="ph">contact@mondomaine.fr</span>
+SMTP_PASS=<span class="ph">mot-de-passe-de-la-boite</span>
+MAIL_TO=<span class="ph">vous@exemple.fr</span></code></pre></div>
+  <div class="avoid"><table class="t">
+    <thead><tr><th>Fournisseur</th><th>SMTP_HOST</th><th>SMTP_USER et SMTP_PASS</th></tr></thead>
+    <tr><td>Email OVHcloud</td><td><code>ssl0.ovh.net</code></td><td>l’adresse et le mot de passe de la boîte</td></tr>
+    <tr><td>Gmail</td><td><code>smtp.gmail.com</code></td><td>l’adresse Gmail et un <strong>mot de passe d’application</strong> (validation en deux étapes requise)</td></tr>
+    <tr><td>Brevo</td><td><code>smtp-relay.brevo.com</code></td><td>l’identifiant et la clé SMTP fournis par Brevo</td></tr>
+  </table></div>
+  <p>Gardez le port <strong>587</strong> avec <code>SMTP_SECURE=false</code> (chiffrement STARTTLS) : certains hébergeurs, dont Hetzner, bloquent les ports 25 et 465. <code>MAIL_TO</code> est l’adresse qui reçoit les notifications ; sans elle, c’est l’email de contact saisi dans l’administration.</p>
+  <div class="note"><p class="note-title"><i data-icon="bulb"></i>Modifier le fichier .env plus tard</p>
+    <p>Après chaque modification, appliquez-la avec <code>docker compose up -d</code>, depuis le dossier <code>~/site</code>.</p>
+  </div>
+</section>
+
+<!-- Étape 10 ============================================================== -->
+<section class="step" id="s10" data-toc>
+  <header class="step-head">
+    <div class="step-num">10</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 2 · Installer</span><span class="tag"><i data-icon="server"></i>Sur le serveur</span><span class="tag"><i data-icon="clock"></i>5 min</span></p>
+      <h2>Démarrer le site en HTTPS</h2>
+      <p class="step-goal">Lancer le site et Caddy : le certificat HTTPS est obtenu tout seul.</p>
+    </div>
+  </header>
+
+  <div class="note warn"><p class="note-title"><i data-icon="alert"></i>Avant de lancer</p>
+    <p>Le DNS de l’étape 4 doit déjà pointer vers le serveur : <code>nslookup mondomaine.fr</code> doit renvoyer son adresse. Sinon, Caddy ne peut pas obtenir le certificat.</p>
+  </div>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>cd ~/site
+docker compose up -d --build</code></pre></div>
+  <p>La première construction prend une à trois minutes. Vérifiez ensuite que tout tourne :</p>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>docker compose ps</code></pre></div>
+  <div class="out"><div class="out-label">Résultat attendu</div><pre><code>NAME             …   SERVICE   STATUS                    PORTS
+subnet-caddy-1   …   caddy     Up 40 seconds             0.0.0.0:80-&gt;80/tcp, 0.0.0.0:443-&gt;443/tcp, …
+subnet-site-1    …   site      Up 41 seconds (healthy)   3000/tcp</code></pre></div>
+  <p>Les deux services doivent être <strong>Up</strong>, et le site <strong>(healthy)</strong> au bout de quelques secondes.</p>
+
+  <h3>Noter le mot de passe temporaire</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>docker compose logs site</code></pre></div>
+  <div class="out"><div class="out-label">Résultat attendu</div><pre><code>site-1  | ┌──────────────────────────────────────────────────────┐
+site-1  | │  Espace d’administration : mot de passe temporaire   │
+site-1  | │  K7mq-Xr4p-Tn9w-Hb2d                                 │
+site-1  | │  Changez-le depuis /admin (Compte et sauvegarde)     │
+site-1  | │  ou définissez ADMIN_PASSWORD dans le fichier .env.  │
+site-1  | └──────────────────────────────────────────────────────┘
+site-1  | Site disponible sur https://mondomaine.fr (administration : https://mondomaine.fr/admin)</code></pre></div>
+  <p>Notez ce mot de passe : il sert à la première connexion à l’administration (étape 11).</p>
+
+  <h3>Vérifier le certificat HTTPS</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>docker compose logs caddy | grep "certificate obtained"</code></pre></div>
+  <div class="out"><div class="out-label">Résultat attendu</div><pre><code>… "msg":"certificate obtained successfully","identifier":"mondomaine.fr", …
+… "msg":"certificate obtained successfully","identifier":"www.mondomaine.fr", …</code></pre></div>
+  <p>Ouvrez alors <strong>https://mondomaine.fr</strong> dans votre navigateur : le site s’affiche avec le cadenas. Les adresses <strong>www.mondomaine.fr</strong> et <strong>http://mondomaine.fr</strong> redirigent automatiquement vers <strong>https://mondomaine.fr</strong>.</p>
+  <div class="note ok"><p class="note-title"><i data-icon="check"></i>Votre site est en ligne</p>
+    <p>Le certificat sera renouvelé automatiquement par Caddy, sans aucune intervention. Si le serveur redémarre, le site redémarre aussi tout seul.</p>
+  </div>
+  <div class="note warn"><p class="note-title"><i data-icon="alert"></i>Pas de certificat ?</p>
+    <p>Vérifiez le DNS (étape 4) et le pare-feu (étape 6.4), puis relancez Caddy avec <code>docker compose restart caddy</code>. Voir aussi le dépannage, en fin de guide.</p>
+  </div>
+</section>
+
+<!-- Étape 11 ============================================================== -->
+<section class="step" id="s11" data-toc>
+  <header class="step-head">
+    <div class="step-num">11</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 3 · Faire vivre le site</span><span class="tag"><i data-icon="globe"></i>Dans le navigateur</span><span class="tag"><i data-icon="clock"></i>20 min</span></p>
+      <h2>Configurer l’administration</h2>
+      <p class="step-goal">Remplacer le mot de passe temporaire et compléter les informations du site.</p>
+    </div>
+  </header>
+
+  <figure class="shot"><img src="img/admin.jpg" alt="Tableau de bord de l’administration"></figure>
+
+  <ol class="do">
+    <li>Ouvrez <strong>https://mondomaine.fr/admin</strong> et connectez-vous avec le mot de passe temporaire.</li>
+    <li><span class="ui">Compte et sauvegarde</span> : choisissez <strong>votre mot de passe</strong> (au moins 10 caractères ; une courte phrase est idéale). Le mot de passe temporaire cesse aussitôt de fonctionner.</li>
+    <li><span class="ui">Coordonnées</span> : email, téléphone, adresse, zone d’intervention, horaires et réseaux sociaux.</li>
+    <li><span class="ui">Général</span> : vérifiez le nom du site, sa description pour Google et l’adresse du site (https://mondomaine.fr).</li>
+    <li><span class="ui">Pages légales</span> : raison sociale, SIRET, adresse, directeur ou directrice de la publication, et les coordonnées de <strong>l’hébergeur</strong> (nom, adresse et téléphone de la société qui vous loue le VPS, à recopier depuis ses propres mentions légales). Elles sont obligatoires.</li>
+    <li><span class="ui">Réalisations</span> : masquez ou remplacez les projets « Concept », qui sont des exemples.</li>
+    <li><strong>Testez le formulaire</strong> : envoyez une demande depuis https://mondomaine.fr/contact. Elle apparaît aussitôt dans <span class="ui">Demandes</span>, et par email si vous l’avez configuré.</li>
+  </ol>
+  <div class="note"><p class="note-title"><i data-icon="bulb"></i>Le tableau de bord vous guide</p>
+    <p>La liste « Pour bien démarrer » indique ce qu’il reste à compléter, avec un lien vers chaque réglage.</p>
+  </div>
+</section>
+
+<!-- Étape 12 ============================================================== -->
+<section class="step" id="s12" data-toc>
+  <header class="step-head">
+    <div class="step-num">12</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 3 · Faire vivre le site</span><span class="tag"><i data-icon="branch"></i>GitHub et serveur</span><span class="tag"><i data-icon="clock"></i>15 min</span></p>
+      <h2>Mettre à jour le site à chaque push</h2>
+      <p class="step-goal">Publier une nouvelle version du code en une commande, puis automatiquement à chaque fusion dans main.</p>
+    </div>
+  </header>
+
+  <p>Les textes, photos, horaires et demandes se gèrent dans l’administration : ces changements sont en ligne <strong>immédiatement</strong>, sans mise à jour. Une mise à jour n’est utile que lorsque le <strong>code</strong> du site change : nouvelle fonctionnalité, correction, nouveau design.</p>
+
+  <h3><span class="sub">12.1</span>Mise à jour manuelle</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>~/site/scripts/deploy.sh</code></pre></div>
+  <p>Le script récupère la dernière version de <code>main</code>, met à jour Node.js et Caddy, reconstruit le site puis le redémarre, avec quelques secondes d’interruption. Vos contenus et vos demandes ne sont pas touchés.</p>
+
+  <h3><span class="sub">12.2</span>Mise à jour automatique à chaque push sur main</h3>
+  <figure>
+    <svg viewBox="0 0 680 104" role="img" aria-label="Chaîne de mise en ligne : modification, pull request fusionnée dans main, tests GitHub Actions, connexion SSH, serveur à jour.">
+      <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#2b59ff"/></marker></defs>
+      <style>
+        .pb { fill: #fff; stroke: #d9d9e0; stroke-width: 1.2; }
+        .pb2 { fill: #f3f5ff; stroke: #2b59ff; stroke-width: 1.2; }
+        .pn { font: 700 10px Inter, InterG, sans-serif; fill: #2b59ff; }
+        .pt { font: 700 11px Inter, InterG, sans-serif; fill: #1d1d1f; }
+        .ps { font: 400 9.2px Inter, InterG, sans-serif; fill: #6e6e73; }
+        .pl { stroke: #2b59ff; stroke-width: 1.5; fill: none; }
+      </style>
+      <rect class="pb" x="2" y="14" width="118" height="78" rx="11"/>
+      <text class="pn" x="14" y="34">1</text><text class="pt" x="14" y="54">Modification</text><text class="ps" x="14" y="70">sur une branche</text><text class="ps" x="14" y="83">(vous ou Claude)</text>
+      <rect class="pb" x="142" y="14" width="118" height="78" rx="11"/>
+      <text class="pn" x="154" y="34">2</text><text class="pt" x="154" y="54">Pull request</text><text class="ps" x="154" y="70">fusionnée</text><text class="ps" x="154" y="83">dans main</text>
+      <rect class="pb" x="282" y="14" width="118" height="78" rx="11"/>
+      <text class="pn" x="294" y="34">3</text><text class="pt" x="294" y="54">GitHub Actions</text><text class="ps" x="294" y="70">lance les tests</text><text class="ps" x="294" y="83">automatiques</text>
+      <rect class="pb" x="422" y="14" width="118" height="78" rx="11"/>
+      <text class="pn" x="434" y="34">4</text><text class="pt" x="434" y="54">Connexion SSH</text><text class="ps" x="434" y="70">clé limitée</text><text class="ps" x="434" y="83">à deploy.sh</text>
+      <rect class="pb2" x="562" y="14" width="116" height="78" rx="11"/>
+      <text class="pn" x="574" y="34">5</text><text class="pt" x="574" y="54">Site à jour</text><text class="ps" x="574" y="70">en 2 à 3 minutes</text><text class="ps" x="574" y="83">sans rien faire</text>
+      <path class="pl" d="M121 53 H140" marker-end="url(#ar2)"/>
+      <path class="pl" d="M261 53 H280" marker-end="url(#ar2)"/>
+      <path class="pl" d="M401 53 H420" marker-end="url(#ar2)"/>
+      <path class="pl" d="M541 53 H560" marker-end="url(#ar2)"/>
+    </svg>
+  </figure>
+  <p>Le dépôt contient déjà le workflow GitHub Actions (<code>.github/workflows/deploy.yml</code>). Il reste à lui donner accès au serveur avec une clé <strong>limitée</strong> : elle ne peut lancer que le script de mise à jour, rien d’autre.</p>
+  <ol class="do">
+    <li><strong>Sur le serveur</strong>, créez la clé et réservez-la au script de mise à jour :
+      <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>ssh-keygen -t ed25519 -N "" -C "github-actions" -f ~/.ssh/github_actions
+KEY=$(cat ~/.ssh/github_actions.pub)
+echo "command=\"$HOME/site/scripts/deploy.sh\",restrict $KEY" &gt;&gt; ~/.ssh/authorized_keys
+cat ~/.ssh/github_actions
+ssh-keyscan -t ed25519 <span class="ph">mondomaine.fr</span></code></pre></div>
+    </li>
+    <li><strong>Sur GitHub</strong>, dans le dépôt : <span class="ui">Settings</span><span class="sep">›</span><span class="ui">Secrets and variables</span><span class="sep">›</span><span class="ui">Actions</span><span class="sep">›</span><span class="ui">New repository secret</span>. Créez ces quatre secrets :
+      <table class="t">
+        <thead><tr><th>Nom</th><th>Valeur</th></tr></thead>
+        <tr><td><code>DEPLOY_HOST</code></td><td><span class="ph">mondomaine.fr</span></td></tr>
+        <tr><td><code>DEPLOY_USER</code></td><td>subnet</td></tr>
+        <tr><td><code>DEPLOY_SSH_KEY</code></td><td>tout le bloc affiché par <code>cat</code>, de <code>-----BEGIN OPENSSH PRIVATE KEY-----</code> à <code>-----END OPENSSH PRIVATE KEY-----</code> inclus</td></tr>
+        <tr><td><code>DEPLOY_KNOWN_HOSTS</code></td><td>la ligne affichée par <code>ssh-keyscan</code> (<code>mondomaine.fr ssh-ed25519 AAAA…</code>)</td></tr>
+      </table>
+    </li>
+    <li><strong>Supprimez la clé privée du serveur</strong> : GitHub en garde la seule copie, chiffrée.
+      <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>rm ~/.ssh/github_actions ~/.ssh/github_actions.pub</code></pre></div>
+    </li>
+    <li><strong>Testez</strong> : sur GitHub, <span class="ui">Actions</span><span class="sep">›</span><span class="ui">Tests et mise en ligne</span><span class="sep">›</span><span class="ui">Run workflow</span> (branche main). Les étapes <strong>Tests</strong> et <strong>Mise en ligne</strong> doivent passer au vert ; le journal de la seconde affiche l’état des conteneurs.</li>
+  </ol>
+
+  <h3><span class="sub">12.3</span>Votre cycle de travail</h3>
+  <p>Pour chaque évolution, les modifications sont faites sur une branche, par vous ou par Claude. Une pull request est ouverte et les tests s’exécutent. Quand vous la fusionnez dans <code>main</code>, le site est mis à jour <strong>automatiquement</strong>, en deux à trois minutes.</p>
+  <div class="note"><p class="note-title"><i data-icon="refresh"></i>Revenir en arrière</p>
+    <p>Une nouvelle version pose problème ? Sur GitHub, ouvrez la pull request fusionnée et cliquez sur <span class="ui">Revert</span>, puis fusionnez la pull request ainsi créée : la version précédente est remise en ligne automatiquement.</p>
+  </div>
+</section>
+
+<!-- Étape 13 ============================================================== -->
+<section class="step" id="s13" data-toc>
+  <header class="step-head">
+    <div class="step-num">13</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 3 · Faire vivre le site</span><span class="tag"><i data-icon="server"></i>Sur le serveur</span><span class="tag"><i data-icon="clock"></i>10 min</span></p>
+      <h2>Sauvegarder les données</h2>
+      <p class="step-goal">Mettre en place une sauvegarde quotidienne automatique, en garder une copie hors du serveur et savoir restaurer.</p>
+    </div>
+  </header>
+
+  <p>Le code est à l’abri sur GitHub. Ce qu’il faut sauvegarder, ce sont les <strong>données</strong> : textes et réglages, demandes reçues, images envoyées et mot de passe de l’administration.</p>
+
+  <h3><span class="sub">13.1</span>Sauvegarde manuelle</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>~/site/scripts/backup.sh</code></pre></div>
+  <div class="out"><div class="out-label">Résultat attendu</div><pre><code>Sauvegarde créée : backups/subnet-2026-10-16-033000.tar.gz (2.1M)</code></pre></div>
+  <p>Les archives sont rangées dans <code>~/site/backups</code> ; les 14 plus récentes sont conservées.</p>
+
+  <h3><span class="sub">13.2</span>Sauvegarde automatique chaque nuit</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>crontab -e</code></pre></div>
+  <p>La première fois, choisissez l’éditeur <strong>nano</strong> (tapez <code>1</code>). Ajoutez cette ligne à la fin du fichier, puis enregistrez (<kbd>Ctrl O</kbd>, <kbd>Entrée</kbd>, <kbd>Ctrl X</kbd>) :</p>
+  <div class="file"><div class="out-label">Ligne à ajouter</div><pre><code>30 3 * * * $HOME/site/scripts/backup.sh &gt;&gt; $HOME/sauvegardes.log 2&gt;&amp;1</code></pre></div>
+  <p>Une sauvegarde sera créée chaque nuit à 3 h 30. Le fichier <code>~/sauvegardes.log</code> garde la trace de chaque exécution.</p>
+
+  <h3><span class="sub">13.3</span>Garder une copie hors du serveur</h3>
+  <p>Si le serveur disparaît, ses sauvegardes aussi. Rapatriez-les régulièrement sur votre ordinateur, au moins une fois par mois :</p>
+  <div class="cmd"><div class="cmd-label">Sur votre ordinateur</div><pre><code>scp -r subnet@<span class="ph">mondomaine.fr</span>:site/backups ./sauvegardes-subnet</code></pre></div>
+  <p>Conservez aussi une copie du fichier <code>.env</code> dans votre gestionnaire de mots de passe. Les sauvegardes proposées par l’hébergeur (étape 3) complètent utilement ce dispositif.</p>
+
+  <h3><span class="sub">13.4</span>Restaurer une sauvegarde</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>ls ~/site/backups
+~/site/scripts/restore.sh ~/site/backups/subnet-<span class="ph">2026-10-16-033000</span>.tar.gz</code></pre></div>
+  <p>Le script sauvegarde d’abord l’état actuel, puis remplace les données par celles de l’archive et redémarre le site. Faites un essai une fois : une sauvegarde n’est fiable que si l’on sait la restaurer.</p>
+  <div class="note"><p class="note-title"><i data-icon="bulb"></i>Depuis l’administration</p>
+    <p><span class="ui">Compte et sauvegarde</span><span class="sep">›</span><span class="ui">Télécharger une sauvegarde</span> exporte les textes et réglages (sans les images) : pratique avant une grosse modification de contenu.</p>
+  </div>
+</section>
+
+<!-- Étape 14 ============================================================== -->
+<section class="step" id="s14" data-toc>
+  <header class="step-head">
+    <div class="step-num">14</div>
+    <div>
+      <p class="step-kicker"><span class="tag tag--part">Partie 3 · Faire vivre le site</span><span class="tag"><i data-icon="server"></i>Serveur et navigateur</span><span class="tag"><i data-icon="clock"></i>10 min par mois</span></p>
+      <h2>Entretenir et surveiller</h2>
+      <p class="step-goal">Garder le serveur à jour, être prévenu si le site ne répond plus et bien apparaître sur Google.</p>
+    </div>
+  </header>
+
+  <h3 class="mt0">Une fois par mois</h3>
+  <div class="cmd srv"><div class="cmd-label">Sur le serveur</div><pre><code>sudo apt update &amp;&amp; sudo apt full-upgrade -y
+~/site/scripts/deploy.sh
+df -h /
+tail -n 3 ~/sauvegardes.log</code></pre></div>
+  <p>Ces commandes mettent à jour le système, puis Node.js, Caddy et le site. Elles affichent ensuite l’espace disque disponible et le résultat des dernières sauvegardes. Si le fichier <code>/var/run/reboot-required</code> existe, redémarrez avec <code>sudo reboot</code> : le site repart tout seul.</p>
+
+  <h3>Être prévenu en cas de panne</h3>
+  <p>Créez une surveillance gratuite sur <strong>UptimeRobot</strong> ou <strong>Better Stack</strong> : elle vérifie https://mondomaine.fr toutes les cinq minutes et vous envoie un email si le site ne répond plus.</p>
+
+  <h3>Être bien référencé</h3>
+  <p>Ajoutez votre domaine dans <strong>Google Search Console</strong> (vérification par un enregistrement TXT dans la zone DNS, comme à l’étape 4), puis déclarez le plan du site : <strong>https://mondomaine.fr/sitemap.xml</strong>. Le site génère ce fichier automatiquement.</p>
+
+  <h3>À ne pas oublier</h3>
+  <ul class="checks">
+    <li>Le renouvellement du nom de domaine : automatique si vous l’avez activé, mais vérifiez la carte bancaire enregistrée.</li>
+    <li>Le paiement du VPS.</li>
+    <li>La copie de vos sauvegardes hors du serveur.</li>
+  </ul>
+  <p>Le certificat HTTPS, lui, se renouvelle tout seul.</p>
+</section>
+
+<!-- Dépannage ============================================================= -->
+<section class="page" id="depannage" data-toc>
+  <p class="part-label">En cas de besoin</p>
+  <h1 class="doc-title">Dépannage</h1>
+
+  <div class="qa"><h3>« Permission denied (publickey) » à la connexion SSH</h3>
+    <p class="cause">Mauvais nom d’utilisateur, ou clé non reconnue par le serveur.</p>
+    <p>Vérifiez l’utilisateur : <code>subnet</code> après l’étape 6, sinon celui de l’hébergeur (<code>root</code> ou <code>ubuntu</code>). Utilisez-vous bien l’ordinateur qui possède la clé ? En dernier recours, la console de secours de l’hébergeur permet de vous reconnecter et de corriger <code>~/.ssh/authorized_keys</code>.</p>
+  </div>
+  <div class="qa"><h3>Le domaine n’affiche pas votre site</h3>
+    <p class="cause">DNS pas encore à jour, ou anciennes entrées toujours présentes.</p>
+    <p>Lancez <code>nslookup mondomaine.fr</code> : si l’adresse n’est pas celle du serveur, revoyez la zone DNS (étape 4), supprimez les anciennes entrées A, AAAA et CNAME, puis patientez.</p>
+  </div>
+  <div class="qa"><h3>Erreur de certificat, ou HTTPS qui ne répond pas</h3>
+    <p class="cause">Caddy n’a pas pu obtenir le certificat.</p>
+    <p>Consultez <code>docker compose logs caddy</code>. Causes habituelles : DNS pas encore à jour, entrée AAAA incorrecte, ports 80 ou 443 fermés (<code>sudo ufw status</code>, et pare-feu éventuel dans l’interface de l’hébergeur), ou trop de tentatives (attendez une heure). Une fois corrigé : <code>docker compose restart caddy</code>.</p>
+  </div>
+  <div class="qa"><h3>« 502 Bad Gateway » ou page blanche</h3>
+    <p class="cause">Le site ne tourne pas, ou redémarre (quelques secondes pendant une mise à jour).</p>
+    <p>Lancez <code>docker compose ps</code> puis <code>docker compose logs --tail 50 site</code> depuis <code>~/site</code>. Pour relancer : <code>docker compose up -d</code>.</p>
+  </div>
+  <div class="qa"><h3>Mot de passe de l’administration oublié</h3>
+    <p>Depuis <code>~/site</code>, lancez <code>docker compose exec site npm run set-password</code> et choisissez un nouveau mot de passe : il s’applique immédiatement. Si vous aviez rempli <code>ADMIN_PASSWORD</code> dans <code>.env</code>, modifiez cette ligne puis lancez <code>docker compose up -d</code>.</p>
+  </div>
+  <div class="qa"><h3>Aucun email de notification</h3>
+    <p class="cause">Réglages SMTP incorrects, port bloqué ou message classé en spam.</p>
+    <p>Lancez <code>docker compose logs site | grep -i email</code> pour voir l’erreur. Vérifiez les lignes <code>SMTP_…</code> de <code>.env</code> (port 587), puis <code>docker compose up -d</code>. Les demandes restent de toute façon visibles dans l’administration.</p>
+  </div>
+  <div class="qa"><h3>La mise en ligne automatique échoue (croix rouge sur GitHub)</h3>
+    <p>Ouvrez le détail dans l’onglet <span class="ui">Actions</span>. <em>Tests</em> en échec : le code contient une erreur, rien n’a été mis en ligne. <em>Permission denied</em> : vérifiez <code>DEPLOY_USER</code> et <code>DEPLOY_SSH_KEY</code>. <em>Host key verification failed</em> : vérifiez <code>DEPLOY_KNOWN_HOSTS</code>. Erreur pendant <code>git pull</code> : vérifiez la deploy key (étape 8.2).</p>
+  </div>
+  <div class="qa"><h3>Une modification du code n’apparaît pas</h3>
+    <p>La pull request a-t-elle été fusionnée dans <code>main</code> ? Le workflow est-il vert ? Vous pouvez toujours lancer la mise à jour à la main : <code>~/site/scripts/deploy.sh</code>. La commande <code>git -C ~/site log -1</code> affiche la version présente sur le serveur.</p>
+  </div>
+  <div class="qa"><h3>Disque plein</h3>
+    <p>Lancez <code>df -h /</code> et <code>docker system df</code>. Faites de la place avec <code>docker system prune -f</code> (images inutilisées ; vos données ne sont pas concernées) et supprimez d’anciennes archives dans <code>~/site/backups</code>.</p>
+  </div>
+</section>
+
+<!-- Annexes =============================================================== -->
+<section class="page" id="annexes" data-toc>
+  <p class="part-label">Annexes</p>
+  <h1 class="doc-title">Aide-mémoire</h1>
+  <p>Toutes ces commandes se lancent sur le serveur, depuis le dossier du site : <code>cd ~/site</code>.</p>
+  <table class="t">
+    <thead><tr><th>Pour…</th><th>Commande</th></tr></thead>
+    <tr><td>Voir l’état du site et de Caddy</td><td><code>docker compose ps</code></td></tr>
+    <tr><td>Lire le journal du site (en direct)</td><td><code>docker compose logs -f site</code> (<kbd>Ctrl C</kbd> pour quitter)</td></tr>
+    <tr><td>Lire le journal de Caddy</td><td><code>docker compose logs --tail 50 caddy</code></td></tr>
+    <tr><td>Redémarrer le site</td><td><code>docker compose restart site</code></td></tr>
+    <tr><td>Appliquer une modification de .env</td><td><code>docker compose up -d</code></td></tr>
+    <tr><td>Mettre à jour (code, Node.js, Caddy)</td><td><code>./scripts/deploy.sh</code></td></tr>
+    <tr><td>Sauvegarder les données</td><td><code>./scripts/backup.sh</code></td></tr>
+    <tr><td>Restaurer une sauvegarde</td><td><code>./scripts/restore.sh backups/subnet-….tar.gz</code></td></tr>
+    <tr><td>Nouveau mot de passe d’administration</td><td><code>docker compose exec site npm run set-password</code></td></tr>
+    <tr><td>Arrêter le site</td><td><code>docker compose down</code> (les données sont conservées)</td></tr>
+    <tr><td>Version du code présente sur le serveur</td><td><code>git log -1</code></td></tr>
+    <tr><td>Mettre à jour le système</td><td><code>sudo apt update &amp;&amp; sudo apt full-upgrade -y</code></td></tr>
+  </table>
+
+  <h2 class="doc-title" style="margin-top:9mm">Le fichier .env</h2>
+  <table class="t">
+    <thead><tr><th>Variable</th><th>Rôle</th><th>Valeur conseillée</th></tr></thead>
+    <tr><td><code>DOMAIN</code></td><td>Domaine servi par Caddy, sans https:// ni www</td><td><span class="ph">mondomaine.fr</span></td></tr>
+    <tr><td><code>BASE_URL</code></td><td>Adresse publique (référencement, plan du site)</td><td>https://<span class="ph">mondomaine.fr</span></td></tr>
+    <tr><td><code>ADMIN_PASSWORD</code></td><td>Mot de passe imposé par le fichier</td><td>vide : choisi dans l’administration</td></tr>
+    <tr><td><code>SESSION_SECRET</code></td><td>Clé de signature des sessions</td><td>vide : générée automatiquement</td></tr>
+    <tr><td><code>SMTP_HOST</code>, <code>SMTP_PORT</code>, <code>SMTP_SECURE</code></td><td>Serveur d’envoi des notifications</td><td>voir l’étape 9 ; port 587, false</td></tr>
+    <tr><td><code>SMTP_USER</code>, <code>SMTP_PASS</code></td><td>Identifiants de la boîte d’envoi</td><td>voir l’étape 9</td></tr>
+    <tr><td><code>MAIL_FROM</code>, <code>MAIL_TO</code></td><td>Expéditeur et destinataire des notifications</td><td>facultatif</td></tr>
+    <tr><td><code>PORT</code>, <code>NODE_ENV</code>, <code>DATA_DIR</code>, <code>TRUST_PROXY</code></td><td>Fonctionnement interne</td><td>ne pas modifier</td></tr>
+  </table>
+
+  <h2 class="doc-title" style="margin-top:9mm">Ce qui tourne sur le serveur</h2>
+  <div class="file"><div class="out-label">Fichiers</div><pre><code>/home/subnet/
+├── site/                     le code du site (copie du dépôt GitHub)
+│   ├── .env                  votre configuration (secrète, jamais publiée)
+│   ├── backups/              les sauvegardes des données
+│   ├── Caddyfile             la configuration HTTPS
+│   ├── docker-compose.yml    le site et Caddy
+│   └── scripts/              deploy.sh, backup.sh, restore.sh
+├── sauvegardes.log           le journal des sauvegardes automatiques
+└── .ssh/                     vos clés d’accès et la clé GitHub</code></pre></div>
+  <table class="t">
+    <thead><tr><th>Volume Docker</th><th>Contenu</th></tr></thead>
+    <tr><td><code>subnet_subnet-data</code></td><td>Les données du site : contenus, demandes, images envoyées, mot de passe. C’est ce que sauvegarde <code>backup.sh</code>.</td></tr>
+    <tr><td><code>subnet_caddy-data</code></td><td>Les certificats HTTPS. Ils se recréent seuls s’ils sont perdus.</td></tr>
+  </table>
+
+  <h2 class="doc-title" style="margin-top:9mm">Liste de vérification finale</h2>
+  <ul class="checks">
+    <li>https://mondomaine.fr s’affiche avec le cadenas, et www.mondomaine.fr y redirige.</li>
+    <li>La connexion SSH fonctionne avec <code>subnet</code> ; elle est refusée pour <code>root</code> et par mot de passe.</li>
+    <li>Le pare-feu est actif (<code>sudo ufw status</code>) et les correctifs de sécurité sont automatiques.</li>
+    <li>Le mot de passe temporaire de l’administration est remplacé.</li>
+    <li>Coordonnées, informations légales et hébergeur sont complétés.</li>
+    <li>Les projets « Concept » sont masqués ou remplacés.</li>
+    <li>Une demande de test est arrivée dans <strong>Demandes</strong> (et par email si configuré).</li>
+    <li>Le workflow « Tests et mise en ligne » est vert après un essai.</li>
+    <li>La sauvegarde automatique tourne (<code>~/sauvegardes.log</code>) et une copie est sur votre ordinateur.</li>
+    <li>Une restauration a été testée une fois.</li>
+    <li>La surveillance de disponibilité est en place, et le site déclaré dans Google Search Console.</li>
+  </ul>
+</section>
+
+<section class="page">
+  <h2 class="doc-title">Petit glossaire</h2>
+  <table class="t">
+    <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+    <tr><td>Branche</td><td>Une version parallèle du code. <code>main</code> est la version mise en ligne ; les évolutions se préparent sur d’autres branches.</td></tr>
+    <tr><td>Caddy</td><td>Le « portier » du serveur : il reçoit les visites, gère le cadenas HTTPS et les transmet au site.</td></tr>
+    <tr><td>Clé SSH</td><td>Une paire de fichiers qui remplace le mot de passe pour se connecter au serveur, de façon bien plus sûre.</td></tr>
+    <tr><td>Conteneur</td><td>Une application emballée avec tout ce dont elle a besoin, isolée du reste du serveur. Docker les fait tourner.</td></tr>
+    <tr><td>DNS</td><td>L’annuaire d’internet, qui traduit un nom de domaine en adresse IP.</td></tr>
+    <tr><td>GitHub Actions</td><td>Les automatismes de GitHub : ici, les tests et la mise en ligne à chaque fusion dans <code>main</code>.</td></tr>
+    <tr><td>HTTPS</td><td>La version chiffrée du web, signalée par le cadenas. Le certificat qui la permet est fourni gratuitement par Let’s Encrypt.</td></tr>
+    <tr><td>Pull request</td><td>Une demande de fusion d’une branche dans une autre, avec la liste des changements et le résultat des tests.</td></tr>
+    <tr><td>Push</td><td>L’envoi de nouvelles modifications du code vers GitHub.</td></tr>
+    <tr><td>Registrar</td><td>La société auprès de laquelle vous louez votre nom de domaine.</td></tr>
+    <tr><td>sudo</td><td>Le préfixe qui exécute une commande avec les droits d’administrateur.</td></tr>
+    <tr><td>Terminal</td><td>La fenêtre où l’on tape des commandes, sur votre ordinateur comme sur le serveur.</td></tr>
+    <tr><td>VPS</td><td>Serveur privé virtuel : une machine louée au mois, dont vous êtes l’administrateur.</td></tr>
+    <tr><td>Volume</td><td>L’espace de stockage d’un conteneur Docker, conservé lors des mises à jour.</td></tr>
+  </table>
+  <p class="small" style="margin-top:8mm">Ce guide correspond à la configuration fournie dans le dépôt (Dockerfile, docker-compose.yml, Caddyfile, scripts et workflow GitHub Actions), testée de bout en bout. Les interfaces des registrars, hébergeurs et de GitHub évoluent : si un intitulé diffère légèrement, cherchez l’équivalent le plus proche.</p>
+</section>
+
+<script>
+(() => {
+  const icons = {
+    clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+    monitor: '<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>',
+    server: '<rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01"/><path d="M6 18h.01"/>',
+    globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+    info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+    alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+    check: '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+    shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+    bulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    lock: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    branch: '<path d="M6 3v12"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
+    card: '<rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/>',
+    key: '<path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>',
+    refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+    list: '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',
+    smile: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/>',
+  };
+  for (const el of document.querySelectorAll('i[data-icon]')) {
+    el.outerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[el.dataset.icon] || ''}</svg>`;
+  }
+  // Typographie française sur le texte courant (pas dans le code).
+  const skip = (node) => node.parentElement.closest('pre, code, kbd, script, style, .mono');
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (const node of nodes) {
+    if (skip(node)) continue;
+    node.nodeValue = node.nodeValue
+      .replace(/'/g, '’')
+      .replace(/ ([:»])/g, ' $1')
+      .replace(/ ([;!?])/g, ' $1')
+      .replace(/« /g, '« ')
+      .replace(/\.\.\./g, '…');
+  }
+})();
+</script>
+</body>
+</html>
