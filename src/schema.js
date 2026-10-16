@@ -92,6 +92,42 @@ const heroFields = [
   title,
   { key: 'subtitle', type: 'textarea', label: 'Sous-titre', rows: 2, max: 400 },
 ];
+// Référencement : ce que Google lit en priorité. « counter » = longueur conseillée.
+const seoFields = [
+  {
+    key: 'title',
+    type: 'text',
+    label: 'Titre pour Google',
+    max: 90,
+    counter: 60,
+    help: 'Affiché dans l’onglet du navigateur et en titre dans les résultats de recherche. Vide : titre automatique.',
+  },
+  {
+    key: 'description',
+    type: 'textarea',
+    label: 'Description pour Google',
+    rows: 2,
+    max: 300,
+    counter: 158,
+    help: 'Le résumé affiché sous le titre dans les résultats de recherche et lors d’un partage.',
+  },
+  {
+    key: 'h1',
+    type: 'text',
+    label: 'Titre principal (H1)',
+    max: 120,
+    counter: 70,
+    help: 'Affiché en petit au-dessus du grand titre, à la place du surtitre : dites ce que vous proposez, pour qui et où. Vide : le grand titre sert de H1.',
+  },
+];
+const seoSection = (path) => ({
+  title: 'Référencement',
+  description: 'Le titre, la description et le titre principal que Google lit en priorité pour cette page.',
+  path,
+  collapsed: true,
+  fields: seoFields,
+});
+
 const journeyStepFields = [
   { key: 'title', type: 'text', label: 'Titre', max: 80, required: true },
   { key: 'text', type: 'textarea', label: 'Texte', rows: 2, max: 300 },
@@ -141,6 +177,14 @@ export const PAGES = [
             help: 'Utilisée pour le plan du site et les liens de partage.',
           },
           {
+            key: 'shareName',
+            type: 'text',
+            label: 'Nom complet',
+            max: 80,
+            placeholder: 'Subnet – Création de sites internet',
+            help: 'Votre nom suivi de votre métier : affiché lors des partages et transmis à Google.',
+          },
+          {
             key: 'shareImage',
             type: 'image',
             label: 'Image de partage',
@@ -179,6 +223,7 @@ export const PAGES = [
     description: 'Les textes et visuels de la page d’accueil.',
     view: '/',
     sections: [
+      seoSection('home.seo'),
       {
         title: 'Bandeau principal',
         path: 'home.hero',
@@ -269,6 +314,7 @@ export const PAGES = [
     description: 'Le détail de l’offre : périmètre, structure, administration, comparatif, design et bénéfices.',
     view: '/offre',
     sections: [
+      seoSection('offer.seo'),
       { title: 'En-tête de page', path: 'offer.hero', fields: heroFields },
       {
         title: 'Périmètre',
@@ -401,6 +447,7 @@ export const PAGES = [
     description: 'Les pages dédiées à chaque métier et leurs visuels.',
     view: '/secteurs',
     sections: [
+      seoSection('sectorsPage.seo'),
       { title: 'En-tête de la page Secteurs', path: 'sectorsPage.hero', fields: heroFields },
       {
         title: 'Encadré « autres activités »',
@@ -455,8 +502,137 @@ export const PAGES = [
               },
               { key: 'image', type: 'image', label: 'Visuel ordinateur', half: true },
               { key: 'mobileImage', type: 'image', label: 'Visuel mobile', half: true },
+              { key: 'imageAlt', type: 'text', label: 'Description du visuel ordinateur', max: 160, half: true, help: 'Lue par Google et par les lecteurs d’écran.' },
+              { key: 'mobileImageAlt', type: 'text', label: 'Description du visuel mobile', max: 160, half: true },
+              {
+                key: 'platform',
+                type: 'group',
+                label: 'Site ou plateforme',
+                fields: [
+                  eyebrow,
+                  { key: 'title', type: 'text', label: 'Titre', max: 120 },
+                  { key: 'text', type: 'textarea', label: 'Texte', rows: 3, max: 800 },
+                  { key: 'points', type: 'repeater', label: 'Arguments', itemLabel: 'title', addLabel: 'Ajouter un argument', maxItems: 4, fields: titleText() },
+                ],
+              },
+              {
+                key: 'admin',
+                type: 'group',
+                label: 'Panneau d’administration',
+                fields: [
+                  eyebrow,
+                  { key: 'title', type: 'text', label: 'Titre', max: 120 },
+                  { key: 'text', type: 'textarea', label: 'Texte', rows: 2, max: 600 },
+                  { key: 'items', type: 'list', label: 'Ce que le client gère', addLabel: 'Ajouter une ligne', maxItems: 12 },
+                ],
+              },
+              {
+                key: 'process',
+                type: 'group',
+                label: 'Déroulé de la création',
+                fields: [
+                  eyebrow,
+                  { key: 'title', type: 'text', label: 'Titre', max: 120 },
+                  { key: 'steps', type: 'repeater', label: 'Étapes', itemLabel: 'title', addLabel: 'Ajouter une étape', maxItems: 5, fields: titleText() },
+                ],
+              },
+              {
+                key: 'faq',
+                type: 'group',
+                label: 'Questions fréquentes du secteur',
+                fields: [
+                  { key: 'title', type: 'text', label: 'Titre', max: 120 },
+                  {
+                    key: 'items',
+                    type: 'repeater',
+                    label: 'Questions',
+                    itemLabel: 'question',
+                    addLabel: 'Ajouter une question',
+                    maxItems: 8,
+                    fields: [
+                      { key: 'question', type: 'text', label: 'Question', max: 200, required: true },
+                      { key: 'answer', type: 'markdown', label: 'Réponse', rows: 3, max: 2000 },
+                    ],
+                  },
+                ],
+              },
+              {
+                key: 'local',
+                type: 'textarea',
+                label: 'Paragraphe local',
+                rows: 3,
+                max: 600,
+                help: 'Une ou deux phrases qui situent votre activité : ville, département, région.',
+              },
+              { key: 'seo', type: 'group', label: 'Référencement de la page', fields: seoFields },
             ],
           },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'local',
+    title: 'Page Grenoble',
+    icon: 'building-2',
+    description: 'La page « Création de site internet à Grenoble », pour être trouvé par les entreprises de votre ville.',
+    view: '/creation-site-internet-grenoble',
+    sections: [
+      seoSection('local.seo'),
+      { title: 'En-tête de page', path: 'local.hero', fields: heroFields },
+      { title: 'Présentation', path: 'local.intro', fields: [eyebrow, title, text()] },
+      {
+        title: 'Pour qui',
+        description: 'Les cartes des secteurs se modifient dans la rubrique « Secteurs ».',
+        path: 'local.sectors',
+        fields: [eyebrow, title, text('Texte', 2)],
+      },
+      {
+        title: 'Pourquoi un prestataire local',
+        path: 'local.why',
+        fields: [
+          eyebrow,
+          title,
+          text('Texte', 2),
+          { key: 'items', type: 'repeater', label: 'Arguments', itemLabel: 'title', addLabel: 'Ajouter un argument', maxItems: 4, fields: iconTitleText() },
+        ],
+      },
+      {
+        title: 'Déroulé du projet',
+        path: 'local.process',
+        fields: [
+          eyebrow,
+          title,
+          { key: 'steps', type: 'repeater', label: 'Étapes', itemLabel: 'title', addLabel: 'Ajouter une étape', maxItems: 5, fields: titleText() },
+        ],
+      },
+      { title: 'Zone d’intervention', path: 'local.areas', fields: [title, text()] },
+      {
+        title: 'Questions fréquentes',
+        path: 'local.faq',
+        fields: [
+          title,
+          {
+            key: 'items',
+            type: 'repeater',
+            label: 'Questions',
+            itemLabel: 'question',
+            addLabel: 'Ajouter une question',
+            maxItems: 10,
+            fields: [
+              { key: 'question', type: 'text', label: 'Question', max: 200, required: true },
+              { key: 'answer', type: 'markdown', label: 'Réponse', rows: 3, max: 2000 },
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Lien vers cette page',
+        description: 'Affiché sur la page d’accueil (rubrique « Pour qui ») et en pied de page.',
+        path: 'local.homeLink',
+        fields: [
+          { key: 'text', type: 'text', label: 'Phrase d’accroche', max: 120 },
+          { key: 'label', type: 'text', label: 'Texte du lien', max: 80, required: true },
         ],
       },
     ],
@@ -468,6 +644,7 @@ export const PAGES = [
     description: 'La galerie de projets : ajoutez, masquez ou réordonnez vos réalisations.',
     view: '/realisations',
     sections: [
+      seoSection('projectsPage.seo'),
       {
         title: 'En-tête de page',
         path: 'projectsPage',
@@ -513,6 +690,7 @@ export const PAGES = [
     description: 'Les questions fréquentes et leurs réponses.',
     view: '/faq',
     sections: [
+      seoSection('faqPage.seo'),
       { title: 'En-tête de page', path: 'faqPage.hero', fields: heroFields },
       {
         title: 'Questions',
@@ -549,6 +727,25 @@ export const PAGES = [
           { key: 'phone', type: 'tel', label: 'Téléphone', placeholder: '06 12 34 56 78', half: true },
           { key: 'address', type: 'textarea', label: 'Adresse', rows: 3, max: 300, help: 'Laissez vide si vous ne recevez pas de public.' },
           { key: 'area', type: 'text', label: 'Zone d’intervention', max: 160, placeholder: 'Ex. Lyon et alentours, ou partout en France à distance' },
+        ],
+      },
+      {
+        title: 'Informations pour Google',
+        description: 'Transmises aux moteurs de recherche pour situer votre activité. Elles ne sont pas affichées telles quelles sur le site.',
+        path: 'contact',
+        fields: [
+          { key: 'city', type: 'text', label: 'Ville', max: 80, half: true, placeholder: 'Grenoble' },
+          { key: 'postalCode', type: 'text', label: 'Code postal', max: 10, half: true, placeholder: '38000' },
+          { key: 'region', type: 'text', label: 'Région', max: 80, half: true, placeholder: 'Auvergne-Rhône-Alpes' },
+          { key: 'founder', type: 'text', label: 'Fondateur ou fondatrice', max: 120, half: true },
+          {
+            key: 'areasServed',
+            type: 'list',
+            label: 'Zones desservies',
+            addLabel: 'Ajouter une zone',
+            maxItems: 12,
+            itemMax: 80,
+          },
         ],
       },
       {
@@ -589,6 +786,7 @@ export const PAGES = [
           },
         ],
       },
+      seoSection('contact.page.seo'),
       {
         title: 'Page contact',
         path: 'contact.page',

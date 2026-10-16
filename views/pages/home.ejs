@@ -4,8 +4,13 @@
 
   <section class="hero">
     <div class="container hero__inner">
+      <% if (page.seo.h1) { %>
+      <h1 class="eyebrow reveal"><%= page.seo.h1 %></h1>
+      <p class="display reveal"><%= h.title %></p>
+      <% } else { %>
       <% if (h.eyebrow) { %><p class="eyebrow reveal"><%= h.eyebrow %></p><% } %>
       <h1 class="display reveal"><%= h.title %></h1>
+      <% } %>
       <% if (h.subtitle) { %><p class="lead hero__lead reveal"><%= h.subtitle %></p><% } %>
       <div class="actions actions--center reveal">
         <% if (h.primaryLabel) { %><a class="btn btn--primary btn--lg" href="<%= h.primaryLink %>"><%= h.primaryLabel %></a><% } %>
@@ -21,7 +26,7 @@
             <div class="browser__screen">
               <% c.sectors.forEach((s, i) => { %>
               <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.image %>"
-                alt="Exemple de site pour <%= s.name.toLowerCase() %>" width="1600" height="1000" decoding="async"
+                alt="<%= s.imageAlt || `Exemple de site pour ${s.name.toLowerCase()}` %>" width="1600" height="1000" decoding="async"
                 <% if (i === 0) { %>fetchpriority="high"<% } else { %>loading="lazy" aria-hidden="true"<% } %>>
               <% }) %>
             </div>
@@ -29,7 +34,7 @@
           <div class="phone" aria-hidden="true">
             <div class="phone__screen">
               <% c.sectors.forEach((s, i) => { %>
-              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.mobileImage %>" alt="" width="600" height="1300" decoding="async" loading="lazy">
+              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.mobileImage %>" alt="<%= s.mobileImageAlt %>" width="600" height="1300" decoding="async" loading="lazy">
               <% }) %>
             </div>
           </div>
@@ -91,6 +96,9 @@
       </div>
       <% if (s.note) { %>
       <p class="note reveal"><%= s.note %> <a class="link-arrow" href="/contact">Parlons-en<%- icon('chevron-right', { size: 16 }) %></a></p>
+      <% } %>
+      <% if (c.local.homeLink.label) { %>
+      <p class="note reveal"><%= c.local.homeLink.text %> <a class="link-arrow" href="/creation-site-internet-grenoble"><%= c.local.homeLink.label %><%- icon('chevron-right', { size: 16 }) %></a></p>
       <% } %>
     </div>
   </section>

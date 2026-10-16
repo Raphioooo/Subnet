@@ -1,0 +1,117 @@
+<%- include('../partials/head') %>
+<% const l = c.local; -%>
+<main id="contenu">
+  <section class="page-hero">
+    <div class="container page-hero__inner">
+      <% if (page.seo.h1) { %>
+      <h1 class="eyebrow eyebrow--icon reveal"><%- icon('map-pin', { size: 18 }) %><%= page.seo.h1 %></h1>
+      <p class="display display--page reveal"><%= l.hero.title %></p>
+      <% } else { %>
+      <% if (l.hero.eyebrow) { %><p class="eyebrow eyebrow--icon reveal"><%- icon('map-pin', { size: 18 }) %><%= l.hero.eyebrow %></p><% } %>
+      <h1 class="display display--page reveal"><%= l.hero.title %></h1>
+      <% } %>
+      <% if (l.hero.subtitle) { %><p class="lead page-hero__lead reveal"><%= l.hero.subtitle %></p><% } %>
+      <div class="actions actions--center reveal">
+        <a class="btn btn--primary btn--lg" href="/contact"><%= c.cta.buttonLabel %></a>
+        <a class="link-arrow link-arrow--lg" href="/offre">Découvrir l’offre<%- icon('chevron-right', { size: 18 }) %></a>
+      </div>
+    </div>
+  </section>
+
+  <%
+    // Fonds alternés (gris clair / blanc) pour les sections présentes.
+    let band = 0;
+    const bg = () => (band++ % 2 === 0 ? ' section--soft' : '');
+  -%>
+  <section class="section section--flush-top" aria-labelledby="sur-mesure">
+    <div class="container">
+      <header class="section-head">
+        <% if (l.intro.eyebrow) { %><p class="eyebrow reveal"><%= l.intro.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="sur-mesure"><%= l.intro.title %></h2>
+        <% if (l.intro.text) { %><p class="lead reveal"><%= l.intro.text %></p><% } %>
+      </header>
+      <%- include('../partials/features') %>
+    </div>
+  </section>
+
+  <section class="section<%= bg() %>" aria-labelledby="pour-qui">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (l.sectors.eyebrow) { %><p class="eyebrow reveal"><%= l.sectors.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="pour-qui"><%= l.sectors.title %></h2>
+        <% if (l.sectors.text) { %><p class="lead reveal"><%= l.sectors.text %></p><% } %>
+      </header>
+      <div class="sector-grid sector-grid--large">
+        <% for (const sector of c.sectors) { %><%- include('../partials/sector-card', { sector, withIntro: true }) %><% } %>
+      </div>
+    </div>
+  </section>
+
+  <% if (l.why.items.length) { const soft = bg(); %>
+  <section class="section<%= soft %>" aria-labelledby="prestataire-local">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (l.why.eyebrow) { %><p class="eyebrow reveal"><%= l.why.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="prestataire-local"><%= l.why.title %></h2>
+        <% if (l.why.text) { %><p class="lead reveal"><%= l.why.text %></p><% } %>
+      </header>
+      <div class="card-grid card-grid--steps">
+        <% for (const item of l.why.items) { %>
+        <div class="card<%= soft ? ' card--white' : '' %> reveal">
+          <span class="card__icon"><%- icon(item.icon || 'check', { size: 26 }) %></span>
+          <h3 class="h4"><%= item.title %></h3>
+          <% if (item.text) { %><p><%= item.text %></p><% } %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <% if (l.process.steps.length) { const soft = bg(); %>
+  <section class="section<%= soft %>" aria-labelledby="deroule">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <% if (l.process.eyebrow) { %><p class="eyebrow reveal"><%= l.process.eyebrow %></p><% } %>
+        <h2 class="h2 reveal" id="deroule"><%= l.process.title %></h2>
+      </header>
+      <ol class="card-grid card-grid--steps">
+        <% l.process.steps.forEach((step, i) => { %>
+        <li class="card<%= soft ? ' card--white' : '' %> reveal">
+          <span class="step-num"><%= i + 1 %></span>
+          <h3 class="h4"><%= step.title %></h3>
+          <% if (step.text) { %><p><%= step.text %></p><% } %>
+        </li>
+        <% }) %>
+      </ol>
+    </div>
+  </section>
+  <% } %>
+
+  <% if (l.areas.title || l.faq.items.length) { %>
+  <section class="section<%= bg() %>" aria-labelledby="<%= l.areas.title ? 'zone' : 'questions' %>">
+    <div class="container container--narrow">
+      <% if (l.areas.title) { %>
+      <header class="section-head section-head--center">
+        <h2 class="h2 reveal" id="zone"><%= l.areas.title %></h2>
+        <% if (l.areas.text) { %><p class="lead reveal"><%= l.areas.text %></p><% } %>
+      </header>
+      <% } %>
+      <% if (l.faq.items.length) { %>
+      <h2 class="h3 local-faq__title reveal" id="questions"><%= l.faq.title || 'Questions fréquentes' %></h2>
+      <div class="faq">
+        <% for (const item of l.faq.items) { %>
+        <details class="faq__item reveal">
+          <summary><span><%= item.question %></span><span class="faq__icon" aria-hidden="true"><%- icon('plus', { size: 20 }) %></span></summary>
+          <div class="faq__answer prose"><%- md(item.answer) %></div>
+        </details>
+        <% } %>
+      </div>
+      <% } %>
+    </div>
+  </section>
+  <% } %>
+
+  <%- include('../partials/cta') %>
+</main>
+<%- include('../partials/footer') %>

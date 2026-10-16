@@ -146,13 +146,14 @@ Contact : {{email}}`;
 
 
 export const defaults = {
-  meta: { version: 2, updatedAt: null },
+  meta: { version: 3, updatedAt: null, createdAt: null, sections: null },
 
   site: {
     name: 'Subnet',
     tagline: 'Sites sur mesure avec réservation, acompte et devis',
     description:
-      'Sites sur mesure avec réservation en ligne, acompte, devis, gestion des horaires et panneau d’administration, pour restaurateurs, tatoueurs, instituts, TPE et PME.',
+      'Création de sites internet sur mesure à Grenoble et partout en France : réservation en ligne, acompte, devis, horaires et panneau d’administration pour restaurateurs, tatoueurs, instituts, TPE et PME.',
+    shareName: 'Subnet – Création de sites internet',
     url: '',
     logo: '',
     shareImage: '',
@@ -163,7 +164,12 @@ export const defaults = {
     email: '',
     phone: '',
     address: '',
-    area: '',
+    area: 'Grenoble (Isère) · Auvergne-Rhône-Alpes · Toute la France en visio',
+    city: 'Grenoble',
+    postalCode: '',
+    region: 'Auvergne-Rhône-Alpes',
+    areasServed: ['Grenoble', 'Isère', 'Auvergne-Rhône-Alpes', 'France'],
+    founder: 'Raphaël Scotton',
     hours: [],
     socials: [],
     page: {
@@ -184,10 +190,22 @@ export const defaults = {
       success: 'Merci, votre demande a bien été envoyée. Nous revenons vers vous très vite avec une proposition.',
       privacy:
         'Vos informations sont utilisées uniquement pour répondre à votre demande. Elles ne sont jamais cédées à des tiers.',
+      seo: {
+        title: 'Devis site internet à Grenoble – Contact | Subnet',
+        description:
+          'Demandez un devis pour votre site internet sur mesure. Basé à Grenoble, Subnet accompagne les pros en Auvergne-Rhône-Alpes et dans toute la France.',
+        h1: 'Demandez un devis pour votre site internet',
+      },
     },
   },
 
   home: {
+    seo: {
+      title: 'Création de site internet sur mesure à Grenoble | Subnet',
+      description:
+        'Création de sites internet sur mesure à Grenoble pour restaurants, tatoueurs, instituts et TPE/PME : réservation, acompte, devis et panneau admin.',
+      h1: 'Création de sites internet sur mesure à Grenoble',
+    },
     hero: {
       eyebrow: 'Sites sur mesure, full stack',
       title: 'Le site qui fait tourner votre activité.',
@@ -277,6 +295,12 @@ export const defaults = {
   },
 
   offer: {
+    seo: {
+      title: 'Site sur mesure avec réservation, devis et admin | Subnet',
+      description:
+        'Un site sur mesure avec réservation en ligne, acompte, devis, horaires et panneau d’administration. Conçu à Grenoble, pour toute la France.',
+      h1: 'Un site internet sur mesure avec son panneau d’administration',
+    },
     hero: {
       eyebrow: 'L’offre',
       title: 'Un site complet, pensé pour votre activité.',
@@ -449,6 +473,12 @@ export const defaults = {
   },
 
   sectorsPage: {
+    seo: {
+      title: 'Sites pour restaurants, tatoueurs, instituts et PME | Subnet',
+      description:
+        'Restaurant, studio de tatouage, institut de beauté ou PME : un site internet adapté à votre métier, avec réservation, devis et acompte en ligne.',
+      h1: 'Des sites internet adaptés à chaque métier',
+    },
     hero: {
       eyebrow: 'Secteurs',
       title: 'Pensé pour votre métier.',
@@ -505,7 +535,59 @@ export const defaults = {
         },
       ],
       image: '/assets/images/concepts/restaurant-desktop.webp',
+      imageAlt: 'Site de restaurant sur ordinateur : carte, horaires et réservation',
       mobileImage: '/assets/images/concepts/restaurant-mobile.webp',
+      mobileImageAlt: 'Site de restaurant sur mobile avec réservation de table en ligne',
+      platform: {
+        eyebrow: 'Site ou plateforme ?',
+        title: 'Pourquoi un site plutôt qu’une plateforme ?',
+        text: 'Les plateformes comme TheFork apportent de la visibilité, mais vos clients y réservent au milieu d’autres restaurants, selon les conditions de la plateforme. Votre propre site, lui, travaille d’abord pour vous.',
+        points: [
+          { title: 'Aucune commission sur vos couverts', text: 'Les réservations prises sur votre site ne vous coûtent rien de plus : ni frais par couvert, ni pourcentage. Seuls les frais du prestataire de paiement s’appliquent aux acomptes réglés en ligne.' },
+          { title: 'Vos clients restent les vôtres', text: 'Noms, coordonnées et historique des réservations restent dans votre espace : vous recontactez vos habitués sans passer par un intermédiaire.' },
+          { title: 'Votre restaurant au premier plan', text: 'Aucun établissement concurrent suggéré à côté du vôtre : votre carte, vos photos et votre ambiance occupent tout l’écran, du premier clic à la confirmation.' },
+        ],
+      },
+      admin: {
+        eyebrow: 'Panneau d’administration',
+        title: 'Ce que vous gérez depuis votre panneau admin',
+        text: 'Tout ce qui change d’un service à l’autre se modifie en quelques secondes, depuis votre ordinateur ou votre téléphone.',
+        items: [
+          'Les réservations du jour, par service et par nombre de couverts',
+          'La capacité de chaque service et les créneaux ouverts à la réservation',
+          'Les acomptes demandés pour les groupes et les soirées spéciales',
+          'Les horaires, les jours de fermeture et les congés annuels',
+          'La carte, les menus du moment et les photos',
+          'Les demandes de privatisation et d’événements',
+        ],
+      },
+      process: {
+        eyebrow: 'Création',
+        title: 'Comment se déroule la création de votre site',
+        steps: [
+          { title: 'Échange', text: 'Nous parlons de votre restaurant : vos services, votre capacité, vos règles de réservation et l’ambiance que vous voulez transmettre.' },
+          { title: 'Maquette', text: 'Vous découvrez la maquette de votre site, avec votre carte et vos photos, et nous l’ajustons ensemble avant le développement.' },
+          { title: 'Développement', text: 'Le site est construit avec la réservation de table, l’acompte pour les groupes et vos horaires, puis testé sur ordinateur et sur mobile.' },
+          { title: 'Mise en ligne et formation', text: 'Le site est mis en ligne sur votre nom de domaine, et vous apprenez à gérer réservations, horaires et carte depuis votre espace.' },
+        ],
+      },
+      faq: {
+        title: 'Questions fréquentes – Restaurateurs',
+        items: [
+          { question: 'Le site gère-t-il les réservations de groupe ?', answer: 'Oui. Vous fixez à partir de combien de couverts un acompte est demandé. Les privatisations et les événements arrivent sous forme de demande de devis, avec toutes les informations utiles.' },
+          { question: 'Est-ce que je paie une commission sur chaque réservation ?', answer: 'Non. Les réservations prises sur votre site ne sont soumises à aucune commission. Seuls les frais du prestataire de paiement s’appliquent aux acomptes réglés en ligne.' },
+          { question: 'Puis-je fermer la réservation un soir ou pendant mes congés ?', answer: 'Oui. Depuis votre espace, vous fermez un service, une journée ou une période entière : les créneaux disparaissent aussitôt du site, et un bandeau peut prévenir vos clients.' },
+          { question: 'Ma carte et mes menus sont-ils faciles à mettre à jour ?', answer: 'Oui. Plats, prix, menus du moment et photos se modifient depuis le panneau d’administration, sans passer par un développeur.' },
+          { question: 'Puis-je garder une plateforme comme TheFork en plus de mon site ?', answer: 'Oui. Rien ne vous oblige à quitter une plateforme : votre site la complète, en offrant à vos habitués un moyen direct de réserver chez vous.' },
+        ],
+      },
+      local: 'Basé à Grenoble, Subnet accompagne les restaurants de l’Isère et de toute la région Auvergne-Rhône-Alpes, de la brasserie de quartier à la table gastronomique. Ailleurs en France, tout se fait en visio.',
+      seo: {
+        title: 'Création site restaurant avec réservation en ligne | Subnet',
+        description:
+          'Site internet pour restaurant avec réservation de table en ligne, acompte pour les groupes, carte et horaires modifiables. Sans commission. Grenoble.',
+        h1: 'Site internet pour restaurant avec réservation en ligne',
+      },
     },
     {
       slug: 'tatoueurs',
@@ -549,7 +631,58 @@ export const defaults = {
         },
       ],
       image: '/assets/images/concepts/tatouage-desktop.webp',
+      imageAlt: 'Site de studio de tatouage sur ordinateur avec portfolio par style',
       mobileImage: '/assets/images/concepts/tatouage-mobile.webp',
+      mobileImageAlt: 'Site de tatoueur sur mobile avec portfolio et demande de projet',
+      platform: {
+        eyebrow: 'Site ou messages privés ?',
+        title: 'Pourquoi un site plutôt qu’Instagram et les messages privés ?',
+        text: 'Instagram reste la vitrine idéale pour montrer votre travail. Mais gérer les projets en messages privés prend un temps fou : informations éparpillées, relances, rendez-vous oubliés. Votre site prend le relais là où les réseaux s’arrêtent.',
+        points: [
+          { title: 'Des demandes complètes dès le départ', text: 'Emplacement, taille, style et références : le formulaire pose les bonnes questions, et vous chiffrez sans multiplier les allers-retours.' },
+          { title: 'Un acompte avant de bloquer la séance', text: 'La séance n’est réservée qu’une fois l’acompte réglé en ligne : les rendez-vous non honorés deviennent l’exception.' },
+          { title: 'Votre portfolio mis en valeur', text: 'Vos réalisations classées par style, en grand format, sans publicité ni algorithme qui décide de qui les voit.' },
+        ],
+      },
+      admin: {
+        eyebrow: 'Panneau d’administration',
+        title: 'Ce que vous gérez depuis votre panneau admin',
+        text: 'Votre activité de studio réunie au même endroit, au lieu d’être dispersée entre messages, notes et agenda papier.',
+        items: [
+          'Les demandes de projet, avec leurs références et leurs photos',
+          'Les devis envoyés, acceptés ou en attente',
+          'Les acomptes reçus pour chaque séance',
+          'L’agenda des séances et les disponibilités de chaque artiste',
+          'Le portfolio, classé par style ou par projet',
+          'Les consignes à suivre avant et après la séance',
+        ],
+      },
+      process: {
+        eyebrow: 'Création',
+        title: 'Comment se déroule la création de votre site',
+        steps: [
+          { title: 'Échange', text: 'Nous parlons de votre style, de votre façon de travailler et de ce que vous attendez d’une demande de projet.' },
+          { title: 'Maquette', text: 'Une maquette pensée comme une galerie, avec votre identité visuelle et vos plus belles pièces, ajustée avec vous.' },
+          { title: 'Développement', text: 'Formulaire de projet, devis, acompte et agenda des séances sont mis en place, puis testés sur mobile, là où vos clients vous découvrent.' },
+          { title: 'Mise en ligne et formation', text: 'Votre site est en ligne, et vous savez publier une pièce, répondre à une demande ou ouvrir des créneaux en quelques minutes.' },
+        ],
+      },
+      faq: {
+        title: 'Questions fréquentes – Tatoueurs',
+        items: [
+          { question: 'Puis-je demander un acompte pour un tatouage ?', answer: 'Oui. Vous fixez le montant de l’acompte, et la séance n’est confirmée qu’une fois le paiement reçu. Vos conditions d’annulation sont affichées au moment de réserver.' },
+          { question: 'Mes clients peuvent-ils envoyer leurs références ?', answer: 'Oui. Le formulaire de projet accepte des photos de références et d’emplacement, en plus de la taille, du style et des détails du projet.' },
+          { question: 'Puis-je gérer plusieurs artistes ?', answer: 'Oui. Chaque artiste a ses disponibilités et son agenda de séances, et une demande peut être adressée à un artiste en particulier.' },
+          { question: 'Instagram ne suffit-il pas ?', answer: 'Instagram est parfait pour montrer votre travail, mais il n’est pas fait pour chiffrer un projet, encaisser un acompte ou tenir un agenda. Votre site s’en charge, et vos publications peuvent y renvoyer.' },
+        ],
+      },
+      local: 'Basé à Grenoble, Subnet accompagne les tatoueurs et les studios de tatouage de l’Isère et de toute la région Auvergne-Rhône-Alpes. Ailleurs en France, tout se fait en visio.',
+      seo: {
+        title: 'Site internet tatoueur : portfolio, devis, acompte | Subnet',
+        description:
+          'Site internet pour tatoueur et studio de tatouage : portfolio par style, demande de projet, devis et acompte en ligne, réservation de séance.',
+        h1: 'Site internet pour tatoueur : portfolio, devis et acompte',
+      },
     },
     {
       slug: 'instituts',
@@ -593,7 +726,58 @@ export const defaults = {
         },
       ],
       image: '/assets/images/concepts/institut-desktop.webp',
+      imageAlt: 'Site d’institut de beauté sur ordinateur avec liste des soins',
       mobileImage: '/assets/images/concepts/institut-mobile.webp',
+      mobileImageAlt: 'Site d’institut de beauté sur mobile avec prise de rendez-vous',
+      platform: {
+        eyebrow: 'Site ou plateforme ?',
+        title: 'Pourquoi un site plutôt qu’une plateforme ?',
+        text: 'Une plateforme comme Planity facilite la prise de rendez-vous, mais votre institut y apparaît parmi d’autres, avec la présentation de la plateforme. Avec votre propre site, la réservation se fait chez vous, dans votre univers.',
+        points: [
+          { title: 'Votre ambiance, au premier coup d’œil', text: 'Couleurs, photos, carte des soins : votre site reflète l’atmosphère de votre institut, là où une plateforme impose la même présentation à tous.' },
+          { title: 'Vos clientes restent les vôtres', text: 'Fiches clientes, historique des soins et coordonnées restent dans votre espace, sans intermédiaire entre vous et vos habituées.' },
+          { title: 'Aucune commission sur vos rendez-vous', text: 'Les rendez-vous pris sur votre site ne vous coûtent rien de plus. Seuls les frais du prestataire de paiement s’appliquent aux acomptes réglés en ligne.' },
+        ],
+      },
+      admin: {
+        eyebrow: 'Panneau d’administration',
+        title: 'Ce que vous gérez depuis votre panneau admin',
+        text: 'Votre planning, vos soins et vos clientes réunis dans un espace simple, pensé pour être consulté entre deux rendez-vous.',
+        items: [
+          'Le planning des rendez-vous, par soin et par membre de l’équipe',
+          'La carte des soins, leurs durées et leurs tarifs',
+          'Les acomptes réglés à la réservation',
+          'Les horaires, les congés et les fermetures exceptionnelles',
+          'Les fiches clientes et l’historique des soins',
+          'Les confirmations et les rappels envoyés automatiquement',
+        ],
+      },
+      process: {
+        eyebrow: 'Création',
+        title: 'Comment se déroule la création de votre site',
+        steps: [
+          { title: 'Échange', text: 'Nous faisons le tour de vos soins, de leurs durées, de votre équipe et de l’image que vous souhaitez donner de votre institut.' },
+          { title: 'Maquette', text: 'Une maquette douce et élégante, avec votre carte des soins et vos photos, que nous affinons ensemble.' },
+          { title: 'Développement', text: 'La prise de rendez-vous par soin, l’acompte et les rappels sont mis en place, puis testés sur ordinateur et sur mobile.' },
+          { title: 'Mise en ligne et formation', text: 'Votre site est en ligne, et vous savez modifier un soin, bloquer un créneau ou consulter votre planning en quelques secondes.' },
+        ],
+      },
+      faq: {
+        title: 'Questions fréquentes – Instituts',
+        items: [
+          { question: 'Mes clientes peuvent-elles réserver un soin précis ?', answer: 'Oui. Elles choisissent le soin, sa durée et un créneau disponible selon vos horaires et l’agenda de votre équipe, puis reçoivent une confirmation par email.' },
+          { question: 'Comment l’acompte limite-t-il les absences ?', answer: 'Un acompte réglé en ligne à la réservation engage la cliente : les rendez-vous oubliés se font rares, et vos conditions d’annulation sont affichées dès la réservation.' },
+          { question: 'Les rappels de rendez-vous sont-ils automatiques ?', answer: 'Oui. Une confirmation est envoyée dès la réservation, puis un rappel par email avant le rendez-vous.' },
+          { question: 'Puis-je bloquer mon agenda pendant mes congés ?', answer: 'Oui. Vous bloquez une journée ou une période entière depuis votre espace : les créneaux disparaissent aussitôt du site.' },
+        ],
+      },
+      local: 'Basé à Grenoble, Subnet accompagne les instituts de beauté et de bien-être de l’Isère et de toute la région Auvergne-Rhône-Alpes. Ailleurs en France, tout se fait en visio.',
+      seo: {
+        title: 'Site institut de beauté avec prise de RDV en ligne | Subnet',
+        description:
+          'Site internet pour institut de beauté et bien-être : prise de rendez-vous en ligne par soin, acompte, rappels et horaires à jour. Sans commission.',
+        h1: 'Site internet pour institut de beauté avec rendez-vous en ligne',
+      },
     },
     {
       slug: 'tpe-pme',
@@ -637,11 +821,136 @@ export const defaults = {
         },
       ],
       image: '/assets/images/concepts/pme-desktop.webp',
+      imageAlt: 'Site de PME sur ordinateur présentant les services et réalisations',
       mobileImage: '/assets/images/concepts/pme-mobile.webp',
+      mobileImageAlt: 'Site de PME sur mobile avec formulaire de demande de devis',
+      platform: {
+        eyebrow: 'Site ou outils séparés ?',
+        title: 'Pourquoi un site plutôt que des outils séparés ?',
+        text: 'Formulaire de contact d’un côté, devis sous tableur de l’autre, acomptes par virement à relancer : les demandes se perdent et le suivi prend du temps. Votre site réunit tout le parcours, de la demande à l’acompte.',
+        points: [
+          { title: 'Des demandes de devis exploitables', text: 'Le formulaire est construit autour de vos services : type de projet, dimensions, délais, photos. Vous avez tout pour chiffrer dès la première demande.' },
+          { title: 'Un devis accepté en ligne', text: 'Vous envoyez le devis depuis votre espace, le client l’accepte en ligne et règle l’acompte : la commande est lancée sans attendre un courrier ou une signature scannée.' },
+          { title: 'Une image à la hauteur de votre entreprise', text: 'Un site institutionnel clair et rassurant, qui présente vos services, vos réalisations et votre savoir-faire.' },
+        ],
+      },
+      admin: {
+        eyebrow: 'Panneau d’administration',
+        title: 'Ce que vous gérez depuis votre panneau admin',
+        text: 'Le suivi commercial de votre entreprise réuni au même endroit, accessible depuis le bureau comme depuis le terrain.',
+        items: [
+          'Les demandes de devis, avec leurs pièces jointes',
+          'Les devis envoyés, acceptés ou refusés',
+          'Les acomptes reçus à la commande',
+          'Les rendez-vous, visites et interventions planifiés',
+          'Vos services, vos réalisations et vos textes',
+          'Vos pages légales et vos conditions générales',
+        ],
+      },
+      process: {
+        eyebrow: 'Création',
+        title: 'Comment se déroule la création de votre site',
+        steps: [
+          { title: 'Échange', text: 'Nous analysons vos services, votre façon de chiffrer et le parcours idéal de vos clients, de la première demande à la commande.' },
+          { title: 'Maquette', text: 'Une maquette sobre et rassurante, structurée autour de vos services et de vos réalisations, validée avec vous.' },
+          { title: 'Développement', text: 'Formulaire de devis, envoi et acceptation en ligne, acompte et planification sont mis en place, puis testés.' },
+          { title: 'Mise en ligne et formation', text: 'Le site est en ligne, et votre équipe sait traiter une demande, envoyer un devis et suivre les acomptes.' },
+        ],
+      },
+      faq: {
+        title: 'Questions fréquentes – TPE et PME',
+        items: [
+          { question: 'Mes clients peuvent-ils accepter un devis en ligne ?', answer: 'Oui. Le devis préparé dans votre espace est envoyé au client, qui l’accepte en ligne et peut régler l’acompte dans la foulée.' },
+          { question: 'Le formulaire de devis peut-il être adapté à mes services ?', answer: 'Oui. Les questions sont choisies selon votre métier : type de prestation, dimensions, délais souhaités, photos. Vous recevez des demandes complètes, plus faciles à chiffrer.' },
+          { question: 'Puis-je planifier des interventions ou des rendez-vous ?', answer: 'Oui. Visites, rendez-vous ou chantiers se planifient selon vos disponibilités, et le client reçoit une confirmation.' },
+          { question: 'Le site convient-il à une petite entreprise ?', answer: 'Oui. Chaque site réunit les seuls modules utiles à votre activité : une TPE peut démarrer avec la présentation et les demandes de devis, puis ajouter l’acompte ou la planification plus tard.' },
+        ],
+      },
+      local: 'Basé à Grenoble, Subnet accompagne les TPE et PME de l’Isère et de toute la région Auvergne-Rhône-Alpes : artisans, commerces et entreprises de services. Ailleurs en France, tout se fait en visio.',
+      seo: {
+        title: 'Création site internet TPE PME avec devis en ligne | Subnet',
+        description:
+          'Site internet pour TPE et PME : présentation, demandes de devis détaillées, devis accepté en ligne et acompte à la commande. Basé à Grenoble.',
+        h1: 'Site internet pour TPE et PME avec devis en ligne',
+      },
     },
   ],
 
+  // Page « Création de site internet à Grenoble » (référencement local).
+  local: {
+    seo: {
+      title: 'Création de site internet à Grenoble et en Isère | Subnet',
+      description:
+        'Création de sites internet sur mesure à Grenoble et en Isère : réservation, acompte, devis et panneau d’administration. Rendez-vous sur place ou en visio.',
+      h1: 'Création de site internet à Grenoble',
+    },
+    hero: {
+      eyebrow: 'Grenoble et Isère',
+      title: 'Votre site sur mesure, conçu à Grenoble.',
+      subtitle:
+        'Subnet crée des sites internet complets pour les restaurants, studios de tatouage, instituts, TPE et PME de Grenoble et de l’Isère : réservation en ligne, acompte, devis, horaires et panneau d’administration.',
+    },
+    intro: {
+      eyebrow: 'Sur mesure',
+      title: 'Un site qui travaille pour votre activité.',
+      text:
+        'Un site internet ne se limite plus à une vitrine. À Grenoble comme ailleurs, vos clients veulent réserver une table, prendre rendez-vous ou demander un devis en quelques gestes, depuis leur téléphone. Chaque site Subnet est conçu autour de votre façon de travailler : vous choisissez les fonctionnalités utiles, et le site les réunit dans une expérience simple, rapide et à votre image.',
+    },
+    sectors: {
+      eyebrow: 'Pour qui',
+      title: 'Pour les pros de Grenoble et de l’Isère.',
+      text: 'Restaurants du centre-ville, studios de tatouage, instituts de beauté, artisans et PME du bassin grenoblois : chaque métier a ses contraintes, et votre site s’y adapte.',
+    },
+    why: {
+      eyebrow: 'Prestataire local',
+      title: 'Pourquoi choisir un prestataire à Grenoble ?',
+      text: 'Travailler avec un interlocuteur proche simplifie tout le projet, du premier échange au suivi après la mise en ligne.',
+      items: [
+        { icon: 'users', title: 'Un interlocuteur unique', text: 'Vous échangez directement avec la personne qui conçoit et développe votre site, sans intermédiaire.' },
+        { icon: 'map-pin', title: 'Des rendez-vous sur place', text: 'À Grenoble et dans ses environs, nous pouvons nous retrouver pour lancer le projet ou pour la prise en main de votre espace d’administration.' },
+        { icon: 'store', title: 'La connaissance du terrain', text: 'Clientèle étudiante, visiteurs en route vers les massifs, habitués du quartier : votre site s’adresse à ceux qui vous cherchent dans la région grenobloise.' },
+        { icon: 'refresh-cw', title: 'Un suivi dans la durée', text: 'Une question, une évolution, une nouvelle fonctionnalité : vous savez à qui vous adresser, après la mise en ligne aussi.' },
+      ],
+    },
+    process: {
+      eyebrow: 'Déroulé',
+      title: 'Comment se déroule votre projet ?',
+      steps: [
+        { title: 'Premier échange', text: 'À Grenoble ou en visio, nous faisons le point sur votre activité, vos clients et les fonctionnalités dont vous avez besoin.' },
+        { title: 'Proposition et devis', text: 'Vous recevez une proposition claire : le périmètre du site, les modules retenus et un devis détaillé.' },
+        { title: 'Conception et développement', text: 'La maquette est validée avec vous, puis le site est développé et testé sur ordinateur et sur mobile.' },
+        { title: 'Mise en ligne et formation', text: 'Le site est mis en ligne sur votre nom de domaine, et vous êtes formé à votre espace d’administration.' },
+      ],
+    },
+    areas: {
+      title: 'Où intervenons-nous ?',
+      text:
+        'Subnet accompagne les entreprises de Grenoble et de toute l’agglomération (Échirolles, Saint-Martin-d’Hères, Meylan, Fontaine, Seyssinet-Pariset…), et plus largement de l’Isère, de Voiron au Grésivaudan. Pour le reste de l’Auvergne-Rhône-Alpes et partout en France, les échanges se font en visio. Où que soit votre clientèle, en centre-ville, sur le campus ou dans les vallées autour de Grenoble, votre site est pensé pour être trouvé par ceux qui vous cherchent près de chez eux.',
+    },
+    faq: {
+      title: 'Questions fréquentes à Grenoble',
+      items: [
+        { question: 'Peut-on se rencontrer à Grenoble ?', answer: 'Oui. Pour les entreprises de Grenoble et de ses environs, le premier échange et la prise en main du site peuvent se faire en personne. Le reste du projet avance aussi bien en visio.' },
+        { question: 'Combien coûte un site internet à Grenoble ?', answer: 'Le prix dépend des fonctionnalités choisies : un site de présentation avec demandes de devis ne demande pas le même travail qu’un site avec réservation et acompte en ligne. Après un premier échange, vous recevez un devis clair et détaillé.' },
+        { question: 'Quel est le délai pour créer un site ?', answer: 'Il dépend du périmètre du projet et de la disponibilité de vos contenus : textes, photos, logo. Le calendrier est indiqué dans le devis, étape par étape.' },
+        { question: 'Travaillez-vous uniquement avec des entreprises grenobloises ?', answer: 'Non. Subnet est basé à Grenoble et accompagne des entreprises dans toute la France : hors de la région grenobloise, les échanges se font en visio.' },
+        { question: 'Mon site sera-t-il visible dans les recherches locales ?', answer: 'Votre site met en avant votre ville et votre zone d’intervention, et transmet à Google vos informations : adresse, zone desservie, coordonnées. Associé à une fiche Google Business Profile à jour, il vous aide à apparaître quand on cherche votre métier à Grenoble.' },
+        { question: 'Mon site sera-t-il bien référencé sur Google ?', answer: 'Chaque site est rapide, adapté au mobile et structuré pour les moteurs de recherche : titres, descriptions, informations pour Google et plan du site sont en place dès la mise en ligne, et modifiables depuis votre espace.' },
+      ],
+    },
+    homeLink: {
+      text: 'Vous êtes à Grenoble ou en Isère ?',
+      label: 'Création de site internet à Grenoble',
+    },
+  },
+
   projectsPage: {
+    seo: {
+      title: 'Exemples de sites internet par secteur | Subnet',
+      description:
+        'Exemples de sites sur mesure pour restaurant, studio de tatouage, institut et PME : réservation, devis, acompte et panneau d’administration.',
+      h1: 'Exemples de sites internet par secteur',
+    },
     hero: {
       eyebrow: 'Réalisations',
       title: 'Des univers, pas des modèles.',
@@ -703,6 +1012,12 @@ export const defaults = {
   ],
 
   faqPage: {
+    seo: {
+      title: 'FAQ création de site internet sur mesure | Subnet',
+      description:
+        'Réservation en ligne, acompte, devis, panneau d’administration, propriété des données : les réponses à vos questions avant de créer votre site.',
+      h1: 'Questions fréquentes sur la création de votre site',
+    },
     hero: {
       eyebrow: 'FAQ',
       title: 'Questions fréquentes.',

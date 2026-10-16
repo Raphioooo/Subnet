@@ -235,6 +235,7 @@ textarea {
   font-weight: 600;
   letter-spacing: -0.012em;
   color: var(--accent);
+  text-wrap: balance;
 }
 
 .eyebrow--icon {
@@ -952,6 +953,13 @@ textarea {
   color: var(--text-2);
 }
 
+/* Liste centrée sous un titre centré (pages secteurs) */
+.pillars--center,
+.checklist--center {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
 /* Parcours client ----------------------------------------------------------- */
 
 .journey {
@@ -1126,6 +1134,16 @@ textarea {
 
 .note .link-arrow {
   margin-left: 4px;
+}
+
+.note + .note {
+  margin-top: 12px;
+}
+
+/* Page Grenoble : questions fréquentes sous la zone d'intervention */
+.local-faq__title {
+  margin: clamp(48px, 6vw, 80px) 0 clamp(20px, 2.5vw, 28px);
+  text-align: center;
 }
 
 /* Offre ------------------------------------------------------------------- */
@@ -1380,6 +1398,24 @@ textarea {
 
 .card p {
   color: var(--text-2);
+}
+
+/* Étapes numérotées (création du site) */
+.card-grid--steps {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
+
+.step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  background: var(--text);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .card .h3 {
@@ -2612,7 +2648,7 @@ textarea {
   gap: 32px;
 }
 
-.site-footer h2 {
+.site-footer__title {
   margin-bottom: 12px;
   color: var(--text);
   font-size: 0.8125rem;

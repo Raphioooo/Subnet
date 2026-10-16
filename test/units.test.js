@@ -2,7 +2,7 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { applyTokens, renderMarkdown } from '../src/markdown.js';
 import { sanitizeObject } from '../src/sanitize.js';
-import { frenchTypography, telHref } from '../src/helpers.js';
+import { cleanUrl, formatPhone, frenchTypography, organizationJsonLd, phoneE164, sectorJsonLd, telHref } from '../src/helpers.js';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -77,11 +77,59 @@ describe('utilitaires', () => {
   test('typographie française', () => {
     assert.equal(frenchTypography('Pourquoi ? Voici : « oui » !'), 'Pourquoi ? Voici : « oui » !');
     assert.equal(frenchTypography('https://exemple.fr'), 'https://exemple.fr');
+    assert.equal(frenchTypography('Questions – Instituts'), 'Questions\u00a0– Instituts', 'le tiret ne commence pas une ligne');
   });
 
   test('liens téléphone', () => {
     assert.equal(telHref('06 12 34 56 78'), 'tel:+33612345678');
     assert.equal(telHref('+32 2 123 45 67'), 'tel:+3221234567');
+    assert.equal(telHref('+33 7 66 65 35 09'), 'tel:+33766653509');
+  });
+
+  test('téléphone lisible et format international', () => {
+    assert.equal(formatPhone('0766653509'), '07 66 65 35 09');
+    assert.equal(formatPhone('+33 7 66 65 35 09'), '07 66 65 35 09');
+    assert.equal(formatPhone('0033766653509'), '07 66 65 35 09');
+    assert.equal(formatPhone('+32 2 123 45 67'), '+32 2 123 45 67', 'numéro étranger inchangé');
+    assert.equal(phoneE164('07 66 65 35 09'), '+33766653509');
+  });
+
+  test('liens de réseaux sociaux sans paramètres de suivi', () => {
+    assert.equal(
+      cleanUrl('https://www.linkedin.com/in/raphael-scotton-a86297418/?isSelfProfile=true'),
+      'https://www.linkedin.com/in/raphael-scotton-a86297418/',
+    );
+    assert.equal(cleanUrl('https://www.instagram.com/subnet/?igsh=abc&utm_source=x&hl=fr'), 'https://www.instagram.com/subnet/?hl=fr');
+    assert.equal(cleanUrl('pas une adresse'), 'pas une adresse');
+  });
+
+  test('données structurées de l’entreprise et des secteurs', () => {
+    const c = structuredClone(defaults);
+    c.contact.phone = '0766653509';
+    c.contact.postalCode = '38000';
+    c.contact.socials = [{ network: 'linkedin', url: 'https://www.linkedin.com/in/exemple/?isSelfProfile=true' }];
+    const org = organizationJsonLd(c, 'https://exemple.fr');
+    assert.equal(org['@id'], 'https://exemple.fr/#business');
+    assert.equal(org.telephone, '+33766653509');
+    assert.deepEqual(org.address, {
+      '@type': 'PostalAddress',
+      addressLocality: 'Grenoble',
+      postalCode: '38000',
+      addressRegion: 'Auvergne-Rhône-Alpes',
+      addressCountry: 'FR',
+    });
+    assert.deepEqual(org.areaServed.map((a) => a['@type']), ['City', 'AdministrativeArea', 'AdministrativeArea', 'Country']);
+    assert.deepEqual(org.sameAs, ['https://www.linkedin.com/in/exemple/']);
+    assert.equal(org.logo, 'https://exemple.fr/assets/images/logo-512.png');
+    assert.equal(org.founder.name, 'Raphaël Scotton');
+    const [service, breadcrumb] = sectorJsonLd(c, c.sectors[0], 'https://exemple.fr');
+    assert.equal(service['@type'], 'Service');
+    assert.equal(service.provider['@id'], org['@id']);
+    assert.deepEqual(breadcrumb.itemListElement.map((i) => i.item), [
+      'https://exemple.fr/',
+      'https://exemple.fr/secteurs',
+      'https://exemple.fr/secteurs/restaurateurs',
+    ]);
   });
 
   test('fusion avec les valeurs par défaut', () => {
@@ -104,12 +152,51 @@ describe('utilitaires', () => {
     const store = new Store(dir);
     await store.init();
     const content = store.getContent();
-    assert.equal(content.meta.version, 2);
+    assert.equal(content.meta.version, defaults.meta.version);
     assert.equal(content.site.name, 'Mon Studio');
     assert.equal(content.contact.email, 'bonjour@studio.fr');
     assert.equal(content.legal.identity.siret, '123');
     assert.equal(content.home.hero.title, 'Le site qui fait tourner votre activité.');
     assert.ok(content.site.tagline.includes('réservation'));
+    await fs.rm(dir, { recursive: true, force: true });
+  });
+
+  test('migration de la version 2 : référencement local', async () => {
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'subnet-seo-'));
+    const file = path.join(dir, 'content.json');
+    await fs.writeFile(
+      file,
+      JSON.stringify({
+        meta: { version: 2, updatedAt: '2026-01-01T10:00:00.000Z' },
+        site: {
+          name: 'Subnet',
+          description:
+            'Sites sur mesure avec réservation en ligne, acompte, devis, gestion des horaires et panneau d’administration, pour restaurateurs, tatoueurs, instituts, TPE et PME.',
+        },
+        contact: { email: 'hello@exemple.fr', phone: '0766653509', area: 'Région AURA / Toute la France via zoom' },
+        home: { hero: { eyebrow: 'Mon surtitre', title: 'Mon slogan.' } },
+      }),
+    );
+    const store = new Store(dir);
+    await store.init();
+    const content = store.getContent();
+    assert.ok(content.site.description.includes('Grenoble'), 'description d’origine remplacée');
+    assert.equal(content.contact.area, defaults.contact.area);
+    assert.equal(content.contact.email, 'hello@exemple.fr');
+    assert.equal(content.home.hero.title, 'Mon slogan.', 'textes personnalisés conservés');
+    assert.equal(content.home.seo.h1, defaults.home.seo.h1);
+    assert.equal(content.sectors[0].seo.title, defaults.sectors[0].seo.title);
+    assert.ok(content.meta.sections.home > '2026-01-01', 'date de modification des pages mise à jour');
+    const saved = JSON.parse(await fs.readFile(file, 'utf8'));
+    assert.equal(saved.meta.version, defaults.meta.version, 'migration enregistrée une seule fois');
+    const original = JSON.parse(await fs.readFile(`${file}.v2.bak`, 'utf8'));
+    assert.equal(original.meta.version, 2, 'version précédente gardée de côté');
+
+    await fs.writeFile(file, JSON.stringify({ meta: { version: 2 }, site: { description: 'Ma description.' }, contact: { area: 'Lyon' } }));
+    const custom = new Store(dir);
+    await custom.init();
+    assert.equal(custom.getContent().site.description, 'Ma description.');
+    assert.equal(custom.getContent().contact.area, 'Lyon');
     await fs.rm(dir, { recursive: true, force: true });
   });
 

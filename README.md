@@ -23,7 +23,7 @@ Les fonctionnalités de réservation, d'acompte et de devis vendues aux clients 
 | Contact | `/contact` | Formulaire « demande de devis » ou « simple question » (fonctionnalités souhaitées, protection anti-spam), coordonnées, horaires, réseaux. Un formulaire rapide figure aussi en bas de l'accueil |
 | Pages légales | `/mentions-legales`, `/confidentialite`, `/cookies`, `/conditions-generales` | Modèles remplis automatiquement avec vos informations |
 
-Le site s'adapte aux ordinateurs, tablettes et mobiles. Il est pensé pour l'accessibilité (navigation au clavier, contrastes, textes alternatifs) et passe sans erreur les contrôles automatiques WCAG 2 AA. Il inclut le référencement de base : titres et descriptions, plan du site (`/sitemap.xml`), `robots.txt`, données structurées et image de partage.
+Le site s'adapte aux ordinateurs, tablettes et mobiles. Il est pensé pour l'accessibilité (navigation au clavier, contrastes, textes alternatifs) et passe sans erreur les contrôles automatiques WCAG 2 AA. Il inclut le référencement : titre, description et H1 modifiables pour chaque page, plan du site (`/sitemap.xml`) daté page par page, `robots.txt`, données structurées (entreprise, services, questions fréquentes, fil d'Ariane) et image de partage.
 
 ## Démarrage rapide
 
@@ -54,17 +54,20 @@ Rendez-vous sur `/admin`. Le mot de passe est celui de `ADMIN_PASSWORD`. Si la v
 
 | Rubrique | Ce que vous modifiez |
 | --- | --- |
-| Général | Nom du site, logo, description pour Google, image de partage, bandeau d'information (fermeture exceptionnelle, nouveauté…), bloc « Parlons de votre projet » |
+| Général | Nom du site, nom complet pour les partages, logo, description, image de partage, bandeau d'information (fermeture exceptionnelle, nouveauté…), bloc « Parlons de votre projet » |
 | Accueil | Tous les textes, boutons et icônes de la page d'accueil, dont les étapes du parcours client |
 | L'offre | Fonctionnalités incluses, modules et leurs illustrations (format téléphone ou ordinateur), contenus gérables, comparatif, principes de design, bénéfices |
-| Secteurs | Textes, listes, fonctionnalités mises en avant, parcours client (étapes et captures), visuels et ordre des quatre pages métiers |
+| Secteurs | Textes, listes, fonctionnalités mises en avant, parcours client (étapes et captures), visuels et leur description, « site ou plateforme », gestion, déroulé, questions fréquentes et paragraphe local de chaque métier, ordre des quatre pages |
+| Page Grenoble | Textes de la page « Création de site internet à Grenoble », questions fréquentes locales et lien depuis l'accueil et le pied de page |
 | Réalisations | Projets de la galerie : ajout, image principale et capture mobile, secteur, lien, ordre, affichage ou masquage |
 | FAQ | Questions et réponses |
-| Coordonnées | Email, téléphone, adresse, zone d'intervention, horaires, réseaux sociaux, textes de la page contact et fonctionnalités proposées dans le formulaire de devis |
+| Coordonnées | Email, téléphone, adresse, zone d'intervention, informations pour Google (ville, code postal, région, zones desservies, fondateur), horaires, réseaux sociaux, textes de la page contact et fonctionnalités proposées dans le formulaire de devis |
 | Pages légales | Informations légales et contenu des quatre pages réglementaires |
 | Articles | Articles du blog : brouillons de l'agent (badge « API »), éditeur Markdown avec aperçu, compteurs SEO, aperçu Google, FAQ, programmation. Publication bloquée tant qu'il reste des marqueurs [À COMPLÉTER] |
 | Demandes | Demandes de devis et questions envoyées depuis la page contact et l'accueil : statut (nouvelle, en cours, traitée), note interne, recherche, filtres et export CSV |
 | Compte et sauvegarde | Mot de passe, sauvegarde et restauration des contenus |
+
+Chaque page a aussi sa rubrique **Référencement** : titre et description affichés par Google, et titre principal (H1), avec un compteur de caractères.
 
 Bon à savoir :
 

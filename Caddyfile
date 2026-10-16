@@ -5,7 +5,8 @@
 	reverse_proxy site:3000
 }
 
-# Les visiteurs de www.mondomaine.fr sont redirigés vers mondomaine.fr.
-www.{$DOMAIN} {
+# Les visiteurs de www.mondomaine.fr, en http comme en https, sont redirigés
+# en une seule fois vers https://mondomaine.fr (sans étape intermédiaire).
+www.{$DOMAIN}, http://www.{$DOMAIN} {
 	redir https://{$DOMAIN}{uri} permanent
 }

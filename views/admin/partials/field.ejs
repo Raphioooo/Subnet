@@ -21,6 +21,7 @@
     <span class="field__label"><%= f.label %><% if (f.required) { %><span class="req" aria-hidden="true"> *</span><% } %></span>
     <input class="input" data-input type="<%= inputType %>" value="<%= v ?? '' %>" maxlength="<%= f.max || 500 %>"<% if (f.type === 'url' || f.type === 'link') { %> inputmode="url" spellcheck="false" autocapitalize="off"<% } %><% if (f.placeholder) { %> placeholder="<%= f.placeholder %>"<% } %><% if (f.required) { %> required<% } %>>
   </label>
+  <% if (f.counter) { %><p class="field__count" data-counter="<%= f.counter %>"><span data-count><%= String(v ?? '').length %></span> / <%= f.counter %> caractères conseillés</p><% } %>
   <% if (f.help) { %><p class="field__help"><%= f.help %></p><% } %>
 </div>
 <% } else if (f.type === 'textarea' || f.type === 'markdown') { -%>
@@ -29,6 +30,7 @@
     <span class="field__label"><%= f.label %><% if (f.required) { %><span class="req" aria-hidden="true"> *</span><% } %></span>
     <textarea class="input<%= f.type === 'markdown' ? ' input--prose' : '' %>" data-input rows="<%= f.rows || 3 %>" maxlength="<%= f.max || 1500 %>"<% if (f.required) { %> required<% } %>><%= v ?? '' %></textarea>
   </label>
+  <% if (f.counter) { %><p class="field__count" data-counter="<%= f.counter %>"><span data-count><%= String(v ?? '').length %></span> / <%= f.counter %> caractères conseillés</p><% } %>
   <% if (f.type === 'markdown') { %><p class="field__help">Mise en forme : <code>## Titre</code> <code>**gras**</code> <code>*italique*</code> <code>- liste</code> <code>[texte](https://…)</code></p><% } %>
   <% if (f.help) { %><p class="field__help"><%= f.help %></p><% } %>
 </div>

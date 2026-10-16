@@ -5,7 +5,7 @@
     <div class="actions actions--center">
       <a class="btn btn--primary btn--lg" href="<%= locals.ctaHref || c.cta.buttonLink %>"><%= c.cta.buttonLabel %></a>
       <% if (c.contact.phone) { %>
-      <a class="link-arrow link-arrow--lg" href="<%= telHref(c.contact.phone) %>"><%- icon('phone', { size: 18 }) %><%= c.contact.phone %></a>
+      <a class="link-arrow link-arrow--lg" href="<%= telHref(c.contact.phone) %>"><%- icon('phone', { size: 18 }) %><%= formatPhone(c.contact.phone) %></a>
       <% } else if (c.contact.email) { %>
       <a class="link-arrow link-arrow--lg" href="mailto:<%= c.contact.email %>"><%- icon('mail', { size: 18 }) %><%= c.contact.email %></a>
       <% } %>

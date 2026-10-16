@@ -4,9 +4,12 @@ import { CONTACT_SECTOR_OPTIONS } from '../schema.js';
 import { cleanText, isEmail } from '../sanitize.js';
 import { createRateLimiter } from '../security.js';
 import { isPublished } from '../posts.js';
-import { faqJsonLd, organizationJsonLd, renderLegal } from '../helpers.js';
+import { faqJsonLd, localJsonLd, organizationJsonLd, renderLegal, sectorJsonLd } from '../helpers.js';
 
 const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
+
+// Page dédiée à la ville (référencement local).
+export const LOCAL_PATH = '/creation-site-internet-grenoble';
 
 // Page d'origine du formulaire → page affichée après l'envoi.
 const SUCCESS_REDIRECTS = {
@@ -44,6 +47,14 @@ function validateContact(body, availableModules = []) {
   return { values, errors, modules: modules.labels };
 }
 
+// Date de la dernière modification d'une page : celle des rubriques de
+// l'administration qui composent son contenu, à défaut celle du site.
+function lastModified(meta, pages) {
+  const dates = pages.map((id) => meta.sections?.[id]).filter(Boolean).sort();
+  const date = dates.at(-1) || meta.updatedAt || meta.createdAt;
+  return date ? date.slice(0, 10) : '';
+}
+
 export function publicRouter({ config, store, auth, mailer, log }) {
   const router = express.Router();
   const contactLimiter = createRateLimiter({ windowMs: 10 * 60 * 1000, max: 5 });
@@ -53,7 +64,7 @@ export function publicRouter({ config, store, auth, mailer, log }) {
   router.get('/', (req, res) => {
     const { c } = res.locals;
     res.render('pages/home', {
-      page: { title: '', description: c.site.description, path: '/' },
+      page: { title: '', description: c.site.description, path: '/', seo: c.home.seo },
       projects: visibleProjects(c).slice(0, 4),
       jsonLd: organizationJsonLd(c, res.locals.baseUrl),
       sent: req.query.envoye === '1',
@@ -64,14 +75,14 @@ export function publicRouter({ config, store, auth, mailer, log }) {
   router.get('/offre', (req, res) => {
     const { c } = res.locals;
     res.render('pages/offre', {
-      page: { title: 'L’offre', description: c.offer.hero.subtitle || c.site.description, path: '/offre' },
+      page: { title: 'L’offre', description: c.offer.hero.subtitle || c.site.description, path: '/offre', seo: c.offer.seo },
     });
   });
 
   router.get('/secteurs', (req, res) => {
     const { c } = res.locals;
     res.render('pages/secteurs', {
-      page: { title: 'Secteurs', description: c.sectorsPage.hero.subtitle, path: '/secteurs' },
+      page: { title: 'Secteurs', description: c.sectorsPage.hero.subtitle, path: '/secteurs', seo: c.sectorsPage.seo },
     });
   });
 
@@ -80,10 +91,19 @@ export function publicRouter({ config, store, auth, mailer, log }) {
     const sector = c.sectors.find((s) => s.slug === req.params.slug);
     if (!sector) return next();
     res.render('pages/secteur', {
-      page: { title: sector.name, description: sector.intro, path: `/secteurs/${sector.slug}`, image: sector.image },
+      page: { title: sector.name, description: sector.intro, path: `/secteurs/${sector.slug}`, image: sector.image, seo: sector.seo },
       sector,
+      jsonLd: sectorJsonLd(c, sector, res.locals.baseUrl),
       others: c.sectors.filter((s) => s.slug !== sector.slug),
       projects: visibleProjects(c).filter((p) => p.sector === sector.slug).slice(0, 3),
+    });
+  });
+
+  router.get(LOCAL_PATH, (req, res) => {
+    const { c } = res.locals;
+    res.render('pages/local', {
+      page: { title: 'Création de site internet à Grenoble', description: c.local.hero.subtitle, path: LOCAL_PATH, seo: c.local.seo },
+      jsonLd: localJsonLd(c, res.locals.baseUrl, LOCAL_PATH),
     });
   });
 
@@ -96,7 +116,7 @@ export function publicRouter({ config, store, auth, mailer, log }) {
       { value: 'autre', label: 'Autres' },
     ].filter((f) => used.has(f.value));
     res.render('pages/realisations', {
-      page: { title: 'Réalisations', description: c.projectsPage.hero.subtitle, path: '/realisations' },
+      page: { title: 'Réalisations', description: c.projectsPage.hero.subtitle, path: '/realisations', seo: c.projectsPage.seo },
       projects,
       filters,
     });
@@ -105,15 +125,15 @@ export function publicRouter({ config, store, auth, mailer, log }) {
   router.get('/faq', (req, res) => {
     const { c } = res.locals;
     res.render('pages/faq', {
-      page: { title: 'Questions fréquentes', description: c.faqPage.hero.subtitle, path: '/faq' },
-      jsonLd: c.faq.length ? faqJsonLd(c) : null,
+      page: { title: 'Questions fréquentes', description: c.faqPage.hero.subtitle, path: '/faq', seo: c.faqPage.seo },
+      jsonLd: c.faq.length ? faqJsonLd(c.faq) : null,
     });
   });
 
   const renderContact = (req, res, { values = {}, errors = {}, formError = '', status = 200 } = {}) => {
     const { c } = res.locals;
     res.status(status).render('pages/contact', {
-      page: { title: 'Contact', description: c.contact.page.intro, path: '/contact' },
+      page: { title: 'Contact', description: c.contact.page.intro, path: '/contact', seo: c.contact.page.seo },
       sent: req.query.envoye === '1' && status === 200 && !formError,
       values: { sector: '', type: 'devis', ...values },
       errors,
@@ -177,25 +197,28 @@ export function publicRouter({ config, store, auth, mailer, log }) {
     res.type('text/plain').send(`User-agent: *\nDisallow: /admin\n\nSitemap: ${res.locals.baseUrl}/sitemap.xml\n`);
   });
 
+  // Les pages légales restent accessibles et indexables, mais hors du plan du site.
   router.get('/sitemap.xml', (req, res) => {
     const { c, baseUrl } = res.locals;
-    const paths = [
-      '/',
-      '/offre',
-      '/secteurs',
-      ...c.sectors.map((s) => `/secteurs/${s.slug}`),
-      '/realisations',
-      '/blog',
-      '/faq',
-      '/contact',
-      ...LEGAL_PAGES.filter(({ key }) => c.legal[key].published).map(({ slug }) => `/${slug}`),
+    const posts = store.listPosts().filter((p) => isPublished(p));
+    const entries = [
+      ['/', ['general', 'home', 'offer', 'sectors', 'projects', 'contact']],
+      ['/offre', ['offer']],
+      ['/secteurs', ['sectors']],
+      ...c.sectors.map((s) => [`/secteurs/${s.slug}`, ['sectors', 'projects']]),
+      [LOCAL_PATH, ['local', 'sectors', 'offer']],
+      ['/realisations', ['projects']],
+      ['/faq', ['faq']],
+      ['/contact', ['contact']],
     ];
-    const lastmod = (c.meta.updatedAt || new Date().toISOString()).slice(0, 10);
-    const posts = store
-      .listPosts()
-      .filter((p) => isPublished(p))
-      .map((p) => `  <url><loc>${baseUrl}/blog/${p.slug}</loc><lastmod>${p.updatedAt.slice(0, 10)}</lastmod></url>`);
-    const urls = [...paths.map((p) => `  <url><loc>${baseUrl}${p}</loc><lastmod>${lastmod}</lastmod></url>`), ...posts].join('\n');
+    const url = (p, lastmod) => `  <url><loc>${baseUrl}${p}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}</url>`;
+    // Le blog est daté par son article le plus récemment modifié.
+    const blogLastmod = posts.map((p) => p.updatedAt).sort().at(-1)?.slice(0, 10) || '';
+    const urls = [
+      ...entries.map(([p, pages]) => url(p, lastModified(c.meta, pages))),
+      url('/blog', blogLastmod),
+      ...posts.map((p) => url(`/blog/${p.slug}`, p.updatedAt.slice(0, 10))),
+    ].join('\n');
     res
       .type('application/xml')
       .send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);

@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { defaults, SECTOR_SLUGS } from './defaults.js';
+import { PAGES } from './schema.js';
 import { DEMO_POST } from './demo-post.js';
 
 const MESSAGE_RETENTION_MS = 3 * 365 * 24 * 60 * 60 * 1000;
@@ -27,8 +28,7 @@ export function mergeDefaults(def, saved) {
 
 // Version 1 : offre « site vitrine ». Les textes de présentation sont remplacés
 // par ceux de l'offre actuelle ; les informations propres à l'entreprise sont conservées.
-function migrate(raw) {
-  if (!isPlainObject(raw) || (raw.meta?.version ?? 1) >= defaults.meta.version) return raw;
+function migrateFromV1(raw) {
   const { page, ...contact } = isPlainObject(raw.contact) ? raw.contact : {};
   return {
     meta: raw.meta,
@@ -37,6 +37,32 @@ function migrate(raw) {
     projects: raw.projects,
     legal: isPlainObject(raw.legal) ? { identity: raw.legal.identity } : undefined,
   };
+}
+
+// Version 2 : référencement local. Les textes encore identiques à ceux d'origine
+// prennent la nouvelle version (qui mentionne Grenoble) ; les autres sont conservés.
+// Titres, descriptions et H1 changent sur toutes les pages : leur date de
+// modification (plan du site) est mise à jour.
+const V2_DESCRIPTION =
+  'Sites sur mesure avec réservation en ligne, acompte, devis, gestion des horaires et panneau d’administration, pour restaurateurs, tatoueurs, instituts, TPE et PME.';
+const V2_AREAS = ['', 'Région AURA / Toute la France via zoom'];
+
+function migrateFromV2(raw) {
+  const out = structuredClone(raw);
+  if (isPlainObject(out.site) && out.site.description === V2_DESCRIPTION) delete out.site.description;
+  if (isPlainObject(out.contact) && V2_AREAS.includes(String(out.contact.area ?? '').trim())) delete out.contact.area;
+  const now = new Date().toISOString();
+  out.meta = { ...out.meta, sections: Object.fromEntries(PAGES.map((p) => [p.id, now])) };
+  return out;
+}
+
+function migrate(raw) {
+  if (!isPlainObject(raw)) return raw;
+  let data = raw;
+  const version = raw.meta?.version ?? 1;
+  if (version < 2) data = migrateFromV1(data);
+  if (version < 3) data = migrateFromV2(data);
+  return data;
 }
 
 function normalizeContent(raw) {
@@ -98,7 +124,14 @@ export class Store {
     await fs.mkdir(this.uploadsDir, { recursive: true });
     const saved = await readJson(this.contentFile, null);
     this.content = normalizeContent(saved);
-    if (!saved) await this.#persist(this.contentFile, this.content);
+    if (!saved) {
+      this.content.meta.createdAt = new Date().toISOString();
+      await this.#persist(this.contentFile, this.content);
+    } else if ((saved.meta?.version ?? 1) < this.content.meta.version) {
+      // Contenu d'une version précédente : migré une seule fois, l'original est gardé de côté.
+      await fs.copyFile(this.contentFile, `${this.contentFile}.v${saved.meta?.version ?? 1}.bak`);
+      await this.#persist(this.contentFile, this.content);
+    }
     const messages = await readJson(this.messagesFile, []);
     this.messages = Array.isArray(messages) ? messages : [];
     await this.purgeOldMessages();
@@ -124,9 +157,13 @@ export class Store {
     return this.content;
   }
 
-  async saveContent(next) {
+  // pages : rubriques de l'administration modifiées (date de mise à jour du plan du site).
+  async saveContent(next, { pages = [] } = {}) {
     const content = normalizeContent(next);
-    content.meta = { ...content.meta, updatedAt: new Date().toISOString() };
+    const now = new Date().toISOString();
+    const sections = { ...content.meta.sections };
+    for (const id of pages) sections[id] = now;
+    content.meta = { ...content.meta, updatedAt: now, sections };
     try {
       await fs.copyFile(this.contentFile, `${this.contentFile}.bak`);
     } catch {

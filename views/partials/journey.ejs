@@ -2,7 +2,7 @@
   <% steps.forEach((step, i) => { %>
   <li class="journey__step reveal">
     <% if (step.image) { %>
-    <div class="phone phone--static"><div class="phone__screen"><img src="<%= step.image %>" alt="" width="600" height="1300" loading="lazy" decoding="async"></div></div>
+    <div class="phone phone--static"><div class="phone__screen"><img src="<%= step.image %>" alt="Étape <%= i + 1 %> sur mobile : <%= step.title.charAt(0).toLowerCase() + step.title.slice(1) %>" width="600" height="1300" loading="lazy" decoding="async"></div></div>
     <% } %>
     <p class="journey__num"><span><%= i + 1 %></span></p>
     <h3 class="h4"><%= step.title %></h3>
