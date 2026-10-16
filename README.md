@@ -1,1 +1,180 @@
-# Subnet
+# Subnet — site vitrine
+
+Site de **Subnet**, qui présente une offre de création de sites vitrines minimalistes, premium et administrables pour les restaurateurs, tatoueurs, instituts de beauté, TPE et PME.
+
+Le site applique lui-même l'offre décrite dans le descriptif : un design épuré inspiré des codes Apple (hiérarchie visuelle forte, typographie soignée, espaces respirants), un vrai outil commercial (appels à l'action, formulaire de contact, réassurance) et un **espace d'administration** pour tout mettre à jour sans développeur.
+
+## Contenu du site
+
+| Page | Adresse | Contenu |
+| --- | --- | --- |
+| Accueil | `/` | Accroche, vitrine animée par secteur, positionnement, secteurs, offre, administration, « pourquoi nous », réalisations |
+| L'offre | `/offre` | Périmètre, structure recommandée, administration, comparatif, design, bénéfices |
+| Secteurs | `/secteurs` et `/secteurs/restaurateurs`, `/tatoueurs`, `/instituts`, `/tpe-pme` | Une page par métier, avec son ton et ses besoins |
+| Réalisations | `/realisations` | Galerie filtrable par secteur, avec visionneuse |
+| FAQ | `/faq` | Questions fréquentes |
+| Contact | `/contact` | Formulaire (protégé contre le spam), coordonnées, horaires, réseaux |
+| Pages légales | `/mentions-legales`, `/confidentialite`, `/cookies`, `/conditions-generales` | Modèles remplis automatiquement avec vos informations |
+
+Le site s'adapte aux ordinateurs, tablettes et mobiles. Il est pensé pour l'accessibilité (navigation au clavier, contrastes, textes alternatifs) et passe sans erreur les contrôles automatiques WCAG 2 AA. Il inclut le référencement de base : titres et descriptions, plan du site (`/sitemap.xml`), `robots.txt`, données structurées et image de partage.
+
+## Démarrage rapide
+
+Il faut **Node.js 20.12 ou plus récent** (la version 22 LTS est conseillée).
+
+```bash
+npm install
+cp .env.example .env      # puis renseignez ADMIN_PASSWORD
+npm start
+```
+
+- Site : <http://localhost:3000>
+- Administration : <http://localhost:3000/admin>
+
+Autres commandes :
+
+```bash
+npm run dev           # rechargement automatique pendant le développement
+npm test              # tests automatisés
+npm run set-password  # définir ou réinitialiser le mot de passe de l'admin
+```
+
+Aucune base de données n'est nécessaire : les contenus, messages et images sont enregistrés dans le dossier `data/` (configurable avec `DATA_DIR`). Au premier démarrage, ce dossier est créé avec les contenus par défaut.
+
+## L'espace d'administration
+
+Rendez-vous sur `/admin`. Le mot de passe est celui de `ADMIN_PASSWORD`. Si la variable est vide, un mot de passe temporaire s'affiche dans la console au premier démarrage : changez-le ensuite dans **Compte et sauvegarde**.
+
+| Rubrique | Ce que vous modifiez |
+| --- | --- |
+| Général | Nom du site, logo, description pour Google, image de partage, bandeau d'information (fermeture exceptionnelle, nouveauté…), bloc « Parlons de votre projet » |
+| Accueil | Tous les textes et boutons de la page d'accueil |
+| L'offre | Éléments inclus, structure, contenus modifiables, comparatif, principes de design, bénéfices |
+| Secteurs | Textes, listes, visuels et ordre des quatre pages métiers |
+| Réalisations | Projets de la galerie : ajout, image, secteur, lien, ordre, affichage ou masquage |
+| FAQ | Questions et réponses |
+| Coordonnées | Email, téléphone, adresse, zone d'intervention, horaires, réseaux sociaux, textes de la page contact |
+| Pages légales | Informations légales et contenu des quatre pages réglementaires |
+| Messages | Demandes reçues via le formulaire de contact |
+| Compte et sauvegarde | Mot de passe, sauvegarde et restauration des contenus |
+
+Bon à savoir :
+
+- **Les modifications sont en ligne dès l'enregistrement.** Le raccourci `Ctrl` + `S` (ou `⌘` + `S`) enregistre la page.
+- **Les images sont optimisées automatiquement** : redimensionnées (2400 px maximum) et converties en WebP dans le navigateur avant l'envoi.
+- **Le tableau de bord indique ce qui reste à compléter** avant la mise en ligne : email, informations légales, adresse du site, etc.
+- **Les pages légales se remplissent seules.** Dans leur texte, les balises entre doubles accolades sont remplacées par les informations saisies dans la section « Informations légales » : `{{entreprise}}`, `{{forme_juridique}}`, `{{siret}}`, `{{rcs}}`, `{{tva}}`, `{{capital}}`, `{{adresse}}`, `{{directeur_publication}}`, `{{hebergeur}}`, `{{hebergeur_adresse}}`, `{{hebergeur_contact}}`, `{{email}}`, `{{telephone}}`, `{{nom_site}}` et `{{url}}`. Une information obligatoire manquante apparaît surlignée « à compléter ». Une information facultative manquante (capital, TVA, immatriculation, téléphone…) fait disparaître sa ligne.
+- **Messages** : chaque demande est enregistrée dans l'admin. Pour recevoir aussi un email, configurez les variables `SMTP_*`. Les messages sont supprimés automatiquement au bout de trois ans, comme l'indique la politique de confidentialité.
+
+> Les textes des pages légales sont des modèles fournis à titre indicatif. Faites-les relire et adapter à votre situation avant la mise en ligne.
+
+## Configuration
+
+Toutes les variables sont décrites dans `.env.example`.
+
+| Variable | Rôle | Par défaut |
+| --- | --- | --- |
+| `PORT` | Port d'écoute | `3000` |
+| `NODE_ENV` | `production` en ligne (active le cache) | `development` |
+| `ADMIN_PASSWORD` | Mot de passe de l'administration | mot de passe temporaire généré |
+| `SESSION_SECRET` | Clé de signature des sessions | générée et conservée dans `data/` |
+| `DATA_DIR` | Dossier des contenus, messages et images | `./data` |
+| `BASE_URL` | Adresse publique du site (plan du site, liens de partage) | adresse saisie dans l'admin, sinon celle de la requête |
+| `TRUST_PROXY` | Proxys de confiance (Nginx, hébergeur…) | réseaux locaux et privés |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` | Serveur d'envoi des notifications | désactivé |
+| `MAIL_FROM`, `MAIL_TO` | Expéditeur et destinataire des notifications | `SMTP_USER` et email de contact |
+
+## Mise en ligne
+
+Le site est une application Node.js qui a besoin d'un **dossier de données persistant** : c'est là que vivent vos contenus et vos images. Pensez à le sauvegarder.
+
+### Avec Docker
+
+```bash
+cp .env.example .env   # renseignez au moins ADMIN_PASSWORD
+docker compose up -d --build
+```
+
+Les données sont conservées dans le volume `subnet-data`. Placez un reverse proxy (Caddy, Nginx, Traefik) devant le port 3000 pour le HTTPS.
+
+### Sur un serveur (VPS)
+
+```bash
+git clone <ce dépôt> subnet && cd subnet
+npm ci --omit=dev
+cp .env.example .env   # NODE_ENV=production, ADMIN_PASSWORD, DATA_DIR=/var/lib/subnet…
+npx pm2 start server.js --name subnet   # ou un service systemd
+```
+
+Configurez ensuite Nginx en reverse proxy vers `http://127.0.0.1:3000`, avec `proxy_set_header Host $host;` et `proxy_set_header X-Forwarded-Proto $scheme;`, puis un certificat HTTPS (Let's Encrypt / Certbot).
+
+### Sur une plateforme d'hébergement (Render, Railway, Fly.io…)
+
+- Commande de build : `npm ci --omit=dev`
+- Commande de démarrage : `npm start`
+- Ajoutez un **disque persistant** et faites pointer `DATA_DIR` vers lui. Sans disque persistant, les modifications seraient perdues à chaque redéploiement.
+- Définissez `NODE_ENV=production`, `ADMIN_PASSWORD` et `SESSION_SECRET`.
+- Si la plateforme place un proxy devant le site, réglez `TRUST_PROXY` (souvent `1`).
+
+### Sur un hébergement mutualisé compatible Node.js (cPanel, o2switch…)
+
+Créez une application Node.js (« Setup Node.js App ») qui pointe sur ce dossier, avec `server.js` comme fichier de démarrage. Installez les dépendances, renseignez les variables d'environnement, puis redémarrez l'application.
+
+Le site doit tourner en **une seule instance** : les données étant des fichiers, ne le dupliquez pas sur plusieurs serveurs.
+
+## Avant la mise en ligne
+
+- [ ] Mot de passe d'administration solide (`ADMIN_PASSWORD`) et `SESSION_SECRET` défini
+- [ ] Email, téléphone, adresse et réseaux sociaux renseignés (Coordonnées)
+- [ ] Informations légales complétées et pages légales relues
+- [ ] Projets « Concept » remplacés par vos réalisations, ou masqués
+- [ ] Adresse du site renseignée (Général) ou `BASE_URL` défini
+- [ ] HTTPS actif
+- [ ] Notifications par email configurées (facultatif)
+- [ ] Sauvegarde régulière du dossier de données
+
+## Personnalisation
+
+- **Couleurs, typographie, espacements** : variables en tête de `public/css/site.css` (`--accent` pour la couleur principale).
+- **Gabarits des pages** : dossier `views/` (format EJS).
+- **Contenus par défaut** : `src/defaults.js`. Ils ne servent qu'au premier démarrage : ensuite, tout se modifie dans l'admin.
+- **Ajouter un champ modifiable** : décrivez-le dans `src/schema.js` (le formulaire d'admin et la validation sont générés automatiquement), ajoutez sa valeur par défaut dans `src/defaults.js`, puis affichez-le dans la vue concernée.
+
+## Structure du projet
+
+```
+server.js              démarrage du serveur
+src/
+  app.js               application Express (sécurité, fichiers statiques, routes)
+  config.js            lecture des variables d'environnement
+  defaults.js          contenus par défaut
+  schema.js            description des champs modifiables dans l'admin
+  sanitize.js          validation et nettoyage des données saisies
+  store.js             stockage JSON (contenus, messages)
+  auth.js              mot de passe, sessions, jetons anti-spam
+  markdown.js          mise en forme sûre des textes longs
+  mailer.js            notifications par email (facultatives)
+  helpers.js           fonctions utilisées par les gabarits
+  routes/public.js     pages du site et formulaire de contact
+  routes/admin.js      espace d'administration
+views/                 gabarits (pages, éléments communs, admin)
+public/                CSS, JavaScript, police, images
+scripts/set-password.js
+test/                  tests automatisés
+```
+
+## Sécurité
+
+- Mot de passe haché (scrypt) et sessions signées (cookie `HttpOnly`, `SameSite`), avec limitation des tentatives de connexion.
+- Protection contre les requêtes d'autres sites (vérification de l'origine) sur toutes les actions de l'admin.
+- Politique de sécurité du contenu (CSP) stricte et en-têtes de sécurité.
+- Toutes les saisies sont validées côté serveur. Les textes longs sont échappés avant mise en forme, et seuls les liens sûrs sont acceptés.
+- Envois d'images contrôlés par leur contenu réel (JPEG, PNG, WebP, AVIF, GIF uniquement).
+- Formulaire de contact protégé par un champ piège, un jeton signé horodaté et une limite d'envois.
+- Aucun cookie sur le site public : aucun bandeau de consentement n'est nécessaire.
+
+## Crédits
+
+- Police [Inter](https://rsms.me/inter/), licence SIL Open Font (`public/fonts/LICENSE-Inter.txt`)
+- Icônes [Lucide](https://lucide.dev) (licence ISC) et [Simple Icons](https://simpleicons.org) (CC0)
+- Photos des maquettes « Concept » : [Unsplash](https://unsplash.com) (licence Unsplash). Les marques de ces maquettes (Maison Olive, Atelier Noir, Lumen Institut, Arbor Menuiserie) sont fictives.

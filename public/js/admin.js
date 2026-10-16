@@ -355,7 +355,14 @@
 
     async function save() {
       if (saving || pendingUploads) return;
-      const invalid = [...form.querySelectorAll('[data-input][required]')].find((input) => !input.value.trim());
+      // Une ligne ajoutée puis laissée vide est simplement ignorée (comme côté serveur).
+      const isBlankItem = (item) =>
+        [...item.querySelectorAll('[data-input]')].every((i) => i.type === 'checkbox' || i.tagName === 'SELECT' || !i.value.trim());
+      const invalid = [...form.querySelectorAll('[data-input][required]')].find((input) => {
+        if (input.value.trim()) return false;
+        const item = input.closest('.r-item');
+        return !(item && isBlankItem(item));
+      });
       if (invalid) {
         const item = invalid.closest('.r-item__body');
         if (item?.hidden) item.parentElement.querySelector('[data-action="toggle"]')?.click();

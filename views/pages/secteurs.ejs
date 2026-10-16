@@ -2,8 +2,9 @@
 <main id="contenu">
   <%- include('../partials/page-hero', { hero: c.sectorsPage.hero }) %>
 
-  <section class="section section--flush-top">
+  <section class="section section--flush-top" aria-labelledby="liste-secteurs">
     <div class="container">
+      <h2 class="sr-only" id="liste-secteurs">Les secteurs</h2>
       <div class="sector-grid sector-grid--large">
         <% for (const sector of c.sectors) { %><%- include('../partials/sector-card', { sector, withIntro: true }) %><% } %>
       </div>

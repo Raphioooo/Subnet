@@ -12,9 +12,7 @@
   <section class="card<%= section.collapsed ? ' card--collapsible' : '' %>" data-section data-scope>
     <header class="card__head">
       <% if (section.collapsed) { %>
-      <button class="card__toggle" type="button" data-action="toggle-card" aria-expanded="false">
-        <h2><%= section.title %></h2><%- icon('chevron-down', { size: 18 }) %>
-      </button>
+      <h2><button class="card__toggle" type="button" data-action="toggle-card" aria-expanded="false"><%= section.title %><%- icon('chevron-down', { size: 18 }) %></button></h2>
       <% } else { %>
       <h2><%= section.title %></h2>
       <% } %>

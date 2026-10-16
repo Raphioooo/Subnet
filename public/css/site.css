@@ -23,7 +23,7 @@
   --surface-dark: #161617;
   --text: #1d1d1f;
   --text-2: #6e6e73;
-  --text-3: #86868b;
+  --text-3: #707075;
   --line: rgba(0, 0, 0, 0.08);
   --line-strong: rgba(0, 0, 0, 0.16);
   --accent: #2b59ff;
@@ -520,7 +520,7 @@ textarea {
   padding: 0 10px;
   border-radius: 980px;
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--accent-hover);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -1225,6 +1225,10 @@ textarea {
 
 .point p {
   color: var(--text-2);
+}
+
+.section--dark .point p {
+  color: var(--on-dark-2);
 }
 
 .points {

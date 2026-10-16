@@ -17,7 +17,7 @@
   --surface-2: #fafafb;
   --text: #1d1d1f;
   --text-2: #6e6e73;
-  --text-3: #8e8e93;
+  --text-3: #707075;
   --line: rgba(0, 0, 0, 0.08);
   --line-strong: rgba(0, 0, 0, 0.15);
   --accent: #2b59ff;
@@ -579,7 +579,15 @@ code {
   margin-bottom: 20px;
 }
 
+.card__head h2:has(.card__toggle) {
+  display: block;
+}
+
 .card__toggle {
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--text);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -744,7 +752,8 @@ textarea.input {
   align-content: center;
 }
 
-.switch {
+.switch,
+.field > .switch {
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -846,6 +855,12 @@ textarea.input {
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--surface-2);
+}
+
+.group--plain {
+  padding: 0;
+  border: 0;
+  background: none;
 }
 
 .group__legend {

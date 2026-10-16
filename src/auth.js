@@ -69,17 +69,15 @@ export class Auth {
     if (!this.record?.hash) {
       const password = generatePassword();
       await this.#save({ hash: await hashPassword(password), version: 1, temporary: true });
+      const lines = [
+        'Espace d’administration : mot de passe temporaire',
+        password,
+        'Changez-le depuis /admin (Compte et sauvegarde)',
+        'ou définissez ADMIN_PASSWORD dans le fichier .env.',
+      ];
+      const width = Math.max(...lines.map((l) => l.length)) + 4;
       this.log.warn(
-        [
-          '',
-          '┌──────────────────────────────────────────────────────────┐',
-          '│  Espace d’administration : mot de passe temporaire       │',
-          `│  ${password.padEnd(56)}│`,
-          '│  Changez-le depuis /admin (Compte) ou définissez         │',
-          '│  ADMIN_PASSWORD dans le fichier .env.                     │',
-          '└──────────────────────────────────────────────────────────┘',
-          '',
-        ].join('\n'),
+        ['', `┌${'─'.repeat(width)}┐`, ...lines.map((l) => `│  ${l.padEnd(width - 2)}│`), `└${'─'.repeat(width)}┘`, ''].join('\n'),
       );
     } else if (this.record.temporary) {
       this.log.warn('Admin : le mot de passe temporaire est toujours actif. Lancez « npm run set-password » pour le remplacer.');

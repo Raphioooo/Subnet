@@ -13,7 +13,7 @@
         <a class="logo" href="/" aria-label="<%= c.site.name %>, accueil"><%- include('logo') %></a>
         <p><%= c.site.description %></p>
         <% if (c.contact.socials.length) { %>
-        <ul class="socials" aria-label="Réseaux sociaux">
+        <ul class="socials">
           <% for (const s of c.contact.socials) { %>
           <li><a href="<%= s.url %>" target="_blank" rel="noopener noreferrer" aria-label="<%= socialLabel(s.network) %>"><%- socialIcon(s.network, { size: 18 }) %></a></li>
           <% } %>

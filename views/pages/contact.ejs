@@ -85,7 +85,7 @@
         </div>
         <% } %>
         <% if (ct.socials.length) { %>
-        <ul class="socials socials--labelled" aria-label="Réseaux sociaux">
+        <ul class="socials socials--labelled">
           <% for (const s of ct.socials) { %><li><a href="<%= s.url %>" target="_blank" rel="noopener noreferrer"><%- socialIcon(s.network, { size: 18 }) %><%= socialLabel(s.network) %></a></li><% } %>
         </ul>
         <% } %>

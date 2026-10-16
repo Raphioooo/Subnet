@@ -82,10 +82,18 @@
   <% } %>
 </div>
 <% } else if (f.type === 'group') { -%>
+<% if (f.label) { %>
 <fieldset class="group" data-field="<%= f.key %>" data-type="group" data-scope>
-  <% if (f.label) { %><legend class="group__legend"><%= f.label %></legend><% } %>
+  <legend class="group__legend"><%= f.label %></legend>
   <div class="fields">
     <% for (const sub of f.fields) { %><%- include('field', { field: sub, value: (v || {})[sub.key] }) %><% } %>
   </div>
 </fieldset>
+<% } else { %>
+<div class="group group--plain" data-field="<%= f.key %>" data-type="group" data-scope>
+  <div class="fields">
+    <% for (const sub of f.fields) { %><%- include('field', { field: sub, value: (v || {})[sub.key] }) %><% } %>
+  </div>
+</div>
+<% } %>
 <% } -%>

@@ -1,5 +1,6 @@
 import path from 'node:path';
 import express from 'express';
+import compression from 'compression';
 import { Store } from './store.js';
 import { Auth } from './auth.js';
 import { createMailer } from './mailer.js';
@@ -29,6 +30,7 @@ export async function createApp(config, { log = console } = {}) {
   app.set('view cache', config.isProd);
   Object.assign(app.locals, viewHelpers(config));
 
+  app.use(compression());
   app.use(securityHeaders);
 
   // Fichiers statiques : cache long pour les URL versionnées (?v=…).
