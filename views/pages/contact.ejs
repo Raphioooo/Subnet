@@ -84,7 +84,7 @@
         <h2 class="h4" id="coordonnees"><%= cp.infoTitle %></h2>
         <ul class="info-list">
           <% if (ct.email) { %><li><span class="info-list__icon"><%- icon('mail', { size: 20 }) %></span><div><span class="info-list__label">Email</span><a href="mailto:<%= ct.email %>"><%= ct.email %></a></div></li><% } %>
-          <% if (ct.phone) { %><li><span class="info-list__icon"><%- icon('phone', { size: 20 }) %></span><div><span class="info-list__label">Téléphone</span><a href="<%= telHref(ct.phone) %>"><%= ct.phone %></a></div></li><% } %>
+          <% if (ct.phone) { %><li><span class="info-list__icon"><%- icon('phone', { size: 20 }) %></span><div><span class="info-list__label">Téléphone</span><a href="<%= telHref(ct.phone) %>"><%= formatPhone(ct.phone) %></a></div></li><% } %>
           <% if (ct.address) { %><li><span class="info-list__icon"><%- icon('map-pin', { size: 20 }) %></span><div><span class="info-list__label">Adresse</span><address><%- nl2br(ct.address) %></address><a class="link-arrow" href="<%= mapsHref(ct.address) %>" target="_blank" rel="noopener noreferrer">Itinéraire<%- icon('arrow-up-right', { size: 14 }) %></a></div></li><% } %>
           <% if (ct.area) { %><li><span class="info-list__icon"><%- icon('globe', { size: 20 }) %></span><div><span class="info-list__label">Zone d’intervention</span><span><%= ct.area %></span></div></li><% } %>
         </ul>
@@ -98,7 +98,7 @@
         <% } %>
         <% if (ct.socials.length) { %>
         <ul class="socials socials--labelled">
-          <% for (const s of ct.socials) { %><li><a href="<%= s.url %>" target="_blank" rel="noopener noreferrer"><%- socialIcon(s.network, { size: 18 }) %><%= socialLabel(s.network) %></a></li><% } %>
+          <% for (const s of ct.socials) { %><li><a href="<%= cleanUrl(s.url) %>" target="_blank" rel="noopener noreferrer"><%- socialIcon(s.network, { size: 18 }) %><%= socialLabel(s.network) %></a></li><% } %>
         </ul>
         <% } %>
       </aside>

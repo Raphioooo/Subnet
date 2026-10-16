@@ -2,7 +2,7 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { applyTokens, renderMarkdown } from '../src/markdown.js';
 import { sanitizeObject } from '../src/sanitize.js';
-import { frenchTypography, telHref } from '../src/helpers.js';
+import { cleanUrl, formatPhone, frenchTypography, organizationJsonLd, phoneE164, sectorJsonLd, telHref } from '../src/helpers.js';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -82,6 +82,53 @@ describe('utilitaires', () => {
   test('liens téléphone', () => {
     assert.equal(telHref('06 12 34 56 78'), 'tel:+33612345678');
     assert.equal(telHref('+32 2 123 45 67'), 'tel:+3221234567');
+    assert.equal(telHref('+33 7 66 65 35 09'), 'tel:+33766653509');
+  });
+
+  test('téléphone lisible et format international', () => {
+    assert.equal(formatPhone('0766653509'), '07 66 65 35 09');
+    assert.equal(formatPhone('+33 7 66 65 35 09'), '07 66 65 35 09');
+    assert.equal(formatPhone('0033766653509'), '07 66 65 35 09');
+    assert.equal(formatPhone('+32 2 123 45 67'), '+32 2 123 45 67', 'numéro étranger inchangé');
+    assert.equal(phoneE164('07 66 65 35 09'), '+33766653509');
+  });
+
+  test('liens de réseaux sociaux sans paramètres de suivi', () => {
+    assert.equal(
+      cleanUrl('https://www.linkedin.com/in/raphael-scotton-a86297418/?isSelfProfile=true'),
+      'https://www.linkedin.com/in/raphael-scotton-a86297418/',
+    );
+    assert.equal(cleanUrl('https://www.instagram.com/subnet/?igsh=abc&utm_source=x&hl=fr'), 'https://www.instagram.com/subnet/?hl=fr');
+    assert.equal(cleanUrl('pas une adresse'), 'pas une adresse');
+  });
+
+  test('données structurées de l’entreprise et des secteurs', () => {
+    const c = structuredClone(defaults);
+    c.contact.phone = '0766653509';
+    c.contact.postalCode = '38000';
+    c.contact.socials = [{ network: 'linkedin', url: 'https://www.linkedin.com/in/exemple/?isSelfProfile=true' }];
+    const org = organizationJsonLd(c, 'https://exemple.fr');
+    assert.equal(org['@id'], 'https://exemple.fr/#business');
+    assert.equal(org.telephone, '+33766653509');
+    assert.deepEqual(org.address, {
+      '@type': 'PostalAddress',
+      addressLocality: 'Grenoble',
+      postalCode: '38000',
+      addressRegion: 'Auvergne-Rhône-Alpes',
+      addressCountry: 'FR',
+    });
+    assert.deepEqual(org.areaServed.map((a) => a['@type']), ['City', 'AdministrativeArea', 'AdministrativeArea', 'Country']);
+    assert.deepEqual(org.sameAs, ['https://www.linkedin.com/in/exemple/']);
+    assert.equal(org.logo, 'https://exemple.fr/assets/images/logo-512.png');
+    assert.equal(org.founder.name, 'Raphaël Scotton');
+    const [service, breadcrumb] = sectorJsonLd(c, c.sectors[0], 'https://exemple.fr');
+    assert.equal(service['@type'], 'Service');
+    assert.equal(service.provider['@id'], org['@id']);
+    assert.deepEqual(breadcrumb.itemListElement.map((i) => i.item), [
+      'https://exemple.fr/',
+      'https://exemple.fr/secteurs',
+      'https://exemple.fr/secteurs/restaurateurs',
+    ]);
   });
 
   test('fusion avec les valeurs par défaut', () => {

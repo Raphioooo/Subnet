@@ -60,7 +60,7 @@ export function legalTokens(content, baseUrl) {
     adresse: id.address,
     directeur_publication: id.director,
     email: content.contact.email,
-    telephone: content.contact.phone,
+    telephone: formatPhone(content.contact.phone),
     hebergeur: id.hostName,
     hebergeur_adresse: id.hostAddress,
     hebergeur_contact: id.hostContact,
@@ -71,10 +71,42 @@ export function renderLegal(body, content, baseUrl) {
   return renderMarkdown(applyTokens(body, legalTokens(content, baseUrl), OPTIONAL_TOKENS));
 }
 
-export function telHref(phone) {
+// Numéro français, quelle que soit sa saisie (06…, +33 6…, 0033 6…) : 10 chiffres.
+function frenchNumber(phone) {
   const digits = String(phone || '').replace(/[^\d+]/g, '');
-  if (/^0\d{9}$/.test(digits)) return `tel:+33${digits.slice(1)}`;
-  return `tel:${digits}`;
+  if (/^0\d{9}$/.test(digits)) return digits;
+  if (/^\+33\d{9}$/.test(digits)) return `0${digits.slice(3)}`;
+  if (/^0033\d{9}$/.test(digits)) return `0${digits.slice(4)}`;
+  return '';
+}
+
+// Affichage : « 07 66 65 35 09 » ; un numéro étranger reste tel que saisi.
+export function formatPhone(phone) {
+  const fr = frenchNumber(phone);
+  return fr ? fr.replace(/(\d{2})(?=\d)/g, '$1 ') : String(phone || '').trim();
+}
+
+// Format international (+33…), pour les liens et les moteurs de recherche.
+export function phoneE164(phone) {
+  const fr = frenchNumber(phone);
+  return fr ? `+33${fr.slice(1)}` : String(phone || '').replace(/[^\d+]/g, '');
+}
+
+export function telHref(phone) {
+  return `tel:${phoneE164(phone)}`;
+}
+
+// Paramètres de suivi ajoutés par les réseaux sociaux lors d'un copier-coller.
+const TRACKING_PARAMS = /^(utm_\w+|isSelfProfile|igsh|igshid|fbclid|gclid|mibextid|si)$/i;
+
+export function cleanUrl(url) {
+  try {
+    const u = new URL(url);
+    for (const key of [...u.searchParams.keys()]) if (TRACKING_PARAMS.test(key)) u.searchParams.delete(key);
+    return u.toString();
+  } catch {
+    return url;
+  }
 }
 
 export function mapsHref(address) {
@@ -157,6 +189,8 @@ export function viewHelpers(config) {
     escapeHtml,
     nl2br,
     telHref,
+    formatPhone,
+    cleanUrl,
     mapsHref,
     formatDate,
     formatShortDate,
@@ -172,30 +206,83 @@ export function viewHelpers(config) {
   };
 }
 
+// Données structurées (schema.org) ----------------------------------------------
+
+// L'entreprise, référencée par son identifiant depuis les autres pages.
+function businessRef(c, baseUrl) {
+  return { '@type': 'ProfessionalService', '@id': `${baseUrl}/#business`, name: c.site.name, url: `${baseUrl}/` };
+}
+
+function areasServed(contact) {
+  const areas = contact.areasServed.filter(Boolean);
+  if (!areas.length) return contact.area || undefined;
+  return areas.map((name) => ({
+    '@type': name === contact.city ? 'City' : /^france$/i.test(name) ? 'Country' : 'AdministrativeArea',
+    name,
+  }));
+}
+
 export function organizationJsonLd(c, baseUrl) {
+  const ct = c.contact;
   const data = {
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    name: c.site.name,
+    ...businessRef(c, baseUrl),
     description: c.site.description,
-    url: `${baseUrl}/`,
     image: baseUrl + (c.site.shareImage || '/assets/images/og.jpg'),
+    logo: baseUrl + (c.site.logo || '/assets/images/logo-512.png'),
   };
-  if (c.site.logo) data.logo = baseUrl + c.site.logo;
-  if (c.contact.email) data.email = c.contact.email;
-  if (c.contact.phone) data.telephone = c.contact.phone;
-  if (c.contact.address) data.address = c.contact.address.replace(/\s*\n+\s*/g, ', ');
-  if (c.contact.area) data.areaServed = c.contact.area;
-  const sameAs = c.contact.socials.map((s) => s.url).filter(Boolean);
+  if (c.site.shareName && c.site.shareName !== c.site.name) data.alternateName = c.site.shareName;
+  if (ct.email) data.email = ct.email;
+  if (ct.phone) data.telephone = phoneE164(ct.phone);
+  if (ct.city || ct.address) {
+    data.address = { '@type': 'PostalAddress' };
+    if (ct.address) data.address.streetAddress = ct.address.replace(/\s*\n+\s*/g, ', ');
+    if (ct.city) data.address.addressLocality = ct.city;
+    if (ct.postalCode) data.address.postalCode = ct.postalCode;
+    if (ct.region) data.address.addressRegion = ct.region;
+    data.address.addressCountry = 'FR';
+  }
+  const areas = areasServed(ct);
+  if (areas) data.areaServed = areas;
+  if (ct.founder) data.founder = { '@type': 'Person', name: ct.founder };
+  const sameAs = ct.socials.map((s) => cleanUrl(s.url)).filter(Boolean);
   if (sameAs.length) data.sameAs = sameAs;
+  // Les modules principaux de l'offre (les premiers de la liste).
+  data.knowsAbout = [...new Set(['Création de site internet', ...c.offer.features.slice(0, 5).map((f) => f.title)])];
   return data;
 }
 
-export function faqJsonLd(c) {
+// Page secteur : le service proposé à ce métier et le fil d'Ariane.
+export function sectorJsonLd(c, sector, baseUrl) {
+  const url = `${baseUrl}/secteurs/${sector.slug}`;
+  const service = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: sector.seo.h1 || sector.title,
+    serviceType: 'Création de site internet',
+    description: sector.seo.description || sector.intro,
+    provider: businessRef(c, baseUrl),
+    audience: { '@type': 'BusinessAudience', name: sector.name },
+    url,
+  };
+  const areas = areasServed(c.contact);
+  if (areas) service.areaServed = areas;
+  return [service, breadcrumbJsonLd(baseUrl, [['Accueil', '/'], ['Secteurs', '/secteurs'], [sector.name, `/secteurs/${sector.slug}`]])];
+}
+
+export function breadcrumbJsonLd(baseUrl, trail) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: trail.map(([name, href], i) => ({ '@type': 'ListItem', position: i + 1, name, item: baseUrl + href })),
+  };
+}
+
+export function faqJsonLd(items) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: c.faq.map((f) => ({
+    mainEntity: items.map((f) => ({
       '@type': 'Question',
       name: f.question,
       acceptedAnswer: { '@type': 'Answer', text: f.answer },

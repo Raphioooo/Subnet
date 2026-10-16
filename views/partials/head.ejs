@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="<%= asset('css/site.css') %>">
 <script><%- inlineJs %></script>
 <script src="<%= asset('js/site.js') %>" defer></script>
-<% if (locals.jsonLd) { %><script type="application/ld+json"><%- jsonForScript(jsonLd) %></script>
+<% for (const data of [].concat(locals.jsonLd || [])) { %><script type="application/ld+json"><%- jsonForScript(data) %></script>
 <% } -%>
 </head>
 <body>

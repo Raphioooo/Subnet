@@ -7,7 +7,7 @@
         <h2 class="h2" id="contact-titre"><%= c.cta.title %></h2>
         <% if (c.cta.text) { %><p class="lead"><%= c.cta.text %></p><% } %>
         <ul class="quick-contact__links">
-          <% if (ct.phone) { %><li><a href="<%= telHref(ct.phone) %>"><%- icon('phone', { size: 18 }) %><%= ct.phone %></a></li><% } %>
+          <% if (ct.phone) { %><li><a href="<%= telHref(ct.phone) %>"><%- icon('phone', { size: 18 }) %><%= formatPhone(ct.phone) %></a></li><% } %>
           <% if (ct.email) { %><li><a href="mailto:<%= ct.email %>"><%- icon('mail', { size: 18 }) %><%= ct.email %></a></li><% } %>
           <li><a href="/contact"><%- icon('file-text', { size: 18 }) %>Formulaire de devis détaillé</a></li>
         </ul>

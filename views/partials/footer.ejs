@@ -15,7 +15,7 @@
         <% if (c.contact.socials.length) { %>
         <ul class="socials">
           <% for (const s of c.contact.socials) { %>
-          <li><a href="<%= s.url %>" target="_blank" rel="noopener noreferrer" aria-label="<%= socialLabel(s.network) %>"><%- socialIcon(s.network, { size: 18 }) %></a></li>
+          <li><a href="<%= cleanUrl(s.url) %>" target="_blank" rel="noopener noreferrer" aria-label="<%= socialLabel(s.network) %>"><%- socialIcon(s.network, { size: 18 }) %></a></li>
           <% } %>
         </ul>
         <% } %>
@@ -38,7 +38,7 @@
           <h2>Contact</h2>
           <ul>
             <% if (c.contact.email) { %><li><a href="mailto:<%= c.contact.email %>"><%= c.contact.email %></a></li><% } %>
-            <% if (c.contact.phone) { %><li><a href="<%= telHref(c.contact.phone) %>"><%= c.contact.phone %></a></li><% } %>
+            <% if (c.contact.phone) { %><li><a href="<%= telHref(c.contact.phone) %>"><%= formatPhone(c.contact.phone) %></a></li><% } %>
             <% if (c.contact.area) { %><li><span><%= c.contact.area %></span></li><% } %>
             <li><a href="/contact"><%= c.cta.buttonLabel %></a></li>
           </ul>

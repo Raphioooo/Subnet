@@ -3,7 +3,7 @@ import { LEGAL_PAGES } from '../defaults.js';
 import { CONTACT_SECTOR_OPTIONS } from '../schema.js';
 import { cleanText, isEmail } from '../sanitize.js';
 import { createRateLimiter } from '../security.js';
-import { faqJsonLd, organizationJsonLd, renderLegal } from '../helpers.js';
+import { faqJsonLd, organizationJsonLd, renderLegal, sectorJsonLd } from '../helpers.js';
 
 const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
 
@@ -89,6 +89,7 @@ export function publicRouter({ config, store, auth, mailer, log }) {
     res.render('pages/secteur', {
       page: { title: sector.name, description: sector.intro, path: `/secteurs/${sector.slug}`, image: sector.image, seo: sector.seo },
       sector,
+      jsonLd: sectorJsonLd(c, sector, res.locals.baseUrl),
       others: c.sectors.filter((s) => s.slug !== sector.slug),
       projects: visibleProjects(c).filter((p) => p.sector === sector.slug).slice(0, 3),
     });
@@ -113,7 +114,7 @@ export function publicRouter({ config, store, auth, mailer, log }) {
     const { c } = res.locals;
     res.render('pages/faq', {
       page: { title: 'Questions fréquentes', description: c.faqPage.hero.subtitle, path: '/faq', seo: c.faqPage.seo },
-      jsonLd: c.faq.length ? faqJsonLd(c) : null,
+      jsonLd: c.faq.length ? faqJsonLd(c.faq) : null,
     });
   });
 
