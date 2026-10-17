@@ -128,10 +128,38 @@ docker compose up -d --build
 | `./scripts/setup-auto-deploy.sh` | Crée la clé de mise en ligne automatique et affiche les quatre secrets à saisir dans GitHub |
 | `./scripts/backup.sh` | Archive les données (contenus, demandes, images) dans `backups/` et garde les 14 dernières |
 | `./scripts/restore.sh <archive>` | Restaure une archive, après une sauvegarde de sécurité de l'état actuel |
+| `./scripts/add-site.sh <domaine> <service:port>` | Héberge un autre site sur le même serveur (voir ci-dessous) |
+| `./scripts/remove-site.sh <domaine>` | Retire un site ajouté avec `add-site.sh` |
 | `docker compose exec site npm run set-password` | Choisit un nouveau mot de passe d'administration (mot de passe oublié) |
 | `docker compose logs -f site` | Affiche le journal du site (dont le mot de passe temporaire au premier démarrage) |
 
 Le workflow GitHub Actions `.github/workflows/deploy.yml` lance les tests à chaque push et pull request. Après un push sur `main`, il met le serveur à jour par SSH si les secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY` et `DEPLOY_KNOWN_HOSTS` sont renseignés (`./scripts/setup-auto-deploy.sh` les prépare) ; sinon, cette étape est simplement ignorée.
+
+### Héberger d'autres sites sur le même serveur
+
+Caddy reçoit toutes les visites du serveur et les transmet au bon site selon le domaine, avec le HTTPS automatique. Un autre site (une application personnelle, le site d'un client…) s'ajoute sans toucher à Subnet :
+
+1. **DNS** : faites pointer le domaine vers le serveur (enregistrements A `@` et `www` vers l'adresse IPv4 du VPS, en « DNS uniquement » chez Cloudflare).
+2. **Le site** tourne dans son propre dossier sur le serveur (par exemple `~/assistant`), avec son propre `docker-compose.yml`. Son service porte un nom unique, ne publie aucun port et rejoint le réseau `web` créé par Subnet :
+
+   ```yaml
+   name: assistant
+   services:
+     assistant:
+       build: .
+       restart: unless-stopped
+       env_file: .env
+       networks: [web]
+   networks:
+     web:
+       external: true
+   ```
+
+3. **Caddy** : depuis `~/site`, lancez `./scripts/add-site.sh assistant.fr assistant:3000`, avec le port sur lequel l'application écoute dans son conteneur. Ajoutez `--prive` pour demander un identifiant et un mot de passe à l'entrée : ils s'affichent une seule fois, et `SITE_USER` et `SITE_PASSWORD` permettent de les choisir.
+
+`./scripts/remove-site.sh assistant.fr` retire le site. La configuration de chaque domaine est un fichier de `sites/`, ignoré par git : les mises à jour de Subnet n'y touchent pas. Un sous-domaine (`assistant.mondomaine.fr`) n'a pas de redirection `www`, et `--sans-www` la supprime pour un domaine.
+
+À éviter : relancer `install.sh` avec un autre domaine ou copier le dossier `~/site`, ce qui remplacerait le site Subnet ; publier un port avec `ports:`, car Docker contourne le pare-feu et l'application serait exposée sans HTTPS.
 
 ### Sur un serveur sans Docker
 
@@ -195,10 +223,11 @@ src/
   routes/admin.js      espace d'administration
 views/                 gabarits (pages, éléments communs, admin)
 public/                CSS, JavaScript, police, images
-scripts/               installation, mise à jour, sauvegarde, restauration, mot de passe
+scripts/               installation, mise à jour, sauvegarde, restauration, mot de passe, autres sites
 test/                  tests automatisés
 docs/                  guide de mise en ligne (PDF)
 docs/logo/             logo Subnet en SVG et PNG (bleu ou blanc, fond transparent)
+sites/                 configuration Caddy des autres sites hébergés sur le serveur (hors git)
 Dockerfile, docker-compose.yml, Caddyfile   mise en ligne avec Docker et HTTPS
 .github/workflows/     tests et mise en ligne automatiques
 ```
