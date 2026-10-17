@@ -15,6 +15,12 @@ services:
       DATA_DIR: /data
     volumes:
       - subnet-data:/data
+    networks:
+      default:
+        # Nom propre à Subnet : Caddy ne peut pas le confondre avec le service
+        # d'un autre site hébergé sur le même serveur.
+        aliases:
+          - subnet-site
 
   caddy:
     image: caddy:2-alpine
@@ -29,8 +35,18 @@ services:
       DOMAIN: ${DOMAIN:-localhost}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./sites:/etc/caddy/sites:ro
       - caddy-data:/data
       - caddy-config:/config
+    networks:
+      - default
+      - web
+
+networks:
+  # Réseau partagé avec les autres sites hébergés sur ce serveur : Caddy y
+  # joint chacun par le nom de son service (voir scripts/add-site.sh).
+  web:
+    name: web
 
 volumes:
   subnet-data:
