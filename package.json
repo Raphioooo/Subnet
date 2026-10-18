@@ -20,6 +20,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
     "compression": "^1.8.2",
     "ejs": "^7.0.1",
     "express": "^5.2.1",

@@ -459,6 +459,90 @@
     if (target) target.open = true;
   }
 
+  // Prospection : copie, ouverture de WhatsApp et suivi de la recherche --------
+  const prospects = document.querySelector('[data-prospects]');
+  if (prospects) {
+    const setBadge = (item, label, value) => {
+      const badge = item.querySelector('[data-status-badge]');
+      if (!badge) return;
+      badge.textContent = label;
+      badge.className = `status pro-status pro-status--${value}`;
+      for (const button of item.querySelectorAll('.pro-switch button')) button.setAttribute('aria-pressed', String(button.value === value));
+    };
+    prospects.addEventListener('click', async (event) => {
+      const copy = event.target.closest('[data-copy]');
+      if (copy) {
+        const field = document.getElementById(copy.dataset.copy);
+        try {
+          await navigator.clipboard.writeText(field.value);
+        } catch {
+          field.select();
+          document.execCommand('copy');
+        }
+        toast('Message copié.');
+        return;
+      }
+      const link = event.target.closest('[data-whatsapp]');
+      if (!link) return;
+      // Le texte envoyé est celui du champ, modifications comprises.
+      const field = document.getElementById(link.dataset.whatsapp);
+      const url = new URL(link.href);
+      url.searchParams.set('text', field.value);
+      link.href = url.toString();
+      const id = link.dataset.markSent;
+      if (!id) return;
+      postJson(`/admin/api/prospection/${id}/envoye`, { message: field.value })
+        .then((result) => {
+          if (!result.ok || !result.changed) return;
+          setBadge(link.closest('.pro-item'), 'Message envoyé', result.status);
+          const count = document.querySelector('.nav-link[href="/admin/prospection"] .nav-count');
+          if (count) {
+            count.textContent = result.toContact;
+            count.hidden = !result.toContact;
+          }
+          toast('Fiche passée en « Message envoyé » (modifiable en bas de la fiche).');
+        })
+        .catch(() => {});
+    });
+    // Le lien WhatsApp suit le texte modifié (clic droit ou molette compris).
+    prospects.addEventListener('input', (event) => {
+      const form = event.target.closest('[data-message-form]');
+      const save = form?.querySelector('[data-save-message]');
+      if (save) save.disabled = false;
+      if (!event.target.id) return;
+      for (const link of prospects.querySelectorAll(`[data-whatsapp="${CSS.escape(event.target.id)}"]`)) {
+        const url = new URL(link.href);
+        url.searchParams.set('text', event.target.value);
+        link.href = url.toString();
+      }
+    });
+    // Après une action, la fiche concernée se rouvre.
+    if (location.hash.startsWith('#p-')) {
+      const target = document.getElementById(location.hash.slice(1))?.querySelector('details[data-prospect]');
+      if (target) target.open = true;
+    }
+  }
+
+  const jobBanner = document.querySelector('[data-job-poll]');
+  if (jobBanner) {
+    const step = jobBanner.querySelector('[data-job-step]');
+    const tick = async () => {
+      try {
+        const response = await fetch('/admin/prospection/etat', { credentials: 'same-origin', headers: { Accept: 'application/json' } });
+        const state = await response.json();
+        if (!state.running) {
+          location.href = '/admin/prospection';
+          return;
+        }
+        if (step && state.step) step.textContent = state.step;
+      } catch {
+        // Réseau indisponible : on réessaie au prochain tour.
+      }
+      setTimeout(tick, 3000);
+    };
+    setTimeout(tick, 3000);
+  }
+
   // Restauration d'une sauvegarde ---------------------------------------------
   const importButton = document.querySelector('[data-action="import"]');
   const importFile = document.querySelector('[data-import-file]');

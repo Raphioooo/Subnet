@@ -1,0 +1,245 @@
+<%- include('partials/head', { title: 'Prospection' }) %>
+<%
+  const qs = (params) => {
+    const s = new URLSearchParams(Object.entries(params).filter(([, v]) => v)).toString();
+    return s ? `?${s}` : '';
+  };
+  const retour = `/admin/prospection${query ? `?${query}` : ''}`;
+  const level = (p) => ({ 'Très bon': 'tres-bon', Bon: 'bon', Moyen: 'moyen' }[p.scoreLabel] || 'faible');
+  const stars = (g) => `${String(g.rating).replace('.', ',')} ★ · ${g.reviews} avis`;
+  const sourceLabel = { ia: 'Rédigé par Claude', modele: 'Message modèle', manuel: 'Modifié par vous' };
+  const phoneLabel = { whatsapp: 'WhatsApp', mobile: 'Mobile', fixe: 'Fixe' };
+  const rate = contacted ? Math.round((replied / contacted) * 100) : null;
+  const sd = searchDefaults;
+-%>
+<header class="page-head">
+  <div>
+    <h1>Prospection</h1>
+    <p>Des entreprises de la région sans site internet, joignables sur un mobile. Chaque fiche contient l’analyse, le score de réponse estimé et un message WhatsApp prêt à partir : relisez, ajustez une phrase si besoin, puis envoyez.</p>
+  </div>
+  <div class="page-head__actions">
+    <% if (total) { %><a class="btn btn--secondary" href="/admin/prospection/export.csv"><%- icon('download', { size: 16 }) %>Exporter (CSV)</a><% } %>
+    <a class="btn btn--primary" href="/admin/prospection?recherche=1#recherche"><%- icon('search', { size: 16 }) %>Nouvelle recherche</a>
+  </div>
+</header>
+
+<% if (error) { %><div class="alert alert--error" role="alert"><%- icon('circle-alert', { size: 18 }) %><span><%= error %></span></div><% } %>
+
+<% if (job.running) { %>
+<div class="alert alert--warning pro-job" data-job-poll>
+  <%- icon('loader-circle', { size: 18, className: 'pro-spin' }) %>
+  <div>
+    <strong>Recherche en cours</strong> · <span data-job-step><%= job.step %></span>
+    <p class="pro-job__hint">Cette page se mettra à jour toute seule. Une recherche prend d’une à dix minutes selon la zone<%= aiEnabled ? ' et la rédaction des messages' : '' %>.</p>
+  </div>
+  <form method="post" action="/admin/prospection/recherche/annuler"><button class="btn btn--secondary btn--sm" type="submit">Arrêter</button></form>
+</div>
+<% } else if (job.finishedAt) { %>
+<div class="alert <%= job.errors.length && !job.added ? 'alert--error' : 'alert--success' %>" role="status">
+  <%- icon(job.errors.length && !job.added ? 'circle-alert' : 'circle-check', { size: 18 }) %>
+  <div>
+    <strong><%= job.cancelled ? 'Recherche arrêtée' : 'Recherche terminée' %> <%= relativeDate(job.finishedAt) %><%= job.filters ? ` (${job.filters.city}, ${job.filters.radiusKm} km)` : '' %></strong> :
+    <%= job.found %> commerce<%= job.found > 1 ? 's' : '' %> trouvé<%= job.found > 1 ? 's' : '' %>,
+    <%= job.added %> ajouté<%= job.added > 1 ? 's' : '' %><% if (job.skipped) { %>, <%= job.skipped %> écarté<%= job.skipped > 1 ? 's' : '' %> (déjà connus, avec un site ou hors critères)<% } %><% if (job.enriched) { %>, <%= job.enriched %> avec avis Google<% } %><% if (job.written) { %>, <%= job.written %> message<%= job.written > 1 ? 's' : '' %> rédigé<%= job.written > 1 ? 's' : '' %> par Claude<% } %>.
+    <% if (job.errors.length) { %><ul class="pro-errors"><% for (const e of job.errors.slice(0, 4)) { %><li><%= e %></li><% } %></ul><% } %>
+  </div>
+</div>
+<% } %>
+
+<details class="card pro-search" id="recherche"<%= showSearch && !job.running ? ' open' : '' %>>
+  <summary><span><%- icon('sliders-horizontal', { size: 18 }) %><strong>Nouvelle recherche</strong><span class="muted">OpenStreetMap<%= googleEnabled ? ' + avis Google' : '' %><%= aiEnabled ? ' + messages rédigés par Claude' : '' %></span></span><%- icon('chevron-down', { size: 18, className: 'pro-search__chevron' }) %></summary>
+  <form class="pro-search__form" method="post" action="/admin/prospection/recherche">
+    <div class="fields">
+      <label class="field field--half"><span class="field__label">Ville ou commune</span><input class="input" type="text" name="city" value="<%= sd.city %>" maxlength="80" required placeholder="Grenoble, Voiron, Chambéry…"></label>
+      <label class="field field--half"><span class="field__label">Rayon (km)</span><input class="input" type="number" name="radiusKm" value="<%= sd.radiusKm %>" min="<%= limits.radiusKm[0] %>" max="<%= limits.radiusKm[1] %>"></label>
+      <fieldset class="field pro-sectors">
+        <legend class="field__label">Activités</legend>
+        <div class="pro-chips">
+          <% for (const s of sectors) { %>
+          <label class="chip-check"><input type="checkbox" name="sectors" value="<%= s.value %>"<%= sd.sectors.includes(s.value) ? ' checked' : '' %>><span><%= s.label %></span></label>
+          <% } %>
+        </div>
+      </fieldset>
+      <div class="field pro-options">
+        <label class="check"><input type="hidden" name="onlyNoWebsite" value="0"><input type="checkbox" name="onlyNoWebsite" value="1"<%= sd.onlyNoWebsite ? ' checked' : '' %>><span>Seulement les entreprises sans site</span></label>
+        <label class="check"><input type="hidden" name="onlyMobile" value="0"><input type="checkbox" name="onlyMobile" value="1"<%= sd.onlyMobile ? ' checked' : '' %>><span>Seulement les numéros mobiles (WhatsApp probable)</span></label>
+        <label class="check"><input type="hidden" name="enrich" value="0"><input type="checkbox" name="enrich" value="1"<%= sd.enrich && googleEnabled ? ' checked' : '' %><%= googleEnabled ? '' : ' disabled' %>><span>Récupérer les notes et avis Google<% if (!googleEnabled) { %> <em class="muted">(ajoutez GOOGLE_PLACES_API_KEY dans .env)</em><% } %></span></label>
+      </div>
+      <label class="field field--half"><span class="field__label">Nombre maximum</span><input class="input" type="number" name="max" value="<%= sd.max %>" min="<%= limits.max[0] %>" max="<%= limits.max[1] %>"><span class="field__help">Les mieux notés d’abord. Les entreprises déjà dans la liste ne sont pas ajoutées deux fois.</span></label>
+    </div>
+    <div class="pro-search__actions">
+      <button class="btn btn--primary" type="submit"<%= job.running ? ' disabled' : '' %>><%- icon('search', { size: 16 }) %><%= lastSearch ? 'Relancer la recherche' : 'Lancer la recherche' %></button>
+      <% if (lastSearch) { %><span class="muted">Dernière recherche : <%= lastSearch.place || lastSearch.city %>, <%= lastSearch.radiusKm %> km, <%= formatDate(lastSearch.at) %> · <%= lastSearch.added %> ajouté<%= lastSearch.added > 1 ? 's' : '' %></span><% } %>
+    </div>
+    <% if (!aiEnabled) { %><p class="hint"><%- icon('info', { size: 16 }) %><span>Les messages sont préparés à partir de modèles adaptés à chaque activité. Ajoutez <code>ANTHROPIC_API_KEY</code> dans <code>.env</code> pour que Claude rédige un message personnalisé par entreprise (quelques centimes par entreprise).</span></p><% } %>
+  </form>
+</details>
+
+<% if (!total && !job.running) { %>
+<div class="empty card">
+  <span class="empty__icon"><%- icon('target', { size: 28 }) %></span>
+  <h2>Aucune entreprise pour le moment</h2>
+  <p>Lancez une recherche ci-dessus : les entreprises trouvées apparaîtront ici avec leur analyse et un message prêt à envoyer.</p>
+</div>
+<% } else if (total) { %>
+<div class="stats pro-stats">
+  <div class="stat"><span class="stat__icon"><%- icon('users', { size: 20 }) %></span><span class="stat__value"><%= total %></span><span class="stat__label">entreprise<%= total > 1 ? 's' : '' %> dans la liste</span></div>
+  <a class="stat" href="/admin/prospection?statut=a-contacter"><span class="stat__icon"><%- icon('brand-whatsapp', { size: 20 }) %></span><span class="stat__value"><%= counts['a-contacter'] %></span><span class="stat__label">à contacter</span></a>
+  <div class="stat"><span class="stat__icon"><%- icon('send', { size: 20 }) %></span><span class="stat__value"><%= contacted %></span><span class="stat__label">déjà contactée<%= contacted > 1 ? 's' : '' %></span></div>
+  <div class="stat"><span class="stat__icon"><%- icon('message-circle', { size: 20 }) %></span><span class="stat__value"><%= rate === null ? '–' : `${rate} %` %></span><span class="stat__label">de réponses<%= contacted ? ` (${replied} sur ${contacted})` : '' %></span></div>
+</div>
+
+<div class="toolbar">
+  <nav class="tabs" aria-label="Filtrer par statut">
+    <a class="tab" href="/admin/prospection<%= qs({ secteur: filters.sector, ville: filters.city, q: filters.q, tri: filters.sort === 'score' ? '' : filters.sort }) %>"<% if (!filters.status) { %> aria-current="page"<% } %>>Toutes<span><%= total %></span></a>
+    <% for (const s of statuses) { if (!counts[s.value] && !['a-contacter', 'envoye', 'repondu'].includes(s.value)) continue; %>
+    <a class="tab" href="/admin/prospection<%= qs({ statut: s.value, secteur: filters.sector, ville: filters.city, q: filters.q, tri: filters.sort === 'score' ? '' : filters.sort }) %>"<% if (filters.status === s.value) { %> aria-current="page"<% } %>><%= s.label %><span><%= counts[s.value] %></span></a>
+    <% } %>
+  </nav>
+  <form class="search" method="get" action="/admin/prospection" role="search">
+    <% if (filters.status) { %><input type="hidden" name="statut" value="<%= filters.status %>"><% } %>
+    <span class="select select--compact">
+      <select class="input" name="secteur" aria-label="Activité" data-autosubmit>
+        <option value="">Toutes les activités</option>
+        <% for (const s of sectors) { %><option value="<%= s.value %>"<%= filters.sector === s.value ? ' selected' : '' %>><%= s.label %></option><% } %>
+      </select>
+      <%- icon('chevron-down', { size: 16, className: 'select__chevron' }) %>
+    </span>
+    <% if (cities.length > 1) { %>
+    <span class="select select--compact">
+      <select class="input" name="ville" aria-label="Ville" data-autosubmit>
+        <option value="">Toutes les villes</option>
+        <% for (const c of cities) { %><option value="<%= c %>"<%= filters.city === c ? ' selected' : '' %>><%= c %></option><% } %>
+      </select>
+      <%- icon('chevron-down', { size: 16, className: 'select__chevron' }) %>
+    </span>
+    <% } %>
+    <span class="select select--compact">
+      <select class="input" name="tri" aria-label="Tri" data-autosubmit>
+        <option value="score"<%= filters.sort === 'score' ? ' selected' : '' %>>Meilleur score</option>
+        <option value="nom"<%= filters.sort === 'nom' ? ' selected' : '' %>>Nom</option>
+        <option value="recent"<%= filters.sort === 'recent' ? ' selected' : '' %>>Plus récents</option>
+      </select>
+      <%- icon('chevron-down', { size: 16, className: 'select__chevron' }) %>
+    </span>
+    <input class="input" type="search" name="q" value="<%= filters.q %>" placeholder="Nom, activité, quartier…" aria-label="Rechercher une entreprise">
+    <button class="btn btn--secondary" type="submit"><%- icon('search', { size: 16 }) %><span class="sr-only">Rechercher</span></button>
+  </form>
+</div>
+
+<% if (!prospects.length) { %>
+<p class="empty-filter">Aucune entreprise ne correspond à ces critères. <a href="/admin/prospection">Voir toute la liste</a></p>
+<% } else { %>
+<ul class="messages pro-list" data-prospects>
+  <% for (const p of prospects) { const g = p.google; const addr = [p.address.street, p.address.postcode, p.address.city].filter(Boolean).join(', '); %>
+  <li class="message pro-item" id="p-<%= p.id %>">
+    <details data-prospect="<%= p.id %>">
+      <summary>
+        <span class="pro-score pro-score--<%= level(p) %>" title="Chance estimée d’une réponse positive : <%= p.scoreLabel %>"><%= p.score %> %</span>
+        <span class="message__who"><strong><%= p.name %></strong><span><%= p.kindLabel %> · <%= p.address.city || 'Grenoble' %></span></span>
+        <span class="message__excerpt"><%= p.analysis %></span>
+        <span class="pro-signals">
+          <% if (p.phoneKind === 'whatsapp' || p.phoneKind === 'mobile') { %><span class="tag tag--wa" title="<%= p.phoneKind === 'whatsapp' ? 'WhatsApp confirmé' : 'Numéro mobile' %>"><%- icon('brand-whatsapp', { size: 13 }) %><%= p.phoneKind === 'whatsapp' ? 'WhatsApp' : 'Mobile' %></span><% } %>
+          <% if (g && g.reviews) { %><span class="tag tag--google"><%- icon('star', { size: 12 }) %><%= String(g.rating).replace('.', ',') %> · <%= g.reviews %></span><% } %>
+        </span>
+        <span class="status pro-status pro-status--<%= p.status %>" data-status-badge><%= statusLabelOf(p.status) %></span>
+        <time datetime="<%= p.createdAt %>" title="Ajoutée le <%= formatDate(p.createdAt) %>"><%= relativeDate(p.createdAt) %></time>
+      </summary>
+      <div class="message__body pro-body">
+        <div class="pro-grid">
+          <div class="pro-col">
+            <h3 class="pro-h">Analyse</h3>
+            <p class="pro-analysis"><%= p.analysis %></p>
+            <% if (p.reasons.length) { %>
+            <ul class="pro-reasons" aria-label="Pourquoi ce score">
+              <% for (const r of p.reasons) { %><li class="chip<%= r.good === true ? ' chip--good' : r.good === false ? ' chip--bad' : '' %>"><%= r.text %></li><% } %>
+            </ul>
+            <% } %>
+
+            <% if (g && (g.reviews || g.status)) { %>
+            <h3 class="pro-h">Avis Google</h3>
+            <p class="pro-google">
+              <% if (g.reviews) { %><strong><%= stars(g) %></strong><% } %>
+              <% if (g.status === 'CLOSED_TEMPORARILY') { %><span class="tag">Fermé temporairement</span><% } %>
+              <% if (g.mapsUrl) { %> · <a href="<%= g.mapsUrl %>" target="_blank" rel="noopener">Voir la fiche</a><% } %>
+            </p>
+            <% if (g.samples && g.samples.length) { %>
+            <ul class="pro-reviews">
+              <% for (const r of g.samples) { %><li><% if (r.rating) { %><span class="pro-review__stars"><%= r.rating %>/5</span><% } %> <%= r.text %><% if (r.when) { %> <span class="muted">(<%= r.when %>)</span><% } %></li><% } %>
+            </ul>
+            <% } %>
+            <% } %>
+
+            <h3 class="pro-h">Coordonnées</h3>
+            <dl class="pro-meta">
+              <% if (p.phone) { %><div><dt>Téléphone</dt><dd><a href="<%= telHref(p.phone) %>"><%= formatPhone(p.phone) %></a> <span class="muted">(<%= phoneLabel[p.phoneKind] || '' %>)</span></dd></div><% } %>
+              <% if (addr) { %><div><dt>Adresse</dt><dd><a href="<%= mapsHref(addr) %>" target="_blank" rel="noopener"><%= addr %></a></dd></div><% } %>
+              <% const gmaps = googleMapsLink(p); if (gmaps) { %><div><dt>Google</dt><dd><a href="<%= gmaps %>" target="_blank" rel="noopener"><%= p.google && p.google.mapsUrl ? 'Fiche Google Maps' : 'Chercher la fiche sur Google Maps' %></a></dd></div><% } %>
+              <% if (p.website) { %><div><dt>Site</dt><dd><a href="<%= p.website %>" target="_blank" rel="noopener"><%= p.website.replace(/^https?:\/\/(www\.)?/, '') %></a></dd></div><% } %>
+              <% if (p.instagram) { %><div><dt>Instagram</dt><dd><a href="<%= p.instagram %>" target="_blank" rel="noopener"><%= p.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, '@').replace(/\/$/, '') %></a></dd></div><% } %>
+              <% if (p.facebook) { %><div><dt>Facebook</dt><dd><a href="<%= p.facebook %>" target="_blank" rel="noopener">Page Facebook</a></dd></div><% } %>
+              <% if (p.openingHours) { %><div><dt>Horaires</dt><dd><%= p.openingHours %></dd></div><% } %>
+              <div><dt>Source</dt><dd><%= p.source === 'liste-de-depart' ? (p.verified && p.verified.found === false ? 'Liste de départ (non retrouvée en ligne)' : 'Liste de départ (vérifiée en ligne)') : p.source === 'osm' ? 'OpenStreetMap' : p.source %><% if (p.verified && p.verified.at) { %> · <%= p.verified.found === false ? 'recherchée' : 'vérifiée' %> le <%= formatDate(p.verified.at).replace(/ à .*$/, '') %><% } %></dd></div>
+            </dl>
+            <% if (p.verified && (p.verified.note || p.verified.sources.length)) { %>
+            <p class="pro-verified<%= p.verified.found === false ? ' pro-verified--warn' : '' %>"><% if (p.verified.note) { %><%= p.verified.note %> <% } %><% for (const [i, s] of p.verified.sources.entries()) { %><a href="<%= s %>" target="_blank" rel="noopener">source <%= i + 1 %></a><%= i < p.verified.sources.length - 1 ? ', ' : '' %><% } %></p>
+            <% } %>
+          </div>
+
+          <div class="pro-col">
+            <form class="pro-msg" method="post" action="/admin/prospection/<%= p.id %>/message" data-message-form>
+              <input type="hidden" name="retour" value="<%= retour %>">
+              <div class="pro-msg__head">
+                <h3 class="pro-h">Message WhatsApp</h3>
+                <span class="tag<%= p.messageSource === 'ia' ? ' tag--api' : '' %>"><%= sourceLabel[p.messageSource] || '' %></span>
+              </div>
+              <textarea class="input pro-msg__text" id="msg-<%= p.id %>" name="message" rows="9" maxlength="1500" aria-label="Message à envoyer"><%= p.message %></textarea>
+              <div class="pro-msg__bar">
+                <% if (p.phone && p.phoneKind !== 'fixe') { %><a class="btn btn--primary btn--sm" href="<%= whatsappLink(p.phone, p.message) %>" target="_blank" rel="noopener" data-whatsapp="msg-<%= p.id %>" data-mark-sent="<%= p.id %>"><%- icon('brand-whatsapp', { size: 15 }) %>Ouvrir dans WhatsApp</a><% } %>
+                <button class="btn btn--secondary btn--sm" type="button" data-copy="msg-<%= p.id %>"><%- icon('copy', { size: 15 }) %>Copier</button>
+                <button class="btn btn--secondary btn--sm" type="submit" data-save-message disabled><%- icon('save', { size: 15 }) %>Enregistrer</button>
+              </div>
+              <details class="pro-followup">
+                <summary>Relance (une semaine plus tard)</summary>
+                <textarea class="input pro-msg__text" id="fu-<%= p.id %>" name="followUp" rows="4" maxlength="800" aria-label="Message de relance"><%= p.followUp %></textarea>
+                <div class="pro-msg__bar">
+                  <% if (p.phone && p.phoneKind !== 'fixe') { %><a class="btn btn--secondary btn--sm" href="<%= whatsappLink(p.phone, p.followUp) %>" target="_blank" rel="noopener" data-whatsapp="fu-<%= p.id %>"><%- icon('brand-whatsapp', { size: 15 }) %>Ouvrir dans WhatsApp</a><% } %>
+                  <button class="btn btn--secondary btn--sm" type="button" data-copy="fu-<%= p.id %>"><%- icon('copy', { size: 15 }) %>Copier</button>
+                </div>
+              </details>
+            </form>
+            <div class="pro-regen">
+              <form method="post" action="/admin/prospection/<%= p.id %>/regenerer" data-confirm="Remplacer le message actuel par un nouveau message modèle ?"><input type="hidden" name="retour" value="<%= retour %>"><button class="btn btn--ghost btn--sm" type="submit"><%- icon('refresh-cw', { size: 14 }) %>Nouveau message modèle</button></form>
+              <% if (aiEnabled) { %><form method="post" action="/admin/prospection/<%= p.id %>/regenerer" data-confirm="Demander à Claude de réécrire le message ?"><input type="hidden" name="retour" value="<%= retour %>"><input type="hidden" name="ia" value="1"><button class="btn btn--ghost btn--sm" type="submit"><%- icon('sparkles', { size: 14 }) %>Réécrire avec Claude</button></form><% } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="message__manage">
+          <form method="post" action="/admin/prospection/<%= p.id %>/statut">
+            <input type="hidden" name="retour" value="<%= retour %>">
+            <span class="field__label">Statut</span>
+            <div class="status-switch pro-switch">
+              <% for (const s of statuses) { %><button type="submit" name="status" value="<%= s.value %>" aria-pressed="<%= p.status === s.value %>"><%= s.label %></button><% } %>
+            </div>
+          </form>
+          <form class="note-form" method="post" action="/admin/prospection/<%= p.id %>/note">
+            <input type="hidden" name="retour" value="<%= retour %>">
+            <label class="field"><span class="field__label">Note interne</span>
+              <textarea class="input" name="note" rows="2" maxlength="2000" placeholder="Passé mardi, rappeler le gérant, intéressé par l’acompte…"><%= p.note %></textarea>
+            </label>
+            <button class="btn btn--secondary btn--sm" type="submit">Enregistrer la note</button>
+          </form>
+        </div>
+        <div class="message__actions">
+          <form method="post" action="/admin/prospection/<%= p.id %>/supprimer" data-confirm="Retirer <%= p.name.replace(/"/g, '') %> de la liste ?"><input type="hidden" name="retour" value="<%= retour %>"><button class="btn btn--ghost btn--sm btn--danger" type="submit"><%- icon('trash-2', { size: 15 }) %>Retirer de la liste</button></form>
+        </div>
+      </div>
+    </details>
+  </li>
+  <% } %>
+</ul>
+<% } %>
+<p class="pro-credits">Entreprises issues d’OpenStreetMap (© les contributeurs d’OpenStreetMap, licence ODbL)<%= hasGoogleData ? ' ; notes et avis fournis par Google' : '' %>. Le score est une estimation à partir des signaux affichés, pas une mesure. Prospection entre professionnels : envoyez vos messages un par un, et respectez les refus.</p>
+<% } %>
+<%- include('partials/foot') %>

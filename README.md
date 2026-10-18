@@ -65,6 +65,7 @@ Rendez-vous sur `/admin`. Le mot de passe est celui de `ADMIN_PASSWORD`. Si la v
 | Pages légales | Informations légales et contenu des quatre pages réglementaires |
 | Articles | Articles du blog : brouillons de l'agent (badge « API »), éditeur Markdown avec aperçu, compteurs SEO, aperçu Google, FAQ, programmation. Publication bloquée tant qu'il reste des marqueurs [À COMPLÉTER] |
 | Demandes | Demandes de devis et questions envoyées depuis la page contact et l'accueil : statut (nouvelle, en cours, traitée), note interne, recherche, filtres et export CSV |
+| Prospection | Entreprises de la région sans site à contacter sur WhatsApp : recherche par ville, rayon et activités, analyse, score de réponse estimé, message et relance prêts à envoyer, suivi des statuts, export CSV |
 | Compte et sauvegarde | Mot de passe, sauvegarde et restauration des contenus |
 
 Chaque page a aussi sa rubrique **Référencement** : titre et description affichés par Google, et titre principal (H1), avec un compteur de caractères.
@@ -76,6 +77,8 @@ Bon à savoir :
 - **Le tableau de bord indique ce qui reste à compléter** avant la mise en ligne : email, informations légales, adresse du site, etc.
 - **Les pages légales se remplissent seules.** Dans leur texte, les balises entre doubles accolades sont remplacées par les informations saisies dans la section « Informations légales » : `{{entreprise}}`, `{{forme_juridique}}`, `{{siret}}`, `{{rcs}}`, `{{tva}}`, `{{capital}}`, `{{adresse}}`, `{{directeur_publication}}`, `{{hebergeur}}`, `{{hebergeur_adresse}}`, `{{hebergeur_contact}}`, `{{email}}`, `{{telephone}}`, `{{nom_site}}` et `{{url}}`. Une information obligatoire manquante apparaît surlignée « à compléter ». Une information facultative manquante (capital, TVA, immatriculation, téléphone…) fait disparaître sa ligne.
 - **Demandes** : chaque envoi des formulaires (page contact et accueil) est enregistré dans la rubrique « Demandes » de l'admin, avec un compteur des demandes non lues. Vous y suivez chaque demande (nouvelle, en cours, traitée), ajoutez une note interne, filtrez, recherchez et exportez la liste en CSV. Pour recevoir aussi un email à chaque demande, configurez les variables `SMTP_*`. Les demandes sont supprimées automatiquement au bout de trois ans, comme l'indique la politique de confidentialité.
+
+- **Prospection** : la rubrique part d'une liste de 50 entreprises de Grenoble et de Lyon recherchées en ligne une par une (ouvertes, sans site, téléphone confirmé ; les quelques fiches sans aucune trace en ligne sont signalées « non retrouvée en ligne » et à confirmer avant envoi), puis **Nouvelle recherche** en ajoute d'autres : les commerces viennent d'OpenStreetMap (sans clé ni compte), filtrés sur l'absence de site et le numéro mobile, dédoublonnés, notés (score de réponse estimé, avec ses raisons) et accompagnés d'un message WhatsApp et d'une relance. Le bouton **Ouvrir dans WhatsApp** ouvre la conversation avec le message prérempli et passe la fiche en « Message envoyé ». Deux options facultatives et payantes à l'usage : `GOOGLE_PLACES_API_KEY` ajoute la note, le nombre d'avis et des extraits d'avis Google ; `ANTHROPIC_API_KEY` fait rédiger par Claude un message propre à chaque entreprise (sinon, des messages modèles adaptés à l'activité). Prospection entre professionnels : envoyez les messages un par un, et respectez les refus (statut « Ne plus contacter »).
 
 > Les textes des pages légales sont des modèles fournis à titre indicatif. Faites-les relire et adapter à votre situation avant la mise en ligne.
 
@@ -95,6 +98,8 @@ Toutes les variables sont décrites dans `.env.example`.
 | `BLOG_API_KEY` | Clé de l'API de brouillons du blog (`openssl rand -base64 32`) | API désactivée |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` | Serveur d'envoi des notifications | désactivé |
 | `MAIL_FROM`, `MAIL_TO` | Expéditeur et destinataire des notifications | `SMTP_USER` et email de contact |
+| `GOOGLE_PLACES_API_KEY` | Prospection : notes et avis Google des entreprises trouvées (API Places, facturée par Google) | désactivé |
+| `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PROSPECT_AI` | Prospection : rédaction des messages par Claude (facturée par Anthropic), modèle utilisé, et `PROSPECT_AI=false` pour s'en passer même avec une clé | désactivé, `claude-opus-5-5`, `true` |
 
 ## Mise en ligne
 
