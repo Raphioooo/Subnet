@@ -589,7 +589,7 @@ export function normalizeProspect(raw = {}) {
   const classified = typeof raw.kind === 'string' && raw.kind.includes('=') && !raw.sector ? classifyTags(Object.fromEntries([raw.kind.split('=')])) : null;
   const sector = PROSPECT_SECTORS.some((s) => s.value === raw.sector) ? raw.sector : classified?.sector || 'autre';
   const address = isPlainObject(raw.address) ? raw.address : {};
-  const google = isPlainObject(raw.google) && (raw.google.rating || raw.google.reviews || raw.google.status)
+  const google = isPlainObject(raw.google) && (raw.google.rating || raw.google.reviews || raw.google.status || raw.google.mapsUrl)
     ? {
         rating: Number(raw.google.rating) || null,
         reviews: Number(raw.google.reviews) || 0,

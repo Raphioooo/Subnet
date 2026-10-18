@@ -81,6 +81,10 @@ describe('prospection : modèle', () => {
     assert.ok(link.startsWith('https://www.google.com/maps/search/?api=1&query='));
     assert.equal(decodeURIComponent(link.split('query=')[1]), 'Salon Test 3 rue Lakanal 38000 Grenoble');
     assert.equal(googleMapsLink({}), '');
+    // Une fiche Google connue sans note est conservée (le lien reste exact).
+    const known = normalizeProspect({ ...salon, google: { mapsUrl: 'https://maps.app.goo.gl/xyz' } });
+    assert.equal(known.google.mapsUrl, 'https://maps.app.goo.gl/xyz');
+    assert.equal(googleMapsLink(known), 'https://maps.app.goo.gl/xyz');
   });
 
   test('l’ajustement du rédacteur et le marqueur « non retrouvée » survivent au recalcul', () => {
