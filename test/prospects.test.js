@@ -8,6 +8,7 @@ import { createApp } from '../src/app.js';
 import {
   buildMessages,
   classifyTags,
+  googleMapsLink,
   normalizePhone,
   normalizeProspect,
   parseSearchFilters,
@@ -72,6 +73,14 @@ describe('prospection : modèle', () => {
     const rated = scoreProspect({ sector: 'restaurant', phoneKind: 'whatsapp', google: { rating: 4.7, reviews: 120 } });
     assert.equal(rated.label, 'Très bon');
     assert.ok(rated.score <= 55);
+  });
+
+  test('lien vers la fiche Google Maps : exacte quand connue, sinon recherche nom + adresse', () => {
+    assert.equal(googleMapsLink({ name: 'X', google: { mapsUrl: 'https://maps.app.goo.gl/abc' } }), 'https://maps.app.goo.gl/abc');
+    const link = googleMapsLink(normalizeProspect(salon));
+    assert.ok(link.startsWith('https://www.google.com/maps/search/?api=1&query='));
+    assert.equal(decodeURIComponent(link.split('query=')[1]), 'Salon Test 3 rue Lakanal 38000 Grenoble');
+    assert.equal(googleMapsLink({}), '');
   });
 
   test('l’ajustement du rédacteur et le marqueur « non retrouvée » survivent au recalcul', () => {

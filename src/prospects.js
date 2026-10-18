@@ -294,6 +294,16 @@ export function normalizePhone(raw) {
 export const isMobile = (phone) => /^0[67]/.test(phone);
 
 // Lien qui ouvre WhatsApp avec le message prérempli.
+// Fiche Google Maps : l'adresse exacte de la fiche quand on la connaît (Google Places
+// ou vérification manuelle), sinon une recherche Maps « nom + adresse » qui ouvre la fiche.
+export function googleMapsLink(p) {
+  if (p?.google?.mapsUrl) return p.google.mapsUrl;
+  const address = p?.address || {};
+  const query = [p?.name, address.street, address.postcode, address.city].filter(Boolean).join(' ').trim();
+  if (!query) return '';
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
 export function whatsappLink(phone, text = '') {
   const digits = normalizePhone(phone);
   if (!digits) return '';

@@ -9,7 +9,7 @@ import { formatDate, sectorLabel } from '../helpers.js';
 import { createRateLimiter, isSameOrigin } from '../security.js';
 import { renderMarkdown } from '../markdown.js';
 import { LIMITS, POST_CATEGORIES, POST_STATUSES, blankPost, findMarkers, readingTime, uniqueSlug, validatePost, wordCount } from '../posts.js';
-import { PROSPECT_SECTORS, PROSPECT_STATUSES, SEARCH_LIMITS, fold, parseSearchFilters, prospectSectorLabel, prospectStatusLabel, refreshProspect, whatsappLink } from '../prospects.js';
+import { PROSPECT_SECTORS, PROSPECT_STATUSES, SEARCH_LIMITS, fold, googleMapsLink, parseSearchFilters, prospectSectorLabel, prospectStatusLabel, refreshProspect, whatsappLink } from '../prospects.js';
 
 const MIN_PASSWORD_LENGTH = 10;
 
@@ -450,6 +450,7 @@ export function adminRouter({ config, store, auth, mailer, log, prospector }) {
       limits: SEARCH_LIMITS,
       hasGoogleData: all.some((p) => p.google),
       whatsappLink,
+      googleMapsLink,
       sectorLabelOf: prospectSectorLabel,
       statusLabelOf: prospectStatusLabel,
     });
