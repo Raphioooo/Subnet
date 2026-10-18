@@ -31,6 +31,11 @@ export function loadConfig(env = process.env) {
     trustProxy: parseTrustProxy(env.TRUST_PROXY),
     blogApiKey: env.BLOG_API_KEY || '',
     contactMinDelayMs: env.CONTACT_MIN_DELAY_MS !== undefined ? Number(env.CONTACT_MIN_DELAY_MS) : 3000,
+    // Prospection : avis Google et rédaction des messages par Claude (facultatifs).
+    googlePlacesKey: env.GOOGLE_PLACES_API_KEY || '',
+    anthropicApiKey: env.ANTHROPIC_API_KEY || '',
+    anthropicModel: env.ANTHROPIC_MODEL || 'claude-opus-5-5',
+    prospectAi: parseBool(env.PROSPECT_AI, true),
     smtp: {
       host: env.SMTP_HOST || '',
       port: Number(env.SMTP_PORT) || 587,

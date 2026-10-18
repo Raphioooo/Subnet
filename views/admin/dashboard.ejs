@@ -22,6 +22,11 @@
     <span class="stat__value"><%= draftCount %></span>
     <span class="stat__label"><%= draftCount > 1 ? 'articles à relire' : 'article à relire' %></span>
   </a>
+  <a class="stat" href="/admin/prospection?statut=a-contacter">
+    <span class="stat__icon"><%- icon('target', { size: 20 }) %></span>
+    <span class="stat__value"><%= toContact %></span>
+    <span class="stat__label"><%= toContact > 1 ? 'entreprises à contacter' : 'entreprise à contacter' %></span>
+  </a>
   <a class="stat" href="/admin/pages/projects">
     <span class="stat__icon"><%- icon('images', { size: 20 }) %></span>
     <span class="stat__value"><%= visibleProjects %></span>

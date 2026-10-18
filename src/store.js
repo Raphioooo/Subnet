@@ -4,11 +4,25 @@ import crypto from 'node:crypto';
 import { defaults, SECTOR_SLUGS } from './defaults.js';
 import { PAGES } from './schema.js';
 import { DEMO_POST } from './demo-post.js';
+import { normalizeProspect, prospectKey } from './prospects.js';
 
 const MESSAGE_RETENTION_MS = 3 * 365 * 24 * 60 * 60 * 1000;
+// Liste de départ de la prospection, importée au premier démarrage.
+const PROSPECTS_SEED_FILE = path.join(import.meta.dirname, 'prospects-seed.json');
 
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+// Une entrée invalide est écartée plutôt que de bloquer le démarrage.
+function safeProspect(raw) {
+  if (!isPlainObject(raw)) return null;
+  try {
+    const p = normalizeProspect(raw);
+    return p.name ? p : null;
+  } catch {
+    return null;
+  }
 }
 
 // Complète un contenu sauvegardé avec les valeurs par défaut manquantes
@@ -108,16 +122,23 @@ async function writeJsonAtomic(file, data) {
 }
 
 export class Store {
-  constructor(dataDir) {
+  constructor(dataDir, { seedProspects = true, seedFile = PROSPECTS_SEED_FILE, log = console } = {}) {
     this.dataDir = dataDir;
     this.uploadsDir = path.join(dataDir, 'uploads');
     this.contentFile = path.join(dataDir, 'content.json');
     this.messagesFile = path.join(dataDir, 'messages.json');
     this.postsFile = path.join(dataDir, 'posts.json');
+    this.prospectsFile = path.join(dataDir, 'prospects.json');
+    this.seedProspects = seedProspects;
+    this.seedFile = seedFile;
+    this.log = log;
+    this.prospectsSeededAt = null;
     this.queue = Promise.resolve();
     this.content = null;
     this.messages = [];
     this.posts = [];
+    this.prospects = [];
+    this.prospectSearch = null;
   }
 
   async init() {
@@ -144,6 +165,38 @@ export class Store {
       this.posts = [{ ...structuredClone(DEMO_POST), id: crypto.randomUUID(), createdAt: now, updatedAt: now }];
       await this.#persist(this.postsFile, this.posts);
     }
+    const prospects = await readJson(this.prospectsFile, null);
+    const stored = isPlainObject(prospects) && Array.isArray(prospects.items) ? prospects : null;
+    if (stored) {
+      this.prospects = stored.items.map(safeProspect).filter(Boolean);
+      this.prospectSearch = isPlainObject(stored.lastSearch) ? stored.lastSearch : null;
+      this.prospectsSeededAt = typeof stored.seededAt === 'string' ? stored.seededAt : null;
+    }
+    // Premier démarrage : la liste de départ (entreprises vérifiées en ligne),
+    // importée une seule fois. Une liste absente ou illisible ne bloque jamais
+    // le site : l'import est retenté au démarrage suivant.
+    if (this.seedProspects && !this.prospectsSeededAt && !this.prospects.length && !this.prospectSearch) {
+      await this.#importProspectsSeed();
+    }
+  }
+
+  async #importProspectsSeed() {
+    let seed = [];
+    try {
+      seed = await readJson(this.seedFile, []);
+    } catch (err) {
+      this.log.warn(`Prospection : liste de départ ignorée (${err.message})`);
+      return;
+    }
+    const items = (Array.isArray(seed) ? seed : []).map((p) => safeProspect(isPlainObject(p) ? { ...p, source: 'liste-de-depart' } : null)).filter(Boolean);
+    if (!items.length) {
+      this.log.warn(`Prospection : liste de départ absente ou vide (${this.seedFile}).`);
+      return;
+    }
+    this.prospects = items;
+    this.prospectsSeededAt = new Date().toISOString();
+    await this.#persistProspects();
+    this.log.info(`Prospection : ${items.length} entreprises importées depuis la liste de départ.`);
   }
 
   // Les écritures sont sérialisées pour éviter toute corruption.
@@ -264,6 +317,61 @@ export class Store {
     this.posts = this.posts.filter((p) => p.id !== id);
     if (this.posts.length !== before) await this.#persist(this.postsFile, this.posts);
     return this.posts.length !== before;
+  }
+
+  // Prospection ----------------------------------------------------------------
+
+  #persistProspects() {
+    return this.#persist(this.prospectsFile, { items: this.prospects, lastSearch: this.prospectSearch, seededAt: this.prospectsSeededAt });
+  }
+
+  listProspects() {
+    return [...this.prospects].sort((a, b) => b.score - a.score || a.name.localeCompare(b.name, 'fr'));
+  }
+
+  getProspect(id) {
+    return this.prospects.find((p) => p.id === id) || null;
+  }
+
+  // Ajoute les prospects inconnus (même téléphone ou même nom et ville = déjà présent).
+  async addProspects(items) {
+    const known = new Set(this.prospects.map(prospectKey));
+    const added = [];
+    for (const raw of items) {
+      const p = normalizeProspect(raw);
+      const key = prospectKey(p);
+      if (!p.name || known.has(key)) continue;
+      known.add(key);
+      added.push(p);
+    }
+    if (added.length) {
+      this.prospects = [...this.prospects, ...added];
+      await this.#persistProspects();
+    }
+    return added;
+  }
+
+  async updateProspect(id, patch) {
+    let updated = null;
+    this.prospects = this.prospects.map((p) => {
+      if (p.id !== id) return p;
+      updated = normalizeProspect({ ...p, ...patch, id, createdAt: p.createdAt, updatedAt: new Date().toISOString() });
+      return updated;
+    });
+    if (updated) await this.#persistProspects();
+    return updated;
+  }
+
+  async deleteProspect(id) {
+    const before = this.prospects.length;
+    this.prospects = this.prospects.filter((p) => p.id !== id);
+    if (this.prospects.length !== before) await this.#persistProspects();
+    return this.prospects.length !== before;
+  }
+
+  async setLastProspectSearch(search) {
+    this.prospectSearch = search;
+    await this.#persistProspects();
   }
 
   // Publication programmée : les articles dont l'heure est passée sont mis en ligne.

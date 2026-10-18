@@ -9,6 +9,7 @@ import { formatDate, sectorLabel } from '../helpers.js';
 import { createRateLimiter, isSameOrigin } from '../security.js';
 import { renderMarkdown } from '../markdown.js';
 import { LIMITS, POST_CATEGORIES, POST_STATUSES, blankPost, findMarkers, readingTime, uniqueSlug, validatePost, wordCount } from '../posts.js';
+import { PROSPECT_SECTORS, PROSPECT_STATUSES, SEARCH_LIMITS, fold, parseSearchFilters, prospectSectorLabel, prospectStatusLabel, refreshProspect, whatsappLink } from '../prospects.js';
 
 const MIN_PASSWORD_LENGTH = 10;
 
@@ -99,7 +100,7 @@ function setupChecklist(content, { auth, config }) {
   ];
 }
 
-export function adminRouter({ config, store, auth, mailer, log }) {
+export function adminRouter({ config, store, auth, mailer, log, prospector }) {
   const router = express.Router();
   const loginLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 10 });
 
@@ -114,6 +115,7 @@ export function adminRouter({ config, store, auth, mailer, log }) {
       pages: PAGES,
       unread: store.unreadCount(),
       draftCount: store.posts.filter((p) => p.status === 'draft').length,
+      toContact: store.prospects.filter((p) => p.status === 'a-contacter').length,
       getAt,
       blankItem,
       iconOptions: ICON_OPTIONS,
@@ -389,6 +391,171 @@ export function adminRouter({ config, store, auth, mailer, log }) {
   router.post('/demandes/tout-lu', form, async (req, res) => {
     for (const m of store.messages.filter((x) => !x.read)) await store.updateMessage(m.id, { read: true });
     res.redirect(303, back(req));
+  });
+
+  // Prospection (entreprises sans site à contacter sur WhatsApp) -----------------
+
+  const CONTACTED = ['envoye', 'repondu', 'rdv', 'client', 'refus'];
+  const REPLIED = ['repondu', 'rdv', 'client'];
+
+  const prospectBack = (req, id) => {
+    const target = typeof req.body?.retour === 'string' && /^\/admin\/prospection(\?[^#\s]*)?$/.test(req.body.retour) ? req.body.retour : '/admin/prospection';
+    return id ? `${target}#p-${id}` : target;
+  };
+  // Même page, avec un message d'erreur, que des filtres soient actifs ou non.
+  const prospectError = (req, id, message) => {
+    const url = new URL(prospectBack(req), 'http://localhost');
+    url.searchParams.set('erreur', message);
+    return `${url.pathname}${url.search}${id ? `#p-${id}` : ''}`;
+  };
+
+  router.get('/prospection', (req, res) => {
+    const all = store.listProspects();
+    const status = PROSPECT_STATUSES.some((s) => s.value === req.query.statut) ? req.query.statut : '';
+    const sector = PROSPECT_SECTORS.some((s) => s.value === req.query.secteur) ? req.query.secteur : '';
+    const city = typeof req.query.ville === 'string' ? req.query.ville.trim().slice(0, 80) : '';
+    const q = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 80) : '';
+    const sort = ['score', 'nom', 'recent'].includes(req.query.tri) ? req.query.tri : 'score';
+    const needle = fold(q);
+    const prospects = all.filter(
+      (p) =>
+        (!status || p.status === status) &&
+        (!sector || p.sector === sector) &&
+        (!city || fold(p.address.city) === fold(city)) &&
+        (!needle || fold([p.name, p.kindLabel, p.address.city, p.address.street, p.phone, p.note].join(' ')).includes(needle)),
+    );
+    if (sort === 'nom') prospects.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+    if (sort === 'recent') prospects.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    const contacted = all.filter((p) => CONTACTED.includes(p.status)).length;
+    const replied = all.filter((p) => REPLIED.includes(p.status)).length;
+    res.render('admin/prospects', {
+      active: 'prospects',
+      prospects,
+      total: all.length,
+      counts: Object.fromEntries(PROSPECT_STATUSES.map((s) => [s.value, all.filter((p) => p.status === s.value).length])),
+      cities: [...new Set(all.map((p) => p.address.city).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr')),
+      contacted,
+      replied,
+      filters: { status, sector, city, q, sort },
+      query: new URLSearchParams(Object.entries({ statut: status, secteur: sector, ville: city, q, tri: sort === 'score' ? '' : sort }).filter(([, v]) => v)).toString(),
+      statuses: PROSPECT_STATUSES,
+      sectors: PROSPECT_SECTORS,
+      job: prospector.state,
+      lastSearch: store.prospectSearch,
+      searchDefaults: parseSearchFilters(store.prospectSearch || {}),
+      showSearch: req.query.recherche === '1' || (!all.length && !prospector.state.running),
+      error: typeof req.query.erreur === 'string' ? req.query.erreur.slice(0, 200) : '',
+      googleEnabled: prospector.googleEnabled,
+      aiEnabled: prospector.aiEnabled,
+      limits: SEARCH_LIMITS,
+      hasGoogleData: all.some((p) => p.google),
+      whatsappLink,
+      sectorLabelOf: prospectSectorLabel,
+      statusLabelOf: prospectStatusLabel,
+    });
+  });
+
+  router.get('/prospection/etat', (req, res) => res.json({ ok: true, ...prospector.state }));
+
+  router.post('/prospection/recherche', form, (req, res) => {
+    const filters = parseSearchFilters(req.body || {});
+    try {
+      prospector.start(filters);
+    } catch (err) {
+      return res.redirect(303, `/admin/prospection?erreur=${encodeURIComponent(err.message)}`);
+    }
+    res.redirect(303, '/admin/prospection');
+  });
+
+  router.post('/prospection/recherche/annuler', form, (req, res) => {
+    prospector.cancel();
+    res.redirect(303, '/admin/prospection');
+  });
+
+  router.get('/prospection/export.csv', (req, res) => {
+    const header = ['Nom', 'Activité', 'Secteur', 'Ville', 'Adresse', 'Téléphone', 'Type de numéro', 'Site', 'Instagram', 'Note Google', 'Avis Google', 'Score (%)', 'Statut', 'Analyse', 'Message', 'Relance', 'Note interne', 'Lien WhatsApp', 'Source', 'Ajouté le'];
+    const rows = store.listProspects().map((p) => [
+      p.name,
+      p.kindLabel,
+      prospectSectorLabel(p.sector),
+      p.address.city,
+      [p.address.street, p.address.postcode].filter(Boolean).join(', '),
+      p.phone,
+      { whatsapp: 'WhatsApp', mobile: 'Mobile', fixe: 'Fixe' }[p.phoneKind] || '',
+      p.website,
+      p.instagram,
+      p.google?.rating ?? '',
+      p.google?.reviews ?? '',
+      p.score,
+      prospectStatusLabel(p.status),
+      p.analysis,
+      p.message,
+      p.followUp,
+      p.note,
+      whatsappLink(p.phone, p.message),
+      p.source,
+      formatDate(p.createdAt),
+    ]);
+    const csv = [header, ...rows].map((row) => row.map(csvCell).join(';')).join('\r\n');
+    res.attachment(`prospection-${new Date().toISOString().slice(0, 10)}.csv`);
+    res.type('text/csv; charset=utf-8').send(`﻿${csv}\r\n`);
+  });
+
+  const markSent = (p) => ({ status: 'envoye', contactedAt: p.contactedAt || new Date().toISOString() });
+
+  router.post('/prospection/:id/statut', form, async (req, res) => {
+    const p = store.getProspect(req.params.id);
+    const status = PROSPECT_STATUSES.some((s) => s.value === req.body?.status) ? req.body.status : null;
+    if (p && status) await store.updateProspect(p.id, status === 'envoye' ? markSent(p) : { status });
+    res.redirect(303, prospectBack(req, req.params.id));
+  });
+
+  router.post('/prospection/:id/note', form, async (req, res) => {
+    await store.updateProspect(req.params.id, { note: cleanText(req.body?.note, 2000, true) });
+    res.redirect(303, prospectBack(req, req.params.id));
+  });
+
+  // Message et relance retouchés à la main : ils ne seront plus régénérés.
+  router.post('/prospection/:id/message', form, async (req, res) => {
+    const p = store.getProspect(req.params.id);
+    if (p) {
+      const message = cleanText(req.body?.message, 1500, true);
+      const followUp = cleanText(req.body?.followUp, 800, true);
+      await store.updateProspect(p.id, { message: message || p.message, followUp: followUp || p.followUp, messageSource: 'manuel' });
+    }
+    res.redirect(303, prospectBack(req, req.params.id));
+  });
+
+  // Nouveau message : modèle, ou rédaction par Claude quand la clé est configurée.
+  router.post('/prospection/:id/regenerer', form, async (req, res) => {
+    const p = store.getProspect(req.params.id);
+    if (!p) return res.redirect(303, prospectBack(req));
+    let patch = { ...refreshProspect({ ...p, messageSource: 'modele' }), messageSource: 'modele' };
+    if (req.body?.ia === '1' && prospector.writer) {
+      try {
+        const texts = await prospector.writer.write(p);
+        if (texts) patch = { ...texts, messageSource: 'ia' };
+        else return res.redirect(303, prospectError(req, p.id, 'Claude n’a pas produit de message utilisable, réessayez.'));
+      } catch (err) {
+        log.error('Prospection : rédaction impossible :', err.message);
+        return res.redirect(303, prospectError(req, p.id, `Rédaction impossible : ${err.message}`));
+      }
+    }
+    await store.updateProspect(p.id, patch);
+    res.redirect(303, prospectBack(req, p.id));
+  });
+
+  router.post('/prospection/:id/supprimer', form, async (req, res) => {
+    await store.deleteProspect(req.params.id);
+    res.redirect(303, prospectBack(req));
+  });
+
+  // Appelé à l'ouverture de WhatsApp depuis la fiche : le prospect passe en « envoyé ».
+  router.post('/api/prospection/:id/envoye', express.json({ limit: '4kb' }), async (req, res) => {
+    const p = store.getProspect(req.params.id);
+    if (!p) return res.status(404).json({ ok: false, errors: ['Prospect introuvable.'] });
+    if (p.status === 'a-contacter') await store.updateProspect(p.id, markSent(p));
+    res.json({ ok: true, status: store.getProspect(p.id).status, toContact: store.prospects.filter((x) => x.status === 'a-contacter').length });
   });
 
   // Compte et sauvegarde ------------------------------------------------------

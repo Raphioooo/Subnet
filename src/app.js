@@ -10,9 +10,11 @@ import { publicRouter } from './routes/public.js';
 import { adminRouter } from './routes/admin.js';
 import { blogRouter } from './routes/blog.js';
 import { blogApiRouter } from './routes/blog-api.js';
+import { createProspector } from './prospecting/runner.js';
 
-export async function createApp(config, { log = console } = {}) {
-  const store = new Store(config.dataDir);
+// prospecting : accès réseau et services remplaçables (tests).
+export async function createApp(config, { log = console, prospecting = {}, seedProspects = true } = {}) {
+  const store = new Store(config.dataDir, { seedProspects, log });
   await store.init();
   const auth = new Auth({
     dataDir: config.dataDir,
@@ -22,7 +24,8 @@ export async function createApp(config, { log = console } = {}) {
   });
   await auth.init();
   const mailer = createMailer(config.smtp, log);
-  const ctx = { config, store, auth, mailer, log };
+  const prospector = createProspector({ config, store, log, ...prospecting });
+  const ctx = { config, store, auth, mailer, log, prospector };
 
   const app = express();
   app.disable('x-powered-by');
