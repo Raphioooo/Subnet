@@ -1,0 +1,3942 @@
+[
+ {
+  "id": "node-12852664889",
+  "source": "liste-de-depart",
+  "sourceId": "node/12852664889",
+  "name": "Only Tawouk",
+  "sector": "restaurant",
+  "kind": "amenity=fast_food",
+  "kindLabel": "Restaurant libanais",
+  "phone": "0613884884",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7430225,
+  "lon": 4.8787519,
+  "website": "",
+  "instagram": "https://www.instagram.com/onlytawouk/",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Fr 11:30-14:30,18:30-21:30",
+  "chain": false,
+  "google": {
+   "rating": 4.9,
+   "reviews": 280,
+   "status": "OPERATIONAL",
+   "mapsUrl": "https://www.google.com/maps/place/Only+Tawouk+-+Les+Fr%C3%A8res+Libanais/@45.7430183,4.878818,17z/data=!3m1!4b1!4m6!3m5!1s0x47f4c1b78ee98865:0x1a1a7b63e1379ea0!8m2!3d45.7430183!4d4.878818!16s%2Fg%2F11vdw40b9m?entry=ttu",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": 5,
+     "text": "Accueil chaleureux et service agréable ! Le sandwich était tout simplement délicieux.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Excellent food truck libanais ! Préparation rapide, personnel très accueillant et cuisine savoureuse.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Très bonne cuisine, tres propre et surtout trop sympa ! Service au top!",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 920400405), 4 sources concordantes, téléphone identique. · Avis clients datés du 10 au 17 octobre 2025 (restaurants-de-france.fr, page mise à jour le 14/10/2025) ; cité dans l'article « 12 restaurants libanais savoureux à découvrir sur Lyon » des Cachotteries de Lyon publié le 29 mars 2026 ; société ONLY TAWO",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/920400405",
+    "https://www.lescachotteriesdelyon.com/restos/restaurants-libanais-lyon/",
+    "https://intravel.net/lyon/restaurants-cafes/only-tawouk-les-freres-libanais",
+    "https://restaurant-libanais.restaurants-de-france.fr/only-tawouk-les-fr-res-libanais-2022145.html",
+    "https://mapstr.com/place/HYP8c2Y21X",
+    "https://www.societe.com/societe/only-tawouk-920400405.html"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Food truck libanais place d'Arsonval (Lyon 3e), tenu par deux frères, 4,9 sur 280 avis Google, Instagram actif, Uber Eats et Deliveroo, domaine réservé mais page Squarespace « en construction ». Angle : commande à emporter sans commission sur un site à eux, projet déjà entamé ; frein : ils ont peut-être déjà quelqu'un sur le site Squarespace, et pas de visite possible depuis Grenoble.",
+  "scoreAdjust": 6,
+  "scoreAdjustReason": "Projet de site déjà entamé (domaine réservé, page en construction), jeunes gérants, forte traction.",
+  "score": 53,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "4,9 ★ (280 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+6 : Projet de site déjà entamé (domaine réservé, page en construction), jeunes gérants, forte traction.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, je m'appelle Raphaël, je fais des sites pour des commerçants, à Grenoble.\n\nOnly Tawouk, 4,9 sur 280 avis Google, et des avis qui parlent tous d'accueil. Votre nom de domaine affiche encore une page « en construction », donc pour commander il reste Uber Eats et Deliveroo, et leur commission.\n\nJe fais des sites de resto avec la commande à emporter dedans : le client commande son Beirut Tawouk, passe le prendre place d'Arsonval, et vous gardez tout le prix.\n\nJe ne suis pas à Lyon, mais je peux vous envoyer un exemple ici. C'est d'actualité pour vous ? Sinon, je reviendrai plus tard.",
+  "followUp": "Bonjour, Raphaël de Grenoble, je vous avais écrit pour la commande à emporter sur un site à vous, sans commission. Je relance une seule fois : si vous voulez que je vous envoie l'exemple, dites-moi. Sinon je comprends, et je ne vous dérange plus.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-12096659801",
+  "source": "liste-de-depart",
+  "sourceId": "node/12096659801",
+  "name": "La Table du Mont Quichat",
+  "sector": "restaurant",
+  "kind": "amenity=restaurant",
+  "kindLabel": "Restaurant",
+  "phone": "0652227380",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "1531 Route du Sappey",
+   "postcode": "38950",
+   "city": "Quaix-en-Chartreuse"
+  },
+  "lat": 45.2449117,
+  "lon": 5.740679,
+  "website": "",
+  "instagram": "",
+  "facebook": "https://www.facebook.com/LaTableduMontQuichat/",
+  "email": "",
+  "openingHours": "We-Su 12:00-14:00, 18:00-21:00",
+  "chain": false,
+  "google": {
+   "rating": 4.9,
+   "reviews": 103,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": 5,
+     "text": "Un petit restaurant original très cosy avec un accueil chaleureux du patron qui est le cuisinier.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Une très bonne expérience, une ambiance et un lieu atypique.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": null,
+     "text": "We had an excellent time as a family at La Table du Mont Quichat.",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : pas de fiche au registre sous ce nom, 5 sources concordantes, téléphone identique. · Avis TripAdvisor daté d'août 2026 (repas de famille, 25 personnes) ; fiche PagesJaunes mise à jour le 2 octobre 2026 sans mention de fermeture ; 103 avis Google relayés par restaurants-de-france.fr ; fiches office de tourisme « ouvert toute l'année sur réservation ». · Plateform",
+   "sources": [
+    "https://www.pagesjaunes.fr/pros/58625783",
+    "https://www.grenoble-tourisme.com/en/catalog/detail/la-table-du-mont-quichat-5072775/",
+    "https://chartreuse-tourisme.com/en/offers/la-table-du-mont-quichat-quaix-en-chartreuse-en-2716952",
+    "https://restaurant.restaurants-de-france.fr/la-table-du-mont-quichat-table-d-h-tes-restaurant-1286667.html",
+    "https://www.alpes-isere.com/?p=110742",
+    "https://partir-ici.fr/offres/la-table-du-mont-quichat/"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Petit restaurant esprit table d'hôtes de 20 couverts à Quaix-en-Chartreuse, uniquement sur réservation, 4,9 sur 103 avis Google, patron-cuisinier salué pour son accueil ; aucun site, seulement une page Facebook et des fiches d'annuaires. Angle : la réservation en ligne pour ne plus décrocher pendant le service ; frein possible : petite structure au menu à 25 €, budget serré et habitude de tout gérer par téléphone.",
+  "scoreAdjust": 3,
+  "scoreAdjustReason": "Réservation obligatoire et patron seul en cuisine : besoin réel ; mais très petite structure, budget sans doute limité.",
+  "score": 45,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,9 ★ (103 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+3 : Réservation obligatoire et patron seul en cuisine : besoin réel ; mais très petite structure, budget sans doute limité.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, je m'appelle Raphaël, je fais des sites web pour les commerces, depuis Grenoble.\n\nJe suis tombé sur votre table. 4,9 sur 103 avis Google, et on y parle surtout de l'accueil du patron qui est aussi en cuisine. Par contre, à part la page Facebook, rien pour réserver.\n\nPour 20 couverts uniquement sur réservation, un site où les gens réservent eux-mêmes, même le soir en plein service, ça vous évite de lâcher les fourneaux pour le téléphone. Et pas de commission, le site est à vous.\n\nSi ça vous dit, je monte vous montrer un exemple, cinq minutes un jour calme. Sinon pas de souci.",
+  "followUp": "Bonjour, Raphaël, le développeur web de Grenoble qui vous a écrit la semaine dernière au sujet des réservations. Je ne relance qu'une fois : si ce n'est pas le moment, dites-le-moi et j'arrête là. Sinon je reste disponible pour monter vous montrer un exemple.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "way-726923777",
+  "source": "liste-de-depart",
+  "sourceId": "way/726923777",
+  "name": "Pizza Arthur",
+  "sector": "restaurant",
+  "kind": "amenity=fast_food",
+  "kindLabel": "Pizzeria",
+  "phone": "0610012221",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "Place Paul Mistral",
+   "postcode": "38100",
+   "city": "Grenoble"
+  },
+  "lat": 45.1850831,
+  "lon": 5.732894,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Su 17:30-22:00",
+  "chain": false,
+  "google": {
+   "rating": 4.6,
+   "reviews": 159,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": 4.5,
+     "text": "Les pizzas sont délicieuses et bien préparées avec des ingrédients frais.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Accueil toujours avec le sourire, très bonne pizzas et rapide en plus.",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 524423852, SARL PIZZA ARTHUR), 5 sources concordantes, téléphone identique. · Aucune mention de fermeture définitive trouvée. Avis Google récents relayés par Sluurpy (« il y a une semaine », « il y a 4-5 mois »), fiche Trouver-Ouvert mise à jour le 03/02/2026, annuaire 118712 avec horaires actifs (ma-di 17:00",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/524423852",
+    "https://www.sluurpy.fr/grenoble/restaurant/7983118/pizza-arthur",
+    "https://www.cylex-locale.fr/grenoble/pizzeria/?ho=1&p=4",
+    "https://www.118712.fr/annuaire/ville/grenoble-38/pizzeria",
+    "https://www.le-site-de.com/pizza-arthur-grenoble_121839.html",
+    "https://trouver-ouvert.fr/grenoble/%20(fiche%20Pizza%20Arthur,%20m%C3%A0j%2003/02/2026)"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Pizzeria indépendante du soir place Paul Mistral, 4,6 sur 159 avis Google et 4,8 sur Sluurpy, emporter, livraison et sur place ; l'ancien domaine du site ne répond plus, il ne reste que des annuaires. Angle : il a déjà eu un site, donc il en voit l'intérêt ; frein : un salarié, peu de temps, et le besoin principal est plutôt la commande à emporter que la réservation.",
+  "scoreAdjust": 3,
+  "scoreAdjustReason": "A déjà eu un site (domaine mort) et volume d'avis élevé : il connaît l'intérêt du web.",
+  "score": 45,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,6 ★ (159 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+3 : A déjà eu un site (domaine mort) et volume d'avis élevé : il connaît l'intérêt du web.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, je fais des sites pour les restaurants et commerces de Grenoble.\n\nJ'ai cherché Pizza Arthur en ligne. 4,6 sur 159 avis Google, la pâte et l'accueil souriant reviennent dans les avis, c'est costaud. Par contre l'ancienne adresse de votre site ne répond plus, on ne tombe que sur des annuaires.\n\nPour une pizzeria qui fait emporter et livraison, un site où les clients commandent en deux clics pendant que vous êtes au four, ça libère le téléphone. Et il est à vous, sans commission.\n\nSi vous voulez, je vous envoie ici un exemple pour une pizzeria, sans engagement.",
+  "followUp": "Bonjour, c'est encore Raphaël, de Subnet, pour la question du site de Pizza Arthur. Je ne vous embêterai pas plus : si le sujet n'est pas d'actualité, aucun problème, et si vous voulez voir l'exemple, un mot ici suffit.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-3791942581",
+  "source": "liste-de-depart",
+  "sourceId": "node/3791942581",
+  "name": "SK Beauty",
+  "sector": "beaute",
+  "kind": "shop=beauty",
+  "kindLabel": "Institut de beauté",
+  "phone": "0636407005",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.75695,
+  "lon": 4.8422969,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Fr 10:00-19:00; Sa 08:00-17:00",
+  "chain": false,
+  "google": {
+   "rating": 4.7,
+   "reviews": 70,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": null,
+     "text": "Très contente de la qualité de la prestation ainsi que l'amabilité de Sandra",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": null,
+     "text": "Mes sourcils sont parfaits comme d'habitude, allez-y les yeux fermés !!",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 922188636), 5 sources concordantes, téléphone identique. · Avis Treatwell très récents (il y a ~5 jours et ~12 jours, octobre 2026) ; aucune mention « définitivement fermé ». Attention : la fiche Treatwell affiche désormais l'adresse 4 rue de la République, 69001 Lyon (près du métro Hôtel de Ville), alors que",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/922188636",
+    "https://www.treatwell.fr/place/sk-beauty-2/",
+    "https://www.bottin.fr/fiche-locale/hdeabbhjbfhddhfdabe--sk-beauty--lyon.htm",
+    "https://skbeautylyon.fr/",
+    "https://www.treatwell.fr/en/place/sk-beauty-2/reviews/page-11/"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Institut tenu par Sandra à Lyon, 4,9 sur 1 522 avis Treatwell et 4,7 sur 70 avis Google, tout passe par Treatwell, ancien domaine récupéré par un blog sans rapport. Angle : rendez-vous avec acompte sans commission, utile sur les prestations longues ; frein : Treatwell lui apporte visiblement beaucoup de clientes et elle peut ne pas vouloir toucher à ce qui marche.",
+  "scoreAdjust": 3,
+  "scoreAdjustReason": "Activité très forte, dépendance totale à Treatwell, a déjà eu un nom de domaine.",
+  "score": 45,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,7 ★ (70 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+3 : Activité très forte, dépendance totale à Treatwell, a déjà eu un nom de domaine.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble. 4,9 sur 1 522 avis Treatwell, et des avis encore cette semaine, j'ai rarement vu ça. Les clientes parlent de Sandra par son prénom.\n\nMais tout passe par Treatwell. Rien à vous, et l'adresse encore listée sur Bottin renvoie vers un blog sans rapport.\n\nJe fais des sites d'institut avec la prise de rendez-vous et l'acompte dedans. Utile sur les créneaux longs, Phibrows ou extensions, où un lapin coûte cher. Pas de commission sur vos clientes.\n\nJe peux vous envoyer ici un exemple pour un institut, à regarder quand vous pouvez. Ça n'engage à rien.",
+  "followUp": "Bonjour, Raphaël, le développeur de Grenoble qui vous avait écrit au sujet de la prise de rendez-vous avec acompte, en dehors de Treatwell. Je me contente d'une relance. Si ce n'est pas le moment, aucun problème, je vous laisse tranquille.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-13890655601",
+  "source": "liste-de-depart",
+  "sourceId": "node/13890655601",
+  "name": "Sensations & Chocolats",
+  "sector": "commerce",
+  "kind": "shop=chocolate",
+  "kindLabel": "Chocolaterie",
+  "phone": "0643158037",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "121 Place du 4 Avril 1929",
+   "postcode": "38250",
+   "city": "Saint-Nizier-du-Moucherotte"
+  },
+  "lat": 45.1704718,
+  "lon": 5.6294187,
+  "website": "",
+  "instagram": "https://www.instagram.com/sensationsetchocolats",
+  "facebook": "https://www.facebook.com/sensationsetchocolats",
+  "email": "",
+  "openingHours": "We-Su 08:00-18:30",
+  "chain": false,
+  "google": {
+   "rating": 5,
+   "reviews": 24,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": null,
+     "text": "Exquis, superbe et succulent !",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": null,
+     "text": "Cadre merveilleux, accueil chaleureux, pâtisseries excellentes",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 988538666), 3 sources concordantes, téléphone identique. · Boutique ouverte en février 2026 (Gault&Millau) ; avis Google datés de février-mars 2026 relayés sur MyBoulange (fiche mise à jour le 16/05/2026) ; aucune mention de fermeture définitive. Pas de trace trouvée après mai 2026, mais rien n'indique une fe",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/988538666",
+    "https://fr.gaultmillau.com/en/artisans/sensations-et-chocolats",
+    "https://www.myboulange.fr/38/saint-nizier-du-moucherotte/sensations-chocolats-305211"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Pâtisserie-chocolaterie-salon de thé ouverte en février 2026 à Saint-Nizier-du-Moucherotte, 5 sur 24 avis Google, Instagram et Facebook actifs, fiche Gault&Millau sponsorisée, pas de site. Angle : la commande en ligne de gâteaux et chocolats avec acompte, chez une gérante qui investit déjà dans sa communication ; frein : commerce tout neuf, elle est peut-être encore en train de stabiliser l'activité.",
+  "scoreAdjust": 5,
+  "scoreAdjustReason": "Ouverture récente, Instagram actif, fiche Gault&Millau sponsorisée : gérante qui investit dans sa communication.",
+  "score": 44,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "5 ★ (24 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+5 : Ouverture récente, Instagram actif, fiche Gault&Millau sponsorisée : gérante qui investit dans sa communication.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, je suis tombé sur Sensations & Chocolats sur Instagram : ouverture en février dans l'ancienne épicerie de la famille, déjà 5 sur 5 avec 24 avis Google. Je m'appelle Raphaël, je fais des sites web pour les commerces, à Grenoble.\n\nPar contre, pour commander un gâteau ou des chocolats, rien en ligne.\n\nPour une chocolaterie, je fais un site à vous, avec le catalogue et la commande en ligne, acompte compris pour les gâteaux. Les gens commandent le soir, vous retrouvez tout le matin. Sans commission.\n\nC'est un sujet pour vous en ce moment ? Si c'est trop tôt, on en reparle plus tard.",
+  "followUp": "Bonjour, Raphaël, le développeur de Grenoble qui vous a écrit la semaine dernière à propos des commandes en ligne pour la boutique. Je ne relance qu'une fois : si ce n'est pas le moment, dites-le-moi et je vous laisse tranquille. Sinon je vous envoie un exemple quand vous voulez.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-1428908332",
+  "source": "liste-de-depart",
+  "sourceId": "node/1428908332",
+  "name": "Al Forno",
+  "sector": "restaurant",
+  "kind": "amenity=restaurant",
+  "kindLabel": "Pizzeria",
+  "phone": "0681022815",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "59 Cours Émile Zola",
+   "postcode": "69100",
+   "city": "Lyon"
+  },
+  "lat": 45.7710918,
+  "lon": 4.8679589,
+  "website": "",
+  "instagram": "https://www.instagram.com/alforno_pizza_officiel/",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Th 11:15-14:00, 18:30-22:00; Fr-Sa 11:15-14:00, 18:30-22:30; Su 18:30-22:30",
+  "chain": false,
+  "google": {
+   "rating": 4.9,
+   "reviews": 175,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 905289658, PASTA AL FORNO), 4 sources concordantes, téléphone identique. · Fiche PagesJaunes active (coordonnées mises à jour le 02/10/2026, horaires mis à jour le 26/09/2026, aucune mention « fermé définitivement ») ; société SAS créée le 01/10/2021 avec comptes déposés en 2025. Aucun avis ou publication réc",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/905289658",
+    "https://www.pagesjaunes.fr/pros/65399647",
+    "https://pastalaforno.fr/",
+    "https://rankeat.fr/restaurants/restaurant-pizzeria-pasta-al-forno-pates-villeurbanne",
+    "https://www.pagesjaunes.fr/annuaire/chercherlespros?quoiqui=al+forno+pizzeria&ou=villeurbanne"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Pizzeria classée restauration rapide à Villeurbanne (Gratte-Ciel, société Pasta Al Forno créée en 2021), seulement une fiche PagesJaunes sans avis et un Instagram inaccessible, note Google inconnue. L'angle est la carte et la réservation en ligne pour un service midi et soir six jours sur sept ; le frein, c'est qu'on ne sait presque rien d'eux et qu'une pizzeria à emporter ne ressent pas forcément le besoin de réserver.",
+  "scoreAdjust": -3,
+  "scoreAdjustReason": "Presque aucune trace exploitable, Instagram inaccessible, restauration rapide peu concernée par la réservation",
+  "score": 44,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "4,9 ★ (175 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-3 : Presque aucune trace exploitable, Instagram inaccessible, restauration rapide peu concernée par la réservation",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, j'ai cherché Al Forno, cours Émile Zola, et je n'ai trouvé qu'une fiche PagesJaunes et un Instagram, pas de site ni de carte. Je suis Raphaël, je fais des sites pour les restos, depuis Grenoble.\n\nOuverts midi et soir du lundi au samedi, plus le dimanche soir : le téléphone doit sonner en plein service pour une table.\n\nCe que je fais : une page avec la carte à jour et la réservation en ligne, gérée depuis le téléphone. Pas d'abonnement ni de commission, le site est à vous.\n\nEst-ce un sujet pour vous en ce moment ? Sinon gardez mon numéro, on en reparle quand vous voulez.",
+  "followUp": "Bonjour, Raphaël, je vous avais écrit la semaine dernière pour une page avec la carte et la réservation pour Al Forno. Je relance une seule fois, promis. Si ce n'est pas d'actualité, aucun souci, je vous laisse tranquille.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-10237653305",
+  "source": "liste-de-depart",
+  "sourceId": "node/10237653305",
+  "name": "Le VIPuces",
+  "sector": "restaurant",
+  "kind": "amenity=restaurant",
+  "kindLabel": "Restaurant français",
+  "phone": "0749198440",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7859038,
+  "lon": 4.8941945,
+  "website": "",
+  "instagram": "https://www.instagram.com/levipuces",
+  "facebook": "https://www.facebook.com/p/Le-VIPuces-du-Canal-100084007266622/",
+  "email": "",
+  "openingHours": "PH,Mo-We,Fr,Sa 11:30-14:30; Th,Su 05:15-14:30",
+  "chain": false,
+  "google": {
+   "rating": 4.2,
+   "reviews": 43,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": 5,
+     "text": "Excellente carte avec des produits locaux, plats bien servis, belles portions.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Un personnel souriant et chaleureux . Une cuisine délicieuse et copieuse.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Très bonne expérience a chaque fois, autant gastronomique comme avec le service qui est toujours a nos petits soins.",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : pas de fiche au registre sous ce nom, 6 sources concordantes, téléphone identique. · Avis Google datés d'il y a environ 11 mois (fin 2025) relevés sur Restaurant Guru ; un avis TripAdvisor de janvier 2026 mentionné dans les résultats de recherche ; fiche Rankeat « mise à jour le 10 mai 2025 » ; aucune mention « définitivement fermé » sur aucune des fiches consul",
+   "sources": [
+    "https://restaurantguru.com/Le-VIPuces-Villeurbanne",
+    "https://www.tripadvisor.com/Restaurant_Review-g207360-d21257316-Reviews-Le_VIPuces-Villeurbanne_Rhone_Auvergne_Rhone_Alpes.html",
+    "https://rankeat.fr/restaurants/le-vipuces",
+    "https://www.sluurpy.fr/villeurbanne/restaurant/7979401/le-vipuces",
+    "https://www.facebook.com/p/Le-VIPuces-du-Canal-100084007266622/",
+    "https://www.bottin.fr/fiche-locale/haaedajaijdfhafaibg--le-vipuces--villeurbanne.htm"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Bar-restaurant à l'intérieur des Puces du Canal (Villeurbanne), ouvert dès 5h les jours de marché, 4,2 sur 43 avis Google, Instagram et Facebook mais aucun site. Angle : réservation pour les jeudis et dimanches où il y a de l'attente, carte à jour ; frein : clientèle de passage du marché, note moyenne, pas de visite possible.",
+  "scoreAdjust": -1,
+  "scoreAdjustReason": "Resto de marché aux puces, clientèle de passage, la réservation n'est pas une évidence.",
+  "score": 43,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "4,2 ★ (43 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-1 : Resto de marché aux puces, clientèle de passage, la réservation n'est pas une évidence.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, je fais des sites de restaurants depuis Grenoble.\n\nUn resto aux Puces du Canal qui ouvre à 5h du matin les jeudis et dimanches, ça ne court pas les rues. 4,2 sur 43 avis Google, et un avis conseille d'arriver tôt parce que ça attend les jours de marché. À part Instagram et Facebook, rien à vous.\n\nJe fais des pages avec la réservation dedans : on réserve le mercredi soir pour le jeudi, vous savez combien vous serez avant d'ouvrir. Pas de commission.\n\nJe ne suis pas sur place, mais je peux vous envoyer un exemple ici. Sinon pas de souci, bonne continuation.",
+  "followUp": "Bonjour, Raphaël de Subnet, je vous avais écrit la semaine dernière pour la réservation des jours de marché. C'est ma seule relance : l'exemple est prêt si vous voulez le voir. Si ce n'est pas d'actualité, pas de souci, bonne continuation.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-8431358606",
+  "source": "liste-de-depart",
+  "sourceId": "node/8431358606",
+  "name": "Hêresso Institut",
+  "sector": "beaute",
+  "kind": "shop=beauty",
+  "kindLabel": "Institut de beauté",
+  "phone": "0768182488",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7483391,
+  "lon": 4.8799153,
+  "website": "",
+  "instagram": "https://www.instagram.com/heresso_institut",
+  "facebook": "https://www.facebook.com/Heresso.beaute/",
+  "email": "",
+  "openingHours": "Mo,Su off; Tu-Fr 10:00-19:00; Sa 09:00-14:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : registre des entreprises : établissement actif (SIREN 989454210, STUDIO HERESSO), 4 sources concordantes, téléphone identique. · Activité bien vivante mais déménagée : la société STUDIO HERESSO (SIREN 989 454 210) a été créée le 16/06/2025 avec siège au 20 montée des Carmélites, 69001 Lyon (Pappers / annuaire-entreprises). La fiche Planity « Studio de beauté Here",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/studio-heresso-989454210",
+    "https://www.planity.com/heresso-69003-lyon",
+    "https://www.pagesjaunes.fr/pros/61149250",
+    "https://planity.com/heresso-69003-lyon",
+    "https://www.warale.com/Partenaire/heresso-institut/",
+    "https://www.pappers.fr/entreprise/studio-heresso-989454210"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Institut haut de gamme des pentes de la Croix-Rousse (Jade Somé, soins visage naturels, formules Peau Nette de 390 à 1 380 €), déménagement récent avec nouvelle société en 2025, 5,0 sur 674 avis Planity, environ 9 300 abonnés Instagram, zéro site propre. L'angle est un site à son nom avec acompte sur les soins longs en complément de Planity ; le frein est une dépendance totale à Planity qui lui réussit très bien, donc il faudra parler image de marque et paniers élevés plutôt qu'agenda.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Nouvelle société et déménagement récents, prestations chères où l'acompte a du sens ; mais Planity très ancré.",
+  "score": 43,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+2 : Nouvelle société et déménagement récents, prestations chères où l'acompte a du sens ; mais Planity très ancré.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble. J'ai vu Hêresso et le déménagement montée des Carmélites.\n\nVous êtes à 5,0 sur 674 avis Planity et 9 300 abonnés Instagram, par contre tout passe par Planity, pas de site à vous. Quand on cherche Hêresso, on tombe sur eux, pas sur vous. Pour des formules Peau Nette sur plusieurs mois, ça mérite une adresse à votre nom.\n\nJe fais ce site, avec la prise de rendez-vous : les soins longs se réservent avec un acompte, les créneaux sont tenus. Planity peut rester à côté.\n\nÇa vaut le coup qu'on en parle ? Si ce n'est pas le moment, pas de souci.",
+  "followUp": "Bonjour, Raphaël, développeur web à Grenoble, je vous avais envoyé un message il y a une semaine au sujet d'un site à vous à côté de Planity. Juste cette relance, je me doute que les journées sont pleines. Si ça ne vous intéresse pas, pas de souci, je ne reviendrai pas vers vous.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-6618796610",
+  "source": "liste-de-depart",
+  "sourceId": "node/6618796610",
+  "name": "Delaune Pizza",
+  "sector": "restaurant",
+  "kind": "amenity=fast_food",
+  "kindLabel": "Pizzeria",
+  "phone": "0629927258",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "Avenue du Général de Gaulle",
+   "postcode": "38130",
+   "city": "Échirolles"
+  },
+  "lat": 45.1426142,
+  "lon": 5.7150578,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Su 18:00-22:30",
+  "chain": false,
+  "google": {
+   "rating": 4.8,
+   "reviews": 178,
+   "status": "",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": null,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : registre des entreprises : établissement actif (SIREN 907800775, DELAUNE PIZZA (SAS)), 7 sources concordantes, téléphone identique. · Seule trace : fiche eat-list.fr avec un avis 5/5 daté du 25 octobre 2025 (il y a environ un an), aucune mention « définitivement fermé ». Pas de fiche Google, Facebook ou Instagram trouvée dans les résultats ; impossible de confirm",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/907800775",
+    "https://www.facebook.com/PizzaDelaune/",
+    "https://www.eat-list.fr/echirolles-38130/pizza-pizzeria-5/delaune-pizza-168579",
+    "https://restaurants-de-france.fr/38-isere/echirolles/restaurants/140174-delaune-pizza.html",
+    "https://lacarte.menu/restaurants/echirolles/delaune-pizza",
+    "https://restaurantguru.com/Delaune-pizza-Echirolles-2"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Pizzeria halal façon food truck à Échirolles avec livraison, référencée seulement sur eat-list (1 avis 5/5 en 2025, fiche remplie par le restaurant), sans site ni réseau ni fiche Google, numéro mobile. Angle : commande en ligne et carte à jour, usage concret avec la livraison ; frein : petite structure au budget serré et adresse incertaine.",
+  "scoreAdjust": 3,
+  "scoreAdjustReason": "Fiche eat-list renseignée par le restaurant et livraison : la commande en ligne a un vrai usage, numéro mobile.",
+  "score": 43,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,8 ★ (178 avis)",
+    "good": true
+   },
+   {
+    "text": "+3 : Fiche eat-list renseignée par le restaurant et livraison : la commande en ligne a un vrai usage, numéro mobile.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble. Delaune Pizza, je l'ai trouvé sur eat-list, à peu près votre seule trace en ligne : pas de site, pas de fiche Google.\n\nPourtant la fiche donne envie : pâte faite chaque jour, viande prise chez le boucher, pizzas de 33 cm, livraison. Et personne ne le voit.\n\nPour une pizzeria je fais un site à vous, carte et commande en ligne : le client choisit, retrait ou livraison, ça tombe sur votre téléphone. Pas de commission sur chaque pizza.\n\nSi ça vous intéresse, je vous envoie ici un exemple de site de pizzeria, sans engagement. Bonne soirée.",
+  "followUp": "Bonjour, c'est Raphaël, le développeur de Grenoble, je vous avais écrit la semaine dernière pour un site avec la commande en ligne pour Delaune Pizza. C'est mon seul rappel : si vous préférez en rester là, pas de souci, bonne continuation avec le camion.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-6291421294",
+  "source": "liste-de-depart",
+  "sourceId": "node/6291421294",
+  "name": "La Star Barber",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Barbier",
+  "phone": "0667530359",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7706282,
+  "lon": 4.8740591,
+  "website": "",
+  "instagram": "",
+  "facebook": "https://www.facebook.com/100089980966703",
+  "email": "",
+  "openingHours": "Mo-Th 10:00-18:30; Fr 10:00-12:30,14:00-18:30; Sa 10:00-17:00",
+  "chain": false,
+  "google": {
+   "rating": 4.9,
+   "reviews": 142,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": 5,
+     "text": "Un petit salon trop stylé, l'accueil super chaleureux et la coupe masterclass.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Un service impeccable à chaque visite !",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Très bien comme d'habitude!",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 919092411, LA STAR), 4 sources concordantes, téléphone identique. · Fiche Planity active avec des avis datés des 22/09/2026, 13/09/2026, 08/10/2026 et 10/10/2026 (réservation en ligne ouverte, 306 avis). Aucune mention de fermeture définitive sur Planity, Fresha, Bottin ou Acceslibre. · Plateformes : Planity,",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/919092411",
+    "https://www.planity.com/la-star-barber-69100-villeurbanne",
+    "https://www.bottin.fr/fiche-locale/hbjhiificihcgcgcbbd--la-star-barber--villeurbanne.htm",
+    "https://cristalcoiffure.fr/la-star-barber/",
+    "https://www.fresha.com/lvp/la-star-barber-cours-emile-zola-villeurbanne-Y0q35Y",
+    "https://acceslibre.beta.gouv.fr/app/69-villeurbanne/a/coiffure/erp/la-star-barber/"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Barbier à Villeurbanne (cours Émile-Zola), équipe de cinq, 4,9 sur 142 avis Google et 5/5 sur 306 avis Planity, réservation uniquement via Planity, pas de site. Angle : réservation sur un site à eux sans abonnement mensuel, avec le choix du coiffeur ; frein : Planity très ancré chez les barbiers et leurs clients, difficile de les faire bouger.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Salon qui tourne avec cinq barbiers et un Planity payant, mais Planity très ancré dans ce métier.",
+  "score": 42,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,9 ★ (142 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+2 : Salon qui tourne avec cinq barbiers et un Planity payant, mais Planity très ancré dans ce métier.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, je regardais les barbiers vers République à Villeurbanne, vos notes m'ont arrêté : 4,9 sur 142 avis Google, 5 sur 5 sur 306 avis Planity. Moi c'est Raphaël, développeur à Grenoble.\n\nLes avis répètent « comme d'habitude », et le café offert. Par contre pour réserver, il n'y a que Planity.\n\nJe fais des sites de salon avec la prise de rendez-vous dedans : le client choisit Amine ou Hakim et son créneau, même à 23h, sans abonnement tous les mois. Le fichier client reste chez vous.\n\nJe vous envoie un exemple ici si vous voulez. Ça vaut le coup d'en parler ? Sinon pas de problème.",
+  "followUp": "Bonjour, c'est Raphaël, de Grenoble, pour le site avec les réservations sans abonnement dont je vous parlais. Je vous relance une fois, et une seule. Si c'est pas le moment pour le salon, pas de souci, j'arrête là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-6291421296",
+  "source": "liste-de-depart",
+  "sourceId": "node/6291421296",
+  "name": "Mains d'or",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0658104625",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7705675,
+  "lon": 4.8731939,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Su 09:00-20:00",
+  "chain": false,
+  "google": {
+   "rating": 4.7,
+   "reviews": 70,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": null,
+     "text": "Rapide et efficace. Nour et son équipe coupe très bien.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": null,
+     "text": "J'ai l'habitude d'y aller, jamais eu de déception, des coiffeurs pro, au top…",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": null,
+     "text": "Beau salon bien décoré et propre. L'accueil est sympa et la prestation (coupe, barbe…) au top !",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 834882722, AL HADI), 4 sources concordantes, téléphone identique. · Fiche FNC « vérifiée il y a moins de 12 mois » avec horaires 7j/7 et 4,7/5 (+70 votes) ; fiche Fresha active (« Appelez pour réserver ») ; pages vitrine lovable.app datées « © 2026 » citant des avis « il y a 1 mois » ; aucune mention « défini",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/834882722",
+    "https://www.fresha.com/fr/lvp/coiffure-mains-dor-cours-emile-zola-villeurbanne-7xQyZq",
+    "https://www.fnc.fr/salons-de-coiffure/69266-villeurbanne/cidgfdiihiibhcdiddi.htm",
+    "https://www.fnc.fr/salons-de-coiffure/69266-villeurbanne/",
+    "https://www.planity.com/institut-de-beaute-galatee-69100-villeurbanne",
+    "https://salon1-mains-dor.lovable.app/"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon homme sans rendez-vous à Villeurbanne, deux adresses sur le cours Émile-Zola, ouvert 7j/7, 4,7 sur 70 avis Google, deux pages de test lovable.app non officielles mais aucun vrai site. Angle : une page commune aux deux salons avec tarifs et horaires, projet apparemment déjà tenté ; frein : petits prix donc budget serré, et un salon sans rendez-vous voit moins l'intérêt de la réservation.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Pages de test lovable : quelqu'un a déjà essayé de faire un site ; mais petits prix et salon sans rendez-vous.",
+  "score": 42,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,7 ★ (70 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+2 : Pages de test lovable : quelqu'un a déjà essayé de faire un site ; mais petits prix et salon sans rendez-vous.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, c'est Raphaël, je fais des sites pour les salons, à Grenoble.\n\nMains d'or, sur le cours Émile-Zola : 4,7 sur 70 avis Google, ouvert 7j/7, deux salons avec le même numéro. Par contre, deux pages de test à votre nom faites avec un générateur, et aucun vrai site.\n\nPour deux salons sans rendez-vous, je ferais une seule page : adresses, horaires, tarifs, et un créneau réservable pour ceux qui ne veulent pas attendre. Vous la mettez à jour vous-même, pas d'abonnement.\n\nJe peux vous montrer un exemple ici. C'est le moment pour vous ? Sinon pas de souci, je repasserai plus tard.",
+  "followUp": "Bonjour, Raphaël, le développeur de Grenoble qui vous avait écrit pour une page commune aux deux salons. Je relance juste une fois : l'exemple est prêt si vous voulez le voir. Si ce n'est pas le bon moment, aucun problème, je repasserai dans quelques mois ou pas du tout, comme vous préférez.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-5006393102",
+  "source": "liste-de-depart",
+  "sourceId": "node/5006393102",
+  "name": "El Andalous",
+  "sector": "restaurant",
+  "kind": "amenity=restaurant",
+  "kindLabel": "Restaurant",
+  "phone": "0667386556",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": null,
+  "lon": null,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Sa 12:00-14:00, Fr,Sa 19:30-22:00",
+  "chain": false,
+  "google": {
+   "rating": 4.9,
+   "reviews": 407,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 841960263), 4 sources concordantes, téléphone identique. · Fiche PagesJaunes active (restaurant El Andalous, 7 place Aristide Briand, 69003 Lyon) sans mention de fermeture, affichant une note TheFork 4,7 (161 avis). Aucune date d'avis récent consultable : la recherche web n'a pas pu être effectuée (quota de W",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/841960263",
+    "https://rankeat.fr/restaurants/el-andalous-lyon",
+    "https://www.sluurpy.fr/lyon/restaurant/7969237/el-andalous",
+    "https://www.pagesjaunes.fr/pros/60064721",
+    "https://www.pagesjaunes.fr/annuaire/chercherlespros?quoiqui=el+andalous&ou=Lyon"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Restaurant à Montchat (Lyon 3e), présent sur PagesJaunes et TheFork avec 4,7 sur 161 avis, 21 à 30 euros, service du midi en semaine et du soir le vendredi et samedi seulement, aucun site. Angle : un site à lui avec réservation sans commission alors qu’il passe par TheFork ; freins : à Lyon, pas de visite possible, et un rythme d’ouverture réduit qui laisse penser à une petite équipe peu pressée de changer.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Très bien noté sur TheFork, l’argument sans commission est concret pour lui.",
+  "score": 41,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,9 ★ (407 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+2 : Très bien noté sur TheFork, l’argument sans commission est concret pour lui.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, je fais des sites web pour les restaurants, depuis Grenoble.\n\nJ’ai repéré El Andalous en cherchant des restos sur Lyon. Vous êtes à 4,7 sur 161 avis sur TheFork, c’est costaud. Par contre aucun site à vous, juste la fiche PagesJaunes et TheFork.\n\nCe que je fais, c’est un site qui vous appartient, avec la réservation dessus et sans commission par couvert. Les réservations du vendredi et samedi soir tombent directement chez vous.\n\nJe peux vous envoyer ici un exemple fait pour un restaurant, sans engagement. Et si ce n’est pas le moment, aucun souci.",
+  "followUp": "Bonjour, Raphaël de Subnet à Grenoble, je vous avais écrit il y a une semaine au sujet de la réservation en ligne sans commission. Je vous relance une seule fois, promis. Si ça ne vous intéresse pas pour l’instant, dites-le moi ou ne répondez pas, et j’arrête là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-7434190912",
+  "source": "liste-de-depart",
+  "sourceId": "node/7434190912",
+  "name": "Plein Sud",
+  "sector": "bar",
+  "kind": "amenity=bar",
+  "kindLabel": "Bar",
+  "phone": "0611952320",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7629309,
+  "lon": 4.8329968,
+  "website": "",
+  "instagram": "https://www.instagram.com/plein_sud_lyon2/",
+  "facebook": "https://www.facebook.com/BarLePleinSud/",
+  "email": "",
+  "openingHours": "Mo 11:00-23:59; Tu-Sa 00:00-04:00, 11:00-23:59; Su 00:00-04:00",
+  "chain": false,
+  "google": {
+   "rating": 4.4,
+   "reviews": 162,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": null,
+     "text": "Super bar, je recommande vivement ! L'équipe est vraiment très agréable et on y mange très bien.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": null,
+     "text": "Super soirée pour mon anniversaire à 15 en terrasse.",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 350971511, PB), 6 sources concordantes, téléphone identique. · Avis certifiés Privateaser datés de juillet, août et septembre 2026 (plusieurs en septembre 2026) ; aucune mention de fermeture définitive trouvée. Schlouk Map affiche seulement « Fermé aujourd'hui » (horaire du jour). · Plateformes : Instagram (h",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/350971511",
+    "https://www.privateaser.com/lieu/39878-le-plein-sud",
+    "https://www.schlouk-map.com/fr/places/plein-sud",
+    "https://www.sluurpy.fr/lyon/restaurant/2002361/plein-sud",
+    "https://www.1001salles.com/mariage/30726-plein-sud.aspx",
+    "https://www.privateaser.com/lieu/62538-le-plein-sud-privatisation"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Bar à cocktails de la Presqu'île actif en ligne (Instagram, Privateaser 4,6 sur 58 avis, Google 4,4 sur 162 avis, DJ sets, privatisations de 30 à 50 personnes) mais sans site propre. L'angle est la page carte, soirées et formulaire de privatisation sans commission ; le frein, c'est qu'Instagram plus Privateaser leur suffisent peut-être déjà et qu'un gérant de bar de nuit répond rarement en journée.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Gérant actif sur Instagram et Privateaser, privatisations régulières : vrai besoin d'un formulaire à lui",
+  "score": 40,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "4,4 ★ (162 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+2 : Gérant actif sur Instagram et Privateaser, privatisations régulières : vrai besoin d'un formulaire à lui",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, je fais des sites pour les bars et les restos, depuis Grenoble.\n\nJ'ai vu le Plein Sud en regardant les bars de la Presqu'île. 4,4 sur 162 avis Google, 4,6 sur Privateaser, les DJ sets, la terrasse. Tout ça vit sur Instagram, mais pas de site à vous.\n\nDu coup pour un bar comme le vôtre : une page avec la carte à jour, les soirées et un formulaire de privatisation qui vous arrive direct, sans commission. Vous changez un cocktail vous-même.\n\nJe peux vous envoyer ici un exemple fait pour un bar, sans engagement. Vous regardez quand vous avez un moment.",
+  "followUp": "Bonjour, c'est Raphaël de Subnet, je vous avais écrit la semaine passée à propos d'un site pour le Plein Sud, avec la carte et les privatisations. Je me doute que les semaines sont chargées. Si ce n'est pas le moment, dites-le-moi et j'arrête là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-3648129211",
+  "source": "liste-de-depart",
+  "sourceId": "node/3648129211",
+  "name": "Bernard Pizza",
+  "sector": "restaurant",
+  "kind": "amenity=fast_food",
+  "kindLabel": "Pizzeria",
+  "phone": "0625700328",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "42 Avenue Jules Vallès",
+   "postcode": "38400",
+   "city": "Saint-Martin-d'Hères"
+  },
+  "lat": 45.1827552,
+  "lon": 5.7476618,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Sa 18:00-21:00",
+  "chain": false,
+  "google": {
+   "rating": 4.8,
+   "reviews": 80,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 378698559, BERNARD CHABANNAS (entreprise individuelle)), 4 sources concordantes, téléphone identique. · La fiche Bottin « Bernard Pizza Grenoble - Au Feu De Bois » (42 Av. Jules Vallès, tél. 06 25 70 03 28) affiche le statut « FERMÉ », vraisemblablement un statut horaire au moment de la capture et non une fer",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/378698559",
+    "https://www.bottin.fr/fiche-locale/bfbbabbdiidgbaddhida--bernard-pizza-grenoble-au-feu-de-bois--grenoble.htm",
+    "https://www.bottin.fr/annuaire/pizza-a-emporter-a-grenoble-38185.htm",
+    "https://www.openstreetmap.org/node/3648129211"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Pizzeria à emporter au feu de bois avenue Jules Vallès, quartier Croix Rouge, ouverte du mardi au samedi de 18h à 21h, 4,8 sur plus de 80 votes Bottin ; aucun site, aucun réseau, pas de note Google connue, seulement un mobile. Angle : précommande en ligne avec heure de retrait pour désengorger trois heures de service ; frein : commerce traditionnel sans aucune trace web, probablement peu demandeur.",
+  "scoreAdjust": -3,
+  "scoreAdjustReason": "Aucune trace web en dehors d'un annuaire, pas de note Google connue : commerce traditionnel peu demandeur.",
+  "score": 39,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,8 ★ (80 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-3 : Aucune trace web en dehors d'un annuaire, pas de note Google connue : commerce traditionnel peu demandeur.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble. En cherchant une pizza au feu de bois vers Croix Rouge, j'ai vu Bernard Pizza sur le Bottin, 4,8 sur plus de 80 votes, et plus rien : pas de site, pas de page, juste le portable.\n\nVous ouvrez de 18h à 21h. Trois heures où tout tombe en même temps, le four et le téléphone. Un site simple où les gens commandent à l'avance avec leur heure de retrait, ça vous laisse les mains libres, et tout arrive déjà écrit.\n\nLe site est à vous, sans abonnement ni commission.\n\nC'est un sujet pour vous en ce moment ? Sinon ou plus tard, aucun problème.",
+  "followUp": "Bonjour, Raphaël, le développeur web de Grenoble qui vous a écrit la semaine dernière pour les commandes à l'avance. Dernier message de ma part : si ce n'est pas d'actualité, je n'insiste pas, et si vous voulez en parler cinq minutes, je reste joignable ici.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-2504142133",
+  "source": "liste-de-depart",
+  "sourceId": "node/2504142133",
+  "name": "Saône",
+  "sector": "restaurant",
+  "kind": "amenity=restaurant",
+  "kindLabel": "Restaurant français",
+  "phone": "0781546299",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.760248,
+  "lon": 4.8314789,
+  "website": "",
+  "instagram": "https://www.instagram.com/saone_restaurant/",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Fr 12:00-13:15, 19:30-21:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 945128346, LA COMPAGNIE DES CELESTINS), 5 sources concordantes, téléphone identique. · Plateformes : https://www.instagram.com/saone_restaurant/ (fourni par OSM, non vérifié)",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/945128346",
+    "https://www.visiterlyon.com/se-regaler/restaurants-et-gastronomie/cuisine-traditionnelle/saone",
+    "https://fr.gaultmillau.com/en/restaurants/saone",
+    "https://foodle.pro/restaurants/lyon/saone",
+    "https://events.lyon-france.com/en/your-event/Restaurants/saone"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Restaurant français à Lyon, sans site ; seule trace un Instagram @saone_restaurant déclaré par OSM mais inaccessible à la vérification, aucune note Google connue, horaires très courts (12h-13h15, 19h30-21h) qui évoquent un service unique à menu fixe. Angle : réservation en ligne sans commission pour une petite salle qui se remplit sur réservation ; freins : à distance (pas de visite), presque aucune donnée vérifiée, et un restaurant à créneau unique peut déjà tourner plein au bouche-à-oreille.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Lyon à distance, presque rien de vérifié sur le commerce, Instagram inaccessible.",
+  "score": 39,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Lyon à distance, presque rien de vérifié sur le commerce, Instagram inaccessible.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, c’est Raphaël, je fais des sites web pour les restaurants, depuis Grenoble.\n\nJe suis tombé sur Saône en regardant les restos de Lyon. Un compte Instagram, mais pas de site. Vos horaires, 12h à 13h15 puis 19h30 à 21h, ça ressemble à un service unique où il vaut mieux avoir réservé.\n\nDu coup je pensais à une page simple avec la réservation en ligne : les demandes tombent le soir, vous les retrouvez le lendemain, sans commission, pas comme TheFork. Le site est à vous.\n\nSi ça vous parle, je vous envoie ici un exemple pour un restaurant, sans engagement. Sinon pas de souci. Bonne journée.",
+  "followUp": "Bonjour, c’est encore Raphaël, le développeur de Grenoble qui vous écrivait la semaine dernière à propos d’un site avec réservation pour Saône. Je ne relance qu’une fois : si ce n’est pas le moment, dites-le moi et j’arrête là. Sinon l’exemple est prêt, je l’envoie quand vous voulez.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-1422033282",
+  "source": "liste-de-depart",
+  "sourceId": "node/1422033282",
+  "name": "Beauty RBS",
+  "sector": "beaute",
+  "kind": "shop=beauty",
+  "kindLabel": "Institut de beauté",
+  "phone": "0769383375",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7702408,
+  "lon": 4.8804733,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Fr 09:30-19:00; Sa 09:30-17:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 851688648, ANNA RIBAS), 2 sources concordantes, téléphone identique. · Fiche Planity active avec réservation en ligne, avis les plus récents datés du 05/10/2026 (197 avis, 4,9/5) ; aucune mention de fermeture. · Notes vues : Planity 4,9/5 (197 avis, catégories accueil/propreté/ambiance/qualité toutes à 4,9) ·",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/851688648",
+    "https://www.planity.com/beauty-by-rbs-69100-villeurbanne"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Institut ongles et cils à Villeurbanne (Gratte-Ciel) tenu par Anna, 4,9 sur 197 avis Planity, paiements PayPal, Revolut ou virement et contact WhatsApp hors horaires, pas de site ni Instagram vérifié. L'angle est l'acompte réglé au moment de la réservation puisqu'elle affiche déjà des paiements à distance ; le frein, c'est Planity qui fait déjà le job de l'agenda et où sont les 197 avis.",
+  "scoreAdjust": 3,
+  "scoreAdjustReason": "Gérante qui utilise déjà WhatsApp, Revolut et PayPal : à l'aise avec les outils, acompte facile à vendre.",
+  "score": 39,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+3 : Gérante qui utilise déjà WhatsApp, Revolut et PayPal : à l'aise avec les outils, acompte facile à vendre.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, c'est Raphaël, je fais des sites pour les instituts et les salons, à Grenoble.\n\nJ'ai repéré Beauty RBS en regardant les instituts du côté de Gratte-Ciel. 4,9 sur 197 avis Planity, ça marche bien. J'ai vu aussi que vous prenez PayPal, Revolut ou virement, et que ça passe par WhatsApp hors horaires.\n\nDu coup ce que je ferais pour vous : un site à votre nom, avec la prise de rendez-vous, et l'acompte se règle directement en réservant. Il y a moins de lapins.\n\nSi ça vous parle, je vous envoie ici un exemple pour un institut. Sinon pas de souci.",
+  "followUp": "Bonjour, c'est encore Raphaël, de Grenoble, pour le site avec acompte dont je vous parlais la semaine dernière. Je vous relance une fois : si vous voulez voir l'exemple, je l'envoie ici. Sinon on en reste là, sans problème.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-8366698017",
+  "source": "liste-de-depart",
+  "sourceId": "node/8366698017",
+  "name": "Casa Vittorio",
+  "sector": "restaurant",
+  "kind": "amenity=restaurant",
+  "kindLabel": "Restaurant italien",
+  "phone": "0698267998",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": null,
+  "lon": null,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "",
+  "chain": false,
+  "google": {
+   "rating": 4.7,
+   "reviews": 144,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 909338956, VARMI), 3 sources concordantes, téléphone identique. · Une fiche PagesJaunes « Casa Vittorio » existe à Lyon 6e (39 rue Pierre Corneille, catégorie « épiceries fines ») sans mention de fermeture, mais aucun avis ni publication datés n'ont pu être consultés : le statut d'ouverture reste indéterminé.",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/909338956",
+    "https://rankeat.fr/restaurants/casa-vittorio-lyon",
+    "https://www.pagesjaunes.fr/pros/63121413",
+    "https://www.pagesjaunes.fr/recherche/lyon-69/casa-vittorio"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Restaurant italien aux Brotteaux (Lyon 6e), connu seulement par une fiche PagesJaunes qui le classe en épicerie fine, sans site indiqué, sans horaires, sans avis trouvés. Angle : réservation en ligne et fiche cohérente pour quelqu’un qui cherche une table ; freins : à Lyon donc à distance, et on ne sait même pas si c’est vraiment un restaurant ou une épicerie avec quelques tables.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Très peu d’informations, fiche mal classée, activité réelle incertaine.",
+  "score": 39,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,7 ★ (144 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Très peu d’informations, fiche mal classée, activité réelle incertaine.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, j’ai trouvé Casa Vittorio en cherchant des italiens sur Lyon : à part une fiche PagesJaunes rue Pierre Corneille, qui vous classe en épicerie fine, pas de site, rien. Je m’appelle Raphaël, je fais des sites pour les restaurants, à Grenoble.\n\nPour quelqu’un qui veut réserver une table, c’est pas évident de vous trouver.\n\nJe propose un site à vous, avec la réservation en ligne et sans commission du genre TheFork. Les gens réservent pendant le service, vous retrouvez tout sur le téléphone.\n\nC’est un sujet pour vous en ce moment ? Sinon on en reparle plus tard, ou pas. Bonne journée.",
+  "followUp": "Bonjour, c’est Raphaël, développeur web à Grenoble, je vous avais écrit la semaine dernière à propos d’un site avec réservation pour Casa Vittorio. Petite relance, la seule. Si ce n’est pas d’actualité, pas de problème, je vous laisse tranquille.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "way-81060452",
+  "source": "liste-de-depart",
+  "sourceId": "way/81060452",
+  "name": "Casa Barrio Latino",
+  "sector": "restaurant",
+  "kind": "amenity=restaurant",
+  "kindLabel": "Restaurant",
+  "phone": "0656725414",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "175 Cours Jean Jaurès",
+   "postcode": "38130",
+   "city": "Échirolles"
+  },
+  "lat": 45.1405611,
+  "lon": 5.7036525,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "",
+  "chain": false,
+  "google": {
+   "rating": 4.4,
+   "reviews": 88,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 929646743, EL LATINO), 5 sources concordantes, téléphone identique. · Fiche Rankeat mise à jour le 5 mars 2026 avec horaires affichés et 88 avis Google (4,4/5) ; aucune mention « définitivement fermé » trouvée, mais aucune publication ou avis daté récent n'a pu être vérifié directement (Google Maps non consul",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/929646743",
+    "https://www.dance-events.fr/fr/event/18257",
+    "https://rankeat.fr/restaurants/casa-barrio-latino-echirolles",
+    "https://www.pappers.fr/entreprise/el-latino-929646743",
+    "https://restaurants-de-france.fr/fr/casa-barrio-latino-echirolles-3398055.html"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Restaurant latino-américain du cours Jean Jaurès à Échirolles, 4,4 sur 88 avis Google, fermé lundi et mardi, service du soir tardif en fin de semaine, budget 15-25 € ; aucun site, aucun réseau social, horaires incohérents sur la fiche, seulement Google et l'annuaire Rankeat. Angle : site avec carte, bons horaires et réservation pour les soirs de week-end ; frein : aucun extrait d'avis ni signe d'intérêt pour le web, on ne sait rien du gérant.",
+  "scoreAdjust": 0,
+  "scoreAdjustReason": "",
+  "score": 38,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,4 ★ (88 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, je m'appelle Raphaël, développeur web à Grenoble.\n\nJ'ai cherché Casa Barrio Latino en ligne : 4,4 sur 88 avis Google, une fiche d'annuaire, et rien d'autre. Pas de site, pas d'Instagram ni de Facebook. J'ai vu passer les empanadas et les grillades façon argentine, ça donne envie.\n\nJe fais un site à vous avec la carte, les horaires et la réservation en ligne, sans commission. Les demandes pour le samedi soir tombent toutes seules pendant que vous êtes en salle, même tard en fin de semaine.\n\nSi ça vous parle, je vous envoie ici un exemple de site pour un restaurant, sans engagement.",
+  "followUp": "Bonjour, Raphaël, développeur web à Grenoble, je vous ai écrit la semaine dernière pour un site avec réservation pour Casa Barrio Latino. Je relance une fois et pas plus : si ça ne vous parle pas, aucun souci, et sinon je vous envoie l'exemple dès que vous me dites oui.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-2098055343",
+  "source": "liste-de-depart",
+  "sourceId": "node/2098055343",
+  "name": "Döner Gang",
+  "sector": "restaurant",
+  "kind": "amenity=fast_food",
+  "kindLabel": "Kebab",
+  "phone": "0605983368",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7714499,
+  "lon": 4.8735211,
+  "website": "",
+  "instagram": "https://www.instagram.com/donerganglyon/",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Fr 12:00-15:00,18:00-23:00; Sa 12:00-23:00",
+  "chain": false,
+  "google": {
+   "rating": 4.7,
+   "reviews": 1080,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : pas de fiche au registre sous ce nom, 5 sources concordantes, téléphone identique. · Plateformes : Instagram (donné par OSM, non vérifié) : https://www.instagram.com/donerganglyon/",
+   "sources": [
+    "https://rankeat.fr/restaurants/doner-gang-villeurbanne",
+    "https://acceslibre.beta.gouv.fr/app/69-villeurbanne/a/restaurant/erp/doner-gang/",
+    "https://lyonsecret.com/en/best-kebabs-lyon",
+    "https://www.openstreetmap.org/node/2098055343"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Kebab à Lyon avec un Instagram @donerganglyon (non vérifié), sans site ; le système cite 4,7 sur 1080 avis dans les raisons mais la note Google est à null dans les données, donc non reprise dans le message, à vérifier avant envoi. Angle : carte à jour et commande à emporter sans commission plutôt que la réservation (peu pertinente pour un kebab) ; freins : à distance, sans doute déjà sur les applis de livraison, et un fast-food à gros volume ressent peu le besoin d’un site.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Kebab à emporter, besoin faible d’un site ; la note 4,7 sur 1080 avis des raisons n’est pas confirmée dans les données.",
+  "score": 38,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "4,7 ★ (1080 avis)",
+    "good": true
+   },
+   {
+    "text": "Très gros volume d’avis",
+    "good": false
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Kebab à emporter, besoin faible d’un site ; la note 4,7 sur 1080 avis des raisons n’est pas confirmée dans les données.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, je suis tombé sur Döner Gang via votre Instagram, et pas de site derrière. Je m’appelle Raphaël, je fais des sites pour les restaurants, depuis Grenoble.\n\nOuvert jusqu’à 23h six jours sur sept, j’imagine que le téléphone sonne pendant le coup de feu, et c’est jamais le bon moment pour noter une commande.\n\nPour un kebab, je fais une page avec la carte à jour et la commande à emporter qui vous arrive en direct, sans la commission des applis de livraison. Un prix bouge, vous le changez vous-même.\n\nJe peux vous envoyer un exemple ici. Ça vaut le coup qu’on en parle ? Sinon pas de souci.",
+  "followUp": "Re-bonjour, Raphaël, de Grenoble, je vous avais écrit la semaine dernière pour une page avec la carte et la commande à emporter de Döner Gang. C’est ma seule relance, promis. Si ça ne vous intéresse pas, pas de problème, je ne vous embête plus.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-8489875973",
+  "source": "liste-de-depart",
+  "sourceId": "node/8489875973",
+  "name": "Loulou Pizza",
+  "sector": "restaurant",
+  "kind": "amenity=fast_food",
+  "kindLabel": "Pizzeria",
+  "phone": "0660906875",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "Rue du 19 Mars 1962",
+   "postcode": "38120",
+   "city": "Saint-Égrève"
+  },
+  "lat": 45.2242207,
+  "lon": 5.6885862,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "We-Su 18:00-21:30",
+  "chain": false,
+  "google": {
+   "rating": 4.3,
+   "reviews": 50,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": 5,
+     "text": "Équipe qui se démène toujours pour bien servir !! Prix très raisonnables, emplacement idéal.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Personnel très sympa, j'achète toujours mes pizzas chez eux depuis mon arrivée à St Egreve",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 2,
+     "text": "On est allé 2 fois la bas et on attend toujours même si on a commandé à l'avance, ils ne prennent pas la carte.",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 488083494, JOHANN PIZZICOLO), 3 sources concordantes, téléphone identique. · Avis Google synchronisés jusqu'au 04/07/2025 (5/5, « Équipe qui se démène toujours pour bien servir ») visibles sur restaurants-de-france.fr (fiche mise à jour le 19/11/2025) ; aucune mention « définitivement fermé » sur les annuaire",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/488083494",
+    "https://pizzas-a-emporter.restaurants-de-france.fr/loulou-pizza-1286678.html",
+    "https://www.openstreetmap.org/node/8489875973",
+    "https://www.bottin.fr/fiche-locale/jddjgggbhhhcifiaijf--loulou-pizza--fontanil-cornillon.htm",
+    "https://kazfeed.com/restaurants/isere/saint-egreve/",
+    "https://www.waze.com/live-map/directions/fr/auvergne-rhone-alpes/saint-egreve/loulou-pizza?to=place.ChIJqZeSUw7zikcRHw0-rOconYE"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Pizzeria à emporter de Saint-Égrève ouverte le soir du mercredi au dimanche, 4,3 sur 50 avis Google, clientèle d'habitués, paiement en espèces et chèques seulement ; aucun site, aucun réseau social, juste un mobile. Angle : la précommande avec créneau pour casser l'attente du week-end citée dans les avis ; frein : gérants visiblement peu portés sur le numérique (pas même la carte bancaire).",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Pas de carte bancaire acceptée : faible appétit pour les outils en ligne, même si l'attente est un vrai problème.",
+  "score": 37,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,3 ★ (50 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Pas de carte bancaire acceptée : faible appétit pour les outils en ligne, même si l'attente est un vrai problème.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble. En regardant les pizzerias de Saint-Égrève, j'ai vu passer Loulou Pizza : 4,3 sur 50 avis Google, des habitués fidèles. Plusieurs avis conseillent de téléphoner avant, surtout le week-end, c'est plutôt bon signe.\n\nJe fais des sites pour les commerces, et pour une pizzeria à emporter ça donne une page où les clients commandent à l'avance avec un créneau. Les commandes arrivent écrites, du coup le téléphone sonne moins au coup de feu.\n\nPas d'abonnement ni de commission, le site est à vous.\n\nÇa vaut le coup qu'on en parle ? Sinon, pas de problème.",
+  "followUp": "Bonjour, Raphaël, développeur web à Grenoble, je vous avais écrit la semaine dernière pour les commandes à l'avance chez Loulou Pizza. C'est ma seule relance : si ça ne vous intéresse pas, je n'insiste pas, et si vous voulez en discuter deux minutes, je suis là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-13900756530",
+  "source": "liste-de-depart",
+  "sourceId": "node/13900756530",
+  "name": "La Mezza",
+  "sector": "bar",
+  "kind": "amenity=cafe",
+  "kindLabel": "Café",
+  "phone": "0783704499",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7686994,
+  "lon": 4.8319187,
+  "website": "",
+  "instagram": "https://www.instagram.com/la_mezza_lyon/",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Su 11:30-17:00 Mo-Su 18:00-23:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 994549764, SAS LA MEZZA), 4 sources concordantes. · Fiches Privateaser et ABC Salles actives (établissement présenté comme « nouveau » sur Privateaser, horaires 11h30-23h 7j/7), aucune mention de fermeture trouvée ; mais aucun avis daté ni publication Instagram récente n'a pu être consulté (Instagram a renvoy",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/994549764",
+    "https://www.privateaser.com/lieu/64301-la-mezza",
+    "https://www.abcsalles.com/lieu/la-mezza",
+    "https://www.openstreetmap.org/way/242770971"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Bistro franco-libanais et bar à jeux du Lyon 1er avec salle privatisable, visible sur Instagram, Privateaser et ABC Salles mais sans site ni note Google connue, numéro mobile. Angle : réservation et privatisation sans commission ; freins : à distance (pas de visite possible) et un lieu événementiel lyonnais est sans doute déjà sollicité par les plateformes.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Fiche Privateaser récente et activité de privatisation : un vrai besoin de réservation, mais Lyon et déjà des plateformes.",
+  "score": 37,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+2 : Fiche Privateaser récente et activité de privatisation : un vrai besoin de réservation, mais Lyon et déjà des plateformes.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, je m'appelle Raphaël, je fais des sites pour les commerces, à Grenoble.\n\nJe suis tombé sur La Mezza en regardant les bars à jeux de Lyon. Mezzés, une centaine de jeux, une salle privatisable pour 50 à 70 personnes. Mais à part Instagram, Privateaser et ABC Salles, pas de site à vous.\n\nDu coup, pour une table ou un anniversaire, ça passe par une plateforme ou par téléphone. Un site à vous, avec la carte et la réservation en ligne, prend les demandes le soir, sans commission.\n\nJe peux vous envoyer un exemple ici. Ça vaut le coup qu'on en parle ? Sinon pas de souci, bon service.",
+  "followUp": "Bonjour, c'est Raphaël, le développeur de Grenoble qui vous a écrit la semaine dernière à propos d'un site pour La Mezza avec la réservation en ligne. Je ne relancerai pas derrière : si ce n'est pas le moment, dites-le moi et j'arrête là, aucun problème.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-533729182",
+  "source": "liste-de-depart",
+  "sourceId": "node/533729182",
+  "name": "Café de la Mairie",
+  "sector": "bar",
+  "kind": "amenity=cafe",
+  "kindLabel": "Café",
+  "phone": "0645803011",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "Place de Gordes",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.192226,
+  "lon": 5.727865,
+  "website": "",
+  "instagram": "",
+  "facebook": "https://www.facebook.com/lecafedelamairiegrenoble",
+  "email": "",
+  "openingHours": "Tu-Th 17:00-23:00; Fr,Sa 11:00-23:00; Su 11:00-20:00",
+  "chain": false,
+  "google": {
+   "rating": 4.6,
+   "reviews": 269,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": 5,
+     "text": "De bons aperos entre copains. Des petits plats originaux à partager. Super accueil.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "Super. Bonnes boissons, bonnes options au menu. Et service très sympathique.",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": 5,
+     "text": "the cutest place you can find in Grenoble",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 878881192, PASSADOR & SCHMIDT), 5 sources concordantes, téléphone identique. · Avis Google récents relayés par Wanderlog (Arturo C, 20 juillet 2025 ; Eduardo D, 26 décembre 2025 qui conseille de réserver), fiche TripAdvisor active (5,0/5, ~103 avis), aucune mention « définitivement fermé » sur Sluurpy, Wander",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/878881192",
+    "https://www.opentable.ie/r/le-cafe-de-la-mairie-grenoble",
+    "https://wanderlog.com/place/details/3580723/le-caf%C3%A9-de-la-mairie",
+    "https://www.sluurpy.fr/grenoble/restaurant/7976788/le-caf%C3%A9-de-la-mairie",
+    "https://www.facebook.com/lecafedelamairiegrenoble",
+    "https://www.tripadvisor.com/Restaurant_Review-g187264-d21116785-Reviews-Le_Cafe_De_La_Mairie-Grenoble_Isere_Auvergne_Rhone_Alpes.html"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Bar-café-restaurant de quartier place de Gordes, petite salle d'environ 20 couverts et terrasse, 4,6 sur 269 avis Google et 5,0 sur TripAdvisor, planches, fondues et raclettes le soir ; seule page à lui : Facebook, mais une fiche OpenTable existe. Angle : carte du moment et réservation sur un site à lui ; frein : adresse très établie qui tourne déjà, et OpenTable couvre peut-être déjà la réservation.",
+  "scoreAdjust": -1,
+  "scoreAdjustReason": "Adresse très établie qui remplit déjà, et une fiche OpenTable qui couvre peut-être la réservation.",
+  "score": 35,
+  "scoreLabel": "Très bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,6 ★ (269 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-1 : Adresse très établie qui remplit déjà, et une fiche OpenTable qui couvre peut-être la réservation.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, c'est Raphaël, je fais des sites web pour les bars et commerces de Grenoble.\n\nJ'ai regardé votre fiche : 4,6 sur 269 avis Google, un 5 sur TripAdvisor, et un avis de décembre qui dit carrément de réserver. Côté web, à part la page Facebook, rien à vous.\n\nAvec une petite salle comme la vôtre, un site où les gens voient la carte du moment et réservent depuis leur téléphone, ça évite les appels en plein service. La carte, vous la changez vous-même, sans webmaster.\n\nSi ça vous tente, je passe vous montrer un exemple cinq minutes, un après-midi calme. Sinon pas de souci.",
+  "followUp": "Bonjour, c'est Raphaël, le voisin de Grenoble qui fait des sites et qui vous avait écrit la semaine dernière pour la carte et les réservations. Une seule relance, promis : si ce n'est pas le moment, on en reste là, et sinon je passe quand ça vous arrange.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-2203224922",
+  "source": "liste-de-depart",
+  "sourceId": "node/2203224922",
+  "name": "Lashes by Halims",
+  "sector": "beaute",
+  "kind": "shop=beauty",
+  "kindLabel": "Institut de beauté",
+  "phone": "0631624670",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "135 Cours Berriat",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1886322,
+  "lon": 5.70755,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Th 09:00-17:00; Fr, Sa 09:30-18:30",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : pas de fiche au registre sous ce nom, 6 sources concordantes. · Fiche Fresha active avec réservation en ligne (« Instant confirmation », « Open until 9:00 PM ») et un avis client daté du 31 juillet 2026 (« il y a 2 mois ») ; aucune mention de fermeture trouvée. · Notes vues : Fresha 5,0/5 (1 avis) · Plateformes : Fresha",
+   "sources": [
+    "https://www.fresha.com/a/lashes-by-halims-grenoble-135-cours-berriat-ska9nf38",
+    "https://www.planity.com/lash-by-halins-38100-grenoble",
+    "https://www.unib-france.fr/instituts-de-beaute/38185-grenoble/fiajabagejgedjhdbaf.htm",
+    "https://www.fresha.com/lp/en/fr-grenoble",
+    "https://www.pagesjaunes.fr/recherche/grenoble-38/lashes-by-halims"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Institut tenu par une seule technicienne cils au 135 cours Berriat, une vingtaine de prestations réservables uniquement sur Fresha, un seul avis en ligne (5/5), pas de site, pas de Google, pas d'Instagram référencé. Angle : prise de rendez-vous avec acompte sur une page à elle pour limiter les lapins et garder ses clientes hors appli ; frein : Fresha lui suffit peut-être, activité encore petite, budget probablement serré.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Déjà équipée avec Fresha (gratuit, confirmation instantanée) et activité encore petite : un seul avis en ligne.",
+  "score": 34,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Déjà équipée avec Fresha (gratuit, confirmation instantanée) et activité encore petite : un seul avis en ligne.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, je fais des sites de prise de rendez-vous pour les indépendants, à Grenoble.\n\nJ'ai vu votre page Fresha : une vingtaine de prestations, volume russe, browlift, et vous êtes seule à tout gérer. En dehors de Fresha, rien à votre nom.\n\nPour une technicienne cils, je monte une page à vous où les clientes réservent et laissent un acompte. Un rendez-vous qui saute à la dernière minute, avec l'acompte ça arrive nettement moins. Et vos clientes restent les vôtres, pas celles d'une appli.\n\nÇa vaut le coup qu'on en parle ? Si vous êtes bien avec Fresha, pas de souci.",
+  "followUp": "Bonjour, c'est Raphaël, de Subnet, je vous avais écrit la semaine dernière pour les rendez-vous avec acompte. Je ne relancerai pas une deuxième fois : si ce n'est pas le moment, pas de problème du tout. Si vous voulez voir à quoi ça ressemble, dites-moi.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-6721202492",
+  "source": "liste-de-depart",
+  "sourceId": "node/6721202492",
+  "name": "Design Hair Coiffure",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0658868756",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "Rue de Stalingrad",
+   "postcode": "38100",
+   "city": "Grenoble"
+  },
+  "lat": 45.1803349,
+  "lon": 5.7266514,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Fr 09:30-19:00; Sa 09:30-17:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 894454545, DESIGN HAIR), 4 sources concordantes, téléphone identique. · Fiche PagesJaunes active (horaires affichés, aucune mention « définitivement fermé »), dernier avis daté du 17/04/2023. Aucune preuve d'activité plus récente trouvée ; Google Maps non consulté (budget de recherche épuisé). · Notes vues :",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/894454545",
+    "https://www.pagesjaunes.fr/pros/54295058",
+    "https://www.bottin.fr/fiche-locale/gabahiahahfjfjbgjjj--design-hair-coiffure--grenoble.htm",
+    "https://acceslibre.beta.gouv.fr/app/38-grenoble/a/coiffure/erp/design-hair-coiffure/",
+    "https://www.pagesjaunes.fr/annuaire/chercherlespros?quoiqui=design+hair+coiffure&ou=grenoble-38000"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon de coiffure rue Stalingrad (Grenoble) connu seulement par PagesJaunes (5/5 sur 1 avis), avec un lien « site web » qui pointe vers Planity, donc sans doute déjà abonné ; horaires contradictoires entre les fiches, pas de Google ni d'Instagram trouvés. Angle : une page à lui avec la prise de rendez-vous sans abonnement et des horaires justes ; frein : si Planity lui convient il ne verra pas l'intérêt de changer, et on sait très peu de choses sur le salon.",
+  "scoreAdjust": 0,
+  "scoreAdjustReason": "Très peu d'infos sur le salon ; lien Planity non vérifié, donc peut-être déjà équipé.",
+  "score": 34,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, question bête : vos horaires. Sur une fiche vous êtes ouverts le lundi et fermés le mardi, sur l'autre c'est l'inverse. J'ai renoncé à savoir.\n\nJe suis Raphaël, je fais des sites pour les commerces à Grenoble, et ça m'a fait tiquer : la cliente qui veut juste votre jour de fermeture clique sur « site web » et tombe sur Planity.\n\nUne page à vous, horaires justes, prise de rendez-vous dedans, sans abonnement ni commission. Elle réserve son brushing depuis le tram, c'est dans votre agenda.\n\nJe passe vous montrer un exemple un jour creux ? Et si Planity vous va, je comprends très bien.",
+  "followUp": "Bonjour, Raphaël, le développeur de Grenoble qui vous écrivait au sujet de vos horaires et de la prise de rendez-vous en ligne. Je relance une seule fois, au cas où le message se soit perdu entre deux clientes. Si ce n'est pas le moment, on en reste là, bonne continuation.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-6398660158",
+  "source": "liste-de-depart",
+  "sourceId": "node/6398660158",
+  "name": "Balamani",
+  "sector": "beaute",
+  "kind": "shop=beauty",
+  "kindLabel": "Institut de beauté",
+  "phone": "0635400898",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7531164,
+  "lon": 4.8539891,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo 10:00-16:00; Tu 09:30-18:30; Th 09:00-18:30; Fr 09:00-18:00; Sa 09:00-15:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 493833941, GERALDINE GERON (MOURGUIART)), 4 sources concordantes. · Seule trace trouvée : une fiche Mappy (données Pages Jaunes) avec horaires proches de ceux d'OSM et mention « Fermé actuellement » (fermeture horaire, pas définitive). Aucun avis, aucune publication récente, aucune mention « définitivement fe",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/493833941",
+    "https://fr.mappy.com/poi/5a811e510351d10260eadd18",
+    "https://fr.mappy.com/activite/institut-de-beaute/69003-lyon"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Institut de beauté avenue Félix Faure (Lyon 3e), visible uniquement sur Mappy et PagesJaunes avec ses horaires, aucun site, aucun réseau social, aucun avis trouvé. Angle : la prise de rendez-vous en ligne avec acompte contre les lapins ; freins : à Lyon donc pas de visite, et un institut aussi absent d’internet n’a peut-être tout simplement pas envie d’y être.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Quasi aucune trace en ligne, probablement peu demandeur.",
+  "score": 34,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Quasi aucune trace en ligne, probablement peu demandeur.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble. J’ai vu passer Balamani, avenue Félix Faure, en regardant les instituts sur Lyon. À part la fiche Mappy avec vos horaires, je n’ai rien trouvé : pas de site, pas d’Instagram, pas d’avis.\n\nJe fais des sites pour les instituts, avec la prise de rendez-vous en ligne et un acompte à la réservation. Ça limite pas mal les rendez-vous non honorés, et les clientes réservent le soir sans vous appeler pendant un soin. Pas d’abonnement mensuel, le site reste à vous.\n\nÇa vaut le coup qu’on en parle ? Je peux vous envoyer un exemple ici. Sinon aucun problème.",
+  "followUp": "Bonjour, Raphaël, le développeur web de Grenoble qui vous a écrit la semaine dernière à propos des rendez-vous avec acompte. C’est ma seule relance : si vous voulez l’exemple, il est prêt. Si ce n’est pas le moment, aucun souci, je ne reviendrai pas vers vous.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-11904385701",
+  "source": "liste-de-depart",
+  "sourceId": "node/11904385701",
+  "name": "King Nails",
+  "sector": "beaute",
+  "kind": "shop=beauty",
+  "kindLabel": "Institut de beauté",
+  "phone": "0652555657",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7637886,
+  "lon": 4.8554978,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Sa 09:30-19:30; Su 11:00-17:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 817836828, QUEEN NAILS), 3 sources concordantes, téléphone identique. · Fiche PagesJaunes « mise à jour le 1 octobre 2026 », sans mention de fermeture, mais aucun avis ni publication récente trouvés. Les recherches Google/avis n'ont pas pu être faites (quota de recherche web épuisé) ; statut d'ouverture non c",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/817836828",
+    "https://www.pagesjaunes.fr/pros/60962669",
+    "https://fresha.com/lp/en/bt/beauty-salons/in/fr-lyon/part-dieu",
+    "https://www.pagesjaunes.fr/annuaire/chercherlespros?quoiqui=king+nails&ou=lyon"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Onglerie de Part-Dieu rattachée à la société Queen Nails (deux adresses cours Lafayette), ouverte 7 jours sur 7, aucun avis en ligne, lien Facebook générique, un seul mobile. L'angle est un site commun aux deux adresses avec réservation et acompte ; le frein, c'est le profil bar à ongles sans rendez-vous, et le fait qu'on ne sait pas qui décide entre les deux salons.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Onglerie sans aucun avis en ligne ni page identifiable, modèle à flux continu : faible appétence probable.",
+  "score": 34,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Onglerie sans aucun avis en ligne ni page identifiable, modèle à flux continu : faible appétence probable.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, King Nails ouvert 7 jours sur 7 cours Lafayette, et presque rien en ligne : une fiche PagesJaunes sans avis, un lien Facebook qui ne mène nulle part. Moi c'est Raphaël, je fais des sites pour les instituts, à Grenoble.\n\nDeux adresses avec Queen Nails, tout passe par le 06, même le dimanche : quelqu'un qui veut un créneau le soir ne peut que rappeler le lendemain.\n\nJe ferais un site pour les deux adresses, la prise de rendez-vous par salon, un acompte pour que les créneaux soient tenus. Sans abonnement, il est à vous.\n\nJe vous envoie un exemple ici si ça vous dit. Sinon pas de souci.",
+  "followUp": "Bonjour, Raphaël, de Grenoble, qui vous a écrit la semaine dernière à propos d'un site de réservation pour King Nails. Je ne relancerai qu'une fois, c'est celle-ci. Si ce n'est pas pour vous, aucun problème, on en reste là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-7551915100",
+  "source": "liste-de-depart",
+  "sourceId": "node/7551915100",
+  "name": "Amir Coiffure",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0767117876",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": 45.7534668,
+  "lon": 4.8486757,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Sa 09:00-19:00; Su 14:00-19:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 833139595), 5 sources concordantes, téléphone identique. · Fiche PagesJaunes active sans mention de fermeture, avec le même téléphone et les mêmes horaires que la fiche OSM ; registre officiel (recherche-entreprises.api.gouv.fr, consulté le 17/10/2026) : SAS AMIR COIFFURE, SIREN 833139595, état « Active », ét",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/833139595",
+    "https://www.pagesjaunes.fr/pros/65084776",
+    "https://www.fresha.com/fr/lvp/amir-coiffure-cours-gambetta-lyon-eX0yPR",
+    "https://www.118000.fr/e_C0072669977",
+    "https://recherche-entreprises.api.gouv.fr/search?q=833139595",
+    "https://www.pagesjaunes.fr/annuaire/chercherlespros?quoiqui=amir+coiffure&ou=lyon"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon de coiffure de la Guillotière (SAS depuis novembre 2017, ouvert 7 jours sur 7), uniquement une fiche PagesJaunes sans avis, aucun site ni réseau, un seul mobile. L'angle est la prise de rendez-vous en ligne avec tarifs et horaires ; le frein, c'est qu'un salon de quartier ouvert tout le temps fonctionne sans doute sans rendez-vous et ne voit pas le manque.",
+  "scoreAdjust": -3,
+  "scoreAdjustReason": "Aucune trace au-delà d'une fiche PagesJaunes vide, salon de quartier ouvert 7/7 : peu de besoin ressenti.",
+  "score": 31,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-3 : Aucune trace au-delà d'une fiche PagesJaunes vide, salon de quartier ouvert 7/7 : peu de besoin ressenti.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, je m'appelle Raphaël, de Grenoble, je fais des sites pour les coiffeurs.\n\nJ'ai cherché Amir Coiffure, cours Gambetta : à part la fiche PagesJaunes, rien. Pas de site, pas un avis sur la fiche, juste un numéro de portable. Pour un salon ouvert sept jours sur sept, qui va sur ses neuf ans, c'est dommage.\n\nCe que je propose : une page avec tarifs, horaires et la prise de rendez-vous en ligne. Les clients réservent même le dimanche matin quand c'est fermé, vous voyez tout sur votre téléphone. Le site est à vous, sans loyer.\n\nJe peux vous envoyer ici un exemple de salon, sans engagement.",
+  "followUp": "Bonjour, Raphaël, le développeur de Grenoble qui vous a écrit il y a une semaine pour la prise de rendez-vous en ligne du salon. C'est ma seule relance. Si ça ne vous parle pas, pas de souci, je n'insiste pas.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-7772848030",
+  "source": "liste-de-depart",
+  "sourceId": "node/7772848030",
+  "name": "ABC Auto",
+  "sector": "artisan",
+  "kind": "shop=car_repair",
+  "kindLabel": "Garage",
+  "phone": "0616477254",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "26B Rue Diderot",
+   "postcode": "38400",
+   "city": "Saint-Martin-d'Hères"
+  },
+  "lat": 45.1873126,
+  "lon": 5.7643992,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 809841166, ABC AUTO 38), 3 sources concordantes. · Une seule fiche annuaire (mecazen.fr, « abc auto 38 », 28 rue Diderot, ouvert en 2015, 2 mécaniciens) avec 56 avis 5/5 agrégés et des horaires affichés ; aucune mention « définitivement fermé », mais aucun avis daté ni fiche Google lisible pour confirmer une",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/809841166",
+    "https://mecazen.fr/garage/abc-auto-38",
+    "https://commune-mairie.fr/centres-auto/revel-38334"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Petit garage multimarques à Saint-Martin-d'Hères (2 mécaniciens, ouvert en 2015), 4,9/5 sur 56 avis Mecazen, avis centrés sur l'honnêteté et le côté « à l'ancienne », aucun site ni réseau. Angle : demande de devis en ligne et véhicule de courtoisie mis en avant ; frein : le côté « à l'ancienne » et une équipe de deux qui a peut-être déjà assez de travail.",
+  "scoreAdjust": 0,
+  "scoreAdjustReason": "Avis excellents et réceptifs à l'honnêteté, mais garage « à l'ancienne » à deux, peu porté sur le web.",
+  "score": 29,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, un garage à 4,9 sur 56 avis Mecazen et pas de site, c'est pour ça que je vous écris. Je suis Raphaël, je fais des sites pour les artisans, à Grenoble.\n\nVos avis parlent d'honnêteté et de garage à l'ancienne. Ce qui manque, c'est un endroit à vous où un client demande un devis le dimanche soir, au lieu d'attendre lundi pour appeler.\n\nSans abonnement ni commission : une page à votre nom, la demande de devis dedans, le véhicule de courtoisie mis en avant.\n\nSi ça vous dit, je vous envoie ici un exemple fait pour un garage. Vous regardez quand vous avez deux minutes, rien d'engageant.",
+  "followUp": "Bonjour, c'est Raphaël, pour le site avec la demande de devis dont je vous parlais la semaine dernière. Je peux toujours vous envoyer l'exemple si vous voulez y jeter un œil. Sinon aucun souci, je ne vous embête plus avec ça.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-12379332458",
+  "source": "liste-de-depart",
+  "sourceId": "node/12379332458",
+  "name": "Au bon pain de Clémenceau",
+  "sector": "commerce",
+  "kind": "shop=bakery",
+  "kindLabel": "Boulangerie",
+  "phone": "0768966858",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "Boulevard Clémenceau",
+   "postcode": "38100",
+   "city": "Grenoble"
+  },
+  "lat": 45.1833319,
+  "lon": 5.7383461,
+  "website": "",
+  "instagram": "",
+  "facebook": "https://www.facebook.com/Au-bon-pain-de-Cl%C3%A9menceau-203565673530516/",
+  "email": "",
+  "openingHours": "Mo-Fr 07:30-13:00,15:30-19:00; Sa 07:30-13:00",
+  "chain": false,
+  "google": {
+   "rating": 4.3,
+   "reviews": 82,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": null,
+     "text": "J'aime beaucoup déjeuner dans cette boulangerie, les produits sont bons, les fougasses sont à tester !",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": null,
+     "text": "Top produits frais et bon. viennoiseries gourmandes et snacking varié Je recommande",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 818864142, AU BON PAIN DE CLEMENCEAU), 3 sources concordantes. · Fiches annuaires actives (Cylex, MyBoulange mise à jour 13/12/2024), avis Google datés jusqu'au 06/12/2024 relayés par MyBoulange, aucune mention « définitivement fermé » trouvée ; mais aucun avis ou publication postérieur à fin 2024 identifié e",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/818864142",
+    "https://www.cylex-locale.fr/entreprises/au-bon-pain-de-clemenceau-13483582.html",
+    "https://www.myboulange.fr/38/grenoble/au-bon-pain-de-clemenceau-286741",
+    "https://www.118712.fr/professionnels/WkFXW1ZWFQk"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Boulangerie du boulevard Clemenceau orientée snacking et déjeuner à emporter, 4,3 sur 82 avis Google, fougasses et pain multi-farines cités dans les avis ; aucun site ni réseau social, seulement la fiche Google et des annuaires automatiques. Angle : précommande des formules et des gâteaux avec acompte ; frein : une boulangerie de quartier a rarement le réflexe web, et un avis récent critique l'accueil, donc peut-être une équipe déjà sous tension.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Boulangerie de quartier sans aucun réseau social : la commande en ligne est rarement une priorité pour ce type de commerce.",
+  "score": 29,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "4,3 ★ (82 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Boulangerie de quartier sans aucun réseau social : la commande en ligne est rarement une priorité pour ce type de commerce.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, vos fougasses et votre pain multi-farines reviennent dans pas mal d'avis Google, 4,3 sur 82, mais en ligne il n'y a que des annuaires automatiques, rien de vous. Je m'appelle Raphaël, je fais des sites pour les commerces, à Grenoble.\n\nPour une boulangerie qui fait du déjeuner à emporter, un site à vous où les gens précommandent leur formule le matin, ou un gâteau avec un acompte, ça simplifie le coup de feu de midi, tout est déjà noté. Sans abonnement ni commission.\n\nSi vous voulez voir, je passe vous montrer un exemple cinq minutes, un après-midi calme. Sinon pas de souci.",
+  "followUp": "Bonjour, Raphaël, je vous avais écrit la semaine dernière pour un site de précommande pour la boulangerie. Je ne relance qu'une fois : si ce n'est pas le moment, on arrête là sans problème. Sinon je passe quand c'est calme, à vous de me dire.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-2373745968",
+  "source": "liste-de-depart",
+  "sourceId": "node/2373745968",
+  "name": "Égérine",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0476463882",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "5 Rue Thiers",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1884444,
+  "lon": 5.7223319,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo 09:30-15:00; Tu 09:30-19:00; We 09:30-13:30; Th-Sa 09:30-19:00",
+  "chain": false,
+  "google": {
+   "rating": 4.8,
+   "reviews": 140,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 914596556, JMA CREATION), 4 sources concordantes, téléphone identique. · Fiche Bottin active (statut « FERMÉ » affiché seulement selon l'heure de consultation, aucune mention de fermeture définitive) avec note Google 4,8/5 et plus de 140 votes ; fiche 118712 également active avec horaires. Aucune preuve récen",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/914596556",
+    "https://www.bottin.fr/fiche-locale/bgdcghajifaeabgegibe--egerine-coiffure--grenoble.htm",
+    "https://www.118712.fr/annuaire/ville/grenoble-38/beauty-coiff",
+    "https://www.openstreetmap.org/node/2373745968",
+    "https://trouver-ouvert.fr/grenoble/interlude-espace-coiffure-1004391"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon du centre de Grenoble très bien noté (4,8 sur 140 avis Google, environ 93 % de 5 étoiles) qui réserve via Planity, sans site ni réseaux sociaux, ligne fixe. Angle : reprendre la main sur les rendez-vous et l'acompte sans abonnement ; frein : déjà équipés et visiblement satisfaits, et le fixe rend WhatsApp incertain.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Salon établi et déjà outillé avec Planity, peu de douleur apparente ; ligne fixe.",
+  "score": 29,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "4,8 ★ (140 avis)",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Salon établi et déjà outillé avec Planity, peu de douleur apparente ; ligne fixe.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, je fais des sites pour les commerçants de Grenoble.\n\nVotre salon rue Thiers : 4,8 sur 140 avis Google, quasiment que des 5 étoiles, c'est costaud. Par contre pas de site à vous, les rendez-vous passent par Planity.\n\nJe fais des sites qui sont au salon, avec la prise de rendez-vous et un acompte contre les lapins. Pas d'abonnement, et les clientes réservent chez vous, pas sur une appli à côté des voisins.\n\nJe peux passer cinq minutes montrer un exemple quand c'est calme. C'est un sujet pour vous en ce moment ? Sinon on en reparle plus tard, pas de souci.",
+  "followUp": "Bonjour, Raphaël de Subnet, je vous avais écrit la semaine dernière au sujet d'un site à vous pour les rendez-vous, en plus de Planity. C'est ma seule relance : si ce n'est pas d'actualité, pas de souci, je ne vous embête plus.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-5734095179",
+  "source": "liste-de-depart",
+  "sourceId": "node/5734095179",
+  "name": "The Flower",
+  "sector": "commerce",
+  "kind": "shop=florist",
+  "kindLabel": "Fleuriste",
+  "phone": "0635124255",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "3 Place du Village",
+   "postcode": "38180",
+   "city": "Seyssins"
+  },
+  "lat": 45.156199,
+  "lon": 5.6807154,
+  "website": "",
+  "instagram": "",
+  "facebook": "https://fr-fr.facebook.com/theflowerfleuriste/",
+  "email": "",
+  "openingHours": "Tu-Sa 09:00-12:30,15:30-19:00;Su 10:00-12:30",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": null,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : registre des entreprises : établissement trouvé (SIREN 842357626, CATARINO EVA MARIE), 6 sources concordantes, téléphone identique. · Un résumé de recherche mentionne deux fiches annuaire « The Flower Artisan Fleuriste » au 3 Place du Village, 38180 Seyssins (quartier Le Village), sans date ni mention de fermeture. Aucune page lisible confirmant une activité réce",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/842357626",
+    "https://www.grenoble.cci.fr/entreprise/38180/seyssins/84235762600014/catarino-eva-marie",
+    "https://fr.mappy.com/poi/5bcbe3580351d145c6cfc7fd",
+    "https://www.blooms.fr/fleuristes/38486-seyssins/behccecbbfceebeaiieg.htm",
+    "https://fleuristes-et-fleurs.com/fleuriste/the-flower-seyssins-38180",
+    "https://www.bestfleuriste.fr/38/seyssins/the-flower-107703"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Fleuriste artisanal indépendant place du Village à Seyssins, référencé seulement dans les annuaires, sans site, sans Instagram, aucun avis Google connu. Angle : la commande de bouquets en ligne pendant les heures de fermeture (lundi, dimanche après-midi) ; frein : on ne sait rien de son volume ni de sa clientèle, et un fleuriste de village peut très bien vivre du passage.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Fleuriste artisanal indépendant, la commande en ligne répond à un vrai besoin du métier.",
+  "score": 28,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "+2 : Fleuriste artisanal indépendant, la commande en ligne répond à un vrai besoin du métier.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, je m’appelle Raphaël, je fais des sites web pour les commerces, à Grenoble.\n\nJe suis tombé sur votre boutique place du Village, à Seyssins. Les annuaires vous classent artisan fleuriste, mais pas de site, rien pour commander un bouquet à distance.\n\nPour un fleuriste, je fais un site avec la commande et le paiement en ligne. Du coup les gens commandent le dimanche soir ou le lundi, et vous retrouvez tout à l’ouverture. Le site est à vous, pas d’abonnement.\n\nSi ça vous dit, je passe cinq minutes vous montrer un exemple quand c’est calme. Sinon pas de souci, bonne journée.",
+  "followUp": "Bonjour, c’est Raphaël, le développeur web de Grenoble qui vous a écrit la semaine dernière pour la commande en ligne. Je ne relance qu’une fois : si vous voulez voir un exemple, je passe quand vous voulez. Si ce n’est pas le moment, je m’arrête là, sans problème.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-6449268484",
+  "source": "liste-de-depart",
+  "sourceId": "node/6449268484",
+  "name": "Le Temps des Copains",
+  "sector": "bar",
+  "kind": "amenity=bar",
+  "kindLabel": "Bar",
+  "phone": "0625222010",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "",
+   "postcode": "",
+   "city": "Lyon"
+  },
+  "lat": null,
+  "lon": null,
+  "website": "",
+  "instagram": "",
+  "facebook": "https://www.facebook.com/BarLeTempsDesCopains/",
+  "email": "",
+  "openingHours": "Mo-Su 18:00-03:00",
+  "chain": false,
+  "google": {
+   "rating": 3.8,
+   "reviews": 369,
+   "status": "OPERATIONAL",
+   "mapsUrl": "",
+   "placeId": "",
+   "samples": [
+    {
+     "rating": null,
+     "text": "Super bar dansant !",
+     "when": "",
+     "author": ""
+    },
+    {
+     "rating": null,
+     "text": "lieu propre et personnel agréable",
+     "when": "",
+     "author": ""
+    }
+   ],
+   "fetchedAt": "2026-10-18T09:55:34.332Z"
+  },
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 813269149, TBP), 5 sources concordantes, téléphone identique. · Aucune mention de fermeture définitive sur Schlouk Map, Intravel, Sluurpy ni 1001 Salles. Sluurpy (page mise à jour le 05/06/2025) affiche des avis Google récents (« il y a 2 semaines », « il y a un mois »). Pas de vérification directe de la fich",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/813269149",
+    "https://www.schlouk-map.com/fr/places/le-temps-des-copains",
+    "https://www.sluurpy.fr/lyon/restaurant/2002791/le-temps-des-copains",
+    "https://intravel.net/lyon/nightlife/temps-des-copains",
+    "https://www.1001salles.com/seminaire/68681-le-temps-des-copains.aspx"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Bar dansant du quartier Cordeliers avec caveau privatisable, 3,8 sur 369 avis Google, page Facebook et annuaires seulement, réservation par téléphone, avis négatifs récents sur les videurs. L'angle est le formulaire de privatisation et l'agenda des soirées ; le frein, c'est un bar de nuit où le site n'est pas une priorité et une note moyenne qui peut rendre le gérant méfiant quand on la cite.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Bar de nuit où le site n'est pas une priorité, note moyenne et plaintes récentes sur les videurs",
+  "score": 28,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "3,8 ★ (369 avis)",
+    "good": null
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Bar de nuit où le site n'est pas une priorité, note moyenne et plaintes récentes sur les videurs",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, développeur web à Grenoble, je fais des sites pour les bars.\n\nLe Temps des Copains ressort vite rue Longue. 369 avis Google, 3,8, et ce qui revient, c'est la playlist années 80. Par contre pour réserver le caveau, il n'y a que le téléphone et la page Facebook.\n\nPour un bar dansant, je fais une page avec les soirées et un formulaire de privatisation : le groupe qui s'organise un mardi soir envoie sa demande sans que personne décroche. Le site reste le vôtre, sans commission.\n\nEst-ce que ça vaut le coup qu'on en parle ? Si ce n'est pas d'actualité, je n'insiste pas.",
+  "followUp": "Bonjour, Raphaël de Subnet, je vous avais écrit la semaine dernière pour le formulaire de privatisation du caveau et une page pour le bar. Une relance et c'est tout. Si ce n'est pas un sujet pour vous, dites-le et j'arrête là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-14122898710",
+  "source": "liste-de-depart",
+  "sourceId": "node/14122898710",
+  "name": "David Loubiere",
+  "sector": "bien-etre",
+  "kind": "healthcare=physiotherapist",
+  "kindLabel": "Kinésithérapeute",
+  "phone": "0687232145",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "Rue du Docteur Fayollat",
+   "postcode": "38400",
+   "city": "Saint-Martin-d'Hères"
+  },
+  "lat": 45.1768019,
+  "lon": 5.7603576,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 527882278), 3 sources concordantes. · Fiche active sur PagesJaunes (David Loubiere, masseur-kinésithérapeute, 8 rue du Docteur Fayollat, conventionné, carte Vitale) et profil Doctolib existant (titre « M. David Loubiere, Masseur-kinésithérapeute à Saint-Martin-d'Hères »), mais aucun avis daté ni horaires lisi",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/527882278",
+    "https://www.pagesjaunes.fr/annuaire/chercherlespros?quoiqui=loubiere+kinesitherapeute&ou=saint-martin-d-heres-38400",
+    "https://www.doctolib.fr/masseur-kinesitherapeute/saint-martin-d-heres/david-loubiere"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Kiné conventionné à Saint-Martin-d'Hères (quartier La Plaine), présent sur Doctolib et PagesJaunes, sans site ni réseau social. Angle : une page à son nom pour présenter le cabinet et réserver les séances, Doctolib restant à côté ; frein : Doctolib couvre déjà la prise de rendez-vous et un kiné conventionné a souvent plus de demandes que de créneaux.",
+  "scoreAdjust": -4,
+  "scoreAdjustReason": "Doctolib couvre déjà la prise de rendez-vous et un kiné conventionné manque rarement de patients.",
+  "score": 27,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-4 : Doctolib couvre déjà la prise de rendez-vous et un kiné conventionné manque rarement de patients.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, je fais des sites pour les indépendants, à Grenoble.\n\nJe cherchais des kinés sur Saint-Martin-d'Hères et j'ai vu votre cabinet rue du Docteur Fayollat. Vous êtes sur Doctolib, et à part ça rien : pas de page à vous où on voit ce que vous prenez en charge et comment on vient.\n\nPour un cabinet, je fais une page simple à votre nom avec la réservation des séances dedans. Pas d'abonnement, Doctolib peut rester à côté.\n\nJe peux passer vous montrer un exemple entre deux patients. C'est un sujet pour vous en ce moment ? Sinon pas de souci, dites-le moi.",
+  "followUp": "Bonjour, Raphaël, le développeur web de Grenoble qui vous avait parlé d'une page pour le cabinet, à côté de Doctolib. Je vous relance juste une fois. Si ce n'est pas d'actualité, aucun problème, je ne reviendrai pas vers vous.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-10308449954",
+  "source": "liste-de-depart",
+  "sourceId": "node/10308449954",
+  "name": "Garage Azzopardi",
+  "sector": "artisan",
+  "kind": "shop=car_repair",
+  "kindLabel": "Garage",
+  "phone": "0616315907",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "3b Rue Jean Pain",
+   "postcode": "38600",
+   "city": "Fontaine"
+  },
+  "lat": 45.1976638,
+  "lon": 5.6955655,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : registre des entreprises : établissement actif (SIREN 343726287, PATRICK AZZOPARDI (STATION DE MONTAGE PNEUS)), 4 sources concordantes, téléphone identique. · Fiche Allopneus active avec avis clients datés du 11/06/2025, 19/09/2025 et 17/01/2026 ; aucune mention de fermeture. Pas de fiche Google ni d'annuaire officiel (SIREN) trouvée pour confirmer le statut admi",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/343726287",
+    "https://www.allopneus.com/montage-pneu/isere-38/fontaine/garage-azzopardi-1409",
+    "https://fr.mappy.com/activite/garage/38600-fontaine"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Garage indépendant de Fontaine, partenaire Allopneus depuis 2009, 9,5/10 sur 57 avis, pas de site, mail hotmail, pas de note Google connue. Angle : devis et créneaux pneus, géométrie ou clim en ligne sans passer par Allopneus ; frein : garage établi depuis 17 ans qui tourne déjà avec Allopneus, peu de signe d'appétence pour le web.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Garage bien établi depuis 2009 qui tourne via Allopneus ; mail hotmail, peu d'appétence web visible.",
+  "score": 27,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-2 : Garage bien établi depuis 2009 qui tourne via Allopneus ; mail hotmail, peu d'appétence web visible.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble.\n\nJe regardais les garages de Fontaine et je suis tombé sur le vôtre par Allopneus : 9,5 sur 10 sur 57 avis, et les avis reviennent tous sur la rapidité du rendez-vous. C'est costaud. Par contre, aucun site à votre nom, juste la page Allopneus.\n\nPour un garage, je fais un site simple où le client demande son devis ou cale un créneau pneus ou clim en deux minutes, même le soir. Ça arrive sur votre téléphone, sans commission.\n\nJe peux passer vous montrer ça en cinq minutes quand c'est calme. Sinon pas de souci, bonne journée.",
+  "followUp": "Bonjour, Raphaël, le jeune de Grenoble qui vous avait écrit pour la demande de devis en ligne du garage. Une seule relance, promis : la proposition de passer cinq minutes tient toujours. Si ce n'est pas le moment, pas besoin de répondre, j'arrête là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-1596520397",
+  "source": "liste-de-depart",
+  "sourceId": "node/1596520397",
+  "name": "Le Salon Coachelly Coiffure",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0476754592",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "8 Place Saint-Christophe",
+   "postcode": "38120",
+   "city": "Saint-Égrève"
+  },
+  "lat": 45.2226217,
+  "lon": 5.687066,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Th 09:00-12:00,14:00-19:00; Fr 09:00-19:00; Sa 09:00-17:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 911295558, COACHELLY), 3 sources concordantes, téléphone identique. · Seule trace trouvée : une fiche annuaire Fresha (agrégateur, non datée) « COACHELLY », 8 Pl. Saint-Christophe, 38120 Saint-Égrève, tél. +33 4 76 75 45 92. Aucun avis, aucune publication datée, aucune mention de fermeture ou de reprise trouv",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/911295558",
+    "https://www.fresha.com/lp/fi/tt/rastakampaus/fr-grenoble/fiancey-brieux",
+    "https://www.openstreetmap.org/node/1596520397",
+    "https://www.118712.fr/professionnels/WkdZWFFcGgQ"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon de coiffure à Saint-Égrève (place Saint-Christophe), orienté cheveux texturés d’après la fiche Fresha (locs, pose de perruque, lissage, permanente), sans site, sans Instagram ni Planity, aucun avis indexé. Angle : rendez-vous en ligne avec acompte sur les prestations longues contre les lapins, visite possible ; freins : ligne fixe (WhatsApp incertain), et Fresha peut déjà leur servir d’agenda gratuit.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Prestations longues où l’acompte a vraiment du sens, proche de Grenoble ; ligne fixe en frein.",
+  "score": 27,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+2 : Prestations longues où l’acompte a vraiment du sens, proche de Grenoble ; ligne fixe en frein.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, je m’appelle Raphaël, je fais des sites web pour les commerçants, à Grenoble.\n\nJe suis tombé sur votre salon place Saint-Christophe en cherchant des coiffeurs à Saint-Égrève. À part une fiche Fresha qui liste locs, pose de perruque, lissage, rien : pas de site, pas d’Instagram.\n\nJe fais des pages simples où on prend rendez-vous en ligne, avec un acompte sur les prestations longues comme les locs. Ça calme les lapins. Pas d’abonnement façon Planity, le site est à vous.\n\nJe peux passer cinq minutes vous montrer un exemple, quand c’est calme. Sinon pas de souci. Bonne journée.",
+  "followUp": "Bonjour, Raphaël, le développeur de Grenoble qui vous proposait de passer montrer un exemple de prise de rendez-vous avec acompte. Je relance une seule fois, sans insister. Si ce n’est pas le moment pour le salon, dites-le simplement et on en reste là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-7214491701",
+  "source": "liste-de-depart",
+  "sourceId": "node/7214491701",
+  "name": "Atelier Coiffure",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0954308936",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "Place du Village",
+   "postcode": "38180",
+   "city": "Seyssins"
+  },
+  "lat": 45.1558568,
+  "lon": 5.6804252,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-We 09:00-12:00,14:00-19:00;Fr 09:00-12:00,14:00-19:00;Sa 09:00-16:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 487898884, ELODY BERLIET), 3 sources concordantes. · Fiche Planity active avec avis très récents (24/09/2026 et 15/09/2026), 460 avis au total ; aucune mention de fermeture. · Notes vues : Planity 5,0/5 (460 avis) · Plateformes : Planity (https://www.planity.com/atelier-coiffure-38180-seyssins), PagesJaunes (",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/487898884",
+    "https://www.planity.com/atelier-coiffure-38180-seyssins",
+    "https://www.pagesjaunes.fr/pros/09391759",
+    "https://www.planity.com/coiffeur/38180-seyssins",
+    "https://www.justacote.com/seyssins-38180/coiffeur/"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon mixte de Seyssins tenu par Elody, 5,0 sur 460 avis Planity, gérante qui répond aux avis, aucun site, ligne fixe. Angle : un site à elle en plus de Planity pour l'acompte et l'image du salon ; frein : forte dépendance à Planity qui marche déjà bien, et WhatsApp pas garanti sur un fixe.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Gérante qui répond aux avis et 460 avis à 5/5 : à l'écoute de son image, même si Planity lui suffit peut-être.",
+  "score": 27,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "+2 : Gérante qui répond aux avis et 460 avis à 5/5 : à l'écoute de son image, même si Planity lui suffit peut-être.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble. Votre salon est ressorti quand je cherchais les coiffeurs de Seyssins.\n\n5,0 sur 460 avis Planity, et vous prenez le temps de répondre aux avis. Ils reviennent souvent sur l'écoute et les conseils d'Elody. Par contre tout ça vit sur Planity, du coup vous êtes une fiche parmi d'autres.\n\nMoi je fais des sites qui restent au salon, avec la prise de rendez-vous intégrée et un acompte contre les lapins. Pas de commission, pas de loyer mensuel.\n\nJe passe volontiers cinq minutes montrer un exemple quand c'est calme. Sinon pas de souci, bonne journée.",
+  "followUp": "Bonjour, c'est Raphaël, le développeur web de Grenoble qui vous proposait de passer cinq minutes montrer un exemple de site pour le salon. Je ne vous écrirai pas une troisième fois : si ça ne vous parle pas, on en reste là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-13849335401",
+  "source": "liste-de-depart",
+  "sourceId": "node/13849335401",
+  "name": "Café de la place",
+  "sector": "bar",
+  "kind": "amenity=cafe",
+  "kindLabel": "Café",
+  "phone": "0476569138",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "Place André Moch",
+   "postcode": "38700",
+   "city": "Corenc"
+  },
+  "lat": 45.220039,
+  "lon": 5.7625948,
+  "website": "",
+  "instagram": "https://www.instagram.com/cafe_corenc/",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Tu 07:30-18:00; Th-Fr 07:30-22:00; Sa 18:00-22:00; Su 10:00-14:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 988961587, CAFE DE LA PLACE DE CORENC), 4 sources concordantes. · Seule trace trouvée : le « Café de la Place » figure comme étape du parcours patrimoine de la commune (plan « Place André Moch », PDF ville-corenc.fr, mai 2025), ce qui suggère qu'il existait encore début 2025. Aucune fiche Google/TripAdvisor/P",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/988961587",
+    "https://www.ville-corenc.fr/wp-content/uploads/2025/05/9-70X120-Place_andre_Moch-V10-RVB-BD.pdf",
+    "https://www.ville-corenc.fr/wp-content/uploads/2025/06/08-45-X-90-Pompiers-V13-RVB-BD.pdf",
+    "https://www.instagram.com/cafe_corenc/",
+    "https://www.118712.fr/professionnels/X0RQWldXGAE"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Café de village place André Moch à Corenc, avec un compte Instagram (non consulté) et une mention sur le plan patrimoine de la mairie, mais aucun site ni fiche annuaire, aucun avis connu, et une ligne fixe. Angle : la carte à jour et la réservation pour les soirées du jeudi au samedi, en voisin ; freins : ligne fixe donc WhatsApp incertain, et un café de village qui tourne au bouche-à-oreille n’a pas forcément besoin de plus.",
+  "scoreAdjust": 0,
+  "scoreAdjustReason": "Instagram existant mais ligne fixe, réception WhatsApp incertaine.",
+  "score": 26,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "Instagram sans site",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, c’est Raphaël, je fais des sites web à Grenoble, juste en dessous de chez vous.\n\nJ’ai vu votre café en regardant les commerces de Corenc. Vous avez un Instagram, et la mairie vous met sur le plan du parcours patrimoine. Par contre pas de site, alors que la Cave de Corenc ou la Corne d’Or en ont un.\n\nPour un café, je fais un site simple : la carte à jour et la réservation pour les soirs du jeudi au samedi. Vous changez la carte depuis le téléphone, et le site vous appartient.\n\nSi ça vous dit, je monte cinq minutes vous montrer un exemple quand c’est calme. Sinon pas de souci.",
+  "followUp": "Bonjour, Raphaël, le développeur web de Grenoble qui vous a écrit la semaine dernière pour un site avec la carte et les réservations du café. Je ne relance qu’une fois. Si c’est non ou pas maintenant, aucun problème, je n’insiste pas.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-9621250813",
+  "source": "liste-de-depart",
+  "sourceId": "node/9621250813",
+  "name": "Lis Bien-Être",
+  "sector": "bien-etre",
+  "kind": "shop=massage",
+  "kindLabel": "Massage",
+  "phone": "0677206037",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "25 Boulevard Agutte Sembat",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1865612,
+  "lon": 5.72836,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": null,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : registre des entreprises : établissement actif (SIREN 953178183, LIS BIEN-ETRE), 3 sources concordantes.",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/953178183",
+    "https://www.openstreetmap.org/node/9621250813",
+    "https://www.118712.fr/annuaire/ville/grenoble-38/massage-en-couple"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Praticien massage boulevard Agutte Sembat à Grenoble, aucune trace en ligne : pas de site, pas de fiche, pas d’avis, pas de réseau, on ne connaît que le numéro mobile et l’adresse. Angle : dire franchement qu’on n’a rien trouvé, puis la réservation des séances en ligne ; freins : on ignore tout de l’activité, peut-être un indépendant à domicile ou une activité très réduite qui ne cherche personne.",
+  "scoreAdjust": -4,
+  "scoreAdjustReason": "Aucune trace en ligne, activité inconnue.",
+  "score": 25,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "-4 : Aucune trace en ligne, activité inconnue.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble. J’ai cherché Lis Bien-Être avant de vous écrire et, à part votre numéro et l’adresse boulevard Agutte Sembat, je n’ai rien trouvé. Pas de site, pas de fiche. Peut-être que ça vous va comme ça.\n\nJe fais des sites pour les praticiens bien-être, avec la réservation des séances en ligne. Le client prend son créneau le soir ou le dimanche, et vous gardez la main sur le planning. Pas d’abonnement, vous êtes propriétaire.\n\nC’est le genre de chose qui vous intéresse en ce moment ? Si non, aucun problème, on en reparle dans quelques mois.",
+  "followUp": "Bonjour, c’est Raphaël, le développeur web de Grenoble qui vous a écrit la semaine dernière à propos de la réservation des séances. Une seule relance, je ne vais pas vous embêter plus. Si ce n’est pas le moment, aucun souci, je m’arrête là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-2351087940",
+  "source": "liste-de-depart",
+  "sourceId": "node/2351087940",
+  "name": "Serriere Olivier",
+  "sector": "artisan",
+  "kind": "craft=plumber",
+  "kindLabel": "Plombier",
+  "phone": "0611753665",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "Quai Créqui",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1925331,
+  "lon": 5.7236856,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 418352225, OLIVIER SERRIERE), 4 sources concordantes. · Seule trace : une fiche annuaire Obat « OLIVIER SERRIERE », plombier, Grenoble (38000), disponibilité « inconnue », sans avis ni publication datée. Aucune mention « définitivement fermé », mais aucune preuve d'activité récente non plus. · Plateformes : O",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/418352225",
+    "https://www.118712.fr/fiches/WkFVWFFXFQE",
+    "https://travaux.obat.fr/plombier/grenoble",
+    "https://travaux.obat.fr/plombier/la-tronche",
+    "https://annuaire-entreprises.data.gouv.fr/rechercher?terme=serriere+olivier&cp_dep=38000"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Plombier en nom propre à Grenoble, seulement une fiche Obat vide, aucun site ni avis, adresse et numéro non confirmés en ligne, numéro mobile. Angle : la demande de devis en ligne qui arrive sur le téléphone ; frein : quasi aucune trace, artisan peut-être proche de la retraite ou vivant du bouche-à-oreille.",
+  "scoreAdjust": -4,
+  "scoreAdjustReason": "Quasi aucune trace en ligne, numéro et adresse non confirmés.",
+  "score": 25,
+  "scoreLabel": "Bon",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-4 : Quasi aucune trace en ligne, numéro et adresse non confirmés.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, votre nom ne remonte presque nulle part en ligne : une fiche Obat sans adresse ni avis, c'est tout. Je suis Raphaël, je fais des sites pour les artisans de Grenoble.\n\nPour un plombier, ce que je fais surtout, c'est une page où le client décrit sa panne, met une photo et demande un devis en deux minutes, même à 22h quand vous êtes sur un chantier. Vous rappelez quand vous pouvez.\n\nLe site est à vous, pas de commission comme sur les plateformes de mise en relation.\n\nÇa vaut le coup qu'on en parle ? Je peux envoyer un exemple ici. Sinon pas de souci, bon courage.",
+  "followUp": "Bonjour, Raphaël, je vous avais écrit il y a une semaine pour une page de demande de devis en ligne pour votre activité de plombier. Pas de deuxième relance derrière : si ça ne vous intéresse pas, on en reste là et bon courage.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "way-1460827858",
+  "source": "liste-de-depart",
+  "sourceId": "way/1460827858",
+  "name": "Volaillerie Sainte-Claire",
+  "sector": "commerce",
+  "kind": "shop=butcher",
+  "kindLabel": "Boucherie",
+  "phone": "0601335102",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "Place Sainte-Claire",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1907685,
+  "lon": 5.7307423,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Su 07:00-13:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": null,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : registre des entreprises : établissement actif (SIREN 797905486, EURL VOLAILLERIE SAINT CLAIRE), 4 sources concordantes. · Fiche annuaire 118712 « Volaillerie sainte claire eurl », 19 place Sainte-Claire, horaires mardi-dimanche 07:00-13:00, statut « Fermé - ouvre à 07:00 » (fermeture horaire, pas de mention « définitivement fermé »). Aucun avis ni publication ré",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/797905486",
+    "https://www.118712.fr/annuaire/ville/grenoble-38/aviculture",
+    "https://www.openstreetmap.org/way/1460827858",
+    "https://www.grenoble.fr/uploads/Presse/pse_fichier/35/869_783_Mise-en-lumieres-des-Halles-Ste-Clairedocx.pdf",
+    "https://www.grenoble-tourisme.com/en/catalog/detail/halles-sainte-claire-5368143/?page_id=24"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Stand de volailles aux halles Sainte-Claire, EURL avec retrait en magasin selon 118712, aucun site ni réseau, numéro masqué sur l'annuaire mais mobile fourni. Angle : la commande à l'avance pour éviter les appels le matin et avant les fêtes ; frein : un stand de halles vit du passage et peut juger un site inutile.",
+  "scoreAdjust": -2,
+  "scoreAdjustReason": "Stand de halles sans aucune trace en ligne, appétence incertaine malgré le numéro mobile.",
+  "score": 24,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "-2 : Stand de halles sans aucune trace en ligne, appétence incertaine malgré le numéro mobile.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, c'est Raphaël, un Grenoblois qui fait des sites pour les commerces.\n\nVotre stand des halles Sainte-Claire, je l'ai cherché en ligne. À part une fiche 118712 qui parle de retrait en magasin, rien : pas de site, pas de page, numéro masqué.\n\nPour un stand, je fais un site à vous avec la commande en ligne : le client réserve son poulet la veille au soir et passe le matin. Moins d'appels en plein coup de feu, surtout avant les fêtes. Ni abonnement ni commission.\n\nC'est un sujet pour vous en ce moment ? Sinon je vous laisse tranquille, on en reparle plus tard, pas de souci.",
+  "followUp": "Bonjour, c'est Raphaël, le Grenoblois qui fait des sites, je vous avais écrit la semaine dernière à propos de la commande en ligne pour la volaillerie des halles. Si ce n'est pas le moment, je comprends et je n'insiste pas ; sinon je vous montre un exemple quand vous voulez.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-6617907092",
+  "source": "liste-de-depart",
+  "sourceId": "node/6617907092",
+  "name": "Hair Game",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0476010993",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "218 Avenue Ambroise Croizat",
+   "postcode": "38400",
+   "city": "Saint-Martin-d'Hères"
+  },
+  "lat": 45.1815294,
+  "lon": 5.7624792,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Th 09:00-12:00,14:00-19:00, Fr 09:00-19:00, Sa 09:00-17:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 810294371, CHASSELOUP), 4 sources concordantes. · Fiche PagesJaunes « Hair Game » (coiffeurs) au 222 av. Ambroise Croizat, Saint-Martin-d'Hères, sans mention « fermé », mais sans avis ni horaires visibles ; aucune publication ou avis récent trouvé. Aucun signe de fermeture, aucun signe d'activité non plus. ·",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/810294371",
+    "https://www.118712.fr/annuaire/ville/saint-martin-d-heres-38/coiffeurs",
+    "https://www.pagesjaunes.fr/recherche/saint-martin-d-heres-38/hair-game",
+    "https://www.openstreetmap.org/node/6617907092",
+    "https://www.planity.com/coiffeur/38400-saint-martin-dheres"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon indépendant à Saint-Martin-d’Hères (avenue Ambroise Croizat, Portail Rouge), seule trace une fiche PagesJaunes incomplète, sans site, sans Instagram ni Planity, aucun avis. Angle : la concurrence de la même avenue (Salon by Lyl’s à 5,0 sur Planity) sort sur téléphone et pas lui, rendez-vous en ligne sans abonnement, visite possible ; freins : ligne fixe, empreinte numérique quasi nulle qui suggère un gérant peu porté sur le web.",
+  "scoreAdjust": -1,
+  "scoreAdjustReason": "La concurrence visible sur la même avenue donne un angle, mais fiche PagesJaunes incomplète et ligne fixe.",
+  "score": 24,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-1 : La concurrence visible sur la même avenue donne un angle, mais fiche PagesJaunes incomplète et ligne fixe.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour ! Raphaël, développeur web à Grenoble. Je suis tombé sur Hair Game en regardant les coiffeurs de l’avenue Croizat : à part une fiche PagesJaunes sans horaires ni avis, rien sur vous en ligne.\n\nSur la même avenue, le Salon by Lyl’s affiche un 5,0 sur Planity. Sur un téléphone, c’est eux qu’on trouve.\n\nJe fais des sites simples pour les salons, avec la prise de rendez-vous en ligne : on réserve pendant que vous coupez, et rien à payer chaque mois. Je peux passer cinq minutes vous montrer un exemple.\n\nC’est un sujet pour vous en ce moment ? Sinon je reviens plus tard, pas de souci.",
+  "followUp": "Bonjour, c’est Raphaël, développeur web à Grenoble, je vous avais écrit la semaine dernière au sujet d’un site de prise de rendez-vous pour Hair Game. Je ne relance qu’une fois. Si le sujet n’est pas d’actualité, aucun souci, on arrête là et vous gardez mon numéro si ça change.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-2344376483",
+  "source": "liste-de-depart",
+  "sourceId": "node/2344376483",
+  "name": "Le Petit Plateau",
+  "sector": "bar",
+  "kind": "amenity=cafe",
+  "kindLabel": "Café",
+  "phone": "0745197694",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "3 Cours Jean Jaurès",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1914249,
+  "lon": 5.7204952,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": null,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : registre des entreprises : établissement actif (SIREN 989590625), 3 sources concordantes.",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/989590625",
+    "https://www.openstreetmap.org/node/2344376483",
+    "https://www.schlouk-map.com/en/places/le-plateau"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Café cours Jean Jaurès à Grenoble, aucune trace en ligne : ni site, ni fiche, ni avis, ni réseau, seulement un numéro mobile et une adresse. Angle : dire franchement qu’on n’a rien trouvé, proposer un site simple avec la carte et la réservation, et surtout passer puisque c’est à Grenoble ; freins : on ne sait rien du lieu, il peut être fermé, en travaux ou tenu par quelqu’un qui ne veut rien sur internet.",
+  "scoreAdjust": -4,
+  "scoreAdjustReason": "Aucune trace en ligne, impossible de savoir si le café tourne encore.",
+  "score": 23,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "-4 : Aucune trace en ligne, impossible de savoir si le café tourne encore.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, j’ai cherché Le Petit Plateau en ligne et je n’ai trouvé que votre numéro et l’adresse, 3 cours Jean Jaurès, rien d’autre. Je m’appelle Raphaël, je fais des sites web ici à Grenoble, pour les cafés et commerces.\n\nJe ne sais pas comment vous faites, mais pour un café je fais un site tout simple : la carte que vous mettez à jour vous-même depuis le téléphone, les horaires, et la réservation si vous en prenez. Pas de commission, c’est votre site.\n\nSi ça vous dit, je passe cinq minutes vous montrer un exemple quand c’est calme l’après-midi. Sinon pas de souci, bonne journée.",
+  "followUp": "Bonjour, Raphaël, développeur web à Grenoble, je vous avais écrit la semaine dernière à propos d’un site pour Le Petit Plateau. Je relance juste une fois. Si ce n’est pas le moment ou pas votre truc, pas de souci, je n’insiste pas.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-13132403340",
+  "source": "liste-de-depart",
+  "sourceId": "node/13132403340",
+  "name": "Mr et Mme Casula",
+  "sector": "artisan",
+  "kind": "craft=upholsterer",
+  "kindLabel": "Tapissier",
+  "phone": "0612192187",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "3 Rue Voltaire",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1906965,
+  "lon": 5.7324026,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": null,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : registre des entreprises : établissement actif (SIREN 304469232, JEAN CASULA), 4 sources concordantes. · Fiche annuaire 118712 « Casula jean », 3 r Voltaire, 38000 Grenoble, avec horaires lun-sam 08:30-12:00 / 14:00-18:00 ; fiche Mappy « Casula Jean - Tapissier-décorateur » à la même adresse. Aucun avis daté, aucune publication récente, aucune mention « définitiv",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/304469232",
+    "https://fr.mappy.com/poi/5476fa19e4b01e3deeba66f7",
+    "https://www.118712.fr/annuaire/ville/grenoble-38/tapissier",
+    "https://fr.mappy.com/activite/decoration/38000-grenoble"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Tapissier-décorateur du centre de Grenoble, référencé seulement sur 118712 et Mappy sous « Casula Jean », sans site, réseau, note ni avis. Angle : page avec photos de réalisations et demande de devis par photo du fauteuil ; frein : artisan sans doute âgé et peu porté sur le web, aucune donnée sur son activité réelle.",
+  "scoreAdjust": -4,
+  "scoreAdjustReason": "Aucune trace en ligne à part les annuaires, artisan probablement âgé, aucun signal d'appétence.",
+  "score": 23,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "-4 : Aucune trace en ligne à part les annuaires, artisan probablement âgé, aucun signal d'appétence.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, c'est Raphaël, je fais des sites pour les artisans, à Grenoble.\n\nJe cherchais un tapissier et je vous ai trouvé rue Voltaire, mais juste sur les annuaires, sous « Casula Jean ». Pas de site, pas d'avis. On sait que vous existez, et c'est à peu près tout.\n\nJe fais des pages simples avec des photos de vos fauteuils et une demande de devis : le client envoie la photo du sien, vous répondez quand vous pouvez. Pas d'abonnement, le site est à vous.\n\nJe suis à côté, je peux passer cinq minutes vous montrer ça quand c'est calme. Ça vaut le coup qu'on en discute ? Sinon, pas de souci.",
+  "followUp": "Bonjour, c'est encore Raphaël, le voisin de Grenoble qui fait des sites. Je vous avais écrit pour une page avec vos fauteuils et la demande de devis, je relance une fois au cas où le message serait passé à côté. Si ce n'est pas le moment, on en reste là, sans problème.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-6721197086",
+  "source": "liste-de-depart",
+  "sourceId": "node/6721197086",
+  "name": "Délicieux de Damas",
+  "sector": "commerce",
+  "kind": "shop=pastry",
+  "kindLabel": "Pâtisserie",
+  "phone": "0758258355",
+  "phoneKind": "mobile",
+  "address": {
+   "street": "3 Rue Commandant Gilot",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1810871,
+  "lon": 5.7218905,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Th 09:30-12:00, 15:30-20:00; Fr-Sa 10:00-13:00, 16:00-20:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": null,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : pas de fiche au registre sous ce nom, 4 sources concordantes.",
+   "sources": [
+    "https://www.openstreetmap.org/api/0.6/node/6721197086.json",
+    "https://www.petitfute.com/v1524-bordeaux-33000/c1165-restaurants/c1031-cuisines-du-monde/c1037-cuisine-du-proche-et-moyen-orient/c100-restaurant-syrien/2027272-delices-de-damas/tous-les-avis.html",
+    "https://www.zabihah.com/restaurants/cb2d7d56-7767-11ef-95ae-6045bdeb9f57/barbecue-damas-grenoble-auvergne-rhone-alpes",
+    "https://www.koifaire.com/rhone-alpes/cote,damas-70750.html"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Pâtisserie rue Commandant Gilot à Grenoble, aucune trace en ligne en dehors des données de carte : ni site, ni fiche, ni avis, ni Instagram, numéro mobile. Angle : le catalogue et la commande en ligne avec acompte pour les plateaux, en voisin ; freins : on ne sait rien du commerce, ni sa clientèle ni s’il est encore ouvert, et un petit commerce de quartier peut très bien tourner au comptoir.",
+  "scoreAdjust": -3,
+  "scoreAdjustReason": "Aucune trace en ligne, commerce inconnu au-delà de la carte.",
+  "score": 23,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Numéro mobile",
+    "good": true
+   },
+   {
+    "text": "-3 : Aucune trace en ligne, commerce inconnu au-delà de la carte.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, c’est Raphaël, je fais des sites web pour les commerces de Grenoble.\n\nJ’ai voulu regarder Délicieux de Damas avant de vous écrire, et je n’ai trouvé que le numéro et l’adresse rue Commandant Gilot. Pas de site, rien pour voir ce que vous faites ou commander.\n\nPour une pâtisserie, je fais un site avec le catalogue et la commande en ligne : les gens commandent un plateau pour une fête depuis chez eux, avec un acompte, et vous préparez tranquille au lieu de tout noter au téléphone.\n\nJe peux vous envoyer ici un exemple fait pour une pâtisserie, ça ne vous engage à rien. Bonne journée.",
+  "followUp": "Bonjour, c’est Raphaël, de Grenoble, je vous ai écrit la semaine dernière pour un site avec la commande en ligne de la pâtisserie. Je ne relance qu’une fois. Si ce n’est pas le moment, pas de souci, je ne vous embête plus.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-14070845345",
+  "source": "liste-de-depart",
+  "sourceId": "node/14070845345",
+  "name": "Céline - Coiffure Mixte",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0476180843",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "chemin de la revirée",
+   "postcode": "38240",
+   "city": "Meylan"
+  },
+  "lat": 45.2086837,
+  "lon": 5.7668801,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Fr 09:00-19:00; Mo 10:00-19:00; Sa 09:00-16:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": null,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : pas de fiche au registre sous ce nom, 5 sources concordantes. · Fiche 118712 et Mappy toujours en ligne (34 chemin de la Revirée) avec les mêmes horaires que l'OSM, sans mention « définitivement fermé » ; mais aucun avis ni publication daté trouvé, et Mappy liste aussi un salon « Coiff'Passion » à la même adresse (repreneur ou voisin ? non établi). · Plateformes",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/522802032",
+    "https://www.118712.fr/professionnels/WkJVXlZcFAQ",
+    "https://fr.mappy.com/poi/58e99b580351d16ec88bd5bf",
+    "https://www.justacote.com/meylan-38240/coiffeur/",
+    "https://www.societe.com/societe/celine-coiff-522802032.html",
+    "https://fr.custplace.com/celine-coif-182469"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon visagiste mixte de Meylan, SARL depuis 2010 avec 3 à 5 salariés, référencé seulement sur 118712 et Mappy (lien Facebook mentionné), sans site ni note connue, ligne fixe. Angle : l'ancienneté et l'équipe justifient un site à son nom avec prise de rendez-vous ; frein : le salon fonctionne au sans rendez-vous, le besoin n'est pas évident pour la gérante.",
+  "scoreAdjust": 0,
+  "scoreAdjustReason": "",
+  "score": 23,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, votre salon chemin de la Revirée, je l'ai cherché en ligne : à part des fiches d'annuaire, 118712 et Mappy, pas de site à vous. Je suis Raphaël, je fais des sites à Grenoble pour les commerçants du coin.\n\nUne quinzaine d'années de salon, les mariages, les extensions, le sans rendez-vous. Ça mérite mieux qu'une ligne d'annuaire.\n\nJe fais des sites à votre nom, avec la prise de rendez-vous en ligne pour les clients qui réservent le soir. Les tarifs, vous les changez vous-même, sans abonnement.\n\nSi ça vous dit, je vous envoie ici un exemple de site de coiffeur, sans engagement.",
+  "followUp": "Bonjour, Raphaël, je vous avais écrit il y a une semaine pour vous proposer un exemple de site pour le salon de Meylan. Si vous voulez le voir, je l'envoie ici ; sinon je n'insiste pas, bonne continuation.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-2923350054",
+  "source": "liste-de-depart",
+  "sourceId": "node/2923350054",
+  "name": "Mo'tif coiffure",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Barbier",
+  "phone": "0954624400",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "Boulevard Maréchal Joffre",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1828448,
+  "lon": 5.7285803,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Mo-Sa 09:00-19:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 840150270, MO'TIF), 4 sources concordantes. · Fiche Mappy (données Pages Jaunes) toujours en ligne avec horaires Lun-Sam 9h-19h, sans mention « fermé définitivement » ; mention « Fermé actuellement » liée à l'heure de consultation. Aucun avis daté, aucune publication récente trouvée : pas de preuve d'activité",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/840150270",
+    "https://fr.mappy.com/poi/5b25fd800351d153915088cd",
+    "https://www.bottin.fr/fiche-locale/bcdgcgibeiihebjdbcgd--la-fine-lame-coiffeur-barbier-grenoble--grenoble.htm",
+    "https://www.openstreetmap.org/node/2923350054",
+    "https://fr.mappy.com/activite/coiffeur/38000-grenoble"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Barbershop du boulevard Joffre à Grenoble, uniquement dans les annuaires Mappy et Bottin, aucun site, réseau, note ni avis, ligne fixe. Angle : partir de zéro avec un site simple et la prise de rendez-vous ; frein : rien n'indique un intérêt pour le web, et le fixe ne garantit pas WhatsApp.",
+  "scoreAdjust": -3,
+  "scoreAdjustReason": "Quasi aucune trace en ligne, intérêt pour le web incertain, ligne fixe.",
+  "score": 22,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-3 : Quasi aucune trace en ligne, intérêt pour le web incertain, ligne fixe.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, c'est Raphaël, je fais des sites pour les commerçants de Grenoble, je suis du coin.\n\nJ'ai tapé Mo'tif sur internet. À part Mappy et le Bottin, avec l'adresse boulevard Joffre, rien. Pas de site, pas d'Instagram, pas d'avis. Pour un barbershop ouvert six jours sur sept, c'est dommage.\n\nJe propose un site simple, à vous, avec la prise de rendez-vous en ligne. Les créneaux se remplissent le soir, quand c'est fermé, et personne à payer tous les mois.\n\nÇa vaut le coup qu'on en parle ? Je peux passer cinq minutes montrer ça quand c'est calme. Sinon pas de souci.",
+  "followUp": "Bonjour, c'est encore Raphaël, le voisin qui fait des sites, je vous avais écrit la semaine dernière à propos de la prise de rendez-vous en ligne pour Mo'tif. Dernier message de ma part : si ce n'est pas le moment, aucun souci, je vous laisse bosser.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-4528104805",
+  "source": "liste-de-depart",
+  "sourceId": "node/4528104805",
+  "name": "Julie design",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0476461591",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "Boulevard Maréchal Foch",
+   "postcode": "38100",
+   "city": "Grenoble"
+  },
+  "lat": 45.1804536,
+  "lon": 5.7213707,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Th 09:00-18:45; Fr 09:00-18:00; Sa 09:00-16:45",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 451154272, JULIE GAUVIN), 4 sources concordantes, téléphone identique. · Fiche PagesJaunes active (annuaire inversé) au nom « Julie Désign », coiffeurs, 37 bd Maréchal Foch 38100 Grenoble, avec 1 avis ; aucune mention « définitivement fermé » ni repreneur trouvée, mais aucune publication ou avis daté récent n",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/451154272",
+    "https://www.pagesjaunes.fr/annuaireinverse/recherche?quoiqui=0476461591",
+    "https://www.openstreetmap.org/node/4528104805",
+    "https://www.planity.com/foch-coiffure-38000-grenoble",
+    "https://fr.mappy.com/activite/coiffeur/38000-grenoble",
+    "https://www.bottin.fr/fiche-locale/gabahiahahfjfjbgjjj--design-hair-coiffure--grenoble.htm"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Petit salon rive gauche (boulevard Foch), une seule fiche PagesJaunes avec un avis élogieux, aucun site ni Planity ni réseau, ligne fixe. Angle : exister en ligne et prendre les rendez-vous sans plateforme ; frein : structure sans doute solo et peu portée sur le numérique, WhatsApp incertain.",
+  "scoreAdjust": -3,
+  "scoreAdjustReason": "Présence quasi nulle, salon probablement tenu seul, ligne fixe.",
+  "score": 22,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-3 : Présence quasi nulle, salon probablement tenu seul, ligne fixe.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, je m'appelle Raphaël, je fais des sites pour les commerces de Grenoble.\n\nJ'ai vu votre salon boulevard Foch. En ligne, une fiche PagesJaunes avec un seul avis, qui dit que vous connaissez vos coupes sur le bout des doigts. Pas de site, pas de Planity, rien d'autre. Du coup on ne vous trouve quasiment pas.\n\nJe monte des sites qui sont au salon, pas à une plateforme, avec la prise de rendez-vous en ligne. Les demandes arrivent sur votre téléphone, sans abonnement ni commission.\n\nC'est un sujet pour vous en ce moment ? Sinon je vous réécris dans quelques mois, aucun problème.",
+  "followUp": "Bonjour, Raphaël, le développeur de Grenoble qui vous a écrit la semaine dernière à propos d'un site pour votre salon boulevard Foch. Je n'insiste pas au-delà de ce message : si ce n'est pas pour maintenant, dites-le moi et j'arrête là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-527803227",
+  "source": "liste-de-depart",
+  "sourceId": "node/527803227",
+  "name": "L'Aquarela",
+  "sector": "coiffeur",
+  "kind": "shop=hairdresser",
+  "kindLabel": "Coiffeur",
+  "phone": "0476964119",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "11 Rue Paul Langevin",
+   "postcode": "38130",
+   "city": "Échirolles"
+  },
+  "lat": 45.1439627,
+  "lon": 5.7240606,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "Tu-Fr 09:00-18:30; Sa 08:30-18:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 492830880, FUGUI), 4 sources concordantes, téléphone identique. · Fiche 118712 toujours active (horaires identiques à OSM, aucune mention « fermé définitivement »), mais aucun avis ou publication récent trouvé : les seuls avis datés sur Koifaire remontent à 2010. Pas de preuve de fermeture, pas de preuve d'ac",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/492830880",
+    "https://www.118712.fr/professionnels/WkJRW1VdGAU",
+    "https://www.koifaire.com/rhone-alpes/l,aquarela-24337.html",
+    "https://www.openstreetmap.org/node/527803227"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon coiffeur-visagiste d'Échirolles, SARL de 2006 avec 1 à 2 salariés, fiche 118712 détaillée (tarifs, sans rendez-vous, -20 % étudiants), deux avis Koifaire de 2010, ligne fixe. Angle : prise de rendez-vous pour les prestations longues et tarifs modifiables soi-même ; frein : aucune activité en ligne récente, gérant sans doute peu demandeur après vingt ans sans site.",
+  "scoreAdjust": -4,
+  "scoreAdjustReason": "Derniers avis en 2010, aucune activité en ligne récente : le salon est peut-être fermé ou peu intéressé, et ligne fixe.",
+  "score": 21,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-4 : Derniers avis en 2010, aucune activité en ligne récente : le salon est peut-être fermé ou peu intéressé, et ligne fixe.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, je fais des sites à Grenoble.\n\nJ'ai regardé ce qui remonte sur L'Aquarela. Une fiche 118712 avec vos tarifs, la coloration à 28 euros. Et deux avis Koifaire de 2010. Près de vingt ans de salon rue Paul Langevin et, à part un lien Facebook sur l'annuaire, rien de plus récent, ça m'a étonné.\n\nUn site à vous, c'est ce que je fais, avec le rendez-vous en ligne pour les prestations longues, lissage ou mariage, et des tarifs que vous changez vous-même, sans abonnement.\n\nJe peux passer cinq minutes montrer un exemple quand c'est calme. Sinon pas de souci, bonne journée.",
+  "followUp": "Bonjour, Raphaël de Subnet, je vous proposais la semaine dernière de passer montrer un exemple de site pour L'Aquarela. Si ça ne vous dit rien, pas de souci, je n'écris plus après celui-là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-971975256",
+  "source": "liste-de-depart",
+  "sourceId": "node/971975256",
+  "name": "YouBike'It",
+  "sector": "artisan",
+  "kind": "shop=bicycle",
+  "kindLabel": "Vélociste",
+  "phone": "0438866107",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "22 Rue Joseph Rey",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1870614,
+  "lon": 5.7165227,
+  "website": "",
+  "instagram": "",
+  "facebook": "https://www.facebook.com/people/Youbikeit/100083328699391/",
+  "email": "",
+  "openingHours": "Mo-Fr 08:30-19:00; Sa 09:00-12:00",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": null,
+   "website": false,
+   "found": true,
+   "note": "Existence probable le 18/10/2026 : registre des entreprises : établissement actif (SIREN 910978899), 3 sources concordantes. · Fiche PagesJaunes active (vente, réparation de vélos, 22 rue Joseph Rey, 1 avis 5/5) sans mention « fermé définitivement », mais aucune date d'avis ni publication récente vérifiable. Le quota de recherche web étant épuisé, Google Maps n'a pas pu être consulté. · Notes vues",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/910978899",
+    "https://www.118712.fr/annuaire/ville/grenoble-38/cyclisme",
+    "https://www.pagesjaunes.fr/annuaire/grenoble-38/youbike-it",
+    "https://www.youbikeit.com/",
+    "https://www.youbikeit.fr/"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Vélociste rue Joseph Rey à Grenoble, référencé sur PagesJaunes avec un seul avis à 5 sur 5 qui parle d’accueil et d’efficacité, un ancien domaine youbikeit dont la version fr renvoie une erreur et la version com une page vide, donc pas de vrai site, et une ligne fixe. Angle : ils ont visiblement déjà voulu un site, et la demande de devis en ligne avec photo colle au métier ; frein : ligne fixe, et un atelier qui tourne n’a pas toujours le temps d’y repenser.",
+  "scoreAdjust": 2,
+  "scoreAdjustReason": "Ancien domaine en erreur : ils ont déjà voulu un site, le besoin existe.",
+  "score": 21,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "+2 : Ancien domaine en erreur : ils ont déjà voulu un site, le besoin existe.",
+    "good": true
+   }
+  ],
+  "message": "Bonjour, Raphaël de Subnet, je fais des sites pour les artisans de Grenoble.\n\nJ’ai cherché YouBike’It avant de vous écrire. Il y a la fiche PagesJaunes rue Joseph Rey, un avis à 5 sur 5 qui parle d’un très bon accueil, et c’est tout. Votre adresse en .fr renvoie une erreur et celle en .com est une page vide.\n\nPour un vélociste, je fais un site avec la demande de devis en ligne : le client décrit la panne, met une photo, et vous répondez entre deux réparations plutôt qu’au téléphone.\n\nÇa vaut le coup qu’on en parle ? Je peux passer ou vous envoyer un exemple. Sinon pas de problème.",
+  "followUp": "Bonjour, Raphaël de Subnet, je vous avais écrit il y a une semaine à propos du site YouBike’It qui ne répond plus et des devis en ligne. Je relance une fois, pas plus. Si ce n’est pas le moment, dites-le moi et j’arrête là.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ },
+ {
+  "id": "node-10308500802",
+  "source": "liste-de-depart",
+  "sourceId": "node/10308500802",
+  "name": "Bangkok Thai Massage",
+  "sector": "bien-etre",
+  "kind": "shop=massage",
+  "kindLabel": "Massage",
+  "phone": "0950988682",
+  "phoneKind": "fixe",
+  "address": {
+   "street": "22 Quai de France",
+   "postcode": "38000",
+   "city": "Grenoble"
+  },
+  "lat": 45.1935905,
+  "lon": 5.7217631,
+  "website": "",
+  "instagram": "",
+  "facebook": "",
+  "email": "",
+  "openingHours": "11:00-19:30",
+  "chain": false,
+  "google": null,
+  "verified": {
+   "open": true,
+   "website": false,
+   "found": true,
+   "note": "Existence confirmée le 18/10/2026 : registre des entreprises : établissement actif (SIREN 883638181), 6 sources concordantes, téléphone identique. · Fiche Yelp active (même adresse, même téléphone, horaires 11h-19h30 tous les jours) sans mention « fermé définitivement », mais aucun avis ni publication datés permettant de confirmer l'activité récente. Aucune autre source consultable : le budget de",
+   "sources": [
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/883638181",
+    "https://annuaire-entreprises.data.gouv.fr/entreprise/843179391",
+    "https://www.118712.fr/annuaire/ville/grenoble-38/relaxation-massage-thai",
+    "https://acceslibre.beta.gouv.fr/app/38-grenoble/a/massages/erp/bangkok-thai-massage/rpa_pdf",
+    "https://www.groupon.fr/deals/medina-spa-2",
+    "https://www.yelp.fr/biz/bangkok-thai-massage-grenoble"
+   ],
+   "at": "2026-10-18T09:55:34.332Z"
+  },
+  "analysis": "Salon de massage thaï quai de France à Grenoble, avec une fiche Yelp donnant les horaires (tous les jours 11h à 19h30) et le fixe, mais zéro avis, aucun site, aucun réseau social. Angle : la réservation des séances en ligne pour ne plus dépendre du téléphone pendant les soins ; freins : ligne fixe donc WhatsApp douteux, aucun avis nulle part, et ce type de salon est souvent peu réceptif au démarchage.",
+  "scoreAdjust": -3,
+  "scoreAdjustReason": "Aucun avis, ligne fixe, salon probablement peu réceptif.",
+  "score": 20,
+  "scoreLabel": "Moyen",
+  "reasons": [
+   {
+    "text": "Sans site",
+    "good": true
+   },
+   {
+    "text": "Ligne fixe",
+    "good": false
+   },
+   {
+    "text": "Activité vérifiée",
+    "good": true
+   },
+   {
+    "text": "-3 : Aucun avis, ligne fixe, salon probablement peu réceptif.",
+    "good": false
+   }
+  ],
+  "message": "Bonjour, je m’appelle Raphaël, je crée des sites pour les indépendants, ici à Grenoble.\n\nJ’ai regardé votre salon du quai de France. Votre fiche Yelp donne les horaires, 11h à 19h30 tous les jours, mais aucun avis et pas de site. Pour réserver, il reste le téléphone, et pendant une séance vous ne pouvez pas décrocher.\n\nPour un salon de massage, je fais un site à vous avec la réservation des séances en ligne et un rappel envoyé au client avant l’heure. Pas de commission, pas d’abonnement.\n\nJe peux vous envoyer ici un exemple fait pour un salon, sans rien vous engager. Bonne journée.",
+  "followUp": "Bonjour, c’est Raphaël, développeur web à Grenoble, je vous ai écrit la semaine dernière pour la réservation des séances en ligne. Dernière relance de ma part. Si ce n’est pas utile pour vous, aucun souci, je n’enverrai rien d’autre.",
+  "messageSource": "ia",
+  "status": "a-contacter",
+  "note": "",
+  "createdAt": "2026-10-18T09:55:34.332Z",
+  "updatedAt": "2026-10-18T09:55:34.332Z",
+  "contactedAt": null
+ }
+]
