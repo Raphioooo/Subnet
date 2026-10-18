@@ -320,7 +320,8 @@ export function fold(text) {
 
 // Graine stable par entreprise : le même prospect reçoit toujours les mêmes variantes.
 function seedOf(p) {
-  return crypto.createHash('sha1').update(String(p.id || p.sourceId || p.name || '')).digest();
+  const variant = Number(p.messageVariant) || 0;
+  return crypto.createHash('sha1').update(`${p.id || p.sourceId || p.name || ''}#${variant}`).digest();
 }
 // Un octet différent de l'empreinte par emplacement : les variantes ne sont pas couplées.
 const pick = (list, seed, slot) => list[seed[slot % seed.length] % list.length];
@@ -389,6 +390,15 @@ export function scoreProspect(p) {
   if (p.verified?.open === true) {
     score += 2;
     reasons.push({ text: 'Activité vérifiée', good: true });
+  }
+  if (p.verified?.found === false) {
+    score -= 5;
+    reasons.push({ text: 'Non retrouvée en ligne', good: false });
+  }
+  const adjust = Math.max(-10, Math.min(10, Math.round(Number(p.scoreAdjust)) || 0));
+  if (adjust) {
+    score += adjust;
+    reasons.push({ text: `${adjust > 0 ? '+' : ''}${adjust} : ${p.scoreAdjustReason || 'ajustement du rédacteur'}`, good: adjust > 0 });
   }
   score = Math.max(2, Math.min(55, Math.round(score)));
   const label = score >= 35 ? 'Très bon' : score >= 25 ? 'Bon' : score >= 15 ? 'Moyen' : 'Faible';
@@ -614,18 +624,24 @@ export function normalizeProspect(raw = {}) {
       ? {
           open: typeof raw.verified.open === 'boolean' ? raw.verified.open : null,
           website: typeof raw.verified.website === 'boolean' ? raw.verified.website : null,
+          // false : aucune trace en ligne trouvée (seulement les données de carte).
+          found: typeof raw.verified.found === 'boolean' ? raw.verified.found : null,
           note: cleanText(raw.verified.note, 400, true),
           sources: (Array.isArray(raw.verified.sources) ? raw.verified.sources : []).map((s) => safeUrl(s, 400)).filter(Boolean).slice(0, 6),
           at: cleanText(raw.verified.at, 40),
         }
       : null,
     analysis: cleanText(raw.analysis, 600, true),
+    // Correction du score décidée par un rédacteur (humain ou IA), conservée à chaque recalcul.
+    scoreAdjust: Math.max(-10, Math.min(10, Math.round(Number(raw.scoreAdjust)) || 0)),
+    scoreAdjustReason: cleanText(raw.scoreAdjustReason, 160),
     score: Number.isFinite(Number(raw.score)) ? Number(raw.score) : null,
     scoreLabel: cleanText(raw.scoreLabel, 20),
     reasons: Array.isArray(raw.reasons) ? raw.reasons.filter(isPlainObject).slice(0, 10) : [],
     message: cleanText(raw.message, 1500, true),
     followUp: cleanText(raw.followUp, 800, true),
     messageSource: ['modele', 'ia', 'manuel'].includes(raw.messageSource) ? raw.messageSource : 'modele',
+    messageVariant: Number.isInteger(raw.messageVariant) ? raw.messageVariant : 0,
     status: PROSPECT_STATUSES.some((s) => s.value === raw.status) ? raw.status : 'a-contacter',
     note: cleanText(raw.note, 2000, true),
     createdAt: cleanText(raw.createdAt, 40) || new Date().toISOString(),

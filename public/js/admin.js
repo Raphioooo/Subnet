@@ -491,9 +491,9 @@
       link.href = url.toString();
       const id = link.dataset.markSent;
       if (!id) return;
-      postJson(`/admin/api/prospection/${id}/envoye`, {})
+      postJson(`/admin/api/prospection/${id}/envoye`, { message: field.value })
         .then((result) => {
-          if (!result.ok) return;
+          if (!result.ok || !result.changed) return;
           setBadge(link.closest('.pro-item'), 'Message envoyé', result.status);
           const count = document.querySelector('.nav-link[href="/admin/prospection"] .nav-count');
           if (count) {
@@ -504,11 +504,23 @@
         })
         .catch(() => {});
     });
+    // Le lien WhatsApp suit le texte modifié (clic droit ou molette compris).
     prospects.addEventListener('input', (event) => {
       const form = event.target.closest('[data-message-form]');
       const save = form?.querySelector('[data-save-message]');
       if (save) save.disabled = false;
+      if (!event.target.id) return;
+      for (const link of prospects.querySelectorAll(`[data-whatsapp="${CSS.escape(event.target.id)}"]`)) {
+        const url = new URL(link.href);
+        url.searchParams.set('text', event.target.value);
+        link.href = url.toString();
+      }
     });
+    // Après une action, la fiche concernée se rouvre.
+    if (location.hash.startsWith('#p-')) {
+      const target = document.getElementById(location.hash.slice(1))?.querySelector('details[data-prospect]');
+      if (target) target.open = true;
+    }
   }
 
   const jobBanner = document.querySelector('[data-job-poll]');

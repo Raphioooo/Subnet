@@ -530,7 +530,9 @@ export function adminRouter({ config, store, auth, mailer, log, prospector }) {
   router.post('/prospection/:id/regenerer', form, async (req, res) => {
     const p = store.getProspect(req.params.id);
     if (!p) return res.redirect(303, prospectBack(req));
-    let patch = { ...refreshProspect({ ...p, messageSource: 'modele' }), messageSource: 'modele' };
+    // Un autre jeu de variantes à chaque demande, sinon le texte serait identique.
+    const variant = p.messageSource === 'modele' ? p.messageVariant + 1 : p.messageVariant;
+    let patch = { ...refreshProspect({ ...p, messageSource: 'modele', messageVariant: variant }), messageSource: 'modele', messageVariant: variant };
     if (req.body?.ia === '1' && prospector.writer) {
       try {
         const texts = await prospector.writer.write(p);
@@ -550,12 +552,18 @@ export function adminRouter({ config, store, auth, mailer, log, prospector }) {
     res.redirect(303, prospectBack(req));
   });
 
-  // Appelé à l'ouverture de WhatsApp depuis la fiche : le prospect passe en « envoyé ».
-  router.post('/api/prospection/:id/envoye', express.json({ limit: '4kb' }), async (req, res) => {
+  // Appelé à l'ouverture de WhatsApp depuis la fiche : le texte envoyé est
+  // conservé et le prospect passe en « envoyé » s'il était encore à contacter.
+  router.post('/api/prospection/:id/envoye', express.json({ limit: '8kb' }), async (req, res) => {
     const p = store.getProspect(req.params.id);
     if (!p) return res.status(404).json({ ok: false, errors: ['Prospect introuvable.'] });
-    if (p.status === 'a-contacter') await store.updateProspect(p.id, markSent(p));
-    res.json({ ok: true, status: store.getProspect(p.id).status, toContact: store.prospects.filter((x) => x.status === 'a-contacter').length });
+    const patch = {};
+    const message = cleanText(req.body?.message, 1500, true);
+    if (message && message !== p.message) Object.assign(patch, { message, messageSource: 'manuel' });
+    const changed = p.status === 'a-contacter';
+    if (changed) Object.assign(patch, markSent(p));
+    if (Object.keys(patch).length) await store.updateProspect(p.id, patch);
+    res.json({ ok: true, changed, status: store.getProspect(p.id).status, toContact: store.prospects.filter((x) => x.status === 'a-contacter').length });
   });
 
   // Compte et sauvegarde ------------------------------------------------------

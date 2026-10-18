@@ -2439,7 +2439,7 @@ a.stat:hover {
 
 .pro-score--tres-bon {
   background: var(--success-soft);
-  color: var(--success);
+  color: #15663a;
 }
 
 .pro-score--bon {
@@ -2471,7 +2471,7 @@ a.stat:hover {
 
 .tag--wa {
   background: #e7f8ee;
-  color: #15803d;
+  color: #15663a;
 }
 
 .tag--google {
@@ -2492,7 +2492,7 @@ a.stat:hover {
 .pro-status--repondu,
 .pro-status--rdv {
   background: var(--success-soft);
-  color: var(--success);
+  color: #15663a;
 }
 
 .pro-status--client {
@@ -2559,7 +2559,7 @@ a.stat:hover {
 
 .chip--good {
   background: var(--success-soft);
-  color: var(--success);
+  color: #15663a;
 }
 
 .chip--bad {
@@ -2617,6 +2617,13 @@ a.stat:hover {
   color: var(--text-2);
   font-size: 13px;
   line-height: 1.5;
+}
+
+.pro-verified--warn {
+  color: #8a5a00;
+  background: #fff7e6;
+  border-radius: 8px;
+  padding: 8px 10px;
 }
 
 .pro-msg {

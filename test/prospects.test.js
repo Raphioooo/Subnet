@@ -74,6 +74,22 @@ describe('prospection : modèle', () => {
     assert.ok(rated.score <= 55);
   });
 
+  test('l’ajustement du rédacteur et le marqueur « non retrouvée » survivent au recalcul', () => {
+    const base = { sector: 'coiffeur', website: '', phoneKind: 'mobile' };
+    const plain = scoreProspect(base).score;
+    const boosted = scoreProspect({ ...base, scoreAdjust: 6, scoreAdjustReason: 'gérante très active' });
+    assert.equal(boosted.score, plain + 6);
+    assert.ok(boosted.reasons.some((r) => r.text === '+6 : gérante très active' && r.good));
+    const unseen = scoreProspect({ ...base, verified: { found: false } });
+    assert.equal(unseen.score, plain - 5);
+    assert.ok(unseen.reasons.some((r) => r.text === 'Non retrouvée en ligne' && !r.good));
+    // Borné à ±10 et conservé par la normalisation.
+    const p = normalizeProspect({ ...salon, scoreAdjust: 40, scoreAdjustReason: 'x', verified: { found: false, note: 'rien trouvé' } });
+    assert.equal(p.scoreAdjust, 10);
+    assert.equal(p.verified.found, false);
+    assert.equal(p.score, scoreProspect(p).score);
+  });
+
   test('les messages sont stables, personnalisés et sans tics de rédaction automatique', () => {
     const p = normalizeProspect(salon);
     assert.equal(p.sector, 'coiffeur');
@@ -328,15 +344,23 @@ describe('prospection : administration', () => {
     assert.equal(res.status, 303);
     assert.equal(app.ctx.store.getProspect(bar.id).messageSource, 'modele');
     assert.match(app.ctx.store.getProspect(bar.id).message, /Bar du Coin/);
+    const firstModel = app.ctx.store.getProspect(bar.id).message;
+    await request(`/admin/prospection/${bar.id}/regenerer`, { method: 'POST', headers: FORM, body: formBody({}) });
+    assert.notEqual(app.ctx.store.getProspect(bar.id).message, firstModel, 'un nouveau modèle change le texte');
 
     res = await request(`/admin/prospection/${bar.id}/note`, { method: 'POST', headers: FORM, body: formBody({ note: 'Rappeler jeudi' }) });
     assert.equal(app.ctx.store.getProspect(bar.id).note, 'Rappeler jeudi');
 
-    const sent = await request(`/admin/api/prospection/${bar.id}/envoye`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+    const sent = await request(`/admin/api/prospection/${bar.id}/envoye`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: 'Bonjour, texte retouché juste avant l’envoi.' }) });
     const payload = await sent.json();
     assert.equal(payload.ok, true);
+    assert.equal(payload.changed, true);
     assert.equal(payload.status, 'envoye');
     assert.equal(payload.toContact, 0);
+    assert.equal(app.ctx.store.getProspect(bar.id).message, 'Bonjour, texte retouché juste avant l’envoi.');
+    assert.equal(app.ctx.store.getProspect(bar.id).messageSource, 'manuel');
+    const again2 = await (await request(`/admin/api/prospection/${bar.id}/envoye`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })).json();
+    assert.equal(again2.changed, false, 'un second envoi ne change plus le statut');
 
     const csv = await request('/admin/prospection/export.csv');
     assert.equal(csv.status, 200);
@@ -454,5 +478,38 @@ describe('prospection : liste de départ', () => {
     await store.init();
     assert.equal(store.prospects.length, 0);
     await fs.rm(dir, { recursive: true, force: true });
+  });
+
+  test('la liste livrée est complète, propre et prête à envoyer', async () => {
+    const seedPath = new URL('../src/prospects-seed.json', import.meta.url);
+    const raw = JSON.parse(await fs.readFile(seedPath, 'utf8'));
+    assert.ok(Array.isArray(raw) && raw.length >= 50, `au moins 50 entreprises (${raw.length})`);
+    const ids = new Set();
+    const phones = new Set();
+    for (const entry of raw) {
+      const p = normalizeProspect(entry);
+      assert.ok(p.name && p.phone && p.sector !== 'autre', `${entry.name} : nom, téléphone et secteur`);
+      assert.match(p.phone, /^0[1-9]\d{8}$/, `${p.name} : téléphone normalisé`);
+      assert.ok(!ids.has(p.id) && !phones.has(p.phone), `${p.name} : identifiant et téléphone uniques`);
+      ids.add(p.id);
+      phones.add(p.phone);
+      assert.equal(p.website, '', `${p.name} : sans site`);
+      assert.equal(p.source, 'liste-de-depart');
+      assert.equal(p.messageSource, 'ia', `${p.name} : message rédigé`);
+      assert.ok(p.message.length >= 300 && p.message.length <= 750, `${p.name} : longueur du message (${p.message.length})`);
+      assert.ok(p.followUp.length >= 60 && p.followUp.length <= 600, `${p.name} : longueur de la relance`);
+      for (const text of [p.message, p.followUp, p.analysis]) {
+        assert.ok(!BANNED.test(text), `${p.name} : tic de rédaction (« ${text.match(BANNED)?.[0]} »)`);
+        assert.ok(!/https?:\/\/|—/.test(text), `${p.name} : ni lien ni tiret cadratin`);
+      }
+      assert.ok(/Raphaël/.test(p.message), `${p.name} : signé`);
+      assert.ok(p.verified && p.verified.at, `${p.name} : vérification datée`);
+      assert.ok(p.score >= 2 && p.score <= 55 && p.scoreLabel, `${p.name} : score`);
+      assert.equal(p.status, 'a-contacter');
+      assert.deepEqual(entry, { ...entry, ...Object.fromEntries(Object.entries(p).filter(([k]) => k in entry)) }, `${p.name} : déjà normalisée`);
+    }
+    const mobiles = raw.filter((p) => p.phoneKind !== 'fixe').length;
+    assert.ok(mobiles >= raw.length * 0.75, `majorité de mobiles (${mobiles}/${raw.length})`);
+    assert.ok(raw.filter((p) => /^38/.test(p.address.postcode)).length >= 25, 'au moins 25 autour de Grenoble');
   });
 });

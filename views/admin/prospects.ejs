@@ -30,7 +30,7 @@
   <%- icon('loader-circle', { size: 18, className: 'pro-spin' }) %>
   <div>
     <strong>Recherche en cours</strong> · <span data-job-step><%= job.step %></span>
-    <p class="pro-job__hint">Cette page se mettra à jour toute seule. Une recherche prend de une à dix minutes selon la zone<%= aiEnabled ? ' et la rédaction des messages' : '' %>.</p>
+    <p class="pro-job__hint">Cette page se mettra à jour toute seule. Une recherche prend d’une à dix minutes selon la zone<%= aiEnabled ? ' et la rédaction des messages' : '' %>.</p>
   </div>
   <form method="post" action="/admin/prospection/recherche/annuler"><button class="btn btn--secondary btn--sm" type="submit">Arrêter</button></form>
 </div>
@@ -38,7 +38,7 @@
 <div class="alert <%= job.errors.length && !job.added ? 'alert--error' : 'alert--success' %>" role="status">
   <%- icon(job.errors.length && !job.added ? 'circle-alert' : 'circle-check', { size: 18 }) %>
   <div>
-    <strong>Dernière recherche terminée<%= job.filters ? ` (${job.filters.city}, ${job.filters.radiusKm} km)` : '' %></strong> :
+    <strong><%= job.cancelled ? 'Recherche arrêtée' : 'Recherche terminée' %> <%= relativeDate(job.finishedAt) %><%= job.filters ? ` (${job.filters.city}, ${job.filters.radiusKm} km)` : '' %></strong> :
     <%= job.found %> commerce<%= job.found > 1 ? 's' : '' %> trouvé<%= job.found > 1 ? 's' : '' %>,
     <%= job.added %> ajouté<%= job.added > 1 ? 's' : '' %><% if (job.skipped) { %>, <%= job.skipped %> écarté<%= job.skipped > 1 ? 's' : '' %> (déjà connus, avec un site ou hors critères)<% } %><% if (job.enriched) { %>, <%= job.enriched %> avec avis Google<% } %><% if (job.written) { %>, <%= job.written %> message<%= job.written > 1 ? 's' : '' %> rédigé<%= job.written > 1 ? 's' : '' %> par Claude<% } %>.
     <% if (job.errors.length) { %><ul class="pro-errors"><% for (const e of job.errors.slice(0, 4)) { %><li><%= e %></li><% } %></ul><% } %>
@@ -75,17 +75,17 @@
   </form>
 </details>
 
-<% if (!total) { %>
+<% if (!total && !job.running) { %>
 <div class="empty card">
   <span class="empty__icon"><%- icon('target', { size: 28 }) %></span>
   <h2>Aucune entreprise pour le moment</h2>
   <p>Lancez une recherche ci-dessus : les entreprises trouvées apparaîtront ici avec leur analyse et un message prêt à envoyer.</p>
 </div>
-<% } else { %>
+<% } else if (total) { %>
 <div class="stats pro-stats">
   <div class="stat"><span class="stat__icon"><%- icon('users', { size: 20 }) %></span><span class="stat__value"><%= total %></span><span class="stat__label">entreprise<%= total > 1 ? 's' : '' %> dans la liste</span></div>
   <a class="stat" href="/admin/prospection?statut=a-contacter"><span class="stat__icon"><%- icon('brand-whatsapp', { size: 20 }) %></span><span class="stat__value"><%= counts['a-contacter'] %></span><span class="stat__label">à contacter</span></a>
-  <a class="stat" href="/admin/prospection?statut=envoye"><span class="stat__icon"><%- icon('send', { size: 20 }) %></span><span class="stat__value"><%= contacted %></span><span class="stat__label">message<%= contacted > 1 ? 's' : '' %> envoyé<%= contacted > 1 ? 's' : '' %></span></a>
+  <div class="stat"><span class="stat__icon"><%- icon('send', { size: 20 }) %></span><span class="stat__value"><%= contacted %></span><span class="stat__label">déjà contactée<%= contacted > 1 ? 's' : '' %></span></div>
   <div class="stat"><span class="stat__icon"><%- icon('message-circle', { size: 20 }) %></span><span class="stat__value"><%= rate === null ? '–' : `${rate} %` %></span><span class="stat__label">de réponses<%= contacted ? ` (${replied} sur ${contacted})` : '' %></span></div>
 </div>
 
@@ -178,10 +178,10 @@
               <% if (p.instagram) { %><div><dt>Instagram</dt><dd><a href="<%= p.instagram %>" target="_blank" rel="noopener"><%= p.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, '@').replace(/\/$/, '') %></a></dd></div><% } %>
               <% if (p.facebook) { %><div><dt>Facebook</dt><dd><a href="<%= p.facebook %>" target="_blank" rel="noopener">Page Facebook</a></dd></div><% } %>
               <% if (p.openingHours) { %><div><dt>Horaires</dt><dd><%= p.openingHours %></dd></div><% } %>
-              <div><dt>Source</dt><dd><%= p.source === 'liste-de-depart' ? 'Liste de départ (vérifiée en ligne)' : p.source === 'osm' ? 'OpenStreetMap' : p.source %><% if (p.verified && p.verified.at) { %> · vérifiée le <%= formatDate(p.verified.at).replace(/ à .*$/, '') %><% } %></dd></div>
+              <div><dt>Source</dt><dd><%= p.source === 'liste-de-depart' ? (p.verified && p.verified.found === false ? 'Liste de départ (non retrouvée en ligne)' : 'Liste de départ (vérifiée en ligne)') : p.source === 'osm' ? 'OpenStreetMap' : p.source %><% if (p.verified && p.verified.at) { %> · <%= p.verified.found === false ? 'recherchée' : 'vérifiée' %> le <%= formatDate(p.verified.at).replace(/ à .*$/, '') %><% } %></dd></div>
             </dl>
             <% if (p.verified && (p.verified.note || p.verified.sources.length)) { %>
-            <p class="pro-verified"><% if (p.verified.note) { %><%= p.verified.note %> <% } %><% for (const [i, s] of p.verified.sources.entries()) { %><a href="<%= s %>" target="_blank" rel="noopener">source <%= i + 1 %></a><%= i < p.verified.sources.length - 1 ? ', ' : '' %><% } %></p>
+            <p class="pro-verified<%= p.verified.found === false ? ' pro-verified--warn' : '' %>"><% if (p.verified.note) { %><%= p.verified.note %> <% } %><% for (const [i, s] of p.verified.sources.entries()) { %><a href="<%= s %>" target="_blank" rel="noopener">source <%= i + 1 %></a><%= i < p.verified.sources.length - 1 ? ', ' : '' %><% } %></p>
             <% } %>
           </div>
 

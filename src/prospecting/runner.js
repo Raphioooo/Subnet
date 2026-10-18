@@ -20,7 +20,7 @@ export function createProspector({ config, store, log, fetchImpl, places, writer
   let current = null;
 
   function idle() {
-    return { running: false, step: '', found: 0, added: 0, skipped: 0, enriched: 0, written: 0, errors: [], filters: null, startedAt: null, finishedAt: null, searchId: null };
+    return { running: false, cancelled: false, step: '', found: 0, added: 0, skipped: 0, enriched: 0, written: 0, errors: [], filters: null, startedAt: null, finishedAt: null, searchId: null };
   }
 
   const update = (patch) => {
@@ -136,8 +136,10 @@ export function createProspector({ config, store, log, fetchImpl, places, writer
       deadline.unref();
       current = run(filters, signal)
         .catch((err) => {
-          log?.error?.('Prospection :', err.message);
-          update({ running: false, step: '', finishedAt: new Date().toISOString(), errors: [...state.errors, err.message] });
+          const cancelled = signal.aborted;
+          const message = cancelled ? 'Recherche arrêtée avant la fin : rien n’a été enregistré.' : err.message;
+          if (!cancelled) log?.error?.('Prospection :', err.message);
+          update({ running: false, step: '', finishedAt: new Date().toISOString(), cancelled, errors: [...state.errors, message] });
         })
         .finally(() => {
           clearTimeout(deadline);
