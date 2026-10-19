@@ -193,8 +193,20 @@ export function publicRouter({ config, store, auth, mailer, log }) {
     });
   }
 
+  // OAI-SearchBot (recherche de ChatGPT) suit uniquement son propre groupe :
+  // on y répète donc l'exclusion de /admin.
   router.get('/robots.txt', (req, res) => {
-    res.type('text/plain').send(`User-agent: *\nDisallow: /admin\n\nSitemap: ${res.locals.baseUrl}/sitemap.xml\n`);
+    res.type('text/plain').send([
+      'User-agent: *',
+      'Disallow: /admin',
+      '',
+      'User-agent: OAI-SearchBot',
+      'Allow: /',
+      'Disallow: /admin',
+      '',
+      `Sitemap: ${res.locals.baseUrl}/sitemap.xml`,
+      '',
+    ].join('\n'));
   });
 
   // Les pages légales restent accessibles et indexables, mais hors du plan du site.
