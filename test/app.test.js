@@ -120,6 +120,8 @@ describe('site public', () => {
     assert.match(sitemap, /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
     const robots = await (await request('/robots.txt')).text();
     assert.ok(robots.includes('Disallow: /admin'));
+    assert.match(robots, /User-agent: OAI-SearchBot\nAllow: \/\nDisallow: \/admin\n/);
+    assert.match(robots, /Sitemap: .+\/sitemap\.xml/);
   });
 
   test('référencement : titre, description et un seul H1 par page', async () => {
