@@ -17,6 +17,11 @@
     <span class="stat__value"><%= unread %></span>
     <span class="stat__label"><%= unread > 1 ? 'demandes non lues' : 'demande non lue' %></span>
   </a>
+  <a class="stat" href="/admin/statistiques?periode=7">
+    <span class="stat__icon"><%- icon('chart-line', { size: 20 }) %></span>
+    <span class="stat__value"><%= new Intl.NumberFormat('fr-FR').format(weekVisits) %></span>
+    <span class="stat__label"><%= weekVisits > 1 ? 'visites ces 7 derniers jours' : 'visite ces 7 derniers jours' %></span>
+  </a>
   <a class="stat" href="/admin/articles?statut=draft">
     <span class="stat__icon"><%- icon('file-text', { size: 20 }) %></span>
     <span class="stat__value"><%= draftCount %></span>

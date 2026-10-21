@@ -17,6 +17,24 @@ const SUCCESS_REDIRECTS = {
   accueil: '/?envoye=1#contact',
 };
 
+// Page du site consultée juste avant le formulaire (chemin local uniquement).
+export function localPath(value) {
+  const text = typeof value === 'string' ? value.trim() : '';
+  if (!/^\/(?!\/)[^\s?#\\]{0,159}$/.test(text) || /^\/admin(\/|$)/.test(text)) return '';
+  return text.length > 1 ? text.replace(/\/+$/, '') : text;
+}
+
+function refererPath(req) {
+  try {
+    const url = new URL(req.get('referer') || '');
+    if (url.host !== req.get('host')) return '';
+    const path = localPath(url.pathname);
+    return path === '/contact' ? '' : path;
+  } catch {
+    return '';
+  }
+}
+
 // Fonctionnalités cochées : indices de la liste proposée, convertis en libellés.
 function selectedModules(raw, available) {
   const list = (Array.isArray(raw) ? raw : raw ? [raw] : []).map(String);
@@ -55,7 +73,7 @@ function lastModified(meta, pages) {
   return date ? date.slice(0, 10) : '';
 }
 
-export function publicRouter({ config, store, auth, mailer, log }) {
+export function publicRouter({ config, store, auth, mailer, log, stats }) {
   const router = express.Router();
   const contactLimiter = createRateLimiter({ windowMs: 10 * 60 * 1000, max: 5 });
 
@@ -146,13 +164,17 @@ export function publicRouter({ config, store, auth, mailer, log }) {
   router.get('/contact', (req, res) => {
     const sector = CONTACT_SECTOR_OPTIONS.some((o) => o.value === req.query.secteur) ? req.query.secteur : '';
     const type = req.query.type === 'question' ? 'contact' : 'devis';
-    renderContact(req, res, { values: { sector, type } });
+    renderContact(req, res, { values: { sector, type, from: refererPath(req) } });
   });
 
   router.post('/contact', express.urlencoded({ extended: false, limit: '32kb' }), async (req, res) => {
     const body = req.body || {};
     const { values, errors, modules } = validateContact(body, store.getContent().contact.page.modules);
     const source = Object.hasOwn(SUCCESS_REDIRECTS, body.source) ? body.source : 'contact';
+    // Page consultée avant la demande : celle d'avant le formulaire de contact,
+    // ou l'accueil pour le formulaire rapide.
+    const page = source === 'accueil' ? '/' : localPath(body.from);
+    values.from = page;
 
     // Champ piège invisible : rempli uniquement par les robots.
     if (cleanText(body.website)) return res.redirect(303, SUCCESS_REDIRECTS[source]);
@@ -173,7 +195,9 @@ export function publicRouter({ config, store, auth, mailer, log }) {
       });
     }
 
-    const message = await store.addMessage({ ...values, modules, source, status: 'nouvelle', note: '' });
+    const { from, ...fields } = values;
+    const message = await store.addMessage({ ...fields, modules, source, page: from, status: 'nouvelle', note: '' });
+    stats?.recordContact(from || '/contact');
     mailer.notifyNewMessage(message, store.getContent()).catch((err) => {
       log.error('Email de notification non envoyé :', err.message);
     });

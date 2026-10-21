@@ -1,0 +1,158 @@
+<%- include('partials/head', { title: 'Statistiques' }) %>
+<%
+  const nf = new Intl.NumberFormat('fr-FR');
+  const fmt = (n) => nf.format(n);
+  const pf = new Intl.NumberFormat('fr-FR', { style: 'percent', maximumFractionDigits: 1 });
+  const pct = (n) => pf.format(n);
+  const utc = (key) => new Date(`${key}T12:00:00Z`);
+  const fmtDay = new Intl.DateTimeFormat('fr-FR', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long' });
+  const fmtShort = new Intl.DateTimeFormat('fr-FR', { timeZone: 'UTC', day: 'numeric', month: 'short' });
+  const fmtMonth = new Intl.DateTimeFormat('fr-FR', { timeZone: 'UTC', month: 'long', year: 'numeric' });
+  const fmtMonthShort = new Intl.DateTimeFormat('fr-FR', { timeZone: 'UTC', month: 'short' });
+  const fmtDayMonth = new Intl.DateTimeFormat('fr-FR', { timeZone: 'UTC', day: 'numeric', month: 'long' });
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+  // « 1er octobre » plutôt que « 1 octobre ».
+  const first = (s) => s.replace(/(^|\s)1(\s)/, '$11er$2');
+
+  // Libellés des barres : court sous l'axe, complet dans l'infobulle et le tableau.
+  const bucketTitle = (b) => {
+    if (period.unit === 'day') return cap(first(fmtDay.format(utc(b.start))));
+    if (period.unit === 'week') return b.start === b.end ? cap(first(fmtDay.format(utc(b.start)))) : `Du ${first(fmtDayMonth.format(utc(b.start)))} au ${first(fmtDayMonth.format(utc(b.end)))}`;
+    const full = utc(b.start).getUTCDate() === 1 && utc(b.end).getUTCDate() === new Date(Date.UTC(utc(b.end).getUTCFullYear(), utc(b.end).getUTCMonth() + 1, 0)).getUTCDate();
+    return full ? cap(fmtMonth.format(utc(b.start))) : `Du ${first(fmtDayMonth.format(utc(b.start)))} au ${first(fmtDayMonth.format(utc(b.end)))}`;
+  };
+  const bucketShort = (b) => (period.unit === 'month' ? fmtMonthShort.format(utc(b.start)) : first(fmtShort.format(utc(b.start))));
+
+  // Variation par rapport à la période précédente.
+  const delta = (cur, prev) => {
+    if (!previous) return null;
+    if (prev === 0) return cur > 0 ? { text: 'nouveau', dir: 'up' } : { text: 'stable', dir: 'flat' };
+    const r = (cur - prev) / prev;
+    if (Math.abs(r) < 0.005) return { text: 'stable', dir: 'flat' };
+    return { text: `${r > 0 ? '+' : '−'}${pct(Math.abs(r))}`, dir: r > 0 ? 'up' : 'down' };
+  };
+  const rate = (s) => (s.visits ? s.contacts / s.visits : 0);
+  const rateDelta = () => {
+    if (!previous || (!current.visits && !previous.visits)) return null;
+    const d = (rate(current) - rate(previous)) * 100;
+    if (Math.abs(d) < 0.05) return { text: 'stable', dir: 'flat' };
+    return { text: `${d > 0 ? '+' : '−'}${new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 1 }).format(Math.abs(d))} pt`, dir: d > 0 ? 'up' : 'down' };
+  };
+  const tiles = [
+    { icon: 'users', label: 'Visites', value: fmt(current.visits), delta: delta(current.visits, previous?.visits) },
+    { icon: 'eye', label: 'Pages vues', value: fmt(current.views), delta: delta(current.views, previous?.views) },
+    { icon: 'inbox', label: 'Demandes reçues', value: fmt(current.contacts), delta: delta(current.contacts, previous?.contacts) },
+    { icon: 'target', label: 'Visites qui deviennent une demande', value: current.visits ? pct(rate(current)) : '–', delta: rateDelta() },
+  ];
+
+  // Échelle du graphique : graduations rondes (1, 2 ou 5 × 10^n), quatre au plus.
+  const maxVisits = Math.max(0, ...series.map((b) => b.visits));
+  let step = 1;
+  for (let k = 1; ; k *= 10) {
+    const found = [1, 2, 5].map((c) => c * k).find((s) => Math.ceil(maxVisits / s) <= 4);
+    if (found) { step = found; break; }
+  }
+  const top = Math.max(step, Math.ceil(maxVisits / step) * step);
+  const ticks = Array.from({ length: Math.round(top / step) + 1 }, (_, i) => i * step);
+  const every = Math.max(1, Math.ceil(series.length / 7));
+  const unitLabel = { day: 'par jour', week: 'par semaine', month: 'par mois' }[period.unit];
+-%>
+<header class="page-head">
+  <div>
+    <h1>Statistiques</h1>
+    <p>La fréquentation de votre site, mesurée sans cookie. Les robots et vos propres visites, quand vous êtes connecté à l’admin, ne sont pas comptés.</p>
+  </div>
+</header>
+
+<div class="toolbar">
+  <nav class="tabs" aria-label="Période">
+    <% for (const p of periods) { %>
+    <a class="tab" href="/admin/statistiques?periode=<%= p.value %>"<% if (p.value === period.value) { %> aria-current="page"<% } %>><%= p.label %></a>
+    <% } %>
+  </nav>
+  <% if (startedAt) { %><p class="muted stats-since">Mesure démarrée le <%= formatDate(startedAt).replace(/ à .*$/, '') %></p><% } %>
+</div>
+
+<% if (!startedAt) { %>
+<div class="empty">
+  <span class="empty__icon"><%- icon('chart-line', { size: 28 }) %></span>
+  <h2>Pas encore de visite enregistrée</h2>
+  <p>Les chiffres apparaîtront dès les premières visites sur votre site. Vos propres visites ne comptent pas tant que vous êtes connecté à l’admin : pour vérifier, ouvrez le site dans une fenêtre de navigation privée.</p>
+</div>
+<% } else { %>
+
+<div class="stats stats--kpi">
+  <% for (const t of tiles) { %>
+  <div class="stat">
+    <span class="stat__icon"><%- icon(t.icon, { size: 20 }) %></span>
+    <span class="stat__value"><%= t.value %></span>
+    <span class="stat__label"><%= t.label %></span>
+    <% if (t.delta) { %><span class="stat__delta stat__delta--<%= t.delta.dir %>"><%= t.delta.text %></span><% } %>
+  </div>
+  <% } %>
+</div>
+<% if (previous) { %><p class="stats-compare muted">Évolution par rapport aux <%= period.previous %>.</p>
+<% } else if (period.previous) { %><p class="stats-compare muted">L’évolution s’affichera quand les <%= period.previous %> auront aussi été mesurés.</p>
+<% } else { %><div class="stats-compare"></div><% } %>
+
+<section class="card">
+  <header class="card__head">
+    <h2 id="graphique-titre">Visites <%= unitLabel %></h2>
+    <p><% if (partial) { %>Depuis le début de la mesure. <% } %>Survolez une barre, ou parcourez-les au clavier avec les flèches, pour voir le détail.</p>
+  </header>
+  <figure class="chart" aria-labelledby="graphique-titre">
+    <div class="chart__plot" data-chart tabindex="0" role="group" aria-label="Graphique des visites <%= unitLabel %>. Flèches gauche et droite pour parcourir les barres ; le tableau des chiffres est juste en dessous.">
+      <div class="chart__grid" aria-hidden="true">
+        <% for (const t of ticks) { %><span class="chart__tick" style="bottom: <%= ((t / top) * 100).toFixed(2) %>%"><span><%= fmt(t) %></span></span><% } %>
+      </div>
+      <div class="chart__cols">
+        <% for (const b of series) { %>
+        <div class="chart__col" data-chart-col data-title="<%= bucketTitle(b) %>" data-visits="<%= b.visits %>" data-views="<%= b.views %>" data-contacts="<%= b.contacts %>">
+          <span class="chart__bar" style="height: <%= ((b.visits / top) * 100).toFixed(2) %>%"></span>
+        </div>
+        <% } %>
+      </div>
+      <div class="chart__tooltip" data-chart-tooltip hidden></div>
+    </div>
+    <p class="sr-only" aria-live="polite" data-chart-live></p>
+    <div class="chart__axis" aria-hidden="true">
+      <% series.forEach((b, i) => { const shown = i % every === 0; %><span<% if (shown && (i / every) % 2 === 1) { %> class="is-minor"<% } %>><%= shown ? bucketShort(b) : '' %></span><% }) %>
+    </div>
+  </figure>
+  <details class="chart__table">
+    <summary>Afficher le tableau des chiffres</summary>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Période</th><th scope="col">Visites</th><th scope="col">Pages vues</th><th scope="col">Demandes</th></tr></thead>
+        <tbody>
+          <% for (const b of [...series].reverse()) { %>
+          <tr><th scope="row"><%= bucketTitle(b) %></th><td><%= fmt(b.visits) %></td><td><%= fmt(b.views) %></td><td><%= fmt(b.contacts) %></td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<div class="stats-grid">
+  <%- include('partials/rank-list', { title: 'Pages les plus vues', rows: lists.paths, links: true, fmt, pct }) %>
+  <%- include('partials/rank-list', { title: 'Pages d’arrivée', hint: 'La première page ouverte à chaque visite.', rows: lists.entries, links: true, fmt, pct }) %>
+  <%- include('partials/rank-list', { title: 'Provenance des visites', hint: 'Moteur de recherche, réseau social, lien d’un autre site ou accès direct.', rows: lists.sources, fmt, pct }) %>
+  <%- include('partials/rank-list', { title: 'Appareils', rows: lists.devices, fmt, pct }) %>
+  <%- include('partials/rank-list', { title: 'Autres sites qui envoient des visiteurs', hint: 'Annuaires, articles, partenaires… hors moteurs de recherche et réseaux sociaux.', rows: lists.sites, empty: 'Aucun autre site sur la période.', fmt, pct }) %>
+  <%- include('partials/rank-list', { title: 'Pages consultées avant une demande', hint: 'La page qui a donné envie d’écrire, juste avant le formulaire.', rows: lists.contactFrom, links: true, empty: 'Aucune demande sur la période.', fmt, pct }) %>
+  <% if (lists.campaigns.length) { %><%- include('partials/rank-list', { title: 'Liens de campagne', hint: 'Liens partagés avec un paramètre utm_source.', rows: lists.campaigns, fmt, pct }) %><% } %>
+  <% if (lists.notFound.length) { %><%- include('partials/rank-list', { title: 'Pages introuvables', hint: 'Adresses demandées qui n’existent pas : lien cassé ou ancienne adresse à rediriger.', rows: lists.notFound, links: true, fmt, pct }) %><% } %>
+</div>
+<% } %>
+
+<details class="card stats-help">
+  <summary><%- icon('info', { size: 18 }) %>Comment ces chiffres sont-ils calculés ?</summary>
+  <div class="stats-help__body">
+    <p><strong>Visite</strong> : une arrivée sur le site depuis l’extérieur (moteur de recherche, réseau social, lien d’un autre site, adresse tapée ou favori). Les pages suivantes de la même visite comptent seulement comme pages vues.</p>
+    <p><strong>Provenance</strong> : le site d’où arrive le visiteur. Pour suivre un lien que vous partagez, ajoutez-lui un paramètre de campagne, par exemple <code>?utm_source=linkedin</code> ou <code>?utm_source=prospection</code>.</p>
+    <p><strong>Ce qui n’est pas compté</strong> : les robots (Google, Bing, aperçus de liens…), les pages préchargées par le navigateur et vos propres visites quand vous êtes connecté à l’admin.</p>
+    <p><strong>Vie privée</strong> : aucun cookie, rien n’est lu ni enregistré sur l’appareil des visiteurs, aucune adresse IP n’est conservée. Seuls des compteurs par jour sont gardés, pendant treize mois. Aucun bandeau de consentement n’est donc nécessaire.</p>
+  </div>
+</details>
+<%- include('partials/foot') %>

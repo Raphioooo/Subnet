@@ -20,6 +20,7 @@
           <% if (Object.keys(errors).length) { %><p class="form__alert" role="alert"><%- icon('circle-alert', { size: 18 }) %>Merci de vérifier les champs indiqués.</p><% } %>
           <%- include('../partials/request-type', { selected: values.type }) %>
           <input type="hidden" name="source" value="contact">
+          <input type="hidden" name="from" value="<%= values.from || '' %>">
           <div class="form__grid">
             <div class="form__field<%= errors.name ? ' has-error' : '' %>">
               <label for="f-name">Nom et prénom</label>

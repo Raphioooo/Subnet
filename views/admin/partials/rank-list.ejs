@@ -1,0 +1,22 @@
+<section class="card rank-card">
+  <header class="card__head">
+    <h2><%= title %></h2>
+    <% if (locals.hint) { %><p><%= hint %></p><% } %>
+  </header>
+  <% if (rows.length) { %>
+  <ol class="rank">
+    <% for (const r of rows) { %>
+    <li class="rank__row">
+      <span class="rank__text">
+        <% if (locals.links && r.href) { %><a href="<%= r.href %>" target="_blank" rel="noopener"><%= r.label %></a><% } else { %><span><%= r.label %></span><% } %>
+        <% if (locals.links && r.href && r.label !== r.href) { %><small><%= r.href %></small><% } %>
+      </span>
+      <span class="rank__value"><%= fmt(r.count) %><small><%= pct(r.share) %></small></span>
+      <span class="rank__track" aria-hidden="true"><span class="rank__bar" style="width: <%= Math.max(1.5, r.width * 100).toFixed(1) %>%"></span></span>
+    </li>
+    <% } %>
+  </ol>
+  <% } else { %>
+  <p class="rank__empty"><%= locals.empty || 'Aucune donnée sur la période.' %></p>
+  <% } %>
+</section>

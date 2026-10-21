@@ -65,6 +65,7 @@ Rendez-vous sur `/admin`. Le mot de passe est celui de `ADMIN_PASSWORD`. Si la v
 | Pages légales | Informations légales et contenu des quatre pages réglementaires |
 | Articles | Articles du blog : brouillons de l'agent (badge « API »), éditeur Markdown avec aperçu, compteurs SEO, aperçu Google, FAQ, programmation. Publication bloquée tant qu'il reste des marqueurs [À COMPLÉTER] |
 | Demandes | Demandes de devis et questions envoyées depuis la page contact et l'accueil : statut (nouvelle, en cours, traitée), note interne, recherche, filtres et export CSV |
+| Statistiques | Fréquentation du site sur 7 jours, 30 jours, 3 mois ou 12 mois : visites, pages vues, demandes reçues et part des visites qui deviennent une demande, graphique, pages les plus vues, pages d'arrivée, provenance, appareils, autres sites qui envoient des visiteurs, pages consultées avant une demande, liens de campagne et pages introuvables |
 | Prospection | Entreprises de la région sans site à contacter sur WhatsApp : recherche par ville, rayon et activités, analyse, score de réponse estimé, message et relance prêts à envoyer, suivi des statuts, export CSV |
 | Compte et sauvegarde | Mot de passe, sauvegarde et restauration des contenus |
 
@@ -77,6 +78,8 @@ Bon à savoir :
 - **Le tableau de bord indique ce qui reste à compléter** avant la mise en ligne : email, informations légales, adresse du site, etc.
 - **Les pages légales se remplissent seules.** Dans leur texte, les balises entre doubles accolades sont remplacées par les informations saisies dans la section « Informations légales » : `{{entreprise}}`, `{{forme_juridique}}`, `{{siret}}`, `{{rcs}}`, `{{tva}}`, `{{capital}}`, `{{adresse}}`, `{{directeur_publication}}`, `{{hebergeur}}`, `{{hebergeur_adresse}}`, `{{hebergeur_contact}}`, `{{email}}`, `{{telephone}}`, `{{nom_site}}` et `{{url}}`. Une information obligatoire manquante apparaît surlignée « à compléter ». Une information facultative manquante (capital, TVA, immatriculation, téléphone…) fait disparaître sa ligne.
 - **Demandes** : chaque envoi des formulaires (page contact et accueil) est enregistré dans la rubrique « Demandes » de l'admin, avec un compteur des demandes non lues. Vous y suivez chaque demande (nouvelle, en cours, traitée), ajoutez une note interne, filtrez, recherchez et exportez la liste en CSV. Pour recevoir aussi un email à chaque demande, configurez les variables `SMTP_*`. Les demandes sont supprimées automatiquement au bout de trois ans, comme l'indique la politique de confidentialité.
+
+- **Statistiques** : la fréquentation est mesurée par le serveur, sans cookie ni script de suivi, donc sans bandeau de consentement. Une visite est une arrivée sur le site depuis l'extérieur ; les pages suivantes comptent comme pages vues. Les robots, les pages préchargées par le navigateur et vos propres visites quand vous êtes connecté à l'admin ne sont pas comptés. Aucune adresse IP n'est conservée : seuls des compteurs par jour sont gardés, pendant treize mois, dans `stats.json`. Chaque demande reçue indique aussi la page consultée juste avant le formulaire. Pour suivre un lien que vous partagez (LinkedIn, prospection, signature d'email…), ajoutez-lui `?utm_source=` suivi d'un nom : il apparaît dans « Provenance » ou « Liens de campagne ». La politique de confidentialité décrit cette mesure ; si vous aviez modifié la phrase qui disait le contraire, adaptez votre texte.
 
 - **Prospection** : la rubrique part d'une liste de 50 entreprises de Grenoble et de Lyon recherchées en ligne une par une (ouvertes, sans site, téléphone confirmé ; les quelques fiches sans aucune trace en ligne sont signalées « non retrouvée en ligne » et à confirmer avant envoi), puis **Nouvelle recherche** en ajoute d'autres : les commerces viennent d'OpenStreetMap (sans clé ni compte), filtrés sur l'absence de site et le numéro mobile, dédoublonnés, notés (score de réponse estimé, avec ses raisons) et accompagnés d'un message WhatsApp et d'une relance. Le bouton **Ouvrir dans WhatsApp** ouvre la conversation avec le message prérempli et passe la fiche en « Message envoyé ». Deux options facultatives et payantes à l'usage : `GOOGLE_PLACES_API_KEY` ajoute la note, le nombre d'avis et des extraits d'avis Google ; `ANTHROPIC_API_KEY` fait rédiger par Claude un message propre à chaque entreprise (sinon, des messages modèles adaptés à l'activité). Prospection entre professionnels : envoyez les messages un par un, et respectez les refus (statut « Ne plus contacter »).
 
@@ -220,6 +223,7 @@ src/
   schema.js            description des champs modifiables dans l'admin
   sanitize.js          validation et nettoyage des données saisies
   store.js             stockage JSON (contenus, messages)
+  stats.js             statistiques de visite sans cookie (compteurs par jour)
   auth.js              mot de passe, sessions, jetons anti-spam
   markdown.js          mise en forme sûre des textes longs
   mailer.js            notifications par email (facultatives)
@@ -245,7 +249,7 @@ Dockerfile, docker-compose.yml, Caddyfile   mise en ligne avec Docker et HTTPS
 - Toutes les saisies sont validées côté serveur. Les textes longs sont échappés avant mise en forme, et seuls les liens sûrs sont acceptés.
 - Envois d'images contrôlés par leur contenu réel (JPEG, PNG, WebP, AVIF, GIF uniquement).
 - Formulaire de contact protégé par un champ piège, un jeton signé horodaté et une limite d'envois.
-- Aucun cookie sur le site public : aucun bandeau de consentement n'est nécessaire.
+- Aucun cookie sur le site public, y compris pour les statistiques de visite : aucun bandeau de consentement n'est nécessaire.
 
 ## Crédits
 

@@ -5,6 +5,88 @@
     alert: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>',
   };
 
+  // Graphique des statistiques : détail au survol et au clavier ---------------
+  for (const plot of document.querySelectorAll('[data-chart]')) {
+    const cols = [...plot.querySelectorAll('[data-chart-col]')];
+    const tip = plot.querySelector('[data-chart-tooltip]');
+    const live = plot.parentElement.querySelector('[data-chart-live]');
+    if (!cols.length || !tip) continue;
+    const nf = new Intl.NumberFormat('fr-FR');
+    let current = -1;
+
+    const row = (value, label, key) => {
+      const line = document.createElement('div');
+      line.className = 'chart__tip-row';
+      if (key) {
+        const mark = document.createElement('span');
+        mark.className = 'chart__tip-key';
+        line.append(mark);
+      }
+      const strong = document.createElement('strong');
+      strong.textContent = nf.format(value);
+      line.append(strong, document.createTextNode(` ${label}`));
+      return line;
+    };
+
+    const show = (index, announce = false) => {
+      current = Math.max(0, Math.min(cols.length - 1, index));
+      const col = cols[current];
+      const d = col.dataset;
+      const visits = Number(d.visits);
+      const views = Number(d.views);
+      const contacts = Number(d.contacts);
+      const title = document.createElement('div');
+      title.className = 'chart__tip-title';
+      title.textContent = d.title;
+      tip.replaceChildren(
+        row(visits, visits > 1 ? 'visites' : 'visite', true),
+        row(views, views > 1 ? 'pages vues' : 'page vue'),
+        ...(contacts ? [row(contacts, contacts > 1 ? 'demandes' : 'demande')] : []),
+        title,
+      );
+      for (const c of cols) c.classList.toggle('is-active', c === col);
+      tip.hidden = false;
+      // Infobulle au-dessus de la barre, sans sortir du graphique.
+      const box = plot.getBoundingClientRect();
+      const rect = col.getBoundingClientRect();
+      const bar = col.firstElementChild.getBoundingClientRect();
+      const half = tip.offsetWidth / 2;
+      const x = Math.min(Math.max(rect.left + rect.width / 2 - box.left, half), box.width - half);
+      tip.style.left = `${x}px`;
+      tip.style.top = `${Math.max(bar.top - box.top, tip.offsetHeight + 10)}px`;
+      // Au clavier, le détail est lu par les lecteurs d'écran.
+      if (announce && live) {
+        const parts = [`${nf.format(visits)} ${visits > 1 ? 'visites' : 'visite'}`, `${nf.format(views)} ${views > 1 ? 'pages vues' : 'page vue'}`];
+        if (contacts) parts.push(`${nf.format(contacts)} ${contacts > 1 ? 'demandes' : 'demande'}`);
+        live.textContent = `${d.title} : ${parts.join(', ')}.`;
+      }
+    };
+    const hide = () => {
+      current = -1;
+      tip.hidden = true;
+      for (const c of cols) c.classList.remove('is-active');
+    };
+
+    plot.addEventListener('pointermove', (event) => {
+      const col = event.target.closest('[data-chart-col]');
+      if (col) show(cols.indexOf(col));
+    });
+    plot.addEventListener('pointerleave', () => {
+      if (document.activeElement !== plot) hide();
+    });
+    plot.addEventListener('focus', () => show(current >= 0 ? current : cols.length - 1, true));
+    plot.addEventListener('blur', hide);
+    plot.addEventListener('keydown', (event) => {
+      const moves = { ArrowLeft: current - 1, ArrowRight: current + 1, Home: 0, End: cols.length - 1 };
+      if (event.key in moves) {
+        event.preventDefault();
+        show(moves[event.key], true);
+      } else if (event.key === 'Escape') {
+        hide();
+      }
+    });
+  }
+
   // Notifications ---------------------------------------------------------
   const toasts = document.querySelector('[data-toasts]');
   function toast(message, { type = 'success', details = [], duration = 3200 } = {}) {
