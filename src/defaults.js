@@ -53,6 +53,14 @@ Le traitement des données transmises via le formulaire de contact est détaill�
 
 Les présentes mentions légales sont soumises au droit français.`;
 
+// Politique de confidentialité : demande liée à la page consultée et mesure
+// d'audience sans cookie (textes repris par la migration des contenus existants).
+export const PRIVACY_FORM_PAGE =
+  'Lorsque vous envoyez une demande, la page du site que vous consultiez juste avant y est jointe, pour savoir quelle page vous a donné envie de nous écrire. Le site n’utilise aucun cookie publicitaire.';
+export const PRIVACY_AUDIENCE = `## Mesure d’audience
+
+Le site mesure sa fréquentation de façon anonyme, sans cookie et sans rien lire ni enregistrer sur votre appareil. À chaque page consultée, seuls des compteurs par jour sont mis à jour : la page vue, le site d’où vous arrivez (un moteur de recherche, par exemple) et le type d’appareil (ordinateur, mobile ou tablette). Votre adresse IP n’est pas conservée et aucun profil de visiteur n’est constitué. Ces compteurs servent uniquement à améliorer le site et sont supprimés au bout de treize mois.`;
+
 const PRIVACY = `Cette politique explique comment {{entreprise}} collecte et utilise les données personnelles des visiteurs du site {{nom_site}}, dans le respect du Règlement général sur la protection des données (RGPD) et de la loi Informatique et Libertés.
 
 ## Responsable du traitement
@@ -64,7 +72,7 @@ Contact : {{email}}
 
 Lorsque vous utilisez le formulaire de demande de devis, nous collectons les informations que vous nous transmettez : nom et prénom, adresse email et, si vous les renseignez, numéro de téléphone, nom de votre entreprise, secteur d’activité, fonctionnalités souhaitées et contenu de votre message.
 
-Le site n’utilise aucun outil de mesure d’audience ni aucun cookie publicitaire.
+${PRIVACY_FORM_PAGE}
 
 ## Finalité et base légale
 
@@ -77,6 +85,8 @@ Les données sont destinées exclusivement à {{entreprise}}. Elles ne sont ni v
 ## Durée de conservation
 
 Les messages sont conservés au maximum trois ans à compter de leur réception, puis supprimés automatiquement.
+
+${PRIVACY_AUDIENCE}
 
 ## Vos droits
 
@@ -146,7 +156,7 @@ Contact : {{email}}`;
 
 
 export const defaults = {
-  meta: { version: 3, updatedAt: null, createdAt: null, sections: null },
+  meta: { version: 4, updatedAt: null, createdAt: null, sections: null },
 
   site: {
     name: 'Subnet',

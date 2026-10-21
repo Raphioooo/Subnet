@@ -75,7 +75,7 @@
           <% if (m.company) { %><div><dt>Entreprise</dt><dd><%= m.company %></dd></div><% } %>
           <% if (m.sector) { %><div><dt>Activité</dt><dd><%= sectorLabel(m.sector) %></dd></div><% } %>
           <div><dt>Reçue</dt><dd><%= formatDate(m.createdAt) %></dd></div>
-          <div><dt>Envoyée depuis</dt><dd><%= m.source === 'accueil' ? 'La page d’accueil' : 'La page contact' %></dd></div>
+          <div><dt>Envoyée depuis</dt><dd><%= m.source === 'accueil' ? 'La page d’accueil' : 'La page contact' %><% if (m.source !== 'accueil' && m.page) { %>, après la page « <%= pageLabel(m.page) %> »<% } %></dd></div>
           <% if (m.modules.length) { %><div class="message__modules"><dt>Fonctionnalités souhaitées</dt><dd><% for (const mod of m.modules) { %><span class="tag"><%= mod %></span><% } %></dd></div><% } %>
         </dl>
         <p class="message__text"><%- nl2br(m.message) %></p>

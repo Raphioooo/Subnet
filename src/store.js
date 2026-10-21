@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { defaults, SECTOR_SLUGS } from './defaults.js';
+import { defaults, PRIVACY_AUDIENCE, PRIVACY_FORM_PAGE, SECTOR_SLUGS } from './defaults.js';
 import { PAGES } from './schema.js';
 import { DEMO_POST } from './demo-post.js';
 import { normalizeProspect, prospectKey } from './prospects.js';
@@ -70,12 +70,29 @@ function migrateFromV2(raw) {
   return out;
 }
 
+// Version 3 : la politique de confidentialité disait « aucun outil de mesure
+// d'audience ». Si cette phrase d'origine est toujours là, elle est remplacée et
+// la section « Mesure d'audience » est ajoutée ; un texte réécrit n'est pas touché.
+const V3_PRIVACY_SENTENCE = 'Le site n’utilise aucun outil de mesure d’audience ni aucun cookie publicitaire.';
+
+function migrateFromV3(raw) {
+  const body = raw.legal?.privacy?.body;
+  if (typeof body !== 'string' || !body.includes(V3_PRIVACY_SENTENCE)) return raw;
+  const out = structuredClone(raw);
+  let next = body.replace(V3_PRIVACY_SENTENCE, PRIVACY_FORM_PAGE);
+  next = next.includes('\n## Vos droits') ? next.replace('\n## Vos droits', `\n${PRIVACY_AUDIENCE}\n\n## Vos droits`) : `${next.trimEnd()}\n\n${PRIVACY_AUDIENCE}`;
+  out.legal.privacy.body = next;
+  out.meta = { ...out.meta, sections: { ...(isPlainObject(out.meta?.sections) ? out.meta.sections : {}), legal: new Date().toISOString() } };
+  return out;
+}
+
 function migrate(raw) {
   if (!isPlainObject(raw)) return raw;
   let data = raw;
   const version = raw.meta?.version ?? 1;
   if (version < 2) data = migrateFromV1(data);
   if (version < 3) data = migrateFromV2(data);
+  if (version < 4) data = migrateFromV3(data);
   return data;
 }
 
@@ -106,7 +123,7 @@ function addIllustrations(items, defaultItems, sameItem) {
   }
 }
 
-async function readJson(file, fallback) {
+export async function readJson(file, fallback) {
   try {
     return JSON.parse(await fs.readFile(file, 'utf8'));
   } catch (err) {
@@ -115,7 +132,7 @@ async function readJson(file, fallback) {
   }
 }
 
-async function writeJsonAtomic(file, data) {
+export async function writeJsonAtomic(file, data) {
   const tmp = `${file}.${process.pid}.${crypto.randomBytes(4).toString('hex')}.tmp`;
   await fs.writeFile(tmp, JSON.stringify(data, null, 2) + '\n', 'utf8');
   await fs.rename(tmp, file);

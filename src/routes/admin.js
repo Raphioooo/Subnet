@@ -6,9 +6,12 @@ import { SESSION_COOKIE, SESSION_TTL_MS } from '../auth.js';
 import { ICON_OPTIONS, PAGES, REQUEST_STATUSES, REQUEST_TYPES, getPage } from '../schema.js';
 import { applyPageInput, cleanText, getAt, isPlainObject } from '../sanitize.js';
 import { formatDate, sectorLabel } from '../helpers.js';
+import { LEGAL_PAGES } from '../defaults.js';
+import { LOCAL_PATH } from './public.js';
+import { DEVICE_LABELS, SOURCES, addDays, dayKey, ranking, sourceLabel } from '../stats.js';
 import { createRateLimiter, isSameOrigin } from '../security.js';
 import { renderMarkdown } from '../markdown.js';
-import { LIMITS, POST_CATEGORIES, POST_STATUSES, blankPost, findMarkers, readingTime, uniqueSlug, validatePost, wordCount } from '../posts.js';
+import { LIMITS, POST_CATEGORIES, POST_STATUSES, blankPost, categoryLabel, findMarkers, readingTime, uniqueSlug, validatePost, wordCount } from '../posts.js';
 import { PROSPECT_SECTORS, PROSPECT_STATUSES, SEARCH_LIMITS, fold, googleMapsLink, parseSearchFilters, prospectSectorLabel, prospectStatusLabel, refreshProspect, whatsappLink } from '../prospects.js';
 
 const MIN_PASSWORD_LENGTH = 10;
@@ -100,7 +103,47 @@ function setupChecklist(content, { auth, config }) {
   ];
 }
 
-export function adminRouter({ config, store, auth, mailer, log, prospector }) {
+// Nom lisible d'une page du site, à partir de son adresse.
+export function pageLabel(pathname, content, posts = []) {
+  if (!pathname) return '';
+  if (pathname === '(autres)') return 'Autres pages';
+  const fixed = {
+    '/': 'Accueil',
+    '/offre': 'L’offre',
+    '/secteurs': 'Secteurs',
+    '/realisations': 'Réalisations',
+    '/faq': 'FAQ',
+    '/contact': 'Contact',
+    '/blog': 'Blog',
+    [LOCAL_PATH]: 'Création de site à Grenoble',
+  };
+  if (fixed[pathname]) return fixed[pathname];
+  let m = pathname.match(/^\/secteurs\/([^/]+)$/);
+  const sector = m && content.sectors.find((x) => x.slug === m[1]);
+  if (sector) return `Secteur · ${sector.name}`;
+  m = pathname.match(/^\/blog\/categorie\/([^/]+)$/);
+  if (m) return `Blog · ${categoryLabel(m[1])}`;
+  m = pathname.match(/^\/blog\/([^/]+)$/);
+  const post = m && posts.find((p) => p.slug === m[1]);
+  if (post) return post.title;
+  const legal = LEGAL_PAGES.find((l) => `/${l.slug}` === pathname);
+  if (legal) return content.legal[legal.key]?.title || pathname;
+  try {
+    return decodeURIComponent(pathname);
+  } catch {
+    return pathname;
+  }
+}
+
+// Périodes de la page Statistiques : barres par jour, semaine ou mois.
+export const STATS_PERIODS = [
+  { value: '7', days: 7, label: '7 jours', unit: 'day', previous: '7 jours précédents' },
+  { value: '30', days: 30, label: '30 jours', unit: 'day', previous: '30 jours précédents' },
+  { value: '90', days: 90, label: '3 mois', unit: 'week', previous: '3 mois précédents' },
+  { value: '365', days: 365, label: '12 mois', unit: 'month', previous: '' },
+];
+
+export function adminRouter({ config, store, auth, mailer, log, prospector, stats }) {
   const router = express.Router();
   const loginLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 10 });
 
@@ -116,6 +159,7 @@ export function adminRouter({ config, store, auth, mailer, log, prospector }) {
       unread: store.unreadCount(),
       draftCount: store.posts.filter((p) => p.status === 'draft').length,
       toContact: store.prospects.filter((p) => p.status === 'a-contacter').length,
+      pageLabel: (pathname) => pageLabel(pathname, content, store.posts),
       getAt,
       blankItem,
       iconOptions: ICON_OPTIONS,
@@ -190,6 +234,47 @@ export function adminRouter({ config, store, auth, mailer, log, prospector }) {
       visibleProjects: content.projects.filter((p) => p.visible).length,
       mailEnabled: mailer.enabled,
       updatedAt: content.meta.updatedAt,
+      weekVisits: stats ? stats.summarize(addDays(dayKey(), -6), dayKey()).visits : 0,
+    });
+  });
+
+  // Statistiques de visite -----------------------------------------------------
+
+  router.get('/statistiques', (req, res) => {
+    const period = STATS_PERIODS.find((p) => p.value === req.query.periode) || STATS_PERIODS[1];
+    const today = dayKey();
+    const start = addDays(today, -(period.days - 1));
+    // La période commence au plus tôt le jour où la mesure a démarré, et n'est
+    // comparée à la précédente que si celle-ci a été entièrement mesurée.
+    const firstDay = stats.startedAt ? dayKey(new Date(stats.startedAt)) : today;
+    const from = start < firstDay ? firstDay : start;
+    const comparable = Boolean(period.previous) && addDays(start, -period.days) >= firstDay;
+    const current = stats.summarize(from, today);
+    const previous = comparable ? stats.summarize(addDays(start, -period.days), addDays(start, -1)) : null;
+    const content = store.getContent();
+    const label = (p) => pageLabel(p, content, store.posts);
+    const pages = (map) => ranking(map).rows.map((r) => ({ ...r, label: label(r.key), href: r.key === '(autres)' ? '' : r.key }));
+    const knownHost = (host) => SOURCES.some((s) => s.hosts.test(host));
+    const otherSites = Object.fromEntries(Object.entries(current.referrers).filter(([host]) => !knownHost(host)));
+    res.render('admin/stats', {
+      active: 'stats',
+      period,
+      periods: STATS_PERIODS,
+      current,
+      previous,
+      series: stats.series(from, today, period.unit),
+      startedAt: stats.startedAt,
+      partial: from > start,
+      lists: {
+        paths: pages(current.paths),
+        entries: pages(current.entries),
+        sources: ranking(current.sources).rows.map((r) => ({ ...r, label: sourceLabel(r.key) })),
+        sites: ranking(otherSites).rows.map((r) => ({ ...r, label: r.key === '(autres)' ? 'Autres sites' : r.key })),
+        campaigns: ranking(current.campaigns).rows.map((r) => ({ ...r, label: r.key === '(autres)' ? 'Autres campagnes' : r.key })),
+        devices: ranking(current.devices).rows.map((r) => ({ ...r, label: DEVICE_LABELS[r.key] || r.key })),
+        contactFrom: pages(current.contactFrom),
+        notFound: pages(current.notFound),
+      },
     });
   });
 

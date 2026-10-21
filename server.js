@@ -14,6 +14,13 @@ const server = app.listen(config.port, config.host, () => {
   console.log(`Site disponible sur ${url} (administration : ${url}/admin)`);
 });
 
+// À l'arrêt : les statistiques du moment sont enregistrées avant de quitter.
 for (const signal of ['SIGINT', 'SIGTERM']) {
-  process.on(signal, () => server.close(() => process.exit(0)));
+  process.on(signal, () => {
+    server.close();
+    app.ctx.stats
+      .flush()
+      .catch((err) => console.error('Statistiques non enregistrées :', err.message))
+      .finally(() => process.exit(0));
+  });
 }

@@ -2,12 +2,13 @@ import path from 'node:path';
 import express from 'express';
 import compression from 'compression';
 import { Store } from './store.js';
-import { Auth } from './auth.js';
+import { Auth, SESSION_COOKIE } from './auth.js';
 import { createMailer } from './mailer.js';
 import { securityHeaders } from './security.js';
 import { viewContent, viewHelpers } from './helpers.js';
 import { publicRouter } from './routes/public.js';
-import { adminRouter } from './routes/admin.js';
+import { adminRouter, readCookie } from './routes/admin.js';
+import { VisitStats } from './stats.js';
 import { blogRouter } from './routes/blog.js';
 import { blogApiRouter } from './routes/blog-api.js';
 import { createProspector } from './prospecting/runner.js';
@@ -25,7 +26,9 @@ export async function createApp(config, { log = console, prospecting = {}, seedP
   await auth.init();
   const mailer = createMailer(config.smtp, log);
   const prospector = createProspector({ config, store, log, ...prospecting });
-  const ctx = { config, store, auth, mailer, log, prospector };
+  const stats = new VisitStats(config.dataDir, { log });
+  await stats.init();
+  const ctx = { config, store, auth, mailer, log, prospector, stats };
 
   const app = express();
   app.disable('x-powered-by');
@@ -69,6 +72,9 @@ export async function createApp(config, { log = console, prospecting = {}, seedP
   app.get('/favicon.ico', (req, res) => {
     res.sendFile(path.join(config.root, 'public/images/favicon.ico'), { maxAge: '1d' });
   });
+
+  // Statistiques de visite, sans cookie (l'administrateur connecté n'est pas compté).
+  app.use(stats.middleware({ isAdmin: (req) => auth.verifyToken(readCookie(req, SESSION_COOKIE)) }));
 
   // Contenu « affichage » disponible dans toutes les vues publiques.
   app.use((req, res, next) => {
