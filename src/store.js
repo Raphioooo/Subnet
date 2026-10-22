@@ -3,6 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { defaults, PRIVACY_AUDIENCE, PRIVACY_FORM_PAGE, SECTOR_SLUGS } from './defaults.js';
 import { PAGES } from './schema.js';
+import { CONTENT_UPDATES } from './content-updates.js';
 import { DEMO_POST } from './demo-post.js';
 import { normalizeProspect, prospectKey } from './prospects.js';
 
@@ -86,6 +87,67 @@ function migrateFromV3(raw) {
   return out;
 }
 
+// Chemin de content-updates.js (« a.b », « a[] », « a[slug=x] ») : appelle
+// fn(parent, clé) pour chaque emplacement existant qui y correspond.
+export function eachAtPath(node, pathname, fn) {
+  const segments = [];
+  for (const part of pathname.split('.')) {
+    const m = part.match(/^([^[\]]+)((?:\[[^\]]*\])*)$/);
+    if (!m) throw new Error(`Chemin invalide : ${pathname}`);
+    segments.push({ key: m[1] });
+    for (const [, inner] of m[2].matchAll(/\[([^\]]*)\]/g)) segments.push(inner.startsWith('slug=') ? { slug: inner.slice(5) } : { each: true });
+  }
+  const visit = (value, i) => {
+    const seg = segments[i];
+    const spots = [];
+    if (seg.key !== undefined) {
+      if (isPlainObject(value) && Object.hasOwn(value, seg.key)) spots.push(seg.key);
+    } else if (Array.isArray(value)) {
+      value.forEach((item, j) => {
+        if (seg.each || (isPlainObject(item) && item.slug === seg.slug)) spots.push(j);
+      });
+    }
+    for (const key of spots) {
+      if (i === segments.length - 1) fn(value, key);
+      else visit(value[key], i + 1);
+    }
+  };
+  visit(node, 0);
+}
+
+// Rubrique de l'administration (et date du plan du site) de chaque partie du contenu.
+const SECTION_OF = { home: 'home', offer: 'offer', sectorsPage: 'sectors', sectors: 'sectors', local: 'local', projectsPage: 'projects', projects: 'projects', faqPage: 'faq', faq: 'faq', contact: 'contact', cta: 'general', site: 'general' };
+
+// Textes par défaut retravaillés (content-updates.js) : un texte n'est remplacé que s'il
+// est encore identique à l'ancien ; une question n'est ajoutée qu'à une FAQ non vide
+// qui ne la contient pas déjà.
+export function applyContentUpdate(raw, { changes = [], additions = [] } = {}) {
+  const out = structuredClone(raw);
+  const touched = new Set();
+  const touch = (pathname) => touched.add(SECTION_OF[pathname.split(/[.[]/)[0]] || 'general');
+  for (const { path: pathname, from, to } of changes) {
+    eachAtPath(out, pathname, (parent, key) => {
+      if (parent[key] !== from) return;
+      parent[key] = to;
+      touch(pathname);
+    });
+  }
+  for (const { path: pathname, key, item } of additions) {
+    eachAtPath(out, pathname, (parent, k) => {
+      const list = parent[k];
+      if (!Array.isArray(list) || !list.length || list.some((x) => isPlainObject(x) && x[key] === item[key])) return;
+      list.push(structuredClone(item));
+      touch(pathname);
+    });
+  }
+  if (touched.size) {
+    const now = new Date().toISOString();
+    const sections = isPlainObject(out.meta?.sections) ? out.meta.sections : {};
+    out.meta = { ...out.meta, sections: { ...sections, ...Object.fromEntries([...touched].map((id) => [id, now])) } };
+  }
+  return out;
+}
+
 function migrate(raw) {
   if (!isPlainObject(raw)) return raw;
   let data = raw;
@@ -93,6 +155,7 @@ function migrate(raw) {
   if (version < 2) data = migrateFromV1(data);
   if (version < 3) data = migrateFromV2(data);
   if (version < 4) data = migrateFromV3(data);
+  if (version < 5) data = applyContentUpdate(data, CONTENT_UPDATES[5]);
   return data;
 }
 

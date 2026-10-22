@@ -45,7 +45,7 @@
   <% if (sector.features.length) { %>
   <section class="section<%= bg() %>" aria-labelledby="fonctionnalites">
     <div class="container">
-      <h2 class="sr-only" id="fonctionnalites">Fonctionnalités</h2>
+      <h2 class="sr-only" id="fonctionnalites">Fonctionnalités – <%= sector.name %></h2>
       <div class="card-grid">
         <% for (const f of sector.features) { %>
         <div class="card card--white reveal">

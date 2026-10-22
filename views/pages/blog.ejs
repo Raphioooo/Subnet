@@ -1,8 +1,14 @@
 <%- include('../partials/head') %>
+<%
+  // Titre de la liste (H1), avec le public de la catégorie (« les TPE et PME »…).
+  const listTitle = !category
+    ? 'Conseils site internet pour les pros.'
+    : `${category.value === 'guides' ? 'Guides' : 'Conseils'} site internet pour ${category.audience || `les ${category.label}`}.`;
+-%>
 <main id="contenu">
   <%- include('../partials/page-hero', { hero: {
     eyebrow: category ? `Blog · ${category.label}` : 'Blog',
-    title: category ? `Conseils pour les ${category.label.toLowerCase()}.` : 'Conseils pour les pros.',
+    title: listTitle,
     subtitle: 'Réservation en ligne, acompte, visibilité sur Google : des réponses concrètes pour faire tourner votre activité.',
   }, compact: true }) %>
 

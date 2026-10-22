@@ -35,7 +35,7 @@ export function blogRouter({ store, auth }) {
       page: {
         fullTitle: page > 1 ? titleBase.replace(' | Subnet', ` (page ${page}) | Subnet`) : titleBase,
         description: category
-          ? `Articles du blog Subnet pour les ${category.label.toLowerCase()} : réservation en ligne, acompte, visibilité sur Google et site sur mesure.`
+          ? `Articles du blog Subnet pour ${category.audience || `les ${category.label}`} : réservation en ligne, acompte, visibilité sur Google et site sur mesure.`
           : BLOG_DESCRIPTION,
         path: at(page),
         prev: page > 1 ? at(page - 1) : '',

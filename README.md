@@ -210,6 +210,7 @@ Le site doit tourner en **une seule instance** : les données étant des fichier
 - **Couleurs, typographie, espacements** : variables en tête de `public/css/site.css` (`--accent` pour la couleur principale).
 - **Gabarits des pages** : dossier `views/` (format EJS).
 - **Contenus par défaut** : `src/defaults.js`. Ils ne servent qu'au premier démarrage : ensuite, tout se modifie dans l'admin.
+- **Faire évoluer un texte par défaut sur un site déjà en ligne** : le site garde sa propre copie des textes. Modifiez `src/defaults.js`, augmentez `meta.version`, puis décrivez l'ancien et le nouveau texte dans `src/content-updates.js`. Au démarrage, seuls les textes encore identiques à l'ancienne version sont remplacés : ce que vous avez réécrit dans l'admin n'est pas touché, et l'ancien fichier est gardé dans `content.json.vN.bak`.
 - **Ajouter un champ modifiable** : décrivez-le dans `src/schema.js` (le formulaire d'admin et la validation sont générés automatiquement), ajoutez sa valeur par défaut dans `src/defaults.js`, puis affichez-le dans la vue concernée.
 
 ## Structure du projet

@@ -3,13 +3,14 @@
 import { renderMarkdown, slugify } from './markdown.js';
 import { cleanText, isPlainObject } from './sanitize.js';
 
+// audience : à qui s'adressent les articles (titre et description de la catégorie).
 export const POST_CATEGORIES = [
-  { value: 'restaurants', label: 'Restaurants', sector: 'restaurateurs' },
-  { value: 'tatoueurs', label: 'Tatoueurs', sector: 'tatoueurs' },
-  { value: 'instituts', label: 'Instituts de beauté', sector: 'instituts' },
-  { value: 'tpe-pme', label: 'TPE et PME', sector: 'tpe-pme' },
-  { value: 'guides', label: 'Guides', sector: '' },
-  { value: 'grenoble', label: 'Grenoble', sector: '' },
+  { value: 'restaurants', label: 'Restaurants', sector: 'restaurateurs', audience: 'les restaurants' },
+  { value: 'tatoueurs', label: 'Tatoueurs', sector: 'tatoueurs', audience: 'les tatoueurs' },
+  { value: 'instituts', label: 'Instituts de beauté', sector: 'instituts', audience: 'les instituts de beauté' },
+  { value: 'tpe-pme', label: 'TPE et PME', sector: 'tpe-pme', audience: 'les TPE et PME' },
+  { value: 'guides', label: 'Guides', sector: '', audience: 'les pros' },
+  { value: 'grenoble', label: 'Grenoble', sector: '', audience: 'les pros de Grenoble' },
 ];
 
 export const POST_STATUSES = [
