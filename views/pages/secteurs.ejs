@@ -4,7 +4,7 @@
 
   <section class="section section--flush-top" aria-labelledby="liste-secteurs">
     <div class="container">
-      <h2 class="sr-only" id="liste-secteurs">Les secteurs</h2>
+      <h2 class="sr-only" id="liste-secteurs">Sites internet par secteur d’activité</h2>
       <div class="sector-grid sector-grid--large">
         <% for (const sector of c.sectors) { %><%- include('../partials/sector-card', { sector, withIntro: true }) %><% } %>
       </div>
