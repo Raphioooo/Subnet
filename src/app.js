@@ -8,7 +8,7 @@ import { securityHeaders } from './security.js';
 import { viewContent, viewHelpers } from './helpers.js';
 import { publicRouter } from './routes/public.js';
 import { adminRouter, readCookie } from './routes/admin.js';
-import { VisitStats } from './stats.js';
+import { IGNORE_COOKIE, VisitStats } from './stats.js';
 import { blogRouter } from './routes/blog.js';
 import { blogApiRouter } from './routes/blog-api.js';
 import { createProspector } from './prospecting/runner.js';
@@ -73,8 +73,9 @@ export async function createApp(config, { log = console, prospecting = {}, seedP
     res.sendFile(path.join(config.root, 'public/images/favicon.ico'), { maxAge: '1d' });
   });
 
-  // Statistiques de visite, sans cookie (l'administrateur connecté n'est pas compté).
-  app.use(stats.middleware({ isAdmin: (req) => auth.verifyToken(readCookie(req, SESSION_COOKIE)) }));
+  // Statistiques de visite, sans cookie (l'administrateur connecté, ou sur un appareil
+  // qu'il a choisi d'ignorer, n'est pas compté).
+  app.use(stats.middleware({ isAdmin: (req) => readCookie(req, IGNORE_COOKIE) === '1' || auth.verifyToken(readCookie(req, SESSION_COOKIE)) }));
 
   // Contenu « affichage » disponible dans toutes les vues publiques.
   app.use((req, res, next) => {

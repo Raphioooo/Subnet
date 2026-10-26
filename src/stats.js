@@ -5,7 +5,8 @@
 // site d'origine, type d'appareil), enregistrés dans stats.json.
 // Une « visite » est une arrivée sur le site : page ouverte sans venir d'une autre
 // page du site (lien externe, moteur de recherche, adresse tapée, favori).
-// Les robots, les préchargements et l'administrateur connecté ne sont pas comptés.
+// Les robots, les préchargements, l'administrateur connecté et les appareils qu'il
+// a choisi d'ignorer ne sont pas comptés.
 
 import path from 'node:path';
 import { readJson, writeJsonAtomic } from './store.js';
@@ -70,6 +71,17 @@ export function deviceOf(userAgent = '') {
 }
 
 export const DEVICE_LABELS = { ordinateur: 'Ordinateur', mobile: 'Mobile', tablette: 'Tablette' };
+
+// Cookie posé par l'administrateur, sur son seul appareil, pour ne plus y être compté.
+export const IGNORE_COOKIE = 'subnet_ignore';
+
+// Quand on ouvre une page, un vrai navigateur envoie la langue de l'utilisateur et,
+// depuis 2023 sur tous les navigateurs courants, « Sec-Fetch-Mode: navigate ».
+// Beaucoup de robots qui se présentent comme Chrome n'envoient ni l'un ni l'autre.
+export function hasBrowserHeaders(req) {
+  const language = req.get('accept-language') || '';
+  return /[a-z]{2}/i.test(language) && req.get('sec-fetch-mode') === 'navigate';
+}
 
 function isPrefetch(req) {
   const purpose = `${req.get('sec-purpose') || ''} ${req.get('purpose') || ''} ${req.get('x-purpose') || ''} ${req.get('x-moz') || ''}`;
@@ -258,7 +270,7 @@ export class VisitStats {
       const page = pagePath(req.path);
       if (!page) return next();
       const userAgent = req.get('user-agent') || '';
-      if (!isHumanBrowser(userAgent) || isPrefetch(req)) return next();
+      if (!isHumanBrowser(userAgent) || !hasBrowserHeaders(req) || isPrefetch(req)) return next();
       res.on('finish', () => {
         try {
           if (isAdmin(req)) return;
