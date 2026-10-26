@@ -1,6 +1,7 @@
 import { after, before, describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import http from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
 import { loadConfig } from '../src/config.js';
@@ -132,13 +133,21 @@ describe('statistiques : mesure sur le site et page de l’admin', () => {
   const today = () => app.ctx.stats.summarize(dayKey(), dayKey());
 
   const get = async (pathname, { ua = CHROME, referer, headers = {}, auth = false } = {}) => {
-    const h = { 'User-Agent': ua, ...headers };
+    const h = { 'User-Agent': ua, 'Accept-Language': 'fr-FR,fr;q=0.9', 'Sec-Fetch-Mode': 'navigate', ...headers };
     if (referer) h.Referer = referer;
     if (auth) h.Cookie = cookie;
-    const res = await fetch(base + pathname, { headers: h, redirect: 'manual' });
-    const text = await res.text();
+    // node:http plutôt que fetch, qui impose ses propres Accept-Language et Sec-Fetch-Mode.
+    for (const k of Object.keys(h)) if (h[k] === undefined) delete h[k];
+    const { status, text } = await new Promise((resolve, reject) => {
+      http.get(base + pathname, { headers: h }, (r) => {
+        let body = '';
+        r.setEncoding('utf8');
+        r.on('data', (chunk) => (body += chunk));
+        r.on('end', () => resolve({ status: r.statusCode, text: body }));
+      }).on('error', reject);
+    });
     await new Promise((resolve) => setImmediate(resolve));
-    return { res, text };
+    return { res: { status }, text };
   };
 
   before(async () => {
@@ -193,6 +202,10 @@ describe('statistiques : mesure sur le site et page de l’admin', () => {
     await get('/assets/css/site.css');
     await get('/faq', { headers: { 'Sec-Purpose': 'prefetch' } });
     await get('/realisations', { auth: true });
+    // Robot qui se présente comme Chrome, sans les en-têtes d'un vrai navigateur.
+    await get('/offre', { headers: { 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors' } });
+    await get('/offre', { headers: { 'Accept-Language': undefined } });
+    await get('/offre', { headers: { 'Sec-Fetch-Mode': undefined } });
     assert.equal(today().views, 4);
 
     await get('/page-qui-n-existe-pas');
@@ -257,5 +270,33 @@ describe('statistiques : mesure sur le site et page de l’admin', () => {
     assert.equal(saved.days[dayKey()].visits, today().visits);
     assert.ok(saved.startedAt);
     assert.equal(addDays('2026-10-31', 1), '2026-11-01');
+  });
+
+  test('un appareil ignoré par l’administrateur n’est plus compté, même déconnecté', async () => {
+    const before = today().views;
+    const res = await fetch(`${base}/admin/statistiques/appareil`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', Origin: base, Cookie: cookie },
+      body: new URLSearchParams({ ignorer: '1' }),
+      redirect: 'manual',
+    });
+    assert.equal(res.status, 303);
+    const ignore = res.headers.getSetCookie().find((c) => c.startsWith('subnet_ignore=1'));
+    assert.ok(ignore);
+    await get('/', { headers: { Cookie: ignore.split(';')[0] } });
+    assert.equal(today().views, before);
+
+    const page = await get('/admin/statistiques', { headers: { Cookie: `${cookie}; ${ignore.split(';')[0]}` } });
+    assert.match(page.text, /Compter à nouveau cet appareil/);
+
+    const reset = await fetch(`${base}/admin/statistiques/appareil`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', Origin: base, Cookie: cookie },
+      body: new URLSearchParams({}),
+      redirect: 'manual',
+    });
+    assert.ok(reset.headers.getSetCookie().some((c) => c.startsWith('subnet_ignore=;')));
+    await get('/');
+    assert.equal(today().views, before + 1);
   });
 });

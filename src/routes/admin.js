@@ -8,7 +8,7 @@ import { applyPageInput, cleanText, getAt, isPlainObject } from '../sanitize.js'
 import { formatDate, sectorLabel } from '../helpers.js';
 import { LEGAL_PAGES } from '../defaults.js';
 import { LOCAL_PATH } from './public.js';
-import { DEVICE_LABELS, SOURCES, addDays, dayKey, ranking, sourceLabel } from '../stats.js';
+import { DEVICE_LABELS, IGNORE_COOKIE, SOURCES, addDays, dayKey, ranking, sourceLabel } from '../stats.js';
 import { createRateLimiter, isSameOrigin } from '../security.js';
 import { renderMarkdown } from '../markdown.js';
 import { LIMITS, POST_CATEGORIES, POST_STATUSES, blankPost, categoryLabel, findMarkers, readingTime, uniqueSlug, validatePost, wordCount } from '../posts.js';
@@ -265,6 +265,7 @@ export function adminRouter({ config, store, auth, mailer, log, prospector, stat
       series: stats.series(from, today, period.unit),
       startedAt: stats.startedAt,
       partial: from > start,
+      deviceIgnored: readCookie(req, IGNORE_COOKIE) === '1',
       lists: {
         paths: pages(current.paths),
         entries: pages(current.entries),
@@ -276,6 +277,16 @@ export function adminRouter({ config, store, auth, mailer, log, prospector, stat
         notFound: pages(current.notFound),
       },
     });
+  });
+
+  // Ne plus compter (ou compter à nouveau) les visites de cet appareil, même déconnecté.
+  router.post('/statistiques/appareil', express.urlencoded({ extended: false, limit: '1kb' }), (req, res) => {
+    if (req.body?.ignorer === '1') {
+      res.cookie(IGNORE_COOKIE, '1', { httpOnly: true, sameSite: 'lax', secure: req.secure, path: '/', maxAge: 400 * 24 * 60 * 60 * 1000 });
+    } else {
+      res.clearCookie(IGNORE_COOKIE, { httpOnly: true, sameSite: 'lax', secure: req.secure, path: '/' });
+    }
+    res.redirect(303, '/admin/statistiques');
   });
 
   // Édition des contenus ------------------------------------------------------

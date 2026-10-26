@@ -62,6 +62,14 @@
     <h1>Statistiques</h1>
     <p>La fréquentation de votre site, mesurée sans cookie. Les robots et vos propres visites, quand vous êtes connecté à l’admin, ne sont pas comptés.</p>
   </div>
+  <form method="post" action="/admin/statistiques/appareil">
+    <% if (deviceIgnored) { %>
+    <button class="btn btn--secondary btn--sm" type="submit" title="Vos visites depuis cet appareil sont ignorées, même déconnecté">Compter à nouveau cet appareil</button>
+    <% } else { %>
+    <input type="hidden" name="ignorer" value="1">
+    <button class="btn btn--secondary btn--sm" type="submit" title="À faire sur chacun de vos appareils (ordinateur, téléphone)">Ne plus compter cet appareil</button>
+    <% } %>
+  </form>
 </header>
 
 <div class="toolbar">
