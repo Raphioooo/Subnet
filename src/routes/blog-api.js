@@ -1,5 +1,6 @@
-// API de l'agent de rédaction : création et modification de brouillons uniquement.
-// Aucun endpoint ne peut publier : la publication se fait dans l'admin, après relecture.
+// API de l'agent de rédaction : création et modification de brouillons, et
+// publication d'un brouillon complet (règles SEO respectées, aucun marqueur
+// [À COMPLÉTER]). Dépublier ou modifier un article en ligne se fait dans l'admin.
 
 import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
@@ -98,6 +99,21 @@ export function blogApiRouter({ config, store, mailer, log }) {
     if (errors.length) return res.status(422).json({ ok: false, errors });
     const updated = await store.updatePost(post.id, { ...values, slug: uniqueSlug(values.slug || values.title, store.posts, post.id), status: 'draft' });
     res.json({ id: updated.id, slug: updated.slug, ...links(res, updated), markers: findMarkers(updated).length });
+  });
+
+  // Publication d'un brouillon : mêmes exigences que le bouton Publier de l'admin.
+  router.post('/:id/publish', async (req, res) => {
+    const post = store.getPost(req.params.id);
+    if (!post) return res.status(404).json({ ok: false, errors: [{ field: '', message: 'Article introuvable.' }] });
+    res.locals.postId = post.id;
+    if (post.status !== 'draft') return res.status(409).json({ ok: false, errors: [{ field: 'status', message: 'Seuls les brouillons peuvent être publiés par l’API.' }] });
+    const current = Object.fromEntries(EDITABLE.map((k) => [k, post[k]]));
+    const { errors } = validatePost(current, { strict: true });
+    const markers = findMarkers(post);
+    if (markers.length) errors.push({ field: 'content', message: `Publication impossible : ${markers.length} marqueur(s) [À COMPLÉTER] à remplir.` });
+    if (errors.length) return res.status(422).json({ ok: false, errors });
+    const updated = await store.updatePost(post.id, { status: 'published', scheduledAt: null, publishedAt: new Date().toISOString() });
+    res.json({ id: updated.id, slug: updated.slug, status: updated.status, publishedAt: updated.publishedAt, url: `${res.locals.baseUrl}/blog/${updated.slug}`, adminUrl: links(res, updated).adminUrl });
   });
 
   // Erreurs de lecture du corps (JSON invalide, plus de 200 Ko) au format JSON.

@@ -162,7 +162,23 @@ describe('API de brouillons', () => {
     await app.ctx.store.updatePost(other.id, { status: 'draft', publishedAt: null });
   });
 
-  test('aucun endpoint ne publie, chaque appel est journalisé', async () => {
+  test('publication par l’API : bloquée par les marqueurs, refusée hors brouillon', async () => {
+    const blocked = await api(`/${created.id}/publish`, { method: 'POST' });
+    assert.equal(blocked.status, 422);
+    assert.equal(app.ctx.store.getPost(created.id).status, 'draft');
+    assert.equal((await api('/inconnu/publish', { method: 'POST' })).status, 404);
+    const draft = await (await api('', { method: 'POST', data: article({ topicId: 'T95', title: 'Article complet sans marqueur pour la publication', content: article().content.replace(/\[À COMPLÉTER[^\]]*\]/, 'Exemple général.') }) })).json();
+    const res = await api(`/${draft.id}/publish`, { method: 'POST' });
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.status, 'published');
+    assert.equal(body.url, `https://subnet-online.com/blog/${draft.slug}`);
+    assert.ok(app.ctx.store.getPost(draft.id).publishedAt);
+    assert.equal((await api(`/${draft.id}/publish`, { method: 'POST' })).status, 409);
+    await app.ctx.store.deletePost(draft.id);
+  });
+
+  test('aucune autre méthode, chaque appel est journalisé', async () => {
     assert.equal((await api(`/${created.id}`, { method: 'PUT', data: {} })).status, 404);
     const log = await fs.readFile(path.join(dataDir, 'blog-api.log'), 'utf8');
     assert.ok(log.trim().split('\n').length >= 5);

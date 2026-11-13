@@ -1,6 +1,6 @@
 # API de brouillons du blog
 
-L'agent de rédaction envoie ses articles **en brouillon** par cette API. Aucun endpoint ne peut publier : la publication se fait dans l'admin (`/admin/articles`), après relecture et une fois tous les marqueurs `[À COMPLÉTER : …]` remplis.
+L'agent de rédaction envoie ses articles **en brouillon** par cette API, puis peut publier un brouillon complet avec `POST /api/admin/posts/:id/publish` (mêmes règles que le bouton Publier de l'admin : aucun marqueur `[À COMPLÉTER : …]` restant). Dépublier ou modifier un article en ligne se fait dans l'admin (`/admin/articles`).
 
 ## Configuration
 
@@ -92,3 +92,11 @@ curl -sS -X PATCH https://subnet-online.com/api/admin/posts/6f1c… \
 ```
 
 Seuls les champs envoyés changent ; l'article complet doit toujours respecter les règles. Refusé avec `409` si l'article n'est plus un brouillon (programmé ou publié).
+
+## POST /api/admin/posts/:id/publish : publier un brouillon
+
+```bash
+curl -sS -X POST https://subnet-online.com/api/admin/posts/6f1c…/publish
+```
+
+Publie tout de suite un brouillon qui respecte les règles strictes et ne contient plus aucun marqueur. Renvoie `{ "id", "slug", "status": "published", "publishedAt", "url", "adminUrl" }`. Refusé avec `422` (détail des erreurs, dont les marqueurs restants), `404` si l'article n'existe pas, `409` s'il n'est pas un brouillon.
