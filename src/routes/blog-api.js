@@ -102,10 +102,12 @@ export function blogApiRouter({ config, store, mailer, log, stats }) {
     res.json({ id: updated.id, slug: updated.slug, ...links(res, updated), markers: findMarkers(updated).length });
   });
 
-  // Topo quotidien envoyé tout de suite (pour vérifier l'envoi d'emails).
+  // Topo quotidien : renvoyé en JSON (objet et texte) pour un envoi par un
+  // autre canal, et envoyé tout de suite par SMTP sauf avec ?send=0.
   router.post('/digest', async (req, res) => {
     const content = store.getContent();
     const digest = buildDigest({ store, stats, baseUrl: res.locals.baseUrl, siteName: content.site.name });
+    if (req.query.send === '0') return res.json({ ok: true, sent: false, ...digest });
     let sent = false;
     try {
       sent = await mailer.sendDigest(digest, content);
@@ -113,7 +115,7 @@ export function blogApiRouter({ config, store, mailer, log, stats }) {
       log.error('Topo quotidien :', err.message);
       return res.status(502).json({ ok: false, errors: [{ field: '', message: `Email non envoyé : ${err.message}` }] });
     }
-    res.json({ ok: true, sent, subject: digest.subject });
+    res.json({ ok: true, sent, ...digest });
   });
 
   // Un brouillon ne passe en ligne (tout de suite ou à une date) qu'avec les

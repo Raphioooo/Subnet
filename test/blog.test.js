@@ -187,10 +187,11 @@ describe('API de brouillons', () => {
     const body = await res.json();
     assert.equal(body.status, 'scheduled');
     assert.equal(body.scheduledAt, '2099-01-01T06:00:00.000Z');
-    const digest = await (await api('/digest', { method: 'POST' })).json();
+    const digest = await (await api('/digest?send=0', { method: 'POST' })).json();
     assert.equal(digest.ok, true);
     assert.equal(digest.sent, false);
     assert.match(digest.subject, /1 programmé/);
+    assert.match(digest.text, /PROGRAMMÉS \(1\)/);
     await app.ctx.store.deletePost(draft.id);
   });
 

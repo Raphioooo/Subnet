@@ -112,5 +112,5 @@ Mêmes exigences que la publication, avec une date future (ISO 8601). L'article 
 
 ## POST /api/admin/posts/digest : envoyer le topo quotidien
 
-Le site envoie chaque jour à partir de 8 h (heure de Paris) un topo par email (SMTP du `.env`, destinataire `MAIL_TO` ou l'email de contact) : articles publiés ces dernières 24 h, articles programmés, brouillons en attente et visites (hier et 7 jours, dont Google). Cet endpoint l'envoie tout de suite pour vérifier la configuration ; il renvoie `{ "ok": true, "sent", "subject" }` (`sent: false` si l'envoi d'emails n'est pas configuré).
+Le site envoie chaque jour à partir de 8 h (heure de Paris) un topo par email (SMTP du `.env`, destinataire `MAIL_TO` ou l'email de contact) : articles publiés ces dernières 24 h, articles programmés, brouillons en attente et visites (hier et 7 jours, dont Google). Cet endpoint l'envoie tout de suite pour vérifier la configuration ; il renvoie `{ "ok": true, "sent", "subject", "text" }` (`sent: false` si l'envoi d'emails n'est pas configuré). Avec `?send=0`, rien n'est envoyé : l'objet et le texte servent à un envoi par un autre canal (Gmail, par exemple).
 
