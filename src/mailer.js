@@ -6,7 +6,7 @@ const SOURCES = { accueil: 'page d’accueil', contact: 'page contact' };
 
 export function createMailer(smtp, log = console) {
   if (!smtp?.host) {
-    return { enabled: false, async notifyNewMessage() { return false; }, async notifyNewDraft() { return false; } };
+    return { enabled: false, async notifyNewMessage() { return false; }, async notifyNewDraft() { return false; }, async sendDigest() { return false; } };
   }
 
   let transporter;
@@ -33,6 +33,13 @@ export function createMailer(smtp, log = console) {
   return {
     enabled: true,
     // Brouillon d'article créé par l'agent de rédaction (API du blog).
+    async sendDigest({ subject, text }, content) {
+      const target = addresses(content);
+      if (!target) return false;
+      const t = await getTransporter();
+      await t.sendMail({ ...target, subject, text });
+      return true;
+    },
     async notifyNewDraft(post, { markers, adminUrl, previewUrl }, content) {
       const target = addresses(content);
       if (!target) return false;

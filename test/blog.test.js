@@ -178,6 +178,22 @@ describe('API de brouillons', () => {
     await app.ctx.store.deletePost(draft.id);
   });
 
+  test('programmation par l’API et topo quotidien', async () => {
+    const draft = await (await api('', { method: 'POST', data: article({ topicId: 'T94', title: 'Article complet à programmer plus tard', content: article().content.replace(/\[À COMPLÉTER[^\]]*\]/, 'Exemple général.') }) })).json();
+    assert.equal((await api(`/${draft.id}/schedule`, { method: 'POST', data: { scheduledAt: '2020-01-01T07:00:00+01:00' } })).status, 422);
+    assert.equal((await api(`/${created.id}/schedule`, { method: 'POST', data: { scheduledAt: '2099-01-01T07:00:00+01:00' } })).status, 422);
+    const res = await api(`/${draft.id}/schedule`, { method: 'POST', data: { scheduledAt: '2099-01-01T07:00:00+01:00' } });
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.status, 'scheduled');
+    assert.equal(body.scheduledAt, '2099-01-01T06:00:00.000Z');
+    const digest = await (await api('/digest', { method: 'POST' })).json();
+    assert.equal(digest.ok, true);
+    assert.equal(digest.sent, false);
+    assert.match(digest.subject, /1 programmé/);
+    await app.ctx.store.deletePost(draft.id);
+  });
+
   test('aucune autre méthode, chaque appel est journalisé', async () => {
     assert.equal((await api(`/${created.id}`, { method: 'PUT', data: {} })).status, 404);
     const log = await fs.readFile(path.join(dataDir, 'blog-api.log'), 'utf8');
