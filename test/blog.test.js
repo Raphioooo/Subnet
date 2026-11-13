@@ -191,6 +191,8 @@ describe('API de brouillons', () => {
     assert.equal(digest.ok, true);
     assert.equal(digest.sent, false);
     assert.match(digest.subject, /1 programmé/);
+    const text = await (await api('/digest?send=0', { method: 'POST' })).json();
+    assert.match(text.text, /PROGRAMMÉS \(1\)/);
     await app.ctx.store.deletePost(draft.id);
   });
 
