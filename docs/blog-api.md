@@ -1,6 +1,6 @@
 # API de brouillons du blog
 
-L'agent de rédaction envoie ses articles **en brouillon** par cette API, puis peut publier un brouillon complet avec `POST /api/admin/posts/:id/publish` (mêmes règles que le bouton Publier de l'admin : aucun marqueur `[À COMPLÉTER : …]` restant). Dépublier ou modifier un article en ligne se fait dans l'admin (`/admin/articles`).
+L'agent de rédaction envoie ses articles **en brouillon** par cette API, puis peut publier un brouillon complet avec `POST /api/admin/posts/:id/publish` ou le programmer avec `POST /api/admin/posts/:id/schedule` (mêmes règles que le bouton Publier de l'admin : aucun marqueur `[À COMPLÉTER : …]` restant). Dépublier ou modifier un article en ligne se fait dans l'admin (`/admin/articles`).
 
 ## Configuration
 
@@ -100,3 +100,17 @@ curl -sS -X POST https://subnet-online.com/api/admin/posts/6f1c…/publish
 ```
 
 Publie tout de suite un brouillon qui respecte les règles strictes et ne contient plus aucun marqueur. Renvoie `{ "id", "slug", "status": "published", "publishedAt", "url", "adminUrl" }`. Refusé avec `422` (détail des erreurs, dont les marqueurs restants), `404` si l'article n'existe pas, `409` s'il n'est pas un brouillon.
+
+## POST /api/admin/posts/:id/schedule : programmer un brouillon
+
+```bash
+curl -sS -X POST https://subnet-online.com/api/admin/posts/6f1c…/schedule \
+  -H "Content-Type: application/json" -d '{"scheduledAt": "2026-11-14T07:00:00+01:00"}'
+```
+
+Mêmes exigences que la publication, avec une date future (ISO 8601). L'article passe en « Programmé » et se publie seul à l'heure dite. Mêmes réponses que `/publish`, plus `422` si la date est absente ou passée.
+
+## POST /api/admin/posts/digest : envoyer le topo quotidien
+
+Le site envoie chaque jour à partir de 8 h (heure de Paris) un topo par email (SMTP du `.env`, destinataire `MAIL_TO` ou l'email de contact) : articles publiés ces dernières 24 h, articles programmés, brouillons en attente et visites (hier et 7 jours, dont Google). Cet endpoint l'envoie tout de suite pour vérifier la configuration ; il renvoie `{ "ok": true, "sent", "subject" }` (`sent: false` si l'envoi d'emails n'est pas configuré).
+

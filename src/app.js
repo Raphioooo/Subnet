@@ -4,6 +4,7 @@ import compression from 'compression';
 import { Store } from './store.js';
 import { Auth, SESSION_COOKIE } from './auth.js';
 import { createMailer } from './mailer.js';
+import { startDailyDigest } from './digest.js';
 import { securityHeaders } from './security.js';
 import { viewContent, viewHelpers } from './helpers.js';
 import { publicRouter } from './routes/public.js';
@@ -96,6 +97,9 @@ export async function createApp(config, { log = console, prospecting = {}, seedP
     store.publishDue().catch((err) => log.error('Publication programmée :', err.message));
   }, 60 * 1000);
   publishTimer.unref();
+
+  // Topo quotidien par email (si l'envoi d'emails est configuré).
+  if (config.env !== 'test') startDailyDigest(ctx);
 
   app.use((req, res) => {
     res.status(404).render('pages/404', { page: { title: 'Page introuvable', noindex: true } });

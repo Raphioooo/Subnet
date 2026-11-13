@@ -8,6 +8,7 @@ import path from 'node:path';
 import express from 'express';
 import { createRateLimiter } from '../security.js';
 import { blankPost, findMarkers, uniqueSlug, validatePost } from '../posts.js';
+import { buildDigest } from '../digest.js';
 
 const LIST_FIELDS = ['id', 'slug', 'title', 'targetKeyword', 'topicId', 'status', 'category', 'source', 'createdAt', 'updatedAt', 'publishedAt', 'scheduledAt'];
 const DEFAULT_FIELDS = ['id', 'slug', 'title', 'targetKeyword', 'topicId', 'status'];
@@ -15,7 +16,7 @@ const EDITABLE = Object.keys(blankPost()).filter((k) => !['status', 'source', 'p
 
 const sha256 = (value) => crypto.createHash('sha256').update(String(value)).digest();
 
-export function blogApiRouter({ config, store, mailer, log }) {
+export function blogApiRouter({ config, store, mailer, log, stats }) {
   const router = express.Router();
   const limiter = createRateLimiter({ windowMs: 60 * 60 * 1000, max: 20 });
   const logFile = path.join(config.dataDir, 'blog-api.log');
@@ -101,19 +102,52 @@ export function blogApiRouter({ config, store, mailer, log }) {
     res.json({ id: updated.id, slug: updated.slug, ...links(res, updated), markers: findMarkers(updated).length });
   });
 
-  // Publication d'un brouillon : mêmes exigences que le bouton Publier de l'admin.
-  router.post('/:id/publish', async (req, res) => {
+  // Topo quotidien envoyé tout de suite (pour vérifier l'envoi d'emails).
+  router.post('/digest', async (req, res) => {
+    const content = store.getContent();
+    const digest = buildDigest({ store, stats, baseUrl: res.locals.baseUrl, siteName: content.site.name });
+    let sent = false;
+    try {
+      sent = await mailer.sendDigest(digest, content);
+    } catch (err) {
+      log.error('Topo quotidien :', err.message);
+      return res.status(502).json({ ok: false, errors: [{ field: '', message: `Email non envoyé : ${err.message}` }] });
+    }
+    res.json({ ok: true, sent, subject: digest.subject });
+  });
+
+  // Un brouillon ne passe en ligne (tout de suite ou à une date) qu'avec les
+  // mêmes exigences que le bouton Publier de l'admin.
+  const readyDraft = (req, res) => {
     const post = store.getPost(req.params.id);
-    if (!post) return res.status(404).json({ ok: false, errors: [{ field: '', message: 'Article introuvable.' }] });
+    if (!post) return res.status(404).json({ ok: false, errors: [{ field: '', message: 'Article introuvable.' }] }) && null;
     res.locals.postId = post.id;
-    if (post.status !== 'draft') return res.status(409).json({ ok: false, errors: [{ field: 'status', message: 'Seuls les brouillons peuvent être publiés par l’API.' }] });
-    const current = Object.fromEntries(EDITABLE.map((k) => [k, post[k]]));
-    const { errors } = validatePost(current, { strict: true });
+    if (post.status !== 'draft') return res.status(409).json({ ok: false, errors: [{ field: 'status', message: 'Seuls les brouillons peuvent être publiés ou programmés par l’API.' }] }) && null;
+    const { errors } = validatePost(Object.fromEntries(EDITABLE.map((k) => [k, post[k]])), { strict: true });
     const markers = findMarkers(post);
     if (markers.length) errors.push({ field: 'content', message: `Publication impossible : ${markers.length} marqueur(s) [À COMPLÉTER] à remplir.` });
-    if (errors.length) return res.status(422).json({ ok: false, errors });
+    if (errors.length) return res.status(422).json({ ok: false, errors }) && null;
+    return post;
+  };
+
+  const published = (res, p) => ({ id: p.id, slug: p.slug, status: p.status, publishedAt: p.publishedAt, scheduledAt: p.scheduledAt, url: `${res.locals.baseUrl}/blog/${p.slug}`, adminUrl: links(res, p).adminUrl });
+
+  router.post('/:id/publish', async (req, res) => {
+    const post = readyDraft(req, res);
+    if (!post) return;
     const updated = await store.updatePost(post.id, { status: 'published', scheduledAt: null, publishedAt: new Date().toISOString() });
-    res.json({ id: updated.id, slug: updated.slug, status: updated.status, publishedAt: updated.publishedAt, url: `${res.locals.baseUrl}/blog/${updated.slug}`, adminUrl: links(res, updated).adminUrl });
+    res.json(published(res, updated));
+  });
+
+  router.post('/:id/schedule', json, async (req, res) => {
+    const at = Date.parse(req.body?.scheduledAt);
+    if (Number.isNaN(at) || at <= Date.now()) {
+      return res.status(422).json({ ok: false, errors: [{ field: 'scheduledAt', message: 'Date de programmation future attendue (ISO 8601).' }] });
+    }
+    const post = readyDraft(req, res);
+    if (!post) return;
+    const updated = await store.updatePost(post.id, { status: 'scheduled', scheduledAt: new Date(at).toISOString() });
+    res.json(published(res, updated));
   });
 
   // Erreurs de lecture du corps (JSON invalide, plus de 200 Ko) au format JSON.
