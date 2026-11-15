@@ -116,7 +116,7 @@ export function eachAtPath(node, pathname, fn) {
 }
 
 // Rubrique de l'administration (et date du plan du site) de chaque partie du contenu.
-const SECTION_OF = { home: 'home', offer: 'offer', sectorsPage: 'sectors', sectors: 'sectors', local: 'local', projectsPage: 'projects', projects: 'projects', faqPage: 'faq', faq: 'faq', contact: 'contact', cta: 'general', site: 'general' };
+const SECTION_OF = { home: 'home', offer: 'offer', sectorsPage: 'sectors', sectors: 'sectors', local: 'local', localLyon: 'localLyon', projectsPage: 'projects', projects: 'projects', faqPage: 'faq', faq: 'faq', contact: 'contact', cta: 'general', site: 'general' };
 
 // Textes par défaut retravaillés (content-updates.js) : un texte n'est remplacé que s'il
 // est encore identique à l'ancien ; une question n'est ajoutée qu'à une FAQ non vide

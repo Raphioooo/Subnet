@@ -25,7 +25,7 @@
             <div class="browser__bar" aria-hidden="true"><span class="browser__dots"><i></i><i></i><i></i></span><span class="browser__address"><%- icon('lock', { size: 11, strokeWidth: 2.25 }) %></span></div>
             <div class="browser__screen">
               <% c.sectors.forEach((s, i) => { %>
-              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.image %>"
+              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" <%- imgSrc(s.image, 1600, '(max-width: 640px) 92vw, (max-width: 1100px) 80vw, 1000px') %>
                 alt="<%= s.imageAlt || `Exemple de site pour ${s.name.toLowerCase()}` %>" width="1600" height="1000" decoding="async"
                 <% if (i === 0) { %>fetchpriority="high"<% } else { %>loading="lazy" aria-hidden="true"<% } %>>
               <% }) %>
@@ -34,7 +34,7 @@
           <div class="phone" aria-hidden="true">
             <div class="phone__screen">
               <% c.sectors.forEach((s, i) => { %>
-              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" src="<%= s.mobileImage %>" alt="<%= s.mobileImageAlt %>" width="600" height="1300" decoding="async" loading="lazy">
+              <img class="showcase__slide<%= i === 0 ? ' is-active' : '' %>" data-slide="<%= i %>" <%- imgSrc(s.mobileImage, 600, '(max-width: 640px) 30vw, 200px') %> alt="<%= s.mobileImageAlt %>" width="600" height="1300" decoding="async" loading="lazy">
               <% }) %>
             </div>
           </div>
@@ -99,6 +99,9 @@
       <% } %>
       <% if (c.local.homeLink.label) { %>
       <p class="note reveal"><%= c.local.homeLink.text %> <a class="link-arrow" href="/creation-site-internet-grenoble"><%= c.local.homeLink.label %><%- icon('chevron-right', { size: 16 }) %></a></p>
+      <% } %>
+      <% if (c.localLyon.homeLink.label) { %>
+      <p class="note reveal"><%= c.localLyon.homeLink.text %> <a class="link-arrow" href="/creation-site-internet-lyon"><%= c.localLyon.homeLink.label %><%- icon('chevron-right', { size: 16 }) %></a></p>
       <% } %>
     </div>
   </section>

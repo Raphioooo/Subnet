@@ -74,6 +74,18 @@ export async function createApp(config, { log = console, prospecting = {}, seedP
     res.sendFile(path.join(config.root, 'public/images/favicon.ico'), { maxAge: '1d' });
   });
 
+  // Une seule adresse par page : « /offre/ » ou « /Offre » redirigent vers « /offre »
+  // (Google ne voit pas deux pages identiques). L'admin, l'API et les fichiers ne sont pas concernés.
+  app.use((req, res, next) => {
+    if ((req.method !== 'GET' && req.method !== 'HEAD') || /^\/(admin|api|assets|uploads)(\/|$)/i.test(req.path)) return next();
+    if (req.path.startsWith('//')) return next();
+    let clean = req.path.length > 1 ? req.path.replace(/\/+$/, '') : req.path;
+    if (/[A-Z]/.test(clean)) clean = clean.toLowerCase();
+    if (clean === req.path || !clean) return next();
+    const q = req.originalUrl.indexOf('?');
+    res.redirect(301, clean + (q === -1 ? '' : req.originalUrl.slice(q)));
+  });
+
   // Statistiques de visite, sans cookie (l'administrateur connecté, ou sur un appareil
   // qu'il a choisi d'ignorer, n'est pas compté).
   app.use(stats.middleware({ isAdmin: (req) => readCookie(req, IGNORE_COOKIE) === '1' || auth.verifyToken(readCookie(req, SESSION_COOKIE)) }));

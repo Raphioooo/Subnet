@@ -8,8 +8,12 @@ import { faqJsonLd, localJsonLd, organizationJsonLd, renderLegal, sectorJsonLd }
 
 const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
 
-// Page dédiée à la ville (référencement local).
+// Pages dédiées à une ville (référencement local) : clé du contenu, adresse, ville.
 export const LOCAL_PATH = '/creation-site-internet-grenoble';
+export const CITY_PAGES = [
+  { key: 'local', path: LOCAL_PATH, city: 'Grenoble' },
+  { key: 'localLyon', path: '/creation-site-internet-lyon', city: 'Lyon' },
+];
 
 // Page d'origine du formulaire → page affichée après l'envoi.
 const SUCCESS_REDIRECTS = {
@@ -117,13 +121,18 @@ export function publicRouter({ config, store, auth, mailer, log, stats }) {
     });
   });
 
-  router.get(LOCAL_PATH, (req, res) => {
-    const { c } = res.locals;
-    res.render('pages/local', {
-      page: { title: 'Création de site internet à Grenoble', description: c.local.hero.subtitle, path: LOCAL_PATH, seo: c.local.seo },
-      jsonLd: localJsonLd(c, res.locals.baseUrl, LOCAL_PATH),
+  for (const city of CITY_PAGES) {
+    router.get(city.path, (req, res) => {
+      const { c } = res.locals;
+      const l = c[city.key];
+      res.render('pages/local', {
+        page: { title: `Création de site internet à ${city.city}`, description: l.hero.subtitle, path: city.path, seo: l.seo },
+        l,
+        others: CITY_PAGES.filter((o) => o !== city && c[o.key].homeLink.label).map((o) => ({ href: o.path, label: c[o.key].homeLink.label })),
+        jsonLd: localJsonLd(c, res.locals.baseUrl, city.path, city.key),
+      });
     });
-  });
+  }
 
   router.get('/realisations', (req, res) => {
     const { c } = res.locals;
@@ -242,7 +251,7 @@ export function publicRouter({ config, store, auth, mailer, log, stats }) {
       ['/offre', ['offer']],
       ['/secteurs', ['sectors']],
       ...c.sectors.map((s) => [`/secteurs/${s.slug}`, ['sectors', 'projects']]),
-      [LOCAL_PATH, ['local', 'sectors', 'offer']],
+      ...CITY_PAGES.map((city) => [city.path, [city.key, 'sectors', 'offer']]),
       ['/realisations', ['projects']],
       ['/faq', ['faq']],
       ['/contact', ['contact']],

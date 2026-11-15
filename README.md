@@ -21,6 +21,7 @@ Les fonctionnalités de réservation, d'acompte et de devis vendues aux clients 
 | Blog | `/blog`, `/blog/categorie/…`, `/blog/<article>`, `/blog/rss.xml` | Articles de conseils : sommaire, FAQ, articles liés, données structurées. Les brouillons sont rédigés par un agent via l'API ([docs/blog-api.md](docs/blog-api.md)) et publiés depuis l'admin |
 | FAQ | `/faq` | Questions fréquentes |
 | Contact | `/contact` | Formulaire « demande de devis » ou « simple question » (fonctionnalités souhaitées, protection anti-spam), coordonnées, horaires, réseaux. Un formulaire rapide figure aussi en bas de l'accueil |
+| Pages villes | `/creation-site-internet-grenoble`, `/creation-site-internet-lyon` | Offre, secteurs, déroulé, zone d'intervention et questions fréquentes propres à chaque ville |
 | Pages légales | `/mentions-legales`, `/confidentialite`, `/cookies`, `/conditions-generales` | Modèles remplis automatiquement avec vos informations |
 
 Le site s'adapte aux ordinateurs, tablettes et mobiles. Il est pensé pour l'accessibilité (navigation au clavier, contrastes, textes alternatifs) et passe sans erreur les contrôles automatiques WCAG 2 AA. Il inclut le référencement : titre, description et H1 modifiables pour chaque page, plan du site (`/sitemap.xml`) daté page par page, `robots.txt`, données structurées (entreprise, services, questions fréquentes, fil d'Ariane) et image de partage.
@@ -59,6 +60,7 @@ Rendez-vous sur `/admin`. Le mot de passe est celui de `ADMIN_PASSWORD`. Si la v
 | L'offre | Fonctionnalités incluses, modules et leurs illustrations (format téléphone ou ordinateur), contenus gérables, comparatif, principes de design, bénéfices |
 | Secteurs | Textes, listes, fonctionnalités mises en avant, parcours client (étapes et captures), visuels et leur description, « site ou plateforme », gestion, déroulé, questions fréquentes et paragraphe local de chaque métier, ordre des quatre pages |
 | Page Grenoble | Textes de la page « Création de site internet à Grenoble », questions fréquentes locales et lien depuis l'accueil et le pied de page |
+| Page Lyon | Même chose pour la page « Création de site internet à Lyon » (`/creation-site-internet-lyon`) |
 | Réalisations | Projets de la galerie : ajout, image principale et capture mobile, secteur, lien, ordre, affichage ou masquage |
 | FAQ | Questions et réponses |
 | Coordonnées | Email, téléphone, adresse, zone d'intervention, informations pour Google (ville, code postal, région, zones desservies, fondateur), horaires, réseaux sociaux, textes de la page contact et fonctionnalités proposées dans le formulaire de devis |

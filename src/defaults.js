@@ -960,6 +960,74 @@ export const defaults = {
     },
   },
 
+  // Page « Création de site internet à Lyon » (référencement local, hors Isère).
+  localLyon: {
+    seo: {
+      title: 'Création de site internet à Lyon pour les pros | Subnet',
+      description:
+        'Création de sites internet sur mesure pour les restaurants, tatoueurs, instituts et PME de Lyon : réservation, acompte, devis et panneau d’administration.',
+      h1: 'Création de site internet à Lyon',
+    },
+    hero: {
+      eyebrow: 'Lyon et Rhône',
+      title: 'Votre site sur mesure, pour votre clientèle lyonnaise.',
+      subtitle:
+        'Subnet crée des sites internet complets pour les restaurants, studios de tatouage, instituts, TPE et PME de Lyon et de la métropole : réservation en ligne, acompte, devis, horaires et panneau d’administration.',
+    },
+    intro: {
+      eyebrow: 'Sur mesure',
+      title: 'Un site internet qui prend les réservations à votre place.',
+      text:
+        'À Lyon, la concurrence se joue souvent dans les résultats de recherche et sur mobile : un client compare plusieurs adresses du quartier avant de réserver une table, un rendez-vous ou une séance. Votre site Subnet est conçu autour de votre façon de travailler : réservation en ligne, acompte pour sécuriser vos rendez-vous, demandes de devis détaillées, et un espace d’administration pour tout modifier vous-même.',
+    },
+    sectors: {
+      eyebrow: 'Pour qui',
+      title: 'Pour les pros de Lyon et de la métropole.',
+      text: 'Restaurants et bouchons, studios de tatouage, instituts de beauté, artisans et PME : chaque métier a ses contraintes, et votre site s’y adapte.',
+    },
+    why: {
+      eyebrow: 'Prestataire de la région',
+      title: 'Pourquoi choisir Subnet pour votre site à Lyon ?',
+      text: 'Plus souple qu’une agence web, plus complet qu’un site fait soi-même : vous travaillez avec un développeur web de la région Auvergne-Rhône-Alpes, basé à Grenoble.',
+      items: [
+        { icon: 'users', title: 'Un interlocuteur unique', text: 'Vous échangez directement avec la personne qui conçoit et développe votre site, sans intermédiaire.' },
+        { icon: 'calendar', title: 'Des échanges en visio', text: 'Le premier échange, la validation de la maquette et la prise en main de votre espace d’administration se font en visio.' },
+        { icon: 'store', title: 'Un site à votre nom', text: 'Vos clients réservent sur votre site, à votre image, et non sur une plateforme où vous côtoyez vos concurrents. Aucune commission sur vos réservations.' },
+        { icon: 'refresh-cw', title: 'Un suivi dans la durée', text: 'Une question, une évolution, une nouvelle fonctionnalité : vous savez à qui vous adresser, après la mise en ligne aussi.' },
+      ],
+    },
+    process: {
+      eyebrow: 'Déroulé',
+      title: 'Comment se déroule votre projet ?',
+      steps: [
+        { title: 'Premier échange', text: 'En visio, nous faisons le point sur votre activité, vos clients et les fonctionnalités dont vous avez besoin.' },
+        { title: 'Proposition et devis', text: 'Vous recevez une proposition claire : le périmètre du site, les modules retenus et un devis détaillé.' },
+        { title: 'Conception et développement', text: 'La maquette est validée avec vous, puis le site est développé et testé sur ordinateur et sur mobile.' },
+        { title: 'Mise en ligne et formation', text: 'Le site est mis en ligne sur votre nom de domaine, et vous êtes formé à votre espace d’administration.' },
+      ],
+    },
+    areas: {
+      title: 'Où intervenons-nous ?',
+      text:
+        'Subnet accompagne les entreprises de Lyon, de la Presqu’île à la Croix-Rousse, de la Guillotière à Vaise, et de toute la métropole (Villeurbanne, Vénissieux, Caluire-et-Cuire, Bron, Vaulx-en-Velin, Écully, Oullins…), ainsi que du reste du Rhône. Les échanges se font en visio. Votre site met en avant votre quartier et votre zone de clientèle, pour être trouvé par ceux qui cherchent votre métier près de chez eux.',
+    },
+    faq: {
+      title: 'Questions fréquentes à Lyon',
+      items: [
+        { question: 'Subnet est-il basé à Lyon ?', answer: 'Non. Subnet est basé à Grenoble, en Auvergne-Rhône-Alpes, et accompagne les entreprises lyonnaises en visio, du premier échange à la prise en main du site.' },
+        { question: 'Combien coûte un site internet à Lyon ?', answer: 'Le prix dépend des fonctionnalités choisies : un site de présentation avec demandes de devis ne demande pas le même travail qu’un site avec réservation et acompte en ligne. Après un premier échange, vous recevez un devis clair et détaillé.' },
+        { question: 'Quel est le délai pour créer un site ?', answer: 'Il dépend du périmètre du projet et de la disponibilité de vos contenus : textes, photos, logo. Le calendrier est indiqué dans le devis, étape par étape.' },
+        { question: 'Mon site sera-t-il visible dans les recherches à Lyon ?', answer: 'Votre site met en avant votre ville, votre quartier et votre zone d’intervention, et transmet à Google vos informations : adresse, zone desservie, coordonnées. Associé à une fiche Google Business Profile à jour, il vous aide à apparaître quand on cherche votre métier à Lyon.' },
+        { question: 'Pourquoi un site plutôt qu’une plateforme de réservation ?', answer: 'Une plateforme vous apporte de la visibilité, mais vos clients y voient aussi vos concurrents, et chaque réservation peut être facturée. Avec votre propre site, vos clients réservent chez vous, à votre image, sans commission sur vos réservations. Les deux peuvent aussi se compléter.' },
+        { question: 'Créez-vous aussi des sites vitrines ?', answer: 'Oui. Un site vitrine présente votre activité, vos services, vos photos et vos coordonnées, avec un formulaire de contact ou de demande de devis. La réservation en ligne, l’acompte ou les devis peuvent s’y ajouter plus tard, quand votre activité en a besoin.' },
+      ],
+    },
+    homeLink: {
+      text: 'Vous êtes à Lyon ou dans le Rhône ?',
+      label: 'Création de site internet à Lyon',
+    },
+  },
+
   projectsPage: {
     seo: {
       title: 'Exemples de sites internet par secteur | Subnet',
