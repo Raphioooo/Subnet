@@ -2709,6 +2709,23 @@ textarea {
   }
 }
 
+/* En-tête de page : visible dès le premier affichage (le titre et l'image du haut
+   comptent pour la vitesse mesurée par Google), avec une simple montée. */
+.js .hero .reveal,
+.js .page-hero .reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  animation: hero-rise 0.8s var(--ease-out) both;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes hero-rise {
+  from {
+    transform: translateY(18px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

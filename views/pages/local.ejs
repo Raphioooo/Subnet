@@ -1,5 +1,5 @@
 <%- include('../partials/head') %>
-<% const l = c.local; -%>
+<% const l = locals.l || c.local; -%>
 <main id="contenu">
   <section class="page-hero">
     <div class="container page-hero__inner">
@@ -95,6 +95,7 @@
       <header class="section-head section-head--center">
         <h2 class="h2 reveal" id="zone"><%= l.areas.title %></h2>
         <% if (l.areas.text) { %><p class="lead reveal"><%= l.areas.text %></p><% } %>
+        <% for (const o of locals.others || []) { %><p class="note reveal"><a class="link-arrow" href="<%= o.href %>"><%= o.label %><%- icon('chevron-right', { size: 16 }) %></a></p><% } %>
       </header>
       <% } %>
       <% if (l.faq.items.length) { %>

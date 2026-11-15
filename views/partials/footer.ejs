@@ -27,6 +27,7 @@
             <li><a href="/">Accueil</a></li>
             <% for (const item of nav) { %><li><a href="<%= item.href %>"><%= item.label %></a></li><% } %>
             <% if (c.local.homeLink.label) { %><li><a href="/creation-site-internet-grenoble"><%= c.local.homeLink.label %></a></li><% } %>
+            <% if (c.localLyon.homeLink.label) { %><li><a href="/creation-site-internet-lyon"><%= c.localLyon.homeLink.label %></a></li><% } %>
           </ul>
         </div>
         <div>

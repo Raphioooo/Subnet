@@ -7,7 +7,7 @@ import { ICON_OPTIONS, PAGES, REQUEST_STATUSES, REQUEST_TYPES, getPage } from '.
 import { applyPageInput, cleanText, getAt, isPlainObject } from '../sanitize.js';
 import { formatDate, sectorLabel } from '../helpers.js';
 import { LEGAL_PAGES } from '../defaults.js';
-import { LOCAL_PATH } from './public.js';
+import { CITY_PAGES, LOCAL_PATH } from './public.js';
 import { DEVICE_LABELS, IGNORE_COOKIE, SOURCES, addDays, dayKey, ranking, sourceLabel } from '../stats.js';
 import { createRateLimiter, isSameOrigin } from '../security.js';
 import { renderMarkdown } from '../markdown.js';
@@ -116,6 +116,7 @@ export function pageLabel(pathname, content, posts = []) {
     '/contact': 'Contact',
     '/blog': 'Blog',
     [LOCAL_PATH]: 'Création de site à Grenoble',
+    [CITY_PAGES[1].path]: 'Création de site à Lyon',
   };
   if (fixed[pathname]) return fixed[pathname];
   let m = pathname.match(/^\/secteurs\/([^/]+)$/);

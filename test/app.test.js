@@ -177,6 +177,45 @@ describe('site public', () => {
     assert.ok(sitemap.includes('/creation-site-internet-grenoble</loc>'));
   });
 
+  test('page Lyon : liée depuis l’accueil, le pied de page et la page Grenoble, dans le plan du site', async () => {
+    const c = app.ctx.store.getContent();
+    const res = await request('/creation-site-internet-lyon');
+    assert.equal(res.status, 200);
+    const html = await res.text();
+    assert.ok(html.includes('<h1 class="eyebrow eyebrow--icon reveal">'));
+    assert.ok(html.includes('Création de site internet à Lyon</h1>'));
+    assert.ok(html.includes('<link rel="canonical" href="') && html.includes('/creation-site-internet-lyon">'));
+    const blocks = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
+    assert.deepEqual(blocks.map((b) => b['@type']), ['Service', 'BreadcrumbList', 'FAQPage']);
+    assert.equal(blocks[2].mainEntity.length, c.localLyon.faq.items.length);
+    assert.ok(html.includes('href="/creation-site-internet-grenoble"'), 'lien vers la page Grenoble');
+    const grenoble = await (await request('/creation-site-internet-grenoble')).text();
+    assert.ok(grenoble.match(/href="\/creation-site-internet-lyon"/g)?.length >= 2, 'lien dans la zone d’intervention et en pied de page');
+    const home = await (await request('/')).text();
+    assert.equal(home.match(/href="\/creation-site-internet-lyon"/g)?.length, 2, 'lien dans « Pour qui » et en pied de page');
+    const sitemap = await (await request('/sitemap.xml')).text();
+    assert.ok(sitemap.includes('/creation-site-internet-lyon</loc>'));
+  });
+
+  test('une seule adresse par page : barre finale et majuscules redirigées', async () => {
+    for (const [from, to] of [['/offre/', '/offre'], ['/OFFRE', '/offre'], ['/Secteurs/Tatoueurs/', '/secteurs/tatoueurs'], ['/offre/?a=1', '/offre?a=1']]) {
+      const res = await request(from);
+      assert.equal(res.status, 301, from);
+      assert.equal(res.headers.get('location'), to, from);
+    }
+    assert.notEqual((await request('//exemple.com/')).headers.get('location'), '//exemple.com');
+    assert.equal((await request('/offre')).status, 200);
+  });
+
+  test('images allégées pour les petits écrans', async () => {
+    const html = await (await request('/')).text();
+    const img = html.match(/src="(\/assets\/images\/concepts\/restaurant-desktop\.webp\?v=[a-f0-9]+)" srcset="([^"]+)" sizes="[^"]+"/);
+    assert.ok(img, 'image d’accueil versionnée avec srcset');
+    assert.match(img[2], /restaurant-desktop-800\.webp\?v=[a-f0-9]+ 800w/);
+    const small = await request(img[2].split(' ')[0]);
+    assert.equal(small.status, 200);
+  });
+
   test('fichiers statiques versionnés', async () => {
     const html = await (await request('/')).text();
     const css = html.match(/href="(\/assets\/css\/site\.css\?v=[a-f0-9]+)"/);

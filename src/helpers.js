@@ -188,6 +188,31 @@ export function createAssetHelper(publicDir, cacheable) {
   };
 }
 
+// Attributs src/srcset d'une image du site : les fichiers de /assets/images ont des
+// versions plus légères (« nom-800.webp », « nom-300.webp ») servies aux petits écrans,
+// et une adresse versionnée (cache navigateur d'un an). Les autres images (envoyées
+// depuis l'admin) gardent leur adresse telle quelle.
+const IMAGE_VARIANTS = [300, 800];
+
+export function createImageHelper(publicDir, asset, cacheable) {
+  const cache = new Map();
+  return function imgSrc(src, width, sizes) {
+    const value = typeof src === 'string' ? src : '';
+    const m = value.match(/^\/assets\/(images\/[^?#]+)\.(webp|jpe?g|png)$/);
+    if (!m) return `src="${escapeHtml(value)}"`;
+    const key = value;
+    let found = cacheable ? cache.get(key) : undefined;
+    if (!found) {
+      found = IMAGE_VARIANTS.filter((w) => w < width && fs.existsSync(path.join(publicDir, `${m[1]}-${w}.${m[2]}`)));
+      if (cacheable) cache.set(key, found);
+    }
+    const full = asset(`${m[1]}.${m[2]}`);
+    if (!found.length) return `src="${escapeHtml(full)}"`;
+    const set = [...found.map((w) => `${asset(`${m[1]}-${w}.${m[2]}`)} ${w}w`), `${full} ${width}w`].join(', ');
+    return `src="${escapeHtml(full)}" srcset="${escapeHtml(set)}" sizes="${escapeHtml(sizes)}"`;
+  };
+}
+
 export function jsonForScript(data) {
   return JSON.stringify(data).replace(/</g, '\\u003c');
 }
@@ -213,7 +238,11 @@ export function viewHelpers(config) {
     socialLabel,
     socialIcon,
     jsonForScript,
-    asset: createAssetHelper(path.join(config.root, 'public'), config.isProd),
+    ...(() => {
+      const publicDir = path.join(config.root, 'public');
+      const asset = createAssetHelper(publicDir, config.isProd);
+      return { asset, imgSrc: createImageHelper(publicDir, asset, config.isProd) };
+    })(),
     nav: NAV,
     inlineJs: INLINE_JS,
     year: () => new Date().getFullYear(),
@@ -286,8 +315,8 @@ export function sectorJsonLd(c, sector, baseUrl) {
 }
 
 // Page Grenoble : le service local, le fil d'Ariane et les questions fréquentes.
-export function localJsonLd(c, baseUrl, path) {
-  const l = c.local;
+export function localJsonLd(c, baseUrl, path, key = 'local') {
+  const l = c[key];
   const service = {
     '@context': 'https://schema.org',
     '@type': 'Service',
