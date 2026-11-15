@@ -576,6 +576,10 @@ textarea {
 
 .site-header.is-open {
   background: #fff;
+  /* Le flou crée un bloc conteneur pour le menu mobile (position: fixed) :
+     sans ça, le menu prend la hauteur de l'en-tête et n'affiche que « Accueil ». */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 .site-header__inner {
