@@ -9,6 +9,7 @@ import express from 'express';
 import { createRateLimiter } from '../security.js';
 import { blankPost, findMarkers, uniqueSlug, validatePost } from '../posts.js';
 import { buildDigest } from '../digest.js';
+import { addDays, dayKey, ranking, sourceLabel } from '../stats.js';
 
 const LIST_FIELDS = ['id', 'slug', 'title', 'targetKeyword', 'topicId', 'status', 'category', 'source', 'createdAt', 'updatedAt', 'publishedAt', 'scheduledAt'];
 const DEFAULT_FIELDS = ['id', 'slug', 'title', 'targetKeyword', 'topicId', 'status'];
@@ -100,6 +101,37 @@ export function blogApiRouter({ config, store, mailer, log, stats }) {
     if (errors.length) return res.status(422).json({ ok: false, errors });
     const updated = await store.updatePost(post.id, { ...values, slug: uniqueSlug(values.slug || values.title, store.posts, post.id), status: 'draft' });
     res.json({ id: updated.id, slug: updated.slug, ...links(res, updated), markers: findMarkers(updated).length });
+  });
+
+  // Statistiques de visite en lecture seule (mêmes chiffres que la page
+  // Statistiques de l'admin) : ?jours=1 à 90, 7 par défaut, aujourd'hui inclus.
+  router.get('/stats', (req, res) => {
+    if (!stats) return res.status(503).json({ ok: false, errors: [{ field: '', message: 'Statistiques indisponibles.' }] });
+    const raw = req.query.jours ?? '7';
+    const days = Number(raw);
+    if (!Number.isInteger(days) || days < 1 || days > 90) {
+      return res.status(422).json({ ok: false, errors: [{ field: 'jours', message: 'Nombre de jours attendu entre 1 et 90.' }] });
+    }
+    const to = dayKey();
+    const from = addDays(to, -(days - 1));
+    const sum = stats.summarize(from, to);
+    const rows = (map, label = (k) => k) => ranking(map, 30).rows.map((r) => ({ key: r.key, label: label(r.key), count: r.count }));
+    res.json({
+      ok: true,
+      from,
+      to,
+      startedAt: stats.startedAt || null,
+      totals: { visits: sum.visits, views: sum.views, contacts: sum.contacts },
+      days: stats.series(from, to, 'day').map(({ start, visits, views, contacts }) => ({ day: start, visits, views, contacts })),
+      sources: rows(sum.sources, sourceLabel),
+      referrers: rows(sum.referrers),
+      campaigns: rows(sum.campaigns),
+      devices: rows(sum.devices),
+      entries: rows(sum.entries),
+      paths: rows(sum.paths),
+      notFound: rows(sum.notFound),
+      contactFrom: rows(sum.contactFrom),
+    });
   });
 
   // Topo quotidien : renvoyé en JSON (objet et texte) pour un envoi par un

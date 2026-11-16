@@ -114,3 +114,13 @@ Mêmes exigences que la publication, avec une date future (ISO 8601). L'article 
 
 Le site envoie chaque jour à partir de 8 h (heure de Paris) un topo par email (SMTP du `.env`, destinataire `MAIL_TO` ou l'email de contact) : articles publiés ces dernières 24 h, articles programmés, brouillons en attente et visites (hier et 7 jours, dont Google). Cet endpoint l'envoie tout de suite pour vérifier la configuration ; il renvoie `{ "ok": true, "sent", "subject", "text" }` (`sent: false` si l'envoi d'emails n'est pas configuré). Avec `?send=0`, rien n'est envoyé : l'objet et le texte servent à un envoi par un autre canal (Gmail, par exemple).
 
+
+## GET /api/admin/posts/stats : statistiques de visite (lecture seule)
+
+Mêmes chiffres que la page Statistiques de l'admin, pour le rapport SEO hebdomadaire : `?jours=7` par défaut (de 1 à 90, aujourd'hui inclus, jours en heure de Paris).
+
+```bash
+curl -sS "https://subnet-online.com/api/admin/posts/stats?jours=7" -H "Authorization: Bearer $BLOG_API_KEY"
+```
+
+Réponse : `totals` (visites, pages vues, demandes de contact), `days` (une ligne par jour), puis des classements (30 lignes max, `key`, `count`) : `sources` (avec `label` : Google, Email, Accès direct, Liens de campagne…), `referrers` (sites d'origine), `campaigns` (valeurs de `utm_source` non reconnues), `devices`, `entries` (pages d'arrivée), `paths`, `notFound`, `contactFrom`. Les robots, les préchargements et l'administrateur connecté ne sont pas comptés.
