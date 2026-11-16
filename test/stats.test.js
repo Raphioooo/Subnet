@@ -10,6 +10,7 @@ import { Store } from '../src/store.js';
 import { VisitStats, addDays, classifySource, dayKey, deviceOf, isHumanBrowser, pagePath, ranking } from '../src/stats.js';
 import { localPath } from '../src/routes/public.js';
 
+const STATS_API_KEY = 'cle-stats-0123456789abcdef';
 const PASSWORD = 'mot-de-passe-de-test';
 const CHROME = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
 const IPHONE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1';
@@ -152,7 +153,7 @@ describe('statistiques : mesure sur le site et page de l’admin', () => {
 
   before(async () => {
     dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'subnet-stats-app-'));
-    const config = loadConfig({ NODE_ENV: 'test', DATA_DIR: dataDir, ADMIN_PASSWORD: PASSWORD, CONTACT_MIN_DELAY_MS: '0' });
+    const config = loadConfig({ NODE_ENV: 'test', DATA_DIR: dataDir, ADMIN_PASSWORD: PASSWORD, CONTACT_MIN_DELAY_MS: '0', BLOG_API_KEY: STATS_API_KEY });
     app = await createApp(config, { log: silent, seedProspects: false });
     await new Promise((resolve) => {
       server = app.listen(0, '127.0.0.1', resolve);
@@ -211,6 +212,22 @@ describe('statistiques : mesure sur le site et page de l’admin', () => {
     await get('/page-qui-n-existe-pas');
     assert.equal(today().notFound['/page-qui-n-existe-pas'], 1);
     assert.equal(today().views, 4);
+  });
+
+  test('statistiques lisibles par l’API, avec la clé uniquement', async () => {
+    const call = (q = '', key = STATS_API_KEY) => fetch(`${base}/api/admin/posts/stats${q}`, { headers: key ? { Authorization: `Bearer ${key}` } : {} });
+    assert.equal((await call('', null)).status, 401);
+    assert.equal((await call('?jours=0')).status, 422);
+    assert.equal((await call('?jours=abc')).status, 422);
+    const body = await (await call('?jours=7')).json();
+    assert.equal(body.ok, true);
+    assert.equal(body.days.length, 7);
+    assert.equal(body.totals.visits, today().visits);
+    const google = body.sources.find((s) => s.key === 'google');
+    assert.equal(google.label, 'Google');
+    assert.equal(google.count, today().sources.google);
+    assert.ok(body.referrers.some((r) => r.key === 'google.fr'));
+    assert.ok(Array.isArray(body.entries) && Array.isArray(body.devices));
   });
 
   test('une demande garde la page consultée juste avant le formulaire', async () => {
