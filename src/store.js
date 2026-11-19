@@ -148,6 +148,24 @@ export function applyContentUpdate(raw, { changes = [], additions = [] } = {}) {
   return out;
 }
 
+// Bandeau de l'offre Black Friday (cartes de visite, jusqu'au 1er décembre 2026) :
+// posé seulement si le propriétaire n'utilise pas déjà le bandeau d'information.
+export const BLACK_FRIDAY_NOTICE = {
+  enabled: true,
+  text: 'Black Friday jusqu’au 1er décembre : cartes de visite offertes et site gratuit à vie.',
+  linkLabel: 'Voir l’offre',
+  link: '/#offre-du-moment',
+  until: '2026-12-01',
+};
+
+function migrateFromV5(raw) {
+  const notice = raw.site?.notice;
+  if (isPlainObject(notice) && (notice.enabled || notice.text)) return raw;
+  const out = structuredClone(raw);
+  out.site = { ...(isPlainObject(out.site) ? out.site : {}), notice: { ...BLACK_FRIDAY_NOTICE } };
+  return out;
+}
+
 function migrate(raw) {
   if (!isPlainObject(raw)) return raw;
   let data = raw;
@@ -156,6 +174,7 @@ function migrate(raw) {
   if (version < 3) data = migrateFromV2(data);
   if (version < 4) data = migrateFromV3(data);
   if (version < 5) data = applyContentUpdate(data, CONTENT_UPDATES[5]);
+  if (version < 6) data = migrateFromV5(applyContentUpdate(data, CONTENT_UPDATES[6]));
   return data;
 }
 

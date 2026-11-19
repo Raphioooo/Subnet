@@ -44,10 +44,11 @@
 <% for (const data of [].concat(locals.jsonLd || [])) { %><script type="application/ld+json"><%- jsonForScript(data) %></script>
 <% } -%>
 </head>
-<body>
+<% const promoOn = c.home.promo.enabled && isRunning(c.home.promo.until); -%>
+<body<% if (promoOn) { %> class="is-promo"<% } %>>
 <a class="skip-link" href="#contenu">Aller au contenu</a>
-<% if (site.notice.enabled && site.notice.text) { %>
-<aside class="notice" aria-label="Information">
+<% if (site.notice.enabled && site.notice.text && isRunning(site.notice.until)) { %>
+<aside class="notice<%= promoOn ? ' notice--promo' : '' %>" aria-label="Information">
   <div class="container notice__inner">
     <span><%= site.notice.text %></span>
     <% if (site.notice.link) { %><a href="<%= site.notice.link %>"><%= site.notice.linkLabel || 'En savoir plus' %><%- icon('chevron-right', { size: 14, strokeWidth: 2 }) %></a><% } %>

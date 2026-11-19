@@ -217,6 +217,14 @@ export function jsonForScript(data) {
   return JSON.stringify(data).replace(/</g, '\\u003c');
 }
 
+// Une offre ou un bandeau datés restent affichés jusqu'au jour « until » inclus,
+// à l'heure de Paris. Sans date valide : pas de limite.
+export function isRunning(until, now = new Date()) {
+  if (typeof until !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(until.trim())) return true;
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
+  return today <= until.trim();
+}
+
 export function viewHelpers(config) {
   return {
     icon,
@@ -238,6 +246,7 @@ export function viewHelpers(config) {
     socialLabel,
     socialIcon,
     jsonForScript,
+    isRunning,
     ...(() => {
       const publicDir = path.join(config.root, 'public');
       const asset = createAssetHelper(publicDir, config.isProd);

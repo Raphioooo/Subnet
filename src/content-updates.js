@@ -329,4 +329,56 @@ export const CONTENT_UPDATES = {
       }
     ]
   },
+  // Version 6 : tarifs affichés (70 € + 30 €/mois, associations 50 € + 24 €/mois,
+  // nom de domaine inclus) à la place des réponses « sur devis », y compris la
+  // réponse complétée à la main sur le site en ligne.
+  6: {
+    "changes": [
+      {
+        "path": "faq[].answer",
+        "from": "Le prix dépend des fonctionnalités choisies et du nombre de pages : un site vitrine avec formulaire de devis ne demande pas le même travail qu’un site avec réservation et acompte en ligne. Présentez-nous votre activité et vos besoins : nous vous adressons un devis clair et détaillé.",
+        "to": "70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Pour les associations : 50 € à l’installation, puis 24 € par mois. Les réservations prises sur votre site ne vous coûtent aucune commission."
+      },
+      {
+        "path": "faq[].answer",
+        "from": "Chaque projet dépend des fonctionnalités choisies. Présentez-nous votre activité et vos besoins : nous vous adressons un devis clair et détaillé.",
+        "to": "70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Pour les associations : 50 € à l’installation, puis 24 € par mois. Les réservations prises sur votre site ne vous coûtent aucune commission."
+      },
+      {
+        "path": "faq[].answer",
+        "from": "Chaque projet dépend des fonctionnalités choisies. Présentez-nous votre activité et vos besoins : nous vous adressons un devis clair et détaillé.\nMais la grande majorité est à 70 euros + 30 euros par mois, hébergement, modification, gestion inclus",
+        "to": "70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Pour les associations : 50 € à l’installation, puis 24 € par mois. Les réservations prises sur votre site ne vous coûtent aucune commission."
+      },
+      {
+        "path": "faq[].answer",
+        "from": "Chaque projet dépend des fonctionnalités choisies. Présentez-nous votre activité et vos besoins : nous vous adressons un devis clair et détaillé.\r\nMais la grande majorité est à 70 euros + 30 euros par mois, hébergement, modification, gestion inclus",
+        "to": "70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Pour les associations : 50 € à l’installation, puis 24 € par mois. Les réservations prises sur votre site ne vous coûtent aucune commission."
+      },
+      {
+        "path": "sectors[slug=restaurateurs].faq.items[].answer",
+        "from": "Le prix dépend des fonctionnalités retenues : réservation de table, acompte pour les groupes, carte en ligne, demandes de privatisation. Après un premier échange, vous recevez un devis clair et détaillé. Une fois le site en ligne, les réservations prises dessus ne vous coûtent aucune commission.",
+        "to": "70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Une fois le site en ligne, les réservations prises dessus ne vous coûtent aucune commission."
+      },
+      {
+        "path": "local.faq.items[].answer",
+        "from": "Le prix dépend des fonctionnalités choisies : un site de présentation avec demandes de devis ne demande pas le même travail qu’un site avec réservation et acompte en ligne. Après un premier échange, vous recevez un devis clair et détaillé.",
+        "to": "70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Pour les associations : 50 € à l’installation, puis 24 € par mois."
+      },
+      {
+        "path": "localLyon.faq.items[].answer",
+        "from": "Le prix dépend des fonctionnalités choisies : un site de présentation avec demandes de devis ne demande pas le même travail qu’un site avec réservation et acompte en ligne. Après un premier échange, vous recevez un devis clair et détaillé.",
+        "to": "70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Pour les associations : 50 € à l’installation, puis 24 € par mois."
+      }
+    ],
+    "additions": [
+      {
+        "path": "faq",
+        "key": "question",
+        "item": {
+          "question": "Le nom de domaine est-il inclus ?",
+          "answer": "Oui. Votre nom de domaine (par exemple votre-restaurant.fr) est compris dans la mensualité : pas de frais à part pour l’adresse de votre site."
+        }
+      }
+    ]
+  },
 };
