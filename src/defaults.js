@@ -156,7 +156,7 @@ Contact : {{email}}`;
 
 
 export const defaults = {
-  meta: { version: 5, updatedAt: null, createdAt: null, sections: null },
+  meta: { version: 6, updatedAt: null, createdAt: null, sections: null },
 
   site: {
     name: 'Subnet',
@@ -167,7 +167,7 @@ export const defaults = {
     url: '',
     logo: '',
     shareImage: '',
-    notice: { enabled: false, text: '', linkLabel: '', link: '' },
+    notice: { enabled: false, text: '', linkLabel: '', link: '', until: '' },
   },
 
   contact: {
@@ -225,6 +225,32 @@ export const defaults = {
       primaryLink: '/contact',
       secondaryLabel: 'Découvrir l’offre',
       secondaryLink: '/offre',
+    },
+    // Offre du moment : affichée jusqu'à la date « until » incluse (heure de Paris).
+    promo: {
+      enabled: true,
+      until: '2026-12-01',
+      badge: 'Black Friday · jusqu’au 1er décembre',
+      title: 'Vos cartes de visite offertes. Et plus aucune mensualité.',
+      text: 'Souscrivez d’ici le 1er décembre 2026 : vos cartes de visite sont offertes. Si une personne souscrit grâce à votre carte, votre mensualité disparaît : votre site et votre nom de domaine sont gratuits tant qu’elle reste abonnée.',
+      steps: [
+        'Vous souscrivez d’ici le 1er décembre : vos cartes de visite sont offertes.',
+        'Vous les donnez à vos clients, vos fournisseurs, vos voisins commerçants.',
+        'Une personne souscrit grâce à votre carte : vous ne payez plus votre mensualité tant qu’elle reste abonnée.',
+      ],
+      note: 'Il suffit d’une seule souscription. La personne indique votre nom quand elle nous contacte.',
+      linkLabel: 'Profiter de l’offre',
+      link: '/contact',
+    },
+    pricing: {
+      eyebrow: 'Tarifs',
+      title: 'Un prix simple, nom de domaine inclus.',
+      text: 'La création, l’hébergement, les modifications et la gestion de votre site sont compris. Les réservations prises sur votre site ne vous coûtent aucune commission.',
+      plans: [
+        { name: 'Commerces et indépendants', setup: '70 €', monthly: '30 €', note: 'Restaurants, studios de tatouage, instituts, artisans, TPE et PME.' },
+        { name: 'Associations', setup: '50 €', monthly: '24 €', note: 'Le même site, à un tarif réservé aux associations.' },
+      ],
+      included: ['Nom de domaine inclus', 'Hébergement', 'Modifications et gestion', 'Aucune commission'],
     },
     pillars: {
       eyebrow: 'Positionnement',
@@ -589,7 +615,7 @@ export const defaults = {
           { question: 'Puis-je fermer la réservation un soir ou pendant mes congés ?', answer: 'Oui. Depuis votre espace, vous fermez un service, une journée ou une période entière : les créneaux disparaissent aussitôt du site, et un bandeau peut prévenir vos clients.' },
           { question: 'Ma carte et mes menus sont-ils faciles à mettre à jour ?', answer: 'Oui. Plats, prix, menus du moment et photos se modifient depuis le panneau d’administration, sans passer par un développeur.' },
           { question: 'Puis-je garder une plateforme comme TheFork en plus de mon site ?', answer: 'Oui. Rien ne vous oblige à quitter une plateforme : votre site la complète, en offrant à vos habitués un moyen direct de réserver chez vous.' },
-          { question: 'Combien coûte un site internet pour un restaurant ?', answer: 'Le prix dépend des fonctionnalités retenues : réservation de table, acompte pour les groupes, carte en ligne, demandes de privatisation. Après un premier échange, vous recevez un devis clair et détaillé. Une fois le site en ligne, les réservations prises dessus ne vous coûtent aucune commission.' },
+          { question: 'Combien coûte un site internet pour un restaurant ?', answer: '70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Une fois le site en ligne, les réservations prises dessus ne vous coûtent aucune commission.' },
         ],
       },
       local: 'Basé à Grenoble, Subnet accompagne les restaurants de l’Isère et de toute la région Auvergne-Rhône-Alpes, de la brasserie de quartier à la table gastronomique. Ailleurs en France, tout se fait en visio.',
@@ -945,7 +971,7 @@ export const defaults = {
       title: 'Questions fréquentes à Grenoble',
       items: [
         { question: 'Peut-on se rencontrer à Grenoble ?', answer: 'Oui. Pour les entreprises de Grenoble et de ses environs, le premier échange et la prise en main du site peuvent se faire en personne. Le reste du projet avance aussi bien en visio.' },
-        { question: 'Combien coûte un site internet à Grenoble ?', answer: 'Le prix dépend des fonctionnalités choisies : un site de présentation avec demandes de devis ne demande pas le même travail qu’un site avec réservation et acompte en ligne. Après un premier échange, vous recevez un devis clair et détaillé.' },
+        { question: 'Combien coûte un site internet à Grenoble ?', answer: '70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Pour les associations : 50 € à l’installation, puis 24 € par mois.' },
         { question: 'Quel est le délai pour créer un site ?', answer: 'Il dépend du périmètre du projet et de la disponibilité de vos contenus : textes, photos, logo. Le calendrier est indiqué dans le devis, étape par étape.' },
         { question: 'Travaillez-vous uniquement avec des entreprises grenobloises ?', answer: 'Non. Subnet est basé à Grenoble et accompagne des entreprises dans toute la France : hors de la région grenobloise, les échanges se font en visio.' },
         { question: 'Mon site sera-t-il visible dans les recherches locales ?', answer: 'Votre site met en avant votre ville et votre zone d’intervention, et transmet à Google vos informations : adresse, zone desservie, coordonnées. Associé à une fiche Google Business Profile à jour, il vous aide à apparaître quand on cherche votre métier à Grenoble.' },
@@ -1015,7 +1041,7 @@ export const defaults = {
       title: 'Questions fréquentes à Lyon',
       items: [
         { question: 'Subnet est-il basé à Lyon ?', answer: 'Non. Subnet est basé à Grenoble, en Auvergne-Rhône-Alpes, et accompagne les entreprises lyonnaises en visio, du premier échange à la prise en main du site.' },
-        { question: 'Combien coûte un site internet à Lyon ?', answer: 'Le prix dépend des fonctionnalités choisies : un site de présentation avec demandes de devis ne demande pas le même travail qu’un site avec réservation et acompte en ligne. Après un premier échange, vous recevez un devis clair et détaillé.' },
+        { question: 'Combien coûte un site internet à Lyon ?', answer: '70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Pour les associations : 50 € à l’installation, puis 24 € par mois.' },
         { question: 'Quel est le délai pour créer un site ?', answer: 'Il dépend du périmètre du projet et de la disponibilité de vos contenus : textes, photos, logo. Le calendrier est indiqué dans le devis, étape par étape.' },
         { question: 'Mon site sera-t-il visible dans les recherches à Lyon ?', answer: 'Votre site met en avant votre ville, votre quartier et votre zone d’intervention, et transmet à Google vos informations : adresse, zone desservie, coordonnées. Associé à une fiche Google Business Profile à jour, il vous aide à apparaître quand on cherche votre métier à Lyon.' },
         { question: 'Pourquoi un site plutôt qu’une plateforme de réservation ?', answer: 'Une plateforme vous apporte de la visibilité, mais vos clients y voient aussi vos concurrents, et chaque réservation peut être facturée. Avec votre propre site, vos clients réservent chez vous, à votre image, sans commission sur vos réservations. Les deux peuvent aussi se compléter.' },
@@ -1158,7 +1184,12 @@ export const defaults = {
     {
       question: 'Combien coûte un site internet ?',
       answer:
-        'Le prix dépend des fonctionnalités choisies et du nombre de pages : un site vitrine avec formulaire de devis ne demande pas le même travail qu’un site avec réservation et acompte en ligne. Présentez-nous votre activité et vos besoins : nous vous adressons un devis clair et détaillé.',
+        '70 € à l’installation, puis 30 € par mois, nom de domaine inclus : la création, l’hébergement, les modifications et la gestion de votre site sont compris. Pour les associations : 50 € à l’installation, puis 24 € par mois. Les réservations prises sur votre site ne vous coûtent aucune commission.',
+    },
+    {
+      question: 'Le nom de domaine est-il inclus ?',
+      answer:
+        'Oui. Votre nom de domaine (par exemple votre-restaurant.fr) est compris dans la mensualité : pas de frais à part pour l’adresse de votre site.',
     },
     {
       question: 'Combien de temps faut-il pour créer un site internet ?',

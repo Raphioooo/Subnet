@@ -1,0 +1,26 @@
+<% const pg = c.home.pricing; if (pg.plans.length) { -%>
+<section class="section section--soft" id="tarifs" aria-labelledby="tarifs-titre">
+  <div class="container">
+    <header class="section-head section-head--center">
+      <% if (pg.eyebrow) { %><p class="eyebrow reveal"><%= pg.eyebrow %></p><% } %>
+      <h2 class="h2 reveal" id="tarifs-titre"><%= pg.title %></h2>
+      <% if (pg.text) { %><p class="lead reveal"><%= pg.text %></p><% } %>
+    </header>
+    <div class="price-grid">
+      <% for (const plan of pg.plans) { %>
+      <article class="price reveal">
+        <h3 class="price__name"><%= plan.name %></h3>
+        <p class="price__amount"><strong><%= plan.monthly %></strong><span> / mois</span></p>
+        <% if (plan.setup) { %><p class="price__setup">+ <%= plan.setup %> à l’installation</p><% } %>
+        <% if (plan.note) { %><p class="price__note"><%= plan.note %></p><% } %>
+      </article>
+      <% } %>
+    </div>
+    <% if (pg.included.length) { %>
+    <ul class="chips chips--center price__included reveal">
+      <% for (const item of pg.included) { %><li class="chip chip--static"><%- icon('check', { size: 14, strokeWidth: 2.25 }) %><%= item %></li><% } %>
+    </ul>
+    <% } %>
+  </div>
+</section>
+<% } -%>
