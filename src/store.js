@@ -152,7 +152,7 @@ export function applyContentUpdate(raw, { changes = [], additions = [] } = {}) {
 // posé seulement si le propriétaire n'utilise pas déjà le bandeau d'information.
 export const BLACK_FRIDAY_NOTICE = {
   enabled: true,
-  text: 'Black Friday jusqu’au 1er décembre : cartes de visite offertes et site gratuit à vie.',
+  text: 'Black Friday jusqu’au 1er décembre : cartes de visite offertes, et plus de mensualité si vous parrainez un client.',
   linkLabel: 'Voir l’offre',
   link: '/#offre-du-moment',
   until: '2026-12-01',
