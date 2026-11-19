@@ -9,6 +9,7 @@ export const SECTOR_OPTIONS = [
   { value: 'tatoueurs', label: 'Tatoueurs & tatoueuses' },
   { value: 'instituts', label: 'Instituts & bien-être' },
   { value: 'tpe-pme', label: 'TPE & PME' },
+  { value: 'associations', label: 'Associations' },
   { value: 'autre', label: 'Autre activité' },
 ];
 
@@ -30,6 +31,7 @@ export const CONTACT_SECTOR_OPTIONS = [
   { value: 'tatoueurs', label: 'Studio de tatouage' },
   { value: 'instituts', label: 'Institut de beauté ou bien-être' },
   { value: 'tpe-pme', label: 'TPE ou PME' },
+  { value: 'associations', label: 'Association' },
   { value: 'commerce', label: 'Commerce' },
   { value: 'autre', label: 'Autre activité' },
 ];
@@ -218,6 +220,13 @@ export const PAGES = [
         fields: [
           { key: 'name', type: 'text', label: 'Nom du site', max: 60, required: true, half: true },
           { key: 'tagline', type: 'text', label: 'Signature', max: 120, half: true },
+          {
+            key: 'footerNote',
+            type: 'text',
+            label: 'Mention en bas de page',
+            max: 160,
+            help: 'Affichée tout en bas de chaque page, après « Tous droits réservés ». Exemple : TVA non applicable, art. 293 B du CGI.',
+          },
           {
             key: 'logo',
             type: 'image',
@@ -731,7 +740,7 @@ export const PAGES = [
               { key: 'title', type: 'text', label: 'Nom du projet', max: 80, required: true, half: true },
               { key: 'badge', type: 'text', label: 'Étiquette', max: 30, placeholder: 'Client, Concept…', half: true },
               { key: 'sector', type: 'select', label: 'Secteur', options: SECTOR_OPTIONS, half: true },
-              { key: 'url', type: 'url', label: 'Lien vers le site (optionnel)', placeholder: 'https://', half: true },
+              { key: 'url', type: 'link', label: 'Lien vers le site ou la démo (optionnel)', placeholder: 'https://… ou /demo/…', half: true },
               { key: 'image', type: 'image', label: 'Image principale', required: true, half: true },
               { key: 'mobileImage', type: 'image', label: 'Capture mobile (facultatif)', half: true },
               { key: 'description', type: 'textarea', label: 'Description', rows: 3, max: 500 },

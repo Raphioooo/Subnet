@@ -86,7 +86,7 @@ describe('site public', () => {
     assert.equal(offer.match(/ step--media /g)?.length, 5);
     assert.ok(offer.includes('/assets/images/modules/horaires.webp'));
     const projects = await (await request('/realisations')).text();
-    assert.equal(projects.match(/class="project-card__phone"/g)?.length, 4);
+    assert.equal(projects.match(/class="project-card__phone"/g)?.length, 5);
     for (const file of ['parcours/pme-suivi.webp', 'modules/horaires.webp']) {
       const res = await request(`/assets/images/${file}`);
       assert.equal(res.status, 200, file);
@@ -463,7 +463,7 @@ describe('administration', () => {
     });
     assert.equal(res.status, 200);
     const saved = app.ctx.store.getContent().sectors;
-    assert.deepEqual(saved.map((s) => s.slug), ['tatoueurs', 'restaurateurs', 'instituts', 'tpe-pme']);
+    assert.deepEqual(saved.map((s) => s.slug), ['tatoueurs', 'restaurateurs', 'instituts', 'tpe-pme', 'associations']);
     assert.ok(saved[0].name.endsWith('(modifié)'));
   });
 

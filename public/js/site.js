@@ -165,7 +165,13 @@
         meta.append(sector);
       }
       link.hidden = !d.url;
-      if (d.url) link.href = d.url;
+      if (d.url) {
+        // Démo hébergée sur le site (/demo/…) : même onglet, libellé « Essayer la démo ».
+        const isDemo = d.url.startsWith('/');
+        link.href = d.url;
+        link.target = isDemo ? '_self' : '_blank';
+        link.firstChild.textContent = isDemo ? 'Essayer la démo' : 'Voir le site';
+      }
       phone.hidden = !d.mobile;
       if (d.mobile) {
         mobile.src = d.mobile;

@@ -48,7 +48,7 @@
       </nav>
     </div>
     <div class="site-footer__bottom">
-      <p>© <%= year() %> <%= c.site.name %>. Tous droits réservés.</p>
+      <p>© <%= year() %> <%= c.site.name %>. Tous droits réservés.<% if (c.site.footerNote) { %> <%= c.site.footerNote %><% } %></p>
       <% if (legalLinks.length) { %>
       <ul>
         <% for (const [key, href] of legalLinks) { %><li><a href="<%= href %>"><%= c.legal[key].title %></a></li><% } %>

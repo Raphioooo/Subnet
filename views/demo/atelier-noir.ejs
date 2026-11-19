@@ -1,0 +1,203 @@
+<%- include('_top', { themeColor: '#0d0d0d' }) %>
+<header class="d-header">
+  <div class="d-wrap d-header__inner">
+    <a class="d-logo" href="#contenu">Atelier Noir</a>
+    <nav class="d-nav" aria-label="Navigation">
+      <a href="#portfolio">Portfolio</a>
+      <a href="#artistes">Artistes</a>
+      <a href="#projet">Demande de projet</a>
+      <a href="#soins">Infos &amp; soins</a>
+    </nav>
+    <a class="d-btn d-btn--ghost d-header__cta" href="#projet">Demander un projet</a>
+    <button class="d-menu" type="button" data-menu-toggle aria-expanded="false">Menu</button>
+  </div>
+</header>
+
+<main id="contenu">
+  <section class="d-hero">
+    <div class="d-wrap d-hero__grid">
+      <div>
+        <p class="d-eyebrow">● Studio de tatouage, sur rendez-vous</p>
+        <h1>L’encre<br><span class="d-outline">à votre</span><br><span class="d-hot">image.</span></h1>
+        <p class="d-lead">Fine line, blackwork et ornemental : chaque pièce est dessinée pour vous, puis réalisée avec précision.</p>
+        <div class="d-actions">
+          <a class="d-btn d-btn--primary" href="#projet">Demander un projet</a>
+          <a class="d-btn d-btn--link" href="#portfolio">Voir le portfolio</a>
+        </div>
+        <div class="d-chips" style="margin-top:34px" aria-label="Styles">
+          <span class="d-chip">Fine line</span><span class="d-chip">Blackwork</span><span class="d-chip">Japonais</span><span class="d-chip">Ornemental</span>
+        </div>
+      </div>
+      <div class="d-noir-mosaic">
+        <div><img src="<%= asset('images/demo/noir-1.webp') %>" alt="Dos tatoué d’une pièce japonaise en noir et gris" width="348" height="518" fetchpriority="high"><span class="d-tag">Japonais</span></div>
+        <div><img src="<%= asset('images/demo/noir-2.webp') %>" alt="Avant-bras tatoué d’une pivoine en fine line" width="318" height="308"><span class="d-tag">Fine line</span></div>
+        <div><img src="<%= asset('images/demo/noir-3.webp') %>" alt="Main gantée d’un tatoueur en pleine séance" width="318" height="310"><span class="d-tag">En séance</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="portfolio">
+    <div class="d-wrap">
+      <div class="d-head">
+        <p class="d-eyebrow">● Portfolio</p>
+        <h2>Classé par style.</h2>
+        <p class="d-lead">Les artistes ajoutent leurs nouvelles pièces depuis leur téléphone, à la sortie de la séance.</p>
+      </div>
+      <div class="d-filters" data-filter-group role="group" aria-label="Filtrer le portfolio">
+        <button class="d-filter" type="button" data-filter="tout" aria-pressed="true">Tout</button>
+        <button class="d-filter" type="button" data-filter="fineline" aria-pressed="false">Fine line</button>
+        <button class="d-filter" type="button" data-filter="blackwork" aria-pressed="false">Blackwork</button>
+        <button class="d-filter" type="button" data-filter="japonais" aria-pressed="false">Japonais</button>
+        <button class="d-filter" type="button" data-filter="ornemental" aria-pressed="false">Ornemental</button>
+      </div>
+      <div class="d-portfolio">
+        <% for (const [img, tags, title, by, w, h] of [
+          ['noir-fineline', 'fineline', 'Bouquet de pivoines', 'Lou', 770, 1000],
+          ['noir-dos', 'japonais', 'Dos complet, vagues et fleurs', 'Malo', 600, 900],
+          ['noir-ornemental', 'ornemental', 'Mandala entre les omoplates', 'Lou', 667, 1000],
+          ['noir-blackwork', 'blackwork', 'Manchette graphique', 'Malo', 900, 600],
+          ['noir-2', 'fineline', 'Pivoine, avant-bras', 'Lou', 318, 308],
+          ['noir-1', 'japonais', 'Chat samouraï', 'Malo', 348, 518],
+        ]) { %>
+        <figure data-tags="<%= tags %>">
+          <img src="<%= asset(`images/demo/${img}.webp`) %>" alt="<%= title %>, tatouage réalisé par <%= by %>" width="<%= w %>" height="<%= h %>" loading="lazy">
+          <figcaption><strong><%= title %></strong><%= by %></figcaption>
+        </figure>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section" id="artistes">
+    <div class="d-wrap">
+      <div class="d-head"><p class="d-eyebrow">● Artistes</p><h2>Deux mains, deux styles.</h2></div>
+      <div class="d-grid d-grid--2">
+        <div class="d-card"><h3>Lou</h3><p class="d-muted">Fine line et ornemental. Des lignes fines, des fleurs, des motifs géométriques qui suivent le corps.</p><p>Prochaines disponibilités : dans 3 semaines.</p></div>
+        <div class="d-card"><h3>Malo</h3><p class="d-muted">Japonais et blackwork. Grandes pièces, manchettes, dos complets en plusieurs séances.</p><p>Prochaines disponibilités : dans 5 semaines.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="projet">
+    <div class="d-wrap">
+      <div class="d-head">
+        <p class="d-eyebrow">● Demande de projet</p>
+        <h2>Décrivez votre idée.<br><span class="d-hot">On s’occupe du reste.</span></h2>
+        <p class="d-lead">Essayez le parcours complet : la demande, le devis, l’acompte et le choix de la séance. Ici, tout est simulé.</p>
+      </div>
+
+      <div class="d-flow" data-flow data-deposit-rate="0.3">
+        <ol class="d-progress" data-progress aria-hidden="true">
+          <li>Projet</li><li>Devis</li><li>Séance</li><li>Acompte</li><li>Confirmé</li>
+        </ol>
+
+        <div class="d-step" data-step data-stage="0">
+          <h3>Votre projet</h3>
+          <p>Plus vous êtes précis, plus le devis est juste.</p>
+          <form class="d-form" novalidate>
+            <div class="d-form__row">
+              <label>Style
+                <select name="style" required>
+                  <option value="">Choisir…</option><option>Fine line</option><option>Blackwork</option><option>Japonais</option><option>Ornemental</option><option>Je ne sais pas encore</option>
+                </select>
+              </label>
+              <label>Emplacement
+                <select name="zone" required>
+                  <option value="">Choisir…</option><option>Avant-bras</option><option>Bras</option><option>Épaule</option><option>Dos</option><option>Côtes</option><option>Jambe</option><option>Autre</option>
+                </select>
+              </label>
+            </div>
+            <label>Taille
+              <select name="taille" required>
+                <option value="">Choisir…</option>
+                <option data-price="120">Petite (moins de 8 cm)</option>
+                <option data-price="250">Moyenne (8 à 15 cm)</option>
+                <option data-price="450">Grande (15 à 25 cm)</option>
+                <option data-price="900">Très grande (plusieurs séances)</option>
+              </select>
+            </label>
+            <label>Votre idée<textarea name="idee" required placeholder="Une pivoine qui remonte le long de l’avant-bras, avec quelques feuilles…"></textarea></label>
+            <label>Images de référence (facultatif)<input type="file" accept="image/*" multiple data-files="noir-files"></label>
+            <ul class="d-files" id="noir-files"></ul>
+            <div class="d-form__row">
+              <label>Prénom<input name="nom" required autocomplete="off"></label>
+              <label>Email<input name="email" type="email" required autocomplete="off"></label>
+            </div>
+            <label class="d-check"><input type="checkbox" required> J’ai plus de 18 ans.</label>
+            <div class="d-step__nav"><span></span><button class="d-btn d-btn--primary" type="submit" data-next>Envoyer ma demande</button></div>
+          </form>
+        </div>
+
+        <div class="d-step" data-step data-stage="1" hidden>
+          <h3>Votre devis est prêt</h3>
+          <p>Sur le vrai site, l’artiste le prépare dans son espace et vous le recevez par email, sous 48 h. Le voici tel que vous le verriez.</p>
+          <div class="d-quote">
+            <div class="d-quote__head"><span>Devis pour <strong data-show="nom"></strong></span><span>Valable 30 jours</span></div>
+            <table>
+              <tr><td>Dessin sur mesure, <span data-show="style"></span>, <span data-show="zone"></span></td><td>Inclus</td></tr>
+              <tr><td>Réalisation : <span data-show="taille"></span></td><td data-show="price"></td></tr>
+              <tr class="is-total"><td>Total</td><td data-show="price"></td></tr>
+              <tr><td>Acompte à la réservation (30 %, déduit du total)</td><td data-show="deposit"></td></tr>
+            </table>
+          </div>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Modifier ma demande</button><button class="d-btn d-btn--primary" type="button" data-next>Accepter le devis</button></div>
+        </div>
+
+        <div class="d-step" data-step data-stage="2" data-requires="date,heure" hidden>
+          <h3>Choisissez votre séance</h3>
+          <p>Seuls les créneaux libres de l’artiste sont proposés.</p>
+          <div class="d-chips" data-days="6" data-from="21" data-closed="0,1,3" role="group" aria-label="Jour"></div>
+          <span class="d-field-label">Heure</span>
+          <div class="d-chips">
+            <button class="d-chip" type="button" data-pick="heure" data-value="10 h" aria-pressed="false">10:00</button>
+            <button class="d-chip" type="button" data-pick="heure" data-value="14 h" aria-pressed="false">14:00</button>
+            <button class="d-chip" type="button" data-pick="heure" data-value="16 h 30" aria-pressed="false" disabled>16:30</button>
+          </div>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><button class="d-btn d-btn--primary" type="button" data-next>Continuer</button></div>
+        </div>
+
+        <div class="d-step" data-step data-stage="3" hidden>
+          <h3>Acompte</h3>
+          <p>L’acompte bloque votre créneau. Le reste est réglé le jour de la séance.</p>
+          <ul class="d-summary">
+            <li><span>Séance</span><span><span data-show="date"></span>, <span data-show="heure"></span></span></li>
+            <li><span>Total du devis</span><span data-show="price"></span></li>
+            <li><span>Reste à régler le jour J</span><span data-show="rest"></span></li>
+          </ul>
+          <%- include('_pay') %>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><span></span></div>
+        </div>
+
+        <div class="d-step d-done" data-step data-stage="4" data-final hidden>
+          <div class="d-done__icon" aria-hidden="true">✓</div>
+          <h3>C’est réservé, <span data-show="nom"></span>.</h3>
+          <p>Vous recevez la confirmation et, la veille, un rappel avec les conseils de préparation.</p>
+          <ul class="d-summary">
+            <li><span>Séance</span><span><span data-show="date"></span>, <span data-show="heure"></span></span></li>
+            <li><span>Acompte réglé</span><span data-show="deposit"></span></li>
+            <li><span>Référence</span><span data-show="ref"></span></li>
+          </ul>
+          <p class="d-note">Démonstration : aucune demande ni paiement n’ont été enregistrés.</p>
+          <button class="d-btn d-btn--ghost" type="button" data-restart>Recommencer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section" id="soins">
+    <div class="d-wrap d-grid d-grid--3">
+      <div class="d-card"><h3>Avant la séance</h3><p class="d-muted">Dormez bien, mangez avant de venir, évitez l’alcool la veille. Venez avec une tenue qui dégage la zone.</p></div>
+      <div class="d-card"><h3>Après la séance</h3><p class="d-muted">Lavez à l’eau tiède et au savon doux, appliquez une fine couche de crème, pas de soleil ni de piscine pendant trois semaines.</p></div>
+      <div class="d-card"><h3>Le studio</h3><p class="d-muted">Du mardi au samedi, sur rendez-vous uniquement. Matériel à usage unique, studio déclaré et normes d’hygiène respectées.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="d-footer">
+  <div class="d-wrap d-footer__grid">
+    <div><h4>Atelier Noir</h4><p>Studio de tatouage, sur rendez-vous.</p></div>
+    <div><h4>Projet</h4><p><a href="#projet">Demander un devis</a></p></div>
+    <div><h4>Informations</h4><p>Mentions légales · Confidentialité</p></div>
+  </div>
+</footer>
+<%- include('_bottom') %>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title><%= demo.name %> · site de démonstration Subnet</title>
+<meta name="description" content="<%= demo.name %> est <%= demo.fiction %> : un site de démonstration réalisé par Subnet, à parcourir et à essayer.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="<%= locals.themeColor || '#ffffff' %>">
+<link rel="icon" href="<%= asset('images/favicon.svg') %>" type="image/svg+xml">
+<link rel="stylesheet" href="<%= asset('css/demo.css') %>">
+<script src="<%= asset('js/demo.js') %>" defer></script>
+</head>
+<body class="d-theme d-theme--<%= demo.slug %>">
+<a class="d-skip" href="#contenu">Aller au contenu</a>
+<aside class="d-demobar" aria-label="Site de démonstration">
+  <p><strong>Site de démonstration Subnet.</strong> <span class="d-demobar__long"><%= demo.name %> est <%= demo.fiction %> : essayez tout, rien n’est envoyé ni payé.</span></p>
+  <span class="d-demobar__links">
+    <a href="/realisations">Retour à Subnet</a>
+    <a class="d-demobar__cta" href="<%= contactHref %>">Je veux le même site</a>
+  </span>
+</aside>

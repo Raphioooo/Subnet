@@ -1,0 +1,6 @@
+<%# Étape d'acompte simulée : aucun champ de carte, un simple bouton. %>
+<div class="d-pay">
+  <div class="d-pay__row"><span><%= locals.payLabel || 'Acompte à régler' %></span><strong data-show="deposit"></strong></div>
+  <p class="d-pay__note">Sur votre vrai site, <%= locals.payWho || 'vos clients' %> règlent <%= locals.payWhat || 'l’acompte' %> par carte, sur une page de paiement sécurisée. Ici, le paiement est simulé : aucune carte n’est demandée.</p>
+  <button class="d-btn d-btn--primary d-btn--block" type="button" data-pay><span>Simuler le paiement</span></button>
+</div>

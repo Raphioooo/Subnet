@@ -1,0 +1,202 @@
+<%- include('_top', { themeColor: '#f7f1ea' }) %>
+<%
+  const soins = [
+    { id: 'eclat', cat: 'visage', name: 'Soin éclat', time: '60 min', price: 65, deposit: 20, text: 'Nettoyage, gommage doux, masque et modelage du visage.' },
+    { id: 'hydra', cat: 'visage', name: 'Soin hydratation intense', time: '75 min', price: 80, deposit: 20, text: 'Pour les peaux sèches ou fatiguées par l’hiver.' },
+    { id: 'californien', cat: 'massage', name: 'Massage californien', time: '60 min', price: 70, deposit: 20, text: 'Enveloppant, lent, pour relâcher les tensions.' },
+    { id: 'pierres', cat: 'massage', name: 'Massage aux pierres chaudes', time: '75 min', price: 85, deposit: 25, text: 'La chaleur des pierres de basalte détend en profondeur.' },
+    { id: 'rituel', cat: 'rituel', name: 'Rituel Lumen', time: '120 min', price: 140, deposit: 40, text: 'Gommage du corps, massage et soin du visage.' },
+    { id: 'duo', cat: 'rituel', name: 'Rituel duo', time: '90 min', price: 160, deposit: 50, text: 'Deux massages côte à côte, en cabine double.' },
+  ];
+-%>
+<header class="d-header">
+  <div class="d-wrap d-header__inner">
+    <a class="d-logo" href="#contenu">Lumen <small>Institut</small></a>
+    <nav class="d-nav" aria-label="Navigation">
+      <a href="#soins">Soins</a>
+      <a href="#institut">L’institut</a>
+      <a href="#cadeau">Cartes cadeaux</a>
+      <a href="#infos">Horaires</a>
+    </nav>
+    <a class="d-btn d-btn--primary d-header__cta" href="#rdv">Prendre rendez-vous</a>
+    <button class="d-menu" type="button" data-menu-toggle aria-expanded="false">Menu</button>
+  </div>
+</header>
+
+<main id="contenu">
+  <section class="d-hero">
+    <div class="d-wrap d-hero__grid">
+      <div>
+        <p class="d-eyebrow">Institut de beauté &amp; bien-être</p>
+        <h1>Prenez le temps de <em>prendre soin</em> de vous.</h1>
+        <p class="d-lead">Soins du visage, massages et rituels bien-être, dans un lieu entièrement pensé pour la douceur.</p>
+        <div class="d-actions">
+          <a class="d-btn d-btn--primary" href="#rdv">Prendre rendez-vous</a>
+          <a class="d-btn d-btn--link" href="#soins">Découvrir les soins</a>
+        </div>
+      </div>
+      <div class="d-hero__media">
+        <img class="d-arch" src="<%= asset('images/demo/lumen-pierres.webp') %>" alt="Massage aux pierres chaudes sur le dos, fleurs blanches" width="1400" height="933" fetchpriority="high">
+        <span class="d-lumen-round"><img src="<%= asset('images/demo/lumen-huile.webp') %>" alt="" width="1400" height="933"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="soins">
+    <div class="d-wrap">
+      <div class="d-head d-head--center">
+        <p class="d-eyebrow">La carte des soins</p>
+        <h2>Des soins choisis, <em>pas une liste sans fin.</em></h2>
+      </div>
+      <div class="d-filters d-filters--center" data-filter-group role="group" aria-label="Filtrer les soins">
+        <button class="d-filter" type="button" data-filter="tout" aria-pressed="true">Tous</button>
+        <button class="d-filter" type="button" data-filter="visage" aria-pressed="false">Visage</button>
+        <button class="d-filter" type="button" data-filter="massage" aria-pressed="false">Massages</button>
+        <button class="d-filter" type="button" data-filter="rituel" aria-pressed="false">Rituels</button>
+      </div>
+      <ul class="d-menu-list">
+        <% for (const s of soins) { %><li data-tags="<%= s.cat %>"><strong><%= s.name %></strong><em><%= s.price %> €</em><span><%= s.time %> · <%= s.text %></span></li><% } %>
+      </ul>
+    </div>
+  </section>
+
+  <section class="d-section" id="rdv">
+    <div class="d-wrap">
+      <div class="d-head d-head--center">
+        <p class="d-eyebrow">Rendez-vous en ligne</p>
+        <h2>Réservez votre soin, <em>à toute heure.</em></h2>
+        <p class="d-lead">Un petit acompte sécurise le rendez-vous, et un rappel part la veille : fini les rendez-vous oubliés.</p>
+      </div>
+      <div class="d-flow" data-flow>
+        <ol class="d-progress" data-progress aria-hidden="true"><li>Soin</li><li>Créneau</li><li>Coordonnées</li><li>Acompte</li><li>Confirmé</li></ol>
+
+        <div class="d-step" data-step data-stage="0" data-requires="soin">
+          <h3>Quel soin vous ferait du bien ?</h3>
+          <div class="d-grid d-grid--2" style="margin-top:18px">
+            <% for (const s of soins) { %>
+            <button class="d-chip" style="text-align:left;border-radius:16px;padding:16px 18px" type="button" data-pick="soin" data-value="<%= s.id %>" data-label="<%= s.name %> (<%= s.time %>)" data-price="<%= s.price %>" data-deposit="<%= s.deposit %>" data-auto aria-pressed="false">
+              <strong style="display:block"><%= s.name %></strong><small><%= s.time %> · <%= s.price %> € · acompte <%= s.deposit %> €</small>
+            </button>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="d-step" data-step data-stage="1" data-requires="date,heure" hidden>
+          <h3>Votre créneau</h3>
+          <p data-show="soin"></p>
+          <div class="d-chips" data-days="6" data-from="1" data-closed="0,1" role="group" aria-label="Jour"></div>
+          <span class="d-field-label">Heure</span>
+          <div class="d-chips">
+            <% for (const [h, full] of [['10:00'], ['11:30', 1], ['14:00'], ['15:30'], ['17:00', 1], ['18:30']]) { %><button class="d-chip" type="button" data-pick="heure" data-value="<%= h.replace(':00', ' h').replace(':', ' h ') %>" aria-pressed="false"<%= full ? ' disabled' : '' %>><%= h %></button><% } %>
+          </div>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Changer de soin</button><button class="d-btn d-btn--primary" type="button" data-next>Continuer</button></div>
+        </div>
+
+        <div class="d-step" data-step data-stage="2" hidden>
+          <h3>Vos coordonnées</h3>
+          <form class="d-form" novalidate>
+            <div class="d-form__row">
+              <label>Prénom et nom<input name="nom" required autocomplete="off"></label>
+              <label>Téléphone (pour le rappel)<input name="tel" type="tel" required autocomplete="off"></label>
+            </div>
+            <label>Email<input name="email" type="email" required autocomplete="off"></label>
+            <label>Une information utile ? (grossesse, allergie…)<textarea name="note" rows="3"></textarea></label>
+            <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><button class="d-btn d-btn--primary" type="submit" data-next>Continuer</button></div>
+          </form>
+        </div>
+
+        <div class="d-step" data-step data-stage="3" hidden>
+          <h3>Acompte</h3>
+          <ul class="d-summary">
+            <li><span>Soin</span><span data-show="soin"></span></li>
+            <li><span>Quand</span><span><span data-show="date"></span>, <span data-show="heure"></span></span></li>
+            <li><span>Prix du soin</span><span data-show="price"></span></li>
+            <li><span>Reste à régler à l’institut</span><span data-show="rest"></span></li>
+          </ul>
+          <%- include('_pay') %>
+          <p class="d-note">Annulation gratuite jusqu’à 48 h avant : l’acompte est remboursé.</p>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><span></span></div>
+        </div>
+
+        <div class="d-step d-done" data-step data-stage="4" data-final hidden>
+          <div class="d-done__icon" aria-hidden="true">✓</div>
+          <h3>Votre moment est réservé.</h3>
+          <p>Confirmation envoyée par email. La veille, un SMS vous le rappellera.</p>
+          <ul class="d-summary">
+            <li><span>Soin</span><span data-show="soin"></span></li>
+            <li><span>Quand</span><span><span data-show="date"></span>, <span data-show="heure"></span></span></li>
+            <li><span>Acompte réglé</span><span data-show="deposit"></span></li>
+            <li><span>Référence</span><span data-show="ref"></span></li>
+          </ul>
+          <p class="d-note">Démonstration : aucun rendez-vous ni paiement n’ont été enregistrés.</p>
+          <button class="d-btn d-btn--ghost" type="button" data-restart>Recommencer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="institut">
+    <div class="d-wrap d-split">
+      <div>
+        <p class="d-eyebrow">L’institut</p>
+        <h2>Deux cabines, <em>un seul rythme : le vôtre.</em></h2>
+        <p class="d-lead">Pas d’enchaînement à la chaîne : entre deux rendez-vous, nous prenons le temps de préparer la cabine pour vous.</p>
+        <p>Nos produits sont choisis pour leur douceur et leur composition. Nous vous conseillons, sans jamais rien imposer.</p>
+      </div>
+      <div class="d-grid d-grid--2">
+        <div class="d-photo"><img src="<%= asset('images/demo/lumen-visage.webp') %>" alt="Application d’un masque à l’argile sur le visage" width="1400" height="933" loading="lazy" style="aspect-ratio:3/4"></div>
+        <div class="d-photo" style="margin-top:48px"><img src="<%= asset('images/demo/lumen-massage.webp') %>" alt="Massage de la nuque en cabine" width="930" height="1400" loading="lazy" style="aspect-ratio:3/4"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section" id="cadeau">
+    <div class="d-wrap d-split">
+      <div>
+        <p class="d-eyebrow">Cartes cadeaux</p>
+        <h2>Offrez <em>un moment.</em></h2>
+        <p class="d-lead">Choisissez un soin ou un montant : la carte cadeau est envoyée par email, prête à imprimer, valable un an.</p>
+      </div>
+      <div class="d-card">
+        <form class="d-form" data-demo-form="lumen-cadeau-ok" novalidate>
+          <label>Montant ou soin
+            <select name="montant" required><option value="">Choisir…</option><option>50 €</option><option>80 €</option><option>Rituel Lumen (140 €)</option><option>Rituel duo (160 €)</option></select>
+          </label>
+          <div class="d-form__row">
+            <label>Pour<input name="pour" required placeholder="Prénom"></label>
+            <label>De la part de<input name="de" required></label>
+          </div>
+          <label>Petit mot<textarea name="mot" rows="3" placeholder="Joyeux anniversaire !"></textarea></label>
+          <button class="d-btn d-btn--primary" type="submit">Commander la carte</button>
+        </form>
+        <div class="d-ok" id="lumen-cadeau-ok" hidden><h3>Carte prête</h3><p>Sur le vrai site, le paiement se fait en ligne et la carte arrive aussitôt par email. (Démonstration : rien n’a été commandé.)</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="infos">
+    <div class="d-wrap d-grid d-grid--2">
+      <div>
+        <h3>Horaires</h3>
+        <ul class="d-hours">
+          <li><span>Mardi – vendredi</span><span>10 h – 19 h 30</span></li>
+          <li><span>Samedi</span><span>9 h 30 – 17 h</span></li>
+          <li><span>Dimanche, lundi</span><span>Fermé</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Bon à savoir</h3>
+        <p class="d-muted">Arrivez cinq minutes avant votre soin. En cas d’empêchement, vous pouvez déplacer votre rendez-vous depuis le lien reçu par email, jusqu’à 48 h avant.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="d-footer">
+  <div class="d-wrap d-footer__grid">
+    <div><h4>Lumen Institut</h4><p>Soins du visage, massages et rituels.</p></div>
+    <div><h4>Rendez-vous</h4><p><a href="#rdv">En ligne, 24 h/24</a></p></div>
+    <div><h4>Informations</h4><p>Mentions légales · Confidentialité</p></div>
+  </div>
+</footer>
+<%- include('_bottom') %>

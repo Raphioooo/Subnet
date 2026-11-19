@@ -4,6 +4,7 @@ import { CONTACT_SECTOR_OPTIONS } from '../schema.js';
 import { cleanText, isEmail } from '../sanitize.js';
 import { createRateLimiter } from '../security.js';
 import { isPublished } from '../posts.js';
+import { DEMOS, demoPath } from './demo.js';
 import { faqJsonLd, localJsonLd, organizationJsonLd, renderLegal, sectorJsonLd } from '../helpers.js';
 
 const TEL_RE = /^\+?[0-9 ().-]{6,30}$/;
@@ -118,6 +119,7 @@ export function publicRouter({ config, store, auth, mailer, log, stats }) {
       jsonLd: sectorJsonLd(c, sector, res.locals.baseUrl),
       others: c.sectors.filter((s) => s.slug !== sector.slug),
       projects: visibleProjects(c).filter((p) => p.sector === sector.slug).slice(0, 3),
+      demo: DEMOS.some((d) => d.sector === sector.slug) ? demoPath(DEMOS.find((d) => d.sector === sector.slug).slug) : '',
     });
   });
 

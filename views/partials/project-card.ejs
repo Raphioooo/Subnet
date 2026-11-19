@@ -13,6 +13,6 @@
     </p>
     <h3 class="h4"><%= project.title %></h3>
     <% if (project.description) { %><p><%= project.description %></p><% } %>
-    <% if (project.url) { %><a class="link-arrow" href="<%= project.url %>" target="_blank" rel="noopener noreferrer">Voir le site<%- icon('arrow-up-right', { size: 16 }) %></a><% } %>
+    <% if (project.url && project.url.startsWith('/')) { %><a class="link-arrow" href="<%= project.url %>">Essayer la démo<%- icon('chevron-right', { size: 16 }) %></a><% } else if (project.url) { %><a class="link-arrow" href="<%= project.url %>" target="_blank" rel="noopener noreferrer">Voir le site<%- icon('arrow-up-right', { size: 16 }) %></a><% } %>
   </div>
 </article>
