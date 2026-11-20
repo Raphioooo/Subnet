@@ -1,0 +1,190 @@
+<%- include('_top', { themeColor: '#182033' }) %>
+<div class="d-arbor-top"><div class="d-wrap"><span>Atelier &amp; showroom ouverts du lundi au vendredi, 8 h – 18 h</span><span>Une question ? <strong>01 23 45 67 89</strong></span></div></div>
+<header class="d-header">
+  <div class="d-wrap d-header__inner">
+    <a class="d-logo" href="#contenu"><strong>ARBOR</strong> <small class="d-muted" style="font-size:.75rem;font-weight:500">Menuiserie &amp; agencement</small></a>
+    <nav class="d-nav" aria-label="Navigation">
+      <a href="#savoir-faire">Savoir-faire</a>
+      <a href="#realisations">Réalisations</a>
+      <a href="#atelier">L’entreprise</a>
+      <a href="#devis">Devis</a>
+    </nav>
+    <a class="d-btn d-btn--primary d-header__cta" href="#devis">Demander un devis</a>
+    <button class="d-menu" type="button" data-menu-toggle aria-expanded="false">Menu</button>
+  </div>
+</header>
+
+<main id="contenu">
+  <section class="d-arbor-hero">
+    <img src="<%= asset('images/demo/arbor-cuisine.webp') %>" alt="" width="1282" height="1400" fetchpriority="high">
+    <div class="d-wrap">
+      <p class="d-eyebrow">— Menuiserie · agencement · rénovation</p>
+      <h1>L’agencement sur mesure, conçu et posé par nos équipes.</h1>
+      <p class="d-lead">Cuisines, dressings, bibliothèques et escaliers : un interlocuteur unique, de l’étude à la pose.</p>
+      <div class="d-actions">
+        <a class="d-btn d-btn--wood" href="#devis">Demander un devis en ligne</a>
+        <a class="d-btn d-btn--ghost" href="#realisations">Nos réalisations</a>
+      </div>
+    </div>
+  </section>
+  <div class="d-arbor-strip">
+    <div class="d-wrap">
+      <div class="d-grid d-grid--4">
+        <div><strong>Devis en ligne</strong><span>Réponse sous 48 h</span></div>
+        <div><strong>Acompte sécurisé</strong><span>Payé à la commande</span></div>
+        <div><strong>Suivi de chantier</strong><span>Planning et rendez-vous</span></div>
+        <div><strong>Garantie décennale</strong><span>Travaux assurés</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="d-section" id="savoir-faire">
+    <div class="d-wrap">
+      <div class="d-head"><p class="d-eyebrow">Savoir-faire</p><h2>Du croquis à la dernière vis.</h2></div>
+      <div class="d-grid d-grid--4">
+        <div class="d-card"><h3>Cuisines</h3><p class="d-muted">Façades bois massif ou laqué, plans de travail, îlots et rangements intégrés.</p></div>
+        <div class="d-card"><h3>Dressings</h3><p class="d-muted">Sous pente, en niche ou en pièce dédiée, chaque centimètre est exploité.</p></div>
+        <div class="d-card"><h3>Bibliothèques</h3><p class="d-muted">Bibliothèques murales, meubles TV, banquettes et bureaux sur mesure.</p></div>
+        <div class="d-card"><h3>Escaliers</h3><p class="d-muted">Escaliers droits, quart tournant ou suspendus, garde-corps assortis.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="realisations">
+    <div class="d-wrap">
+      <div class="d-head"><p class="d-eyebrow">Réalisations</p><h2>Quelques chantiers récents.</h2><p class="d-lead">L’équipe ajoute ses photos de fin de chantier depuis son espace, en quelques secondes.</p></div>
+      <div class="d-filters" data-filter-group role="group" aria-label="Filtrer les réalisations">
+        <button class="d-filter" type="button" data-filter="tout" aria-pressed="true">Tout</button>
+        <button class="d-filter" type="button" data-filter="cuisine" aria-pressed="false">Cuisines</button>
+        <button class="d-filter" type="button" data-filter="rangement" aria-pressed="false">Rangements</button>
+      </div>
+      <div class="d-real">
+        <figure data-tags="cuisine"><img src="<%= asset('images/demo/arbor-cuisine2.webp') %>" alt="Cuisine bleu nuit avec îlot en marbre et parquet chêne" width="1400" height="933" loading="lazy"><figcaption><strong>Cuisine avec îlot</strong>Façades laquées, plan en pierre</figcaption></figure>
+        <figure data-tags="rangement"><img src="<%= asset('images/demo/arbor-etagere.webp') %>" alt="Colonne de rangement en bois clair contre un mur rose poudré" width="933" height="1400" loading="lazy"><figcaption><strong>Colonne de rangement</strong>Chêne clair, niches ouvertes</figcaption></figure>
+        <figure data-tags="cuisine"><img src="<%= asset('images/demo/arbor-cuisine.webp') %>" alt="Cuisine noire et bois avec bar et tabourets verts" width="1282" height="1400" loading="lazy"><figcaption><strong>Cuisine et cellier</strong>Noyer et façades noires</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section" id="devis">
+    <div class="d-wrap">
+      <div class="d-head d-head--center">
+        <p class="d-eyebrow">Devis en ligne</p>
+        <h2>Votre projet, chiffré sans rendez-vous préalable.</h2>
+        <p class="d-lead">Essayez : décrivez un projet, recevez le devis, acceptez-le et réglez l’acompte. Tout est simulé ici.</p>
+      </div>
+      <div class="d-flow" data-flow data-deposit-rate="0.3">
+        <ol class="d-progress" data-progress aria-hidden="true"><li>Projet</li><li>Détails</li><li>Devis</li><li>Acompte</li><li>Lancé</li></ol>
+
+        <div class="d-step" data-step data-stage="0" data-requires="projet">
+          <h3>Quel est votre projet ?</h3>
+          <div class="d-grid d-grid--2" style="margin-top:18px">
+            <% for (const [id, name, price, hint] of [
+              ['cuisine', 'Cuisine sur mesure', 9800, 'Étude, fabrication et pose'],
+              ['dressing', 'Dressing', 3200, 'En niche, sous pente ou pièce dédiée'],
+              ['bibliotheque', 'Bibliothèque ou meuble TV', 2400, 'Mural, avec ou sans éclairage'],
+              ['escalier', 'Escalier', 6500, 'Bois massif, garde-corps compris'],
+            ]) { %>
+            <button class="d-chip" style="text-align:left;border-radius:12px;padding:16px 18px" type="button" data-pick="projet" data-value="<%= id %>" data-label="<%= name %>" data-price="<%= price %>" data-auto aria-pressed="false">
+              <strong style="display:block"><%= name %></strong><small><%= hint %></small>
+            </button>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="d-step" data-step data-stage="1" hidden>
+          <h3><span data-show="projet"></span> : les détails</h3>
+          <p>Le formulaire pose les questions dont l’artisan a besoin pour chiffrer.</p>
+          <form class="d-form" novalidate>
+            <div class="d-form__row">
+              <label>Dimensions approximatives<input name="dimensions" required placeholder="ex. 3,20 m × 2,50 m"></label>
+              <label>Essence ou finition
+                <select name="finition" required><option value="">Choisir…</option><option>Chêne massif</option><option>Noyer</option><option>Laqué mat</option><option>À conseiller</option></select>
+              </label>
+            </div>
+            <div class="d-form__row">
+              <label>Délai souhaité
+                <select name="delai" required><option value="">Choisir…</option><option>Dès que possible</option><option>D’ici 3 mois</option><option>D’ici 6 mois</option><option>Pas pressé</option></select>
+              </label>
+              <label>Commune du chantier<input name="ville" required></label>
+            </div>
+            <label>Photos de la pièce (facultatif)<input type="file" accept="image/*" multiple data-files="arbor-files"></label>
+            <ul class="d-files" id="arbor-files"></ul>
+            <div class="d-form__row">
+              <label>Nom<input name="nom" required autocomplete="off"></label>
+              <label>Email<input name="email" type="email" required autocomplete="off"></label>
+            </div>
+            <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><button class="d-btn d-btn--primary" type="submit" data-next>Envoyer ma demande</button></div>
+          </form>
+        </div>
+
+        <div class="d-step" data-step data-stage="2" hidden>
+          <h3>Votre devis</h3>
+          <p>Sur le vrai site, l’artisan le prépare dans son espace et vous le recevez par email. Voici ce que vous verriez (montants d’exemple).</p>
+          <div class="d-quote">
+            <div class="d-quote__head"><span>Devis pour <strong data-show="nom"></strong> · <span data-show="ville"></span></span><span>Valable 60 jours</span></div>
+            <table>
+              <tr><td><span data-show="projet"></span>, <span data-show="finition"></span>, <span data-show="dimensions"></span></td><td>Fabrication atelier</td></tr>
+              <tr><td>Livraison et pose par nos équipes</td><td>Inclus</td></tr>
+              <tr class="is-total"><td>Total</td><td data-show="price"></td></tr>
+              <tr><td>Acompte à la commande (30 %)</td><td data-show="deposit"></td></tr>
+            </table>
+          </div>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Modifier ma demande</button><button class="d-btn d-btn--primary" type="button" data-next>Accepter le devis</button></div>
+        </div>
+
+        <div class="d-step" data-step data-stage="3" hidden>
+          <h3>Acompte à la commande</h3>
+          <ul class="d-summary">
+            <li><span>Projet</span><span data-show="projet"></span></li>
+            <li><span>Total du devis</span><span data-show="price"></span></li>
+            <li><span>Solde à la fin du chantier</span><span data-show="rest"></span></li>
+          </ul>
+          <%- include('_pay') %>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><span></span></div>
+        </div>
+
+        <div class="d-step d-done" data-step data-stage="4" data-final hidden>
+          <div class="d-done__icon" aria-hidden="true">✓</div>
+          <h3>Commande lancée, <span data-show="nom"></span>.</h3>
+          <p>L’équipe vous propose une date de prise de cotes. Vous suivez ensuite chaque étape depuis votre email.</p>
+          <ul class="d-summary">
+            <li><span>Prise de cotes</span><span>Sous 10 jours</span></li>
+            <li><span>Fabrication en atelier</span><span>4 à 6 semaines</span></li>
+            <li><span>Acompte réglé</span><span data-show="deposit"></span></li>
+            <li><span>Référence</span><span data-show="ref"></span></li>
+          </ul>
+          <p class="d-note">Démonstration : aucune demande ni paiement n’ont été enregistrés.</p>
+          <button class="d-btn d-btn--ghost" type="button" data-restart>Recommencer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="atelier">
+    <div class="d-wrap d-split">
+      <div class="d-grid d-grid--2">
+        <div class="d-photo"><img src="<%= asset('images/demo/arbor-atelier.webp') %>" alt="Menuisier tournant une pièce de bois à l’atelier" width="933" height="1400" loading="lazy" style="aspect-ratio:3/4"></div>
+        <div class="d-photo" style="margin-top:48px"><img src="<%= asset('images/demo/arbor-scie.webp') %>" alt="Découpe d’une planche à la scie à onglet" width="934" height="1400" loading="lazy" style="aspect-ratio:3/4"></div>
+      </div>
+      <div>
+        <p class="d-eyebrow">L’entreprise</p>
+        <h2>Un atelier, une équipe, aucun sous-traitant.</h2>
+        <p class="d-lead">Nous dessinons, fabriquons et posons nous-mêmes. Vous avez un seul interlocuteur du premier rendez-vous à la réception du chantier.</p>
+        <ul class="d-hours">
+          <li><span>Atelier et showroom</span><span>Lundi – vendredi, 8 h – 18 h</span></li>
+          <li><span>Zone d’intervention</span><span>40 km autour de l’atelier</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="d-footer">
+  <div class="d-wrap d-footer__grid">
+    <div><h4>Arbor Menuiserie</h4><p>Menuiserie, agencement et rénovation.</p></div>
+    <div><h4>Devis</h4><p><a href="#devis">Demander un devis en ligne</a></p></div>
+    <div><h4>Informations</h4><p>Mentions légales · CGV · Confidentialité</p></div>
+  </div>
+</footer>
+<%- include('_bottom') %>

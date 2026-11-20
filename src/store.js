@@ -95,7 +95,10 @@ export function eachAtPath(node, pathname, fn) {
     const m = part.match(/^([^[\]]+)((?:\[[^\]]*\])*)$/);
     if (!m) throw new Error(`Chemin invalide : ${pathname}`);
     segments.push({ key: m[1] });
-    for (const [, inner] of m[2].matchAll(/\[([^\]]*)\]/g)) segments.push(inner.startsWith('slug=') ? { slug: inner.slice(5) } : { each: true });
+    for (const [, inner] of m[2].matchAll(/\[([^\]]*)\]/g)) {
+      const eq = inner.match(/^(slug|id)=(.*)$/);
+      segments.push(eq ? { match: eq[1], value: eq[2] } : { each: true });
+    }
   }
   const visit = (value, i) => {
     const seg = segments[i];
@@ -104,7 +107,7 @@ export function eachAtPath(node, pathname, fn) {
       if (isPlainObject(value) && Object.hasOwn(value, seg.key)) spots.push(seg.key);
     } else if (Array.isArray(value)) {
       value.forEach((item, j) => {
-        if (seg.each || (isPlainObject(item) && item.slug === seg.slug)) spots.push(j);
+        if (seg.each || (isPlainObject(item) && item[seg.match] === seg.value)) spots.push(j);
       });
     }
     for (const key of spots) {
@@ -175,6 +178,7 @@ function migrate(raw) {
   if (version < 4) data = migrateFromV3(data);
   if (version < 5) data = applyContentUpdate(data, CONTENT_UPDATES[5]);
   if (version < 6) data = migrateFromV5(applyContentUpdate(data, CONTENT_UPDATES[6]));
+  if (version < 7) data = applyContentUpdate(data, CONTENT_UPDATES[7]);
   return data;
 }
 

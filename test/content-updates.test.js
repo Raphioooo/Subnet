@@ -13,6 +13,7 @@ import { CONTENT_UPDATES } from '../src/content-updates.js';
 const silent = { info() {}, warn() {}, error() {} };
 const V5 = CONTENT_UPDATES[5];
 const V6 = CONTENT_UPDATES[6];
+const V7 = CONTENT_UPDATES[7];
 
 const read = (content, pathname) => {
   const found = [];
@@ -20,9 +21,28 @@ const read = (content, pathname) => {
   return found;
 };
 
+// Contenu d'un site resté en version 6 : projets Concept sans lien vers les démos,
+// pas de projet Concept pour les associations.
+function v6Content() {
+  const old = structuredClone(defaults);
+  for (const { path: p, from, to } of V7.changes) {
+    eachAtPath(old, p, (parent, key) => {
+      if (parent[key] === to) parent[key] = from;
+    });
+  }
+  for (const { path: p, key, item } of V7.additions) {
+    eachAtPath(old, p, (parent, k) => {
+      parent[k] = parent[k].filter((x) => x[key] !== item[key]);
+    });
+  }
+  old.sectors = old.sectors.filter((x) => x.slug !== 'associations');
+  old.meta = { ...old.meta, version: 6 };
+  return old;
+}
+
 // Contenu d'un site resté en version 5 : réponses « sur devis », sans les tarifs.
 function v5Content() {
-  const old = structuredClone(defaults);
+  const old = v6Content();
   // Pour chaque chemin, le premier « from » est l'ancien texte par défaut.
   for (const { path: p, from, to } of V6.changes.filter((c, i, all) => all.findIndex((x) => x.path === c.path) === i)) {
     eachAtPath(old, p, (parent, key) => {
@@ -43,7 +63,7 @@ function v5Content() {
 
 // Texte attendu après toutes les mises à jour (une réponse de la version 5 a été
 // remplacée par les tarifs en version 6).
-const latest = (p, text) => V6.changes.find((c) => c.path === p && c.from === text)?.to ?? text;
+const latest = (p, text) => [V6, V7].reduce((t, v) => v.changes.find((c) => c.path === p && c.from === t)?.to ?? t, text);
 
 // Contenu d'un site resté en version 4 : anciens textes, sans les questions ajoutées.
 function v4Content() {
@@ -214,5 +234,72 @@ describe('tarifs et offre Black Friday (contenus en version 6)', () => {
       await new Promise((resolve) => server.close(resolve));
       await fs.rm(dir, { recursive: true, force: true });
     }
+  });
+});
+
+describe('sites de démonstration et page Associations (contenus en version 7)', () => {
+  async function withApp(saved, fn) {
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'subnet-v7-app-'));
+    await fs.writeFile(path.join(dir, 'content.json'), JSON.stringify(saved));
+    const config = loadConfig({ NODE_ENV: 'test', DATA_DIR: dir, ADMIN_PASSWORD: 'mot-de-passe-de-test' });
+    const app = await createApp(config, { log: silent, seedProspects: false });
+    const server = await new Promise((resolve) => {
+      const s = app.listen(0, '127.0.0.1', () => resolve(s));
+    });
+    const base = `http://127.0.0.1:${server.address().port}`;
+    try {
+      await fn((p) => fetch(base + p, { redirect: 'manual' }), app.ctx.store.getContent());
+    } finally {
+      app.ctx.stats.stop();
+      await new Promise((resolve) => server.close(resolve));
+      await fs.rm(dir, { recursive: true, force: true });
+    }
+  }
+
+  test('un site existant relie ses projets Concept aux démos, sauf un lien choisi par le propriétaire', async () => {
+    const saved = v6Content();
+    saved.projects.find((x) => x.id === 'concept-pme').url = 'https://mon-client.fr';
+    await withApp(saved, async (get, c) => {
+      const url = (id) => c.projects.find((x) => x.id === id)?.url;
+      assert.equal(url('concept-restaurant'), '/demo/maison-olive');
+      assert.equal(url('concept-tatouage'), '/demo/atelier-noir');
+      assert.equal(url('concept-pme'), 'https://mon-client.fr');
+      assert.equal(url('concept-association'), '/demo/jardins-du-lavoir');
+      assert.equal(c.sectors.at(-1).slug, 'associations');
+      const projects = await (await get('/realisations')).text();
+      assert.match(projects, /href="\/demo\/maison-olive">Essayer la démo/);
+      assert.match(projects, /Les Jardins du Lavoir/);
+    });
+  });
+
+  test('les démos s’ouvrent, ne sont pas indexées et n’apparaissent pas dans le plan du site', async () => {
+    await withApp(v6Content(), async (get) => {
+      for (const slug of ['maison-olive', 'atelier-noir', 'lumen-institut', 'arbor-menuiserie', 'jardins-du-lavoir']) {
+        const res = await get(`/demo/${slug}`);
+        assert.equal(res.status, 200, slug);
+        assert.equal(res.headers.get('x-robots-tag'), 'noindex');
+        const html = await res.text();
+        assert.match(html, /<meta name="robots" content="noindex">/);
+        assert.match(html, /Site de démonstration Subnet/);
+        assert.match(html, /fictif|fictive/);
+      }
+      assert.equal((await get('/demo/inconnue')).status, 404);
+      assert.equal((await get('/demo')).status, 302);
+      const sitemap = await (await get('/sitemap.xml')).text();
+      assert.ok(!sitemap.includes('/demo/'));
+      assert.ok(sitemap.includes('/secteurs/associations'));
+    });
+  });
+
+  test('page Associations, lien vers la démo et mention de TVA en bas de page', async () => {
+    await withApp(v6Content(), async (get) => {
+      const page = await (await get('/secteurs/associations')).text();
+      assert.match(page, /Site internet pour association avec adhésion en ligne/);
+      assert.match(page, /50 € à l’installation, puis 24 € par mois/);
+      assert.match(page, /href="\/demo\/jardins-du-lavoir"/);
+      assert.match(await (await get('/secteurs/restaurateurs')).text(), /href="\/demo\/maison-olive"/);
+      assert.match(await (await get('/contact?secteur=associations')).text(), /value="associations" selected/);
+      assert.match(await (await get('/')).text(), /Tous droits réservés\. TVA non applicable, art\. 293 B du CGI\./);
+    });
   });
 });

@@ -1,0 +1,191 @@
+<%- include('_top', { themeColor: '#fbfaf4' }) %>
+<header class="d-header">
+  <div class="d-wrap d-header__inner">
+    <a class="d-logo" href="#contenu">Les Jardins du Lavoir</a>
+    <nav class="d-nav" aria-label="Navigation">
+      <a href="#agenda">Agenda</a>
+      <a href="#association">L’association</a>
+      <a href="#adherer">Adhérer</a>
+      <a href="#soutenir">Nous soutenir</a>
+    </nav>
+    <a class="d-btn d-btn--primary d-header__cta" href="#adherer">Adhérer en ligne</a>
+    <button class="d-menu" type="button" data-menu-toggle aria-expanded="false">Menu</button>
+  </div>
+</header>
+
+<main id="contenu">
+  <section class="d-hero">
+    <div class="d-wrap d-hero__grid">
+      <div>
+        <p class="d-eyebrow">Association de jardin partagé</p>
+        <h1>Un jardin <mark>pour tout</mark> le quartier.</h1>
+        <p class="d-lead">Des parcelles cultivées ensemble, des ateliers chaque semaine et des récoltes partagées. Débutants bienvenus.</p>
+        <div class="d-actions">
+          <a class="d-btn d-btn--primary" href="#adherer">Adhérer en ligne</a>
+          <a class="d-btn d-btn--link" href="#agenda">Voir les prochains ateliers</a>
+        </div>
+        <div class="d-facts">
+          <div><strong>Au jardin</strong><span>Mercredi et samedi</span></div>
+          <div><strong>Adhésion</strong><span>À partir de 5 € par an</span></div>
+          <div><strong>Bénévoles</strong><span>Toujours bienvenus</span></div>
+        </div>
+      </div>
+      <div class="d-hero__media">
+        <img src="<%= asset('images/demo/lavoir-semis.webp') %>" alt="Jeunes pousses dans des godets de semis" width="1400" height="933" fetchpriority="high">
+        <span class="d-lavoir-sun">Ateliers gratuits pour les adhérents</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="agenda">
+    <div class="d-wrap">
+      <div class="d-head"><p class="d-eyebrow">Agenda</p><h2>Les prochains <mark>ateliers.</mark></h2><p class="d-lead">Les bénévoles publient les ateliers depuis leur espace. Les inscriptions s’arrêtent toutes seules quand c’est complet.</p></div>
+      <div class="d-flow" data-flow style="max-width:none">
+        <div class="d-step" data-step data-requires="atelier">
+          <div class="d-grid d-grid--3">
+            <% for (const [id, day, hour, title, text, left] of [
+              ['semis', 'Mer.', '14 h', 'Semis d’hiver', 'Fèves, épinards, mâche : ce que l’on sème quand il fait froid.', 6],
+              ['compost', 'Sam.', '10 h', 'Bien démarrer son compost', 'Ce qui va dedans, ce qui n’y va pas, et comment l’entretenir.', 2],
+              ['soupe', 'Sam.', '12 h', 'Soupe partagée', 'On cuisine la récolte ensemble, chacun apporte un bol.', 0],
+            ]) { %>
+            <div class="d-card d-event">
+              <div class="d-event__date"><small><%= day %></small><strong><%= hour %></strong></div>
+              <div>
+                <h3><%= title %></h3>
+                <p class="d-muted"><%= text %></p>
+                <% if (left) { %>
+                <p class="d-note"><%= left %> place<%= left > 1 ? 's' : '' %> restante<%= left > 1 ? 's' : '' %></p>
+                <button class="d-btn d-btn--primary" type="button" data-pick="atelier" data-value="<%= id %>" data-label="<%= title %> (<%= day.toLowerCase() %> <%= hour %>)" data-auto aria-pressed="false">S’inscrire</button>
+                <% } else { %>
+                <p class="d-note">Complet</p>
+                <button class="d-btn d-btn--ghost" type="button" disabled>Complet</button>
+                <% } %>
+              </div>
+            </div>
+            <% } %>
+          </div>
+        </div>
+        <div class="d-step" data-step hidden>
+          <h3>Inscription : <span data-show="atelier"></span></h3>
+          <form class="d-form" novalidate style="max-width:560px">
+            <div class="d-form__row">
+              <label>Prénom et nom<input name="nom" required autocomplete="off"></label>
+              <label>Email<input name="email" type="email" required autocomplete="off"></label>
+            </div>
+            <label>Nombre de personnes<select name="nb" required><option>1</option><option>2</option><option>3</option></select></label>
+            <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour à l’agenda</button><button class="d-btn d-btn--primary" type="submit" data-next>Confirmer</button></div>
+          </form>
+        </div>
+        <div class="d-step d-done" data-step data-final hidden>
+          <div class="d-done__icon" aria-hidden="true">✓</div>
+          <h3>À bientôt au jardin, <span data-show="nom"></span> !</h3>
+          <p>Inscription à « <span data-show="atelier"></span> » confirmée. Un rappel part la veille.</p>
+          <p class="d-note">Démonstration : aucune inscription n’a été enregistrée.</p>
+          <button class="d-btn d-btn--ghost" type="button" data-restart>Retour à l’agenda</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section" id="association">
+    <div class="d-wrap d-split">
+      <div class="d-grid d-grid--2">
+        <div class="d-photo"><img src="<%= asset('images/demo/lavoir-terre.webp') %>" alt="Pelle de jardinage dans du terreau" width="1400" height="933" loading="lazy" style="aspect-ratio:3/4"></div>
+        <div class="d-photo" style="margin-top:48px"><img src="<%= asset('images/demo/lavoir-legumes.webp') %>" alt="Légumes et fruits de saison en abondance" width="1400" height="933" loading="lazy" style="aspect-ratio:3/4"></div>
+      </div>
+      <div>
+        <p class="d-eyebrow">L’association</p>
+        <h2>Cultiver, apprendre, <mark>partager.</mark></h2>
+        <p class="d-lead">Le jardin est ouvert à tous les habitants du quartier. On y vient pour jardiner, pour apprendre, ou simplement pour discuter.</p>
+        <div class="d-grid d-grid--2" style="margin-top:24px">
+          <div class="d-card"><h3>Parcelles partagées</h3><p class="d-muted">Cultivées par petits groupes, récoltes réparties entre les jardiniers.</p></div>
+          <div class="d-card"><h3>Compost collectif</h3><p class="d-muted">Apportez vos épluchures les jours d’ouverture.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="adherer">
+    <div class="d-wrap">
+      <div class="d-head d-head--center">
+        <p class="d-eyebrow">Adhésion en ligne</p>
+        <h2>Rejoignez-nous <mark>en deux minutes.</mark></h2>
+        <p class="d-lead">La cotisation se règle en ligne et la carte d’adhérent arrive par email. Plus de bulletin papier à saisir.</p>
+      </div>
+      <div class="d-flow" data-flow>
+        <ol class="d-progress" data-progress aria-hidden="true"><li>Formule</li><li>Coordonnées</li><li>Cotisation</li><li>Bienvenue</li></ol>
+        <div class="d-step" data-step data-stage="0" data-requires="formule">
+          <h3>Choisissez votre formule</h3>
+          <div class="d-grid d-grid--3" style="margin-top:18px">
+            <% for (const [id, name, price, hint] of [['solo', 'Individuelle', 15, 'Une personne'], ['famille', 'Famille', 25, 'Tout le foyer'], ['solidaire', 'Petit budget', 5, 'Étudiants, sans emploi']]) { %>
+            <button class="d-chip" style="text-align:left;border-radius:16px;padding:18px" type="button" data-pick="formule" data-value="<%= id %>" data-label="<%= name %>" data-price="<%= price %>" data-deposit="<%= price %>" data-auto aria-pressed="false">
+              <strong style="display:block;font-size:1.1rem"><%= name %></strong><span style="font-size:1.5rem;font-weight:700"><%= price %> €</span><small style="display:block">par an · <%= hint %></small>
+            </button>
+            <% } %>
+          </div>
+        </div>
+        <div class="d-step" data-step data-stage="1" hidden>
+          <h3>Vos coordonnées</h3>
+          <form class="d-form" novalidate>
+            <div class="d-form__row">
+              <label>Prénom et nom<input name="nom" required autocomplete="off"></label>
+              <label>Email<input name="email" type="email" required autocomplete="off"></label>
+            </div>
+            <label>Vous voulez aider ?
+              <select name="aide"><option>Pas pour l’instant</option><option>Ouvrir le jardin le samedi</option><option>Animer un atelier</option><option>Aider à la communication</option></select>
+            </label>
+            <label class="d-check"><input type="checkbox" required> J’accepte le règlement intérieur du jardin.</label>
+            <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><button class="d-btn d-btn--primary" type="submit" data-next>Continuer</button></div>
+          </form>
+        </div>
+        <div class="d-step" data-step data-stage="2" hidden>
+          <h3>Cotisation</h3>
+          <ul class="d-summary"><li><span>Formule</span><span data-show="formule"></span></li><li><span>Valable</span><span>12 mois</span></li></ul>
+          <%- include('_pay', { payLabel: 'Cotisation à régler', payWhat: 'leur cotisation', payWho: 'vos adhérents' }) %>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><span></span></div>
+        </div>
+        <div class="d-step d-done" data-step data-stage="3" data-final hidden>
+          <div class="d-done__icon" aria-hidden="true">✓</div>
+          <h3>Bienvenue, <span data-show="nom"></span> !</h3>
+          <p>Votre carte d’adhérent et le reçu de cotisation partent par email.</p>
+          <ul class="d-summary">
+            <li><span>Formule</span><span data-show="formule"></span></li>
+            <li><span>Cotisation réglée</span><span data-show="deposit"></span></li>
+            <li><span>N° d’adhérent</span><span data-show="ref"></span></li>
+          </ul>
+          <p class="d-note">Démonstration : aucune adhésion ni paiement n’ont été enregistrés. Sur votre site, la liste des adhérents se met à jour toute seule.</p>
+          <button class="d-btn d-btn--ghost" type="button" data-restart>Recommencer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section" id="soutenir">
+    <div class="d-wrap d-split">
+      <div>
+        <p class="d-eyebrow">Nous soutenir</p>
+        <h2>Un don, même petit, <mark>fait pousser le jardin.</mark></h2>
+        <p class="d-lead">Graines, outils, récupérateurs d’eau : chaque euro sert directement au jardin.</p>
+      </div>
+      <div class="d-card">
+        <form class="d-form" data-demo-form="lavoir-don-ok" novalidate>
+          <label>Montant
+            <select name="montant" required><option value="">Choisir…</option><option>10 €</option><option>20 €</option><option>50 €</option><option>Autre montant</option></select>
+          </label>
+          <label>Email (pour le reçu)<input name="email" type="email" required autocomplete="off"></label>
+          <button class="d-btn d-btn--primary" type="submit">Faire un don</button>
+        </form>
+        <div class="d-ok" id="lavoir-don-ok" hidden><h3>Merci !</h3><p>Sur le vrai site, le don est réglé en ligne et le reçu part par email. (Démonstration : aucun paiement.)</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="d-footer">
+  <div class="d-wrap d-footer__grid">
+    <div><h4>Les Jardins du Lavoir</h4><p>Association loi 1901 de jardin partagé.</p></div>
+    <div><h4>Au jardin</h4><p>Mercredi 14 h – 18 h<br>Samedi 9 h – 13 h</p></div>
+    <div><h4>Informations</h4><p>Statuts · Règlement intérieur · Mentions légales</p></div>
+  </div>
+</footer>
+<%- include('_bottom') %>

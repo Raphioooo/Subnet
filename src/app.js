@@ -12,6 +12,7 @@ import { adminRouter, readCookie } from './routes/admin.js';
 import { IGNORE_COOKIE, VisitStats } from './stats.js';
 import { blogRouter } from './routes/blog.js';
 import { blogApiRouter } from './routes/blog-api.js';
+import { demoRouter } from './routes/demo.js';
 import { createProspector } from './prospecting/runner.js';
 
 // prospecting : accès réseau et services remplaçables (tests).
@@ -102,6 +103,7 @@ export async function createApp(config, { log = console, prospecting = {}, seedP
   app.use('/api/admin/posts', blogApiRouter(ctx));
   app.use('/admin', adminRouter(ctx));
   app.use(blogRouter(ctx));
+  app.use(demoRouter());
   app.use(publicRouter(ctx));
 
   // Publication programmée des articles, vérifiée toutes les minutes.

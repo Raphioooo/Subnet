@@ -1,7 +1,7 @@
 // Contenus par défaut du site. Ils sont copiés dans DATA_DIR/content.json
 // au premier démarrage, puis modifiables depuis l'espace d'administration.
 
-export const SECTOR_SLUGS = ['restaurateurs', 'tatoueurs', 'instituts', 'tpe-pme'];
+export const SECTOR_SLUGS = ['restaurateurs', 'tatoueurs', 'instituts', 'tpe-pme', 'associations'];
 
 export const LEGAL_PAGES = [
   { key: 'mentions', slug: 'mentions-legales' },
@@ -156,11 +156,13 @@ Contact : {{email}}`;
 
 
 export const defaults = {
-  meta: { version: 6, updatedAt: null, createdAt: null, sections: null },
+  meta: { version: 7, updatedAt: null, createdAt: null, sections: null },
 
   site: {
     name: 'Subnet',
     tagline: 'Sites sur mesure avec réservation, acompte et devis',
+    // Micro-entreprise en franchise de TVA : les prix affichés sont définitifs.
+    footerNote: 'TVA non applicable, art. 293 B du CGI.',
     description:
       'Création de sites internet sur mesure à Grenoble et partout en France : réservation en ligne, acompte, devis, horaires et panneau d’administration pour restaurateurs, tatoueurs, instituts, TPE et PME.',
     shareName: 'Subnet – Création de sites internet',
@@ -914,6 +916,102 @@ export const defaults = {
         h1: 'Site internet pour TPE et PME avec devis en ligne',
       },
     },
+    {
+      slug: 'associations',
+      shortName: 'Association',
+      name: 'Associations',
+      icon: 'users',
+      tone: 'Chaleureux et accessible',
+      title: 'Adhésions, inscriptions et dons, sans paperasse.',
+      intro:
+        'Un site pour votre association qui présente vos activités, prend les adhésions et les inscriptions en ligne, encaisse les cotisations et tient votre agenda à jour, à un tarif réservé aux associations.',
+      highlightsTitle: 'Ce que le site de votre association gère pour vous',
+      highlights: [
+        'Adhésion en ligne avec paiement de la cotisation',
+        'Inscriptions aux ateliers, sorties et événements, avec nombre de places limité',
+        'Agenda des activités mis à jour par vos bénévoles',
+        'Formulaire de don et de contact pour les futurs bénévoles',
+        'Actualités, photos et présentation de l’association',
+        'Statuts, règlement intérieur et pages légales en ligne',
+      ],
+      features: [
+        { icon: 'users', title: 'Adhésions en ligne', text: 'Le membre choisit sa formule, règle sa cotisation et reçoit sa confirmation par email.' },
+        { icon: 'calendar-days', title: 'Inscriptions aux activités', text: 'Ateliers, sorties, stages : les inscriptions s’arrêtent toutes seules quand c’est complet.' },
+        { icon: 'heart', title: 'Dons', text: 'Un formulaire simple pour soutenir l’association, avec paiement en ligne.' },
+      ],
+      journeyTitle: 'Une adhésion en deux minutes, sans bulletin papier.',
+      journey: [
+        {
+          title: 'Choisir sa formule',
+          text: 'Individuelle, famille ou tarif réduit : chacun choisit la cotisation qui lui correspond.',
+          image: '/assets/images/parcours/association-formule.webp',
+        },
+        {
+          title: 'Régler la cotisation',
+          text: 'La cotisation est payée en ligne, sur une page de paiement sécurisée.',
+          image: '/assets/images/parcours/association-cotisation.webp',
+        },
+        {
+          title: 'Recevoir sa confirmation',
+          text: 'Le nouveau membre reçoit sa confirmation, et la liste des adhérents se met à jour.',
+          image: '/assets/images/parcours/association-bienvenue.webp',
+        },
+      ],
+      image: '/assets/images/concepts/association-desktop.webp',
+      imageAlt: 'Site d’association sur ordinateur : agenda des ateliers et adhésion en ligne',
+      mobileImage: '/assets/images/concepts/association-mobile.webp',
+      mobileImageAlt: 'Site d’association sur mobile avec bouton d’adhésion en ligne',
+      platform: {
+        eyebrow: 'Site ou outils gratuits ?',
+        title: 'Pourquoi un site plutôt qu’une page Facebook et un tableur ?',
+        text: 'Une page sur les réseaux d’un côté, des bulletins papier et un tableur de l’autre, des cotisations à relancer : les bénévoles passent leur temps à recopier. Votre site réunit l’adhésion, le paiement et les inscriptions au même endroit.',
+        points: [
+          { title: 'Moins de saisie pour les bénévoles', text: 'Les adhésions et les inscriptions arrivent complètes dans votre espace : plus de bulletin à recopier.' },
+          { title: 'Des cotisations réglées tout de suite', text: 'Le membre paie au moment où il adhère : plus de chèques à relancer en fin d’année.' },
+          { title: 'Une association visible', text: 'Les habitants qui cherchent une activité près de chez eux trouvent votre site, vos horaires et votre agenda.' },
+        ],
+      },
+      admin: {
+        eyebrow: 'Panneau d’administration',
+        title: 'Gérez vos adhérents et vos activités en ligne',
+        text: 'Tout ce que les bénévoles ont besoin de suivre, au même endroit, depuis un ordinateur ou un téléphone.',
+        items: [
+          'La liste des adhérents et leur formule',
+          'Les cotisations et les dons reçus',
+          'Les inscriptions à chaque activité',
+          'L’agenda et les actualités',
+          'Les messages des futurs bénévoles',
+          'Vos statuts, votre règlement et vos textes',
+        ],
+      },
+      process: {
+        eyebrow: 'Création',
+        title: 'Comment se déroule la création du site de votre association ?',
+        steps: [
+          { title: 'Échange', text: 'Nous faisons le point sur vos activités, vos formules d’adhésion et ce qui prend le plus de temps à vos bénévoles.' },
+          { title: 'Maquette', text: 'Une maquette claire et chaleureuse, à vos couleurs, validée avec le bureau de l’association.' },
+          { title: 'Développement', text: 'Adhésion, cotisation en ligne, agenda et inscriptions sont mis en place, puis testés.' },
+          { title: 'Mise en ligne et formation', text: 'Le site est en ligne, et vos bénévoles savent publier une activité et suivre les adhésions.' },
+        ],
+      },
+      faq: {
+        title: 'Questions fréquentes – associations',
+        items: [
+          { question: 'Combien coûte un site pour une association ?', answer: 'Les associations ont un tarif réservé : 50 € à l’installation, puis 24 € par mois, nom de domaine, hébergement et modifications compris. Les prix affichés sont définitifs (TVA non applicable).' },
+          { question: 'Les adhérents peuvent-ils payer leur cotisation en ligne ?', answer: 'Oui. Le membre choisit sa formule, règle sa cotisation sur une page de paiement sécurisée et reçoit sa confirmation par email.' },
+          { question: 'Peut-on limiter le nombre de places d’un atelier ?', answer: 'Oui. Vous indiquez le nombre de places : les inscriptions s’arrêtent toutes seules quand l’activité est complète.' },
+          { question: 'Plusieurs bénévoles peuvent-ils mettre le site à jour ?', answer: 'Oui. L’agenda, les actualités et les textes se modifient depuis le panneau d’administration, sans connaissance technique.' },
+          { question: 'Notre association est petite, est-ce adapté ?', answer: 'Oui. Le site réunit seulement ce dont vous avez besoin : vous pouvez commencer par la présentation et l’agenda, puis ajouter l’adhésion en ligne plus tard.' },
+        ],
+      },
+      local: 'Basé à Grenoble, Subnet accompagne les associations de l’Isère et de toute la région Auvergne-Rhône-Alpes : clubs, associations culturelles, sportives ou de quartier. Ailleurs en France, tout se fait en visio.',
+      seo: {
+        title: 'Création site internet association, adhésion en ligne | Subnet',
+        description:
+          'Site internet pour association : adhésion et cotisation en ligne, inscriptions aux activités, agenda et dons. 50 € puis 24 €/mois, nom de domaine inclus.',
+        h1: 'Site internet pour association avec adhésion en ligne',
+      },
+    },
   ],
 
   // Page « Création de site internet à Grenoble » (référencement local).
@@ -1065,7 +1163,7 @@ export const defaults = {
       eyebrow: 'Réalisations',
       title: 'Des univers, pas des modèles.',
       subtitle:
-        'Restaurant, studio de tatouage, institut de beauté, menuiserie : ces concepts de sites montrent comment la réservation en ligne, l’acompte et les devis s’adaptent à chaque métier.',
+        'Restaurant, studio de tatouage, institut de beauté, menuiserie, association : ces concepts de sites montrent comment la réservation en ligne, l’acompte et les devis s’adaptent à chaque métier. Ouvrez les démos et essayez-les.',
     },
     emptyText: 'Les premières réalisations arrivent très bientôt.',
   },
@@ -1081,7 +1179,7 @@ export const defaults = {
         'Concept de site pour un restaurant : réservation de table en ligne selon les services et les couverts, acompte pour les groupes, carte et horaires gérés depuis le panneau d’administration, sans commission.',
       image: '/assets/images/concepts/restaurant-desktop.webp',
       mobileImage: '/assets/images/concepts/restaurant-mobile.webp',
-      url: '',
+      url: '/demo/maison-olive',
     },
     {
       id: 'concept-tatouage',
@@ -1093,7 +1191,7 @@ export const defaults = {
         'Concept de site pour un studio de tatouage : portfolio classé par style, demande de projet avec références, devis accepté en ligne et acompte réglé à la réservation de la séance.',
       image: '/assets/images/concepts/tatouage-desktop.webp',
       mobileImage: '/assets/images/concepts/tatouage-mobile.webp',
-      url: '',
+      url: '/demo/atelier-noir',
     },
     {
       id: 'concept-institut',
@@ -1105,7 +1203,7 @@ export const defaults = {
         'Concept de site pour un institut de beauté : prise de rendez-vous en ligne par soin, acompte sécurisé, rappels automatiques et planning dans l’espace d’administration.',
       image: '/assets/images/concepts/institut-desktop.webp',
       mobileImage: '/assets/images/concepts/institut-mobile.webp',
-      url: '',
+      url: '/demo/lumen-institut',
     },
     {
       id: 'concept-pme',
@@ -1117,7 +1215,19 @@ export const defaults = {
         'Concept de site pour un artisan menuisier : réalisations et savoir-faire, demandes de devis détaillées, devis accepté en ligne et acompte à la commande.',
       image: '/assets/images/concepts/pme-desktop.webp',
       mobileImage: '/assets/images/concepts/pme-mobile.webp',
-      url: '',
+      url: '/demo/arbor-menuiserie',
+    },
+    {
+      id: 'concept-association',
+      visible: true,
+      title: 'Les Jardins du Lavoir',
+      badge: 'Concept',
+      sector: 'associations',
+      description:
+        'Concept de site pour une association de jardin partagé : adhésion et cotisation en ligne, inscriptions aux ateliers avec places limitées, agenda et dons.',
+      image: '/assets/images/concepts/association-desktop.webp',
+      mobileImage: '/assets/images/concepts/association-mobile.webp',
+      url: '/demo/jardins-du-lavoir',
     },
   ],
 

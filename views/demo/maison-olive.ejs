@@ -1,0 +1,229 @@
+<%- include('_top', { themeColor: '#f6f1e7' }) %>
+<header class="d-header">
+  <div class="d-wrap d-header__inner">
+    <a class="d-logo" href="#contenu">Maison <em>Olive</em></a>
+    <nav class="d-nav" aria-label="Navigation">
+      <a href="#carte">La carte</a>
+      <a href="#lieu">Le lieu</a>
+      <a href="#groupes">Groupes</a>
+      <a href="#infos">Infos pratiques</a>
+    </nav>
+    <a class="d-btn d-btn--primary d-header__cta" href="#reserver">Réserver une table</a>
+    <button class="d-menu" type="button" data-menu-toggle aria-expanded="false">Menu</button>
+  </div>
+</header>
+
+<main id="contenu">
+  <section class="d-hero">
+    <div class="d-wrap d-hero__grid">
+      <div>
+        <p class="d-eyebrow">Bistronomie · cuisine de saison</p>
+        <h1>La saison <em>à</em><br><em>votre table.</em></h1>
+        <p class="d-lead">Produits du marché, vins de vignerons et une salle chaleureuse où l’on prend le temps de bien manger.</p>
+        <div class="d-actions">
+          <a class="d-btn d-btn--primary" href="#reserver">Réserver une table</a>
+          <a class="d-btn d-btn--link" href="#carte">Découvrir la carte</a>
+        </div>
+        <div class="d-facts">
+          <div><strong>Ouvert</strong><span>Du mardi au samedi</span></div>
+          <div><strong>Service</strong><span>12 h – 14 h 30 · 19 h – 22 h 30</span></div>
+          <div><strong>Adresse</strong><span>8 rue des Tilleuls</span></div>
+        </div>
+      </div>
+      <div class="d-hero__media">
+        <img src="<%= asset('images/demo/olive-plat.webp') %>" alt="Assiette dressée sur une table de restaurant, verres de vin en arrière-plan" width="1400" height="933" fetchpriority="high">
+        <span class="d-olive-badge" aria-hidden="true">Fait<br>maison</span>
+        <div class="d-olive-mini">
+          <small>Réservation en ligne</small>
+          <p>Une table ce soir ?<br>En trois clics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="carte">
+    <div class="d-wrap">
+      <div class="d-head d-head--center">
+        <p class="d-eyebrow">La carte</p>
+        <h2>Elle change avec <em>le marché.</em></h2>
+        <p class="d-lead">Le chef la met à jour lui-même depuis son espace, en deux minutes, dès qu’un produit arrive ou s’épuise.</p>
+      </div>
+      <div class="d-filters d-filters--center" data-filter-group role="group" aria-label="Filtrer la carte">
+        <button class="d-filter" type="button" data-filter="tout" aria-pressed="true">Tout</button>
+        <button class="d-filter" type="button" data-filter="entree" aria-pressed="false">Entrées</button>
+        <button class="d-filter" type="button" data-filter="plat" aria-pressed="false">Plats</button>
+        <button class="d-filter" type="button" data-filter="dessert" aria-pressed="false">Desserts</button>
+        <button class="d-filter" type="button" data-filter="veggie" aria-pressed="false">Végétarien</button>
+      </div>
+      <ul class="d-menu-list">
+        <li data-tags="entree veggie"><strong>Velouté de potimarron, noisettes torréfiées</strong><em>9 €</em><span>Crème crue, huile de courge</span></li>
+        <li data-tags="entree"><strong>Œuf parfait, champignons des bois</strong><em>12 €</em><span>Émulsion au comté, croûtons au thym</span></li>
+        <li data-tags="entree"><strong>Truite fumée de la maison</strong><em>13 €</em><span>Betteraves, raifort, aneth</span></li>
+        <li data-tags="plat"><strong>Joue de bœuf confite au vin rouge</strong><em>24 €</em><span>Purée de céleri, carottes glacées</span></li>
+        <li data-tags="plat"><strong>Filet de bar, beurre blanc</strong><em>26 €</em><span>Poireaux fondants, pommes grenaille</span></li>
+        <li data-tags="plat veggie"><strong>Risotto crémeux aux cèpes</strong><em>21 €</em><span>Parmesan affiné, roquette</span></li>
+        <li data-tags="dessert veggie"><strong>Tarte fine aux pommes</strong><em>9 €</em><span>Glace caramel au beurre salé</span></li>
+        <li data-tags="dessert veggie"><strong>Mousse au chocolat noir</strong><em>8 €</em><span>Fleur de sel, tuile aux amandes</span></li>
+      </ul>
+      <p class="d-note" style="text-align:center;margin-top:28px">Menu du midi en semaine : entrée, plat ou plat, dessert à 21 €.</p>
+    </div>
+  </section>
+
+  <section class="d-section" id="reserver">
+    <div class="d-wrap">
+      <div class="d-head d-head--center">
+        <p class="d-eyebrow">Réservation en ligne</p>
+        <h2>Réservez votre table, <em>sans appeler.</em></h2>
+        <p class="d-lead">Essayez : choisissez un jour, un créneau, et voyez ce que vos clients verraient. Pour les groupes à partir de 8 personnes, un acompte est demandé.</p>
+      </div>
+
+      <div class="d-flow" data-flow>
+        <ol class="d-progress" data-progress aria-hidden="true">
+          <li>Table</li><li>Horaire</li><li>Coordonnées</li><li>Acompte</li><li>Confirmé</li>
+        </ol>
+
+        <div class="d-step" data-step data-stage="0" data-requires="couverts,date">
+          <h3>Pour combien de personnes ?</h3>
+          <p>De 1 à 7 personnes, la table est confirmée tout de suite.</p>
+          <div class="d-chips" role="group" aria-label="Nombre de couverts">
+            <% for (const n of [1, 2, 3, 4, 5, 6, 7]) { %><button class="d-chip" type="button" data-pick="couverts" data-value="<%= n %>" data-label="<%= n %> pers." data-deposit="0" aria-pressed="false"><%= n %></button><% } %>
+            <% for (const n of [8, 10, 12]) { %><button class="d-chip" type="button" data-pick="couverts" data-value="<%= n %>" data-label="<%= n %> pers. (groupe)" data-deposit="<%= n * 10 %>" aria-pressed="false"><%= n %></button><% } %>
+          </div>
+          <p class="d-note" data-unless="deposit=0" style="margin-top:12px">Groupe : acompte de 10 € par personne, déduit de l’addition.</p>
+          <span class="d-field-label">Quel jour ?</span>
+          <div class="d-chips" data-days="7" data-closed="0,1" role="group" aria-label="Jour"></div>
+          <div class="d-step__nav"><span></span><button class="d-btn d-btn--primary" type="button" data-next>Continuer</button></div>
+        </div>
+
+        <div class="d-step" data-step data-stage="1" data-requires="heure" hidden>
+          <h3>À quelle heure ?</h3>
+          <p><span data-show="couverts"></span> · <span data-show="date"></span>. Les créneaux barrés sont complets.</p>
+          <span class="d-field-label">Midi</span>
+          <div class="d-chips">
+            <% for (const [h, full] of [['12:00'], ['12:15'], ['12:30', 1], ['12:45'], ['13:00'], ['13:30', 1]]) { %><button class="d-chip" type="button" data-pick="heure" data-value="<%= h %>" data-label="<%= h.replace(':00', ' h').replace(':', ' h ') %>" aria-pressed="false"<%= full ? ' disabled' : '' %>><%= h %></button><% } %>
+          </div>
+          <span class="d-field-label">Soir</span>
+          <div class="d-chips">
+            <% for (const [h, full] of [['19:00'], ['19:30'], ['20:00', 1], ['20:30', 1], ['21:00'], ['21:30']]) { %><button class="d-chip" type="button" data-pick="heure" data-value="<%= h %>" data-label="<%= h.replace(':00', ' h').replace(':', ' h ') %>" aria-pressed="false"<%= full ? ' disabled' : '' %>><%= h %></button><% } %>
+          </div>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><button class="d-btn d-btn--primary" type="button" data-next>Continuer</button></div>
+        </div>
+
+        <div class="d-step" data-step data-stage="2" hidden>
+          <h3>Vos coordonnées</h3>
+          <p>Pour vous envoyer la confirmation et un rappel la veille.</p>
+          <form class="d-form" novalidate>
+            <div class="d-form__row">
+              <label>Nom<input name="nom" required autocomplete="off" placeholder="Camille Martin"></label>
+              <label>Téléphone<input name="tel" type="tel" required autocomplete="off" placeholder="06 12 34 56 78"></label>
+            </div>
+            <label>Email<input name="email" type="email" required autocomplete="off" placeholder="camille@exemple.fr"></label>
+            <label>Une précision ? (allergie, anniversaire…)<textarea name="note" rows="3" placeholder="Facultatif"></textarea></label>
+            <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><button class="d-btn d-btn--primary" type="submit" data-next>Continuer</button></div>
+          </form>
+        </div>
+
+        <div class="d-step" data-step data-stage="3" data-skip-if="deposit=0" hidden>
+          <h3>Acompte du groupe</h3>
+          <ul class="d-summary">
+            <li><span>Table</span><span data-show="couverts"></span></li>
+            <li><span>Quand</span><span><span data-show="date"></span>, <span data-show="heure"></span></span></li>
+          </ul>
+          <%- include('_pay') %>
+          <div class="d-step__nav"><button class="d-back" type="button" data-prev>Retour</button><span></span></div>
+        </div>
+
+        <div class="d-step d-done" data-step data-stage="4" data-final hidden>
+          <div class="d-done__icon" aria-hidden="true">✓</div>
+          <h3>À très vite, <span data-show="nom"></span> !</h3>
+          <p>Votre table est réservée. Une confirmation part par email, et un rappel la veille.</p>
+          <ul class="d-summary">
+            <li><span>Table</span><span data-show="couverts"></span></li>
+            <li><span>Quand</span><span><span data-show="date"></span>, <span data-show="heure"></span></span></li>
+            <li data-unless="deposit=0"><span>Acompte réglé</span><span data-show="deposit"></span></li>
+            <li><span>Référence</span><span data-show="ref"></span></li>
+          </ul>
+          <p class="d-note">Démonstration : aucune réservation n’a été enregistrée. Sur votre site, elle apparaîtrait aussitôt dans votre planning.</p>
+          <button class="d-btn d-btn--ghost" type="button" data-restart>Recommencer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="lieu">
+    <div class="d-wrap d-split">
+      <div class="d-grid d-grid--2">
+        <div class="d-photo" style="grid-row:span 2"><img src="<%= asset('images/demo/olive-salle.webp') %>" alt="Salle de restaurant aux tables en bois et chaises noires" width="1400" height="933" loading="lazy" style="aspect-ratio:3/4"></div>
+        <div class="d-photo"><img src="<%= asset('images/demo/olive-marche.webp') %>" alt="Étal de fruits et légumes de saison au marché" width="1400" height="933" loading="lazy" style="aspect-ratio:1"></div>
+        <div class="d-photo"><img src="<%= asset('images/demo/olive-terrasse.webp') %>" alt="Terrasse dressée au coucher du soleil" width="1400" height="1050" loading="lazy" style="aspect-ratio:1"></div>
+      </div>
+      <div>
+        <p class="d-eyebrow">Le lieu</p>
+        <h2>Une salle de 40 couverts, <em>une terrasse l’été.</em></h2>
+        <p class="d-lead">Le chef passe au marché chaque matin. Ce qui n’est pas de saison n’est pas à la carte.</p>
+        <p>Nos vins viennent de vignerons que nous connaissons, et notre pain d’un boulanger du quartier.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section" id="groupes">
+    <div class="d-wrap d-split">
+      <div>
+        <p class="d-eyebrow">Groupes et événements</p>
+        <h2>Anniversaire, repas d’équipe, <em>privatisation.</em></h2>
+        <p class="d-lead">Dites-nous ce que vous préparez : nous vous envoyons une proposition de menu et un devis.</p>
+      </div>
+      <div class="d-card">
+        <form class="d-form" data-demo-form="olive-groupe-ok" novalidate>
+          <div class="d-form__row">
+            <label>Nom<input name="nom" required autocomplete="off"></label>
+            <label>Nombre de personnes<input name="nb" type="number" min="8" max="60" required value="15"></label>
+          </div>
+          <label>Date souhaitée<input name="date" type="date" required></label>
+          <label>Votre projet<textarea name="projet" placeholder="Menu, budget, salle privatisée…"></textarea></label>
+          <button class="d-btn d-btn--primary" type="submit">Demander un devis</button>
+        </form>
+        <div class="d-ok" id="olive-groupe-ok" hidden>
+          <h3>Demande reçue</h3>
+          <p>Le restaurant reçoit votre demande dans son espace et vous répond avec un devis. (Démonstration : rien n’a été envoyé.)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d-section d-section--alt" id="infos">
+    <div class="d-wrap d-grid d-grid--3">
+      <div>
+        <h3>Horaires</h3>
+        <ul class="d-hours">
+          <li><span>Dimanche, lundi</span><span>Fermé</span></li>
+          <li><span>Mardi – vendredi</span><span>12 h – 14 h 30<br>19 h – 22 h 30</span></li>
+          <li><span>Samedi</span><span>19 h – 23 h</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Nous trouver</h3>
+        <p>8 rue des Tilleuls<br>Tram, arrêt Les Tilleuls</p>
+        <p class="d-muted">Fermeture annuelle : la première quinzaine d’août.</p>
+      </div>
+      <div>
+        <h3>Restez au courant</h3>
+        <p class="d-muted">La carte de la semaine, chaque jeudi.</p>
+        <form class="d-form" data-demo-form="olive-news-ok" novalidate>
+          <label>Email<input name="email" type="email" required autocomplete="off" placeholder="vous@exemple.fr"></label>
+          <button class="d-btn d-btn--primary" type="submit">M’inscrire</button>
+        </form>
+        <p class="d-ok" id="olive-news-ok" hidden>C’est noté (démonstration : aucun email enregistré).</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="d-footer">
+  <div class="d-wrap d-footer__grid">
+    <div><h4>Maison Olive</h4><p>Bistronomie, cuisine de saison.</p></div>
+    <div><h4>Réserver</h4><p><a href="#reserver">En ligne, 24 h/24</a></p></div>
+    <div><h4>Informations</h4><p>Mentions légales · Confidentialité</p></div>
+  </div>
+</footer>
+<%- include('_bottom') %>

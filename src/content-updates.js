@@ -381,4 +381,37 @@ export const CONTENT_UPDATES = {
       }
     ]
   },
+
+  // Version 7 : sites de démonstration (/demo/…) reliés aux projets Concept, et
+  // projet Concept pour les associations (nouvelle page secteur).
+  7: {
+    "changes": [
+      { "path": "projects[id=concept-restaurant].url", "from": "", "to": "/demo/maison-olive" },
+      { "path": "projects[id=concept-tatouage].url", "from": "", "to": "/demo/atelier-noir" },
+      { "path": "projects[id=concept-institut].url", "from": "", "to": "/demo/lumen-institut" },
+      { "path": "projects[id=concept-pme].url", "from": "", "to": "/demo/arbor-menuiserie" },
+      {
+        "path": "projectsPage.hero.subtitle",
+        "from": "Restaurant, studio de tatouage, institut de beauté, menuiserie : ces concepts de sites montrent comment la réservation en ligne, l’acompte et les devis s’adaptent à chaque métier.",
+        "to": "Restaurant, studio de tatouage, institut de beauté, menuiserie, association : ces concepts de sites montrent comment la réservation en ligne, l’acompte et les devis s’adaptent à chaque métier. Ouvrez les démos et essayez-les."
+      }
+    ],
+    "additions": [
+      {
+        "path": "projects",
+        "key": "id",
+        "item": {
+          "id": "concept-association",
+          "visible": true,
+          "title": "Les Jardins du Lavoir",
+          "badge": "Concept",
+          "sector": "associations",
+          "description": "Concept de site pour une association de jardin partagé : adhésion et cotisation en ligne, inscriptions aux ateliers avec places limitées, agenda et dons.",
+          "image": "/assets/images/concepts/association-desktop.webp",
+          "mobileImage": "/assets/images/concepts/association-mobile.webp",
+          "url": "/demo/jardins-du-lavoir"
+        }
+      }
+    ]
+  },
 };

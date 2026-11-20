@@ -1,0 +1,8 @@
+Polices des sites de démonstration (/demo/…), toutes sous licence SIL Open Font License 1.1 :
+- Cormorant Garamond : Copyright 2015 The Cormorant Project Authors (https://github.com/CatharsisFonts/Cormorant)
+- Jost : Copyright 2020 The Jost Project Authors (https://github.com/indestructible-type/Jost)
+- Anton : Copyright 2020 The Anton Project Authors (https://github.com/googlefonts/AntonFont)
+- Space Grotesk : Copyright 2020 The Space Grotesk Project Authors (https://github.com/floriankarsten/space-grotesk)
+- Manrope : Copyright 2018 The Manrope Project Authors (https://github.com/sharanda/manrope)
+
+Texte complet de la licence : voir ../LICENSE-Inter.txt (même licence) ou https://openfontlicense.org

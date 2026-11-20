@@ -16,8 +16,9 @@ Les fonctionnalités de réservation, d'acompte et de devis vendues aux clients 
 | --- | --- | --- |
 | Accueil | `/` | Accroche, vitrine animée par secteur, positionnement, parcours client (créneau, acompte, confirmation), secteurs, fonctionnalités, panneau d'administration, « pourquoi nous », réalisations |
 | L'offre | `/offre` | Fonctionnalités incluses, modules illustrés par des captures (réservation, acompte, devis, horaires, administration), comparatif avec les plateformes de réservation, design, bénéfices |
-| Secteurs | `/secteurs` et `/secteurs/restaurateurs`, `/tatoueurs`, `/instituts`, `/tpe-pme` | Une page par métier : ce que le site gère, fonctionnalités mises en avant, parcours client en trois écrans mobiles, ton |
-| Réalisations | `/realisations` | Galerie filtrable par secteur (version ordinateur et capture mobile), avec visionneuse |
+| Secteurs | `/secteurs` et `/secteurs/restaurateurs`, `/tatoueurs`, `/instituts`, `/tpe-pme`, `/associations` | Une page par métier : ce que le site gère, fonctionnalités mises en avant, parcours client en trois écrans mobiles, ton |
+| Réalisations | `/realisations` | Galerie filtrable par secteur (version ordinateur et capture mobile), avec visionneuse et lien « Essayer la démo » |
+| Sites de démonstration | `/demo/maison-olive`, `/demo/atelier-noir`, `/demo/lumen-institut`, `/demo/arbor-menuiserie`, `/demo/jardins-du-lavoir` | Sites complets de commerces fictifs, à essayer : réservation, demande de projet, devis, acompte, adhésion. Tout est simulé dans le navigateur (rien n'est envoyé ni payé), pages non indexées. Photos : Unsplash et extraits des maquettes ; polices sous licence OFL (`public/fonts/demo/`) |
 | Blog | `/blog`, `/blog/categorie/…`, `/blog/<article>`, `/blog/rss.xml` | Articles de conseils : sommaire, FAQ, articles liés, données structurées. Les brouillons sont rédigés par un agent via l'API ([docs/blog-api.md](docs/blog-api.md)) et publiés depuis l'admin |
 | FAQ | `/faq` | Questions fréquentes |
 | Contact | `/contact` | Formulaire « demande de devis » ou « simple question » (fonctionnalités souhaitées, protection anti-spam), coordonnées, horaires, réseaux. Un formulaire rapide figure aussi en bas de l'accueil |
